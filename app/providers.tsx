@@ -2,6 +2,8 @@
 
 import { PrivyProvider } from '@privy-io/react-auth';
 
+import { ThemeProvider } from "@/components/theme-provider";
+
 export default function Providers({ children }: { children: React.ReactNode }) {
     return (
         <PrivyProvider
@@ -15,7 +17,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 },
             }}
         >
-            {children}
+            <ThemeProvider>
+                {children}
+            </ThemeProvider>
         </PrivyProvider>
     );
 }
