@@ -4,6 +4,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { Search, Filter, ArrowUpRight, ShieldCheck, Activity, Globe, Zap, Percent, Clock } from "lucide-react"
 import { DEALS } from "@/lib/deals"
+// Removing this line and replacing with RouteHeader
+import { RouteHeader } from "@/components/route-header"
 
 export default function AppDealBoard() {
   const [sectorFilter, setSectorFilter] = useState<string>("All")
@@ -20,7 +22,7 @@ export default function AppDealBoard() {
   })
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-mono pb-24">
+    <>
       {/* Top Bar / Ticker area */}
       <div className="bg-slate-900 text-white dark:bg-black border-b border-slate-800 px-4 py-2 text-xs flex items-center justify-between overflow-hidden">
         <div className="flex items-center gap-4">
@@ -39,50 +41,45 @@ export default function AppDealBoard() {
         </div>
       </div>
 
-      <main className="container mx-auto px-4 py-8">
 
-        {/* Header & Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">PRIMARY MARKETS</h1>
-            <p className="text-slate-500 dark:text-slate-400 max-w-xl">
-              Direct access to vetted private equity rounds. Continuous compliance monitoring active.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-            {/* Search */}
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+      <main className="container mx-auto px-4 py-8 sm:py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <RouteHeader
+          title="PRIMARY MARKETS"
+          subtitle="Direct access to vetted private equity rounds. Continuous compliance monitoring active."
+          actions={
+            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+              {/* Search */}
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-4 w-4 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search ticker or name..."
+                  className="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all placeholder:text-slate-400"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
-              <input
-                type="text"
-                placeholder="Search ticker or name..."
-                className="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all placeholder:text-slate-400"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
 
-            {/* Filter */}
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Filter className="h-4 w-4 text-slate-400" />
+              {/* Filter */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Filter className="h-4 w-4 text-slate-400" />
+                </div>
+                <select
+                  className="pl-10 pr-8 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 appearance-none cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                  value={sectorFilter}
+                  onChange={(e) => setSectorFilter(e.target.value)}
+                >
+                  {sectors.map(sector => (
+                    <option key={sector} value={sector}>{sector}</option>
+                  ))}
+                </select>
               </div>
-              <select
-                className="pl-10 pr-8 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 appearance-none cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                value={sectorFilter}
-                onChange={(e) => setSectorFilter(e.target.value)}
-              >
-                {sectors.map(sector => (
-                  <option key={sector} value={sector}>{sector}</option>
-                ))}
-              </select>
             </div>
-          </div>
-        </div>
-
+          }
+        />
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredDeals.map((deal) => (
@@ -189,6 +186,6 @@ export default function AppDealBoard() {
         )}
 
       </main>
-    </div>
+    </>
   )
 }

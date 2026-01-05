@@ -37,13 +37,15 @@ const recentTransactions = [
     },
 ]
 
+import { RouteHeader } from "@/components/route-header"
+
 export default function DashboardPage() {
     return (
-        <>
-            <div className="mb-12">
-                <h1 className="text-5xl font-bold font-mono mb-4">DASHBOARD</h1>
-                <p className="text-lg text-muted-foreground">Monitor your portfolio performance and transaction history</p>
-            </div>
+        <main className="container mx-auto px-4 py-8 sm:py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <RouteHeader
+                title="DASHBOARD"
+                subtitle="Monitor your portfolio performance and transaction history"
+            />
 
             {/* Portfolio Overview */}
             <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -255,6 +257,6 @@ export default function DashboardPage() {
                     Useful for tax reporting and record keeping.
                 </p>
             </div>
-        </>
+        </main>
     )
 }
