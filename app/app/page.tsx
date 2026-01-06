@@ -24,18 +24,18 @@ export default function AppDealBoard() {
   return (
     <>
       {/* Top Bar / Ticker area */}
-      <div className="bg-slate-900 text-white dark:bg-black border-b border-slate-800 px-4 py-2 text-xs flex items-center justify-between overflow-hidden">
+      <div className="bg-foreground text-background border-b-2 border-foreground px-4 py-2 text-xs flex items-center justify-between overflow-hidden font-mono">
         <div className="flex items-center gap-4">
-          <span className="flex items-center gap-2 text-green-400">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          <span className="flex items-center gap-2 text-accent">
+            <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
             MARKET OPEN
           </span>
-          <span className="text-slate-500">|</span>
+          <span className="text-muted">|</span>
           <span className="opacity-80">TOTAL LIQUIDITY: $142,893,021</span>
-          <span className="text-slate-500">|</span>
+          <span className="text-muted">|</span>
           <span className="opacity-80">ACTIVE DEALS: {DEALS.length}</span>
         </div>
-        <div className="hidden sm:flex items-center gap-4 text-slate-400">
+        <div className="hidden sm:flex items-center gap-4 opacity-80">
           <span>ETH: $3,240.50</span>
           <span>USDC: $1.00</span>
         </div>
@@ -51,12 +51,12 @@ export default function AppDealBoard() {
               {/* Search */}
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                  <Search className="h-4 w-4 text-muted-foreground group-focus-within:text-accent transition-colors" />
                 </div>
                 <input
                   type="text"
                   placeholder="Search ticker or name..."
-                  className="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all placeholder:text-slate-400"
+                  className="pl-10 pr-4 py-2 bg-background border-2 border-foreground w-full sm:w-64 focus:outline-none focus:ring-0 focus:border-accent transition-all placeholder:text-muted-foreground font-mono text-sm"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -65,10 +65,10 @@ export default function AppDealBoard() {
               {/* Filter */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Filter className="h-4 w-4 text-slate-400" />
+                  <Filter className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <select
-                  className="pl-10 pr-8 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 appearance-none cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                  className="pl-10 pr-8 py-2 bg-background border-2 border-foreground w-full sm:w-auto focus:outline-none focus:ring-0 focus:border-accent appearance-none cursor-pointer hover:bg-muted/20 transition-colors font-mono text-sm"
                   value={sectorFilter}
                   onChange={(e) => setSectorFilter(e.target.value)}
                 >
@@ -85,35 +85,35 @@ export default function AppDealBoard() {
           {filteredDeals.map((deal) => (
             <div
               key={deal.id}
-              className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-sky-500/50 dark:hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/5 dark:hover:shadow-sky-500/10 flex flex-col"
+              className="group bg-background border-2 border-foreground hover:bg-muted/10 transition-all duration-300 flex flex-col"
             >
               {/* Card Header */}
-              <div className="p-6 border-b border-slate-100 dark:border-slate-800">
+              <div className="p-6 border-b-2 border-foreground">
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-bold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-900/30 px-2 py-0.5 rounded">
+                      <span className="text-xs font-bold font-mono text-accent bg-accent/10 px-2 py-0.5 border border-accent/20">
                         {deal.ticker}
                       </span>
                       {deal.status === 'closing_soon' && (
-                        <span className="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-2 py-0.5 rounded flex items-center gap-1">
+                        <span className="text-xs font-bold font-mono text-destructive bg-destructive/10 px-2 py-0.5 border border-destructive/20 flex items-center gap-1">
                           <Clock className="w-3 h-3" /> CLOSING
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-bold truncate pr-2">{deal.name}</h3>
+                    <h3 className="text-xl font-bold font-mono truncate pr-2">{deal.name}</h3>
                   </div>
                   <div className="text-right">
-                    <div className="flex items-center gap-1 text-xs text-slate-400 uppercase tracking-wider mb-1 justify-end">
-                      <ShieldCheck className="w-3 h-3" /> Compliance Itel
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground uppercase tracking-wider mb-1 justify-end font-mono">
+                      <ShieldCheck className="w-3 h-3" /> Compliance
                     </div>
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-500 tabular-nums">
-                      {deal.complianceScore}<span className="text-sm text-slate-400">/100</span>
+                    <div className="text-2xl font-bold font-mono text-accent tabular-nums">
+                      {deal.complianceScore}<span className="text-sm text-muted-foreground">/100</span>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 min-h-[40px]">
+                <p className="text-sm font-mono text-muted-foreground line-clamp-2 min-h-[40px]">
                   {deal.description}
                 </p>
               </div>
@@ -121,34 +121,34 @@ export default function AppDealBoard() {
               {/* Metrics Grid */}
               <div className="p-6 grid grid-cols-2 gap-y-6 gap-x-4 flex-grow">
                 <div>
-                  <div className="text-xs text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1 font-mono">
                     <Activity className="w-3 h-3" /> APY (Est.)
                   </div>
-                  <div className="text-lg font-bold tabular-nums">
+                  <div className="text-lg font-bold font-mono tabular-nums">
                     {deal.apy}%
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1 font-mono">
                     <Percent className="w-3 h-3" /> Equity
                   </div>
-                  <div className="text-lg font-bold tabular-nums">
+                  <div className="text-lg font-bold font-mono tabular-nums">
                     {deal.equityForSale}%
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1 font-mono">
                     <Zap className="w-3 h-3" /> Valuation
                   </div>
-                  <div className="text-lg font-bold tabular-nums">
+                  <div className="text-lg font-bold font-mono tabular-nums">
                     ${(deal.valuation / 1000000).toFixed(1)}M
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1 font-mono">
                     <Globe className="w-3 h-3" /> Region
                   </div>
-                  <div className="text-sm font-bold truncate">
+                  <div className="text-sm font-bold font-mono truncate">
                     {deal.location}
                   </div>
                 </div>
@@ -158,14 +158,14 @@ export default function AppDealBoard() {
               <div className="px-6 pb-6 pt-0 mt-auto">
                 <div className="flex flex-wrap gap-2 mb-6">
                   {deal.tags.map(tag => (
-                    <span key={tag} className="text-[10px] uppercase font-bold text-slate-500 border border-slate-200 dark:border-slate-700 px-2 py-1 rounded-full">
+                    <span key={tag} className="text-[10px] uppercase font-bold font-mono text-muted-foreground border border-foreground/30 px-2 py-1">
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <Link href={`/app/${deal.ticker}`} className="w-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-sky-600 dark:hover:bg-sky-500 hover:text-white transition-all group-hover:translate-y-[-2px]">
-                  View Details <ArrowUpRight className="w-4 h-4" />
+                <Link href={`/app/${deal.ticker}`} className="w-full bg-foreground text-background py-3 font-mono font-bold flex items-center justify-center gap-2 hover:bg-background hover:text-foreground border-2 border-transparent hover:border-foreground transition-all">
+                  VIEW DETAILS <ArrowUpRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
@@ -174,11 +174,11 @@ export default function AppDealBoard() {
 
         {/* Empty State */}
         {filteredDeals.length === 0 && (
-          <div className="text-center py-24 text-slate-400 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+          <div className="text-center py-24 text-muted-foreground border-2 border-dashed border-foreground/30 font-mono">
             <p>No deals found matching your criteria.</p>
             <button
               onClick={() => { setSectorFilter("All"); setSearchQuery("") }}
-              className="text-sky-500 hover:underline mt-2 text-sm"
+              className="text-accent hover:underline mt-2 text-sm"
             >
               Reset filters
             </button>
