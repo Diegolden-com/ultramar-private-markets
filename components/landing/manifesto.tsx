@@ -1,51 +1,49 @@
 export function Manifesto() {
     return (
-        <section className="container mx-auto max-w-4xl px-4 py-24 sm:py-32">
-            <div className="border-l-2 border-foreground/20 pl-6 sm:pl-12">
-                <h2 className="mb-12 font-mono text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                    The Manifesto
+        <section className="container mx-auto max-w-5xl px-4 py-32 sm:py-48">
+            <div className="text-center">
+                <h2 className="mb-16 font-mono text-xs font-bold uppercase tracking-[0.3em] text-accent">
+                    THE PHILOSOPHY
                 </h2>
 
-                <div className="space-y-12 font-serif text-2xl leading-relaxed text-foreground sm:text-4xl">
-                    <p>
-                        The old world is built on gateways.
-                        <span className="text-muted-foreground"> Gatekeepers asking for permission. Intermediaries extracting value. Systems designed to exclude.</span>
+                <div className="space-y-24">
+                    <p className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold leading-tight tracking-tight text-foreground">
+                        The old world is built on gateways. <br />
+                        <span className="text-muted-foreground/40 transition-colors hover:text-muted-foreground duration-700">We are building the exit.</span>
                     </p>
 
-                    <p>
-                        We believe in a different architecture for wealth.
-                    </p>
-
-                    <div className="grid gap-8 pt-8 sm:grid-cols-3 sm:gap-12">
-                        <div>
-                            <h3 className="mb-2 font-mono text-sm font-bold uppercase tracking-widest text-foreground">
+                    <div className="grid gap-12 sm:grid-cols-3 pt-12 text-left">
+                        <div className="group">
+                            <h3 className="mb-4 font-mono text-sm font-bold uppercase tracking-widest text-foreground group-hover:text-accent transition-colors">
                                 Borderless
                             </h3>
-                            <p className="font-sans text-base text-muted-foreground">
+                            <p className="font-sans text-lg text-muted-foreground leading-relaxed">
                                 Capital flows like water, adhering only to the laws of mathematics, not the whims of jurisdictions.
                             </p>
                         </div>
-                        <div>
-                            <h3 className="mb-2 font-mono text-sm font-bold uppercase tracking-widest text-foreground">
+                        <div className="group">
+                            <h3 className="mb-4 font-mono text-sm font-bold uppercase tracking-widest text-foreground group-hover:text-accent transition-colors">
                                 Trustless
                             </h3>
-                            <p className="font-sans text-base text-muted-foreground">
-                                Don't trust us. Verify the assets. Verify the contracts. Verify the yield on-chain, in real-time.
+                            <p className="font-sans text-lg text-muted-foreground leading-relaxed">
+                                By verifying assets on-chain, we replace "trust me" with "proof of reserves" and real-time auditing.
                             </p>
                         </div>
-                        <div>
-                            <h3 className="mb-2 font-mono text-sm font-bold uppercase tracking-widest text-foreground">
+                        <div className="group">
+                            <h3 className="mb-4 font-mono text-sm font-bold uppercase tracking-widest text-foreground group-hover:text-accent transition-colors">
                                 Permissionless
                             </h3>
-                            <p className="font-sans text-base text-muted-foreground">
-                                Open to anyone with a wallet. No accreditation forms. No backroom deals. Just open finance.
+                            <p className="font-sans text-lg text-muted-foreground leading-relaxed">
+                                No forms. No backroom deals. Just an open protocol for anyone with a wallet and conviction.
                             </p>
                         </div>
                     </div>
 
-                    <p className="pt-8">
-                        Ultramar is not just an investment platform. It is a declaration of financial independence.
-                    </p>
+                    <div className="pt-24 border-t border-foreground/5">
+                        <p className="font-mono text-xl text-muted-foreground">
+                            Ultramar. <span className="text-foreground font-bold">Capital, Unshackled.</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
