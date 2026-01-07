@@ -24,8 +24,8 @@ export function Navigation() {
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 group">
                         <OakLeafLogo className="w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:scale-105" />
-                        <span className="text-xl md:text-2xl font-serif font-semibold tracking-wide">
-                            ULTRAMAR PRIVATE EQUITIES
+                        <span className="text-xl md:text-2xl font-serif font-bold tracking-wide text-foreground">
+                            ULTRAMAR <span className="text-muted-foreground italic font-normal">PRIVATE EQUITIES</span>
                         </span>
                     </Link>
 
