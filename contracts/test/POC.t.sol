@@ -4,13 +4,11 @@ pragma solidity ^0.8.20;
 import {Test, console} from "forge-std/Test.sol";
 import {AssetToken} from "../src/AssetToken.sol";
 import {DealManager} from "../src/DealManager.sol";
-import {YieldDistributor} from "../src/YieldDistributor.sol";
 import {MockUSDC} from "./Mocks.sol";
 
 contract POCTest is Test {
     AssetToken assetToken;
     DealManager dealManager;
-    YieldDistributor yieldDistributor;
     MockUSDC usdc;
 
     address admin = address(1);
@@ -25,19 +23,13 @@ contract POCTest is Test {
         usdc = new MockUSDC();
 
         // 2. Deploy AssetToken
-        assetToken = new AssetToken("Ultramar Hotel", "ULT-H", admin);
+        assetToken = new AssetToken("Ultramar Hotel", "ULT-H", admin, address(usdc));
 
         // 3. Deploy DealManager
         dealManager = new DealManager(address(usdc), address(assetToken), treasury);
 
         // 4. Grant MINTER_ROLE to DealManager
         assetToken.grantRole(assetToken.MINTER_ROLE(), address(dealManager));
-
-        // 5. Deploy YieldDistributor
-        yieldDistributor = new YieldDistributor(address(assetToken), address(usdc));
-
-        // 6. Whitelist YieldDistributor so it can receive stakes
-        assetToken.updateWhitelist(address(yieldDistributor), true);
 
         vm.stopPrank();
 
@@ -108,39 +100,47 @@ contract POCTest is Test {
         assertEq(assetToken.balanceOf(bob), 500_000 * 1e18);
         vm.stopPrank();
 
-        // --- 6. Yield Distribution ---
-        // Alice stakes her tokens
-        vm.startPrank(alice);
-        assetToken.approve(address(yieldDistributor), 10_000 * 1e18);
-        yieldDistributor.stake(10_000 * 1e18);
-        vm.stopPrank();
-
+        // --- 6. Yield Distribution (Native) ---
+        // Alice holds 10,000. Bob holds 500,000.
+        // Total Supply = 510,000.
+        
         // Admin deposits 1000 USDC yield
         vm.startPrank(admin);
         usdc.mint(admin, 1000 * 1e18);
-        usdc.approve(address(yieldDistributor), 1000 * 1e18);
+        usdc.approve(address(assetToken), 1000 * 1e18);
         
-        // At this point, only Alice is staked (10,000 tokens). Total Supply = 10,000.
-        // She owns 100% of the pool.
-        yieldDistributor.depositYield(1000 * 1e18); 
+        assetToken.distributeDividends(1000 * 1e18);
         vm.stopPrank();
 
         // Alice claims
         vm.startPrank(alice);
-        uint256 earned = yieldDistributor.earned(alice);
-        assertEq(earned, 1000 * 1e18); // She gets it all
+        // Alice share = (10,000 / 510,000) * 1000 = 19.6078...
+        // Let's check calculation roughly
+        uint256 totalRaisedAmt = 510_000 * 1e18;
+        uint256 aliceAmt = 10_000 * 1e18;
+        uint256 yieldAmt = 1000 * 1e18;
         
-        yieldDistributor.claim();
-        assertEq(usdc.balanceOf(alice), (100_000 - 10_000 + 1000) * 1e18); // Initial - Contribution + Yield
+        uint256 expectedAlice = (yieldAmt * aliceAmt) / totalRaisedAmt;
+        
+        // Due to precision, might vary slightly, but lets check withdrawable
+        uint256 withdrawableAlice = assetToken.withdrawableDividendOf(alice);
+        
+        // Allow dust difference of 1 wei
+        assertApproxEqAbs(withdrawableAlice, expectedAlice, 1);
+        
+        assetToken.claimDividends();
+        // Check USDC balance increase
+        // Initial (100k) - Contribution (10k) + Yield (~19.6)
+        uint256 expectedBalance = 90_000 * 1e18 + expectedAlice;
+        assertApproxEqAbs(usdc.balanceOf(alice), expectedBalance, 1);
         vm.stopPrank();
 
-        // Bob stakes NOW (after yield). Should get nothing of past yield.
+        // Bob claims
         vm.startPrank(bob);
-        assetToken.approve(address(yieldDistributor), 500_000 * 1e18);
-        yieldDistributor.stake(500_000 * 1e18);
-        
-        uint256 earnedBob = yieldDistributor.earned(bob);
-        assertEq(earnedBob, 0);
+        uint256 bobAmt = 500_000 * 1e18;
+        uint256 expectedBob = (yieldAmt * bobAmt) / totalRaisedAmt;
+        assetToken.claimDividends();
+        assertApproxEqAbs(usdc.balanceOf(bob), 1_000_000 * 1e18 - 500_000 * 1e18 + expectedBob, 1);
         vm.stopPrank();
     }
 
