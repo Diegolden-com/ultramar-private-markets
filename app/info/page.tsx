@@ -20,10 +20,10 @@ export default function InfoPage() {
                         <div className="bg-background border-2 border-foreground p-6">
                             <div className="flex items-center gap-3 mb-4">
                                 <Building2 className="w-6 h-6 text-accent" />
-                                <h3 className="text-lg font-bold font-mono">BUSINESS OPT-IN</h3>
+                                <h3 className="text-lg font-bold font-mono">DUE DILIGENCE</h3>
                             </div>
-                            <p className="font-mono text-sm text-muted-foreground">
-                                Medium and large private businesses opt into Ultramar, agreeing to connect our systems directly to their operations.
+                            <p className="font-serif text-base text-muted-foreground leading-relaxed">
+                                We perform rigorous checks on businesses that opt into Ultramar, verifying their operations directly.
                             </p>
                         </div>
 
@@ -32,7 +32,7 @@ export default function InfoPage() {
                                 <Cpu className="w-6 h-6 text-accent" />
                                 <h3 className="text-lg font-bold font-mono">AI INTEGRATION</h3>
                             </div>
-                            <p className="font-mono text-sm text-muted-foreground">
+                            <p className="font-serif text-base text-muted-foreground leading-relaxed">
                                 We connect our proprietary AI into their accounting systems (SAP or QuickBooks) for real-time data ingestion and monitoring.
                             </p>
                         </div>
@@ -42,7 +42,7 @@ export default function InfoPage() {
                                 <LineChart className="w-6 h-6 text-accent" />
                                 <h3 className="text-lg font-bold font-mono">CONTINUOUS SNIFF TESTS</h3>
                             </div>
-                            <p className="font-mono text-sm text-muted-foreground">
+                            <p className="font-serif text-base text-muted-foreground leading-relaxed">
                                 Regular, continuous analysis to ensure business health and legitimacy before and during investment periods.
                             </p>
                         </div>
@@ -52,10 +52,16 @@ export default function InfoPage() {
                                 <FileCheck className="w-6 h-6 text-accent" />
                                 <h3 className="text-lg font-bold font-mono">LEGAL BACKUP</h3>
                             </div>
-                            <p className="font-mono text-sm text-muted-foreground">
+                            <p className="font-serif text-base text-muted-foreground leading-relaxed">
                                 Investments are legitimized by robust financial contracts that provide legal security for our investors.
                             </p>
                         </div>
+                    </div>
+
+                    <div className="mt-8 text-center border-t border-foreground/10 pt-6">
+                        <p className="font-serif text-lg italic text-muted-foreground">
+                            Protocol fee of 1% to cover operations. Transparent and simple.
+                        </p>
                     </div>
                 </section>
 
@@ -84,7 +90,7 @@ export default function InfoPage() {
                                 <span>Mexico City, MX</span>
                             </div>
 
-                            <p className="text-base sm:text-lg mb-8 font-mono max-w-2xl text-muted-foreground">
+                            <p className="text-base sm:text-xl mb-8 font-serif leading-relaxed max-w-2xl text-muted-foreground">
                                 A laundromat chain with 3 existing locations looking for capital to expand their operations
                                 with a new storefront in the fastest-growing sector of their city.
                             </p>
