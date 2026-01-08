@@ -10,7 +10,7 @@ import { Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 export default function DealsPage() {
     const { ready, authenticated, login } = usePrivy();
     const { wallets } = useWallets();
-    const [activeTab, setActiveTab] = useState<'invest' | 'manage' | 'yield'>('invest');
+    const [activeTab, setActiveTab] = useState<'invest' | 'portfolio'>('invest');
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<string>('');
 
@@ -80,28 +80,13 @@ export default function DealsPage() {
         }
     };
 
-    const handleStake = async () => {
-        if (!stakeAmount) return;
+    const handleClaimDividends = async () => {
         setLoading(true);
-        setStatus('Staking Asset Tokens...');
+        setStatus('Claiming Dividends...');
         try {
             const client = await getProvider();
             await new Promise(r => setTimeout(r, 1500));
-            setStatus('Staked successfully! Earning yield.');
-        } catch (e: any) {
-            setStatus(`Error: ${e.message}`);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleClaimYield = async () => {
-        setLoading(true);
-        setStatus('Claiming Yield...');
-        try {
-            const client = await getProvider();
-            await new Promise(r => setTimeout(r, 1500));
-            setStatus('Yield Claimed: 50.00 USDC');
+            setStatus('Dividends Claimed: 50.00 USDC');
         } catch (e: any) {
             setStatus(`Error: ${e.message}`);
         } finally {
@@ -159,7 +144,7 @@ export default function DealsPage() {
                             <p className="mt-1 text-xl font-medium">${formatUnits(dealStats.minContribution, 18)}</p>
                         </div>
                         <div className="rounded-2xl bg-black/40 p-4">
-                            <p className="text-xs text-zinc-500">Variable APY</p>
+                            <p className="text-xs text-zinc-500">Target Dividend</p>
                             <p className="mt-1 text-xl font-medium text-emerald-400">12-15%</p>
                         </div>
                         <div className="rounded-2xl bg-black/40 p-4">
@@ -184,7 +169,7 @@ export default function DealsPage() {
 
                     {/* Action Tabs */}
                     <div className="mb-6 flex gap-4 border-b border-white/10">
-                        {(['invest', 'manage', 'yield'] as const).map((tab) => (
+                        {(['invest', 'portfolio'] as const).map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
@@ -226,59 +211,36 @@ export default function DealsPage() {
                             </div>
                         )}
 
-                        {activeTab === 'manage' && (
+                        {activeTab === 'portfolio' && (
                             <div className="grid gap-6 md:grid-cols-2">
                                 <div className="rounded-xl border border-white/5 bg-white/5 p-6">
-                                    <h3 className="mb-2 font-medium">My Allocation</h3>
-                                    <div className="mb-4 text-3xl font-light">$0.00</div>
-                                    <button
-                                        onClick={handleClaimTokens}
-                                        disabled={loading || !authenticated}
-                                        className="flex w-full items-center justify-center gap-2 rounded-lg border border-white/20 py-2 text-sm hover:bg-white/10"
-                                    >
-                                        {loading ? <Loader2 className="animate-spin w-4 h-4" /> : 'Claim Asset Tokens'}
-                                    </button>
-                                </div>
-                                <div className="rounded-xl border border-white/5 bg-white/5 p-6 opacity-50">
-                                    <h3 className="mb-2 font-medium">Refund</h3>
-                                    <p className="mb-4 text-sm text-zinc-400">Available if Short Cap not met by deadline.</p>
-                                    <button disabled className="w-full rounded-lg bg-zinc-800 py-2 text-sm text-zinc-500">
-                                        Refund Unavailable
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'yield' && (
-                            <div className="grid gap-6 md:grid-cols-2">
-                                <div className="rounded-xl border border-white/5 bg-white/5 p-6">
-                                    <h3 className="mb-2 font-medium">Stake for Yield</h3>
-                                    <div className="mb-4 flex gap-2">
-                                        <input
-                                            type="number"
-                                            value={stakeAmount}
-                                            onChange={(e) => setStakeAmount(e.target.value)}
-                                            className="w-full rounded-lg border border-white/10 bg-black px-3 py-2 text-sm"
-                                            placeholder="Amount ULT-H"
-                                        />
+                                    <h3 className="mb-2 font-medium">My Assets</h3>
+                                    <div className="mb-4 text-3xl font-light">0.00 <span className="text-base text-zinc-500">ULT-H</span></div>
+                                    <div className="flex gap-2">
                                         <button
-                                            onClick={handleStake}
-                                            className="whitespace-nowrap rounded-lg bg-emerald-500/20 px-4 text-sm text-emerald-400 hover:bg-emerald-500/30"
+                                            onClick={handleClaimTokens}
+                                            disabled={loading || !authenticated}
+                                            className="w-full rounded-lg border border-white/20 py-2 text-sm hover:bg-white/10"
                                         >
-                                            Stake
+                                            {loading ? <Loader2 className="animate-spin w-4 h-4 mx-auto" /> : 'Claim Tokens'}
+                                        </button>
+                                        <button disabled className="w-full rounded-lg border border-white/5 py-2 text-sm text-zinc-600">
+                                            Transfer
                                         </button>
                                     </div>
-                                    <p className="text-xs text-zinc-500">Staking Contract: {CONTRACTS.mantleSepolia.yieldDistributor.address.slice(0, 8)}...</p>
                                 </div>
+
                                 <div className="rounded-xl border border-white/5 bg-white/5 p-6">
-                                    <h3 className="mb-2 font-medium">Claimable Yield</h3>
+                                    <h3 className="mb-2 font-medium">Unclaimed Dividends</h3>
                                     <div className="mb-4 text-3xl font-light text-emerald-400">$50.00 <span className="text-sm text-zinc-500">USDC</span></div>
                                     <button
-                                        onClick={handleClaimYield}
+                                        onClick={handleClaimDividends}
+                                        disabled={loading || !authenticated}
                                         className="w-full rounded-lg bg-white py-2 text-sm font-medium text-black hover:bg-gray-200"
                                     >
-                                        Claim to Wallet
+                                        {loading ? <Loader2 className="animate-spin w-4 h-4 mx-auto" /> : 'Claim to Wallet'}
                                     </button>
+                                    <p className="mt-2 text-xs text-zinc-500">Dividends accrue automatically to token holders.</p>
                                 </div>
                             </div>
                         )}
