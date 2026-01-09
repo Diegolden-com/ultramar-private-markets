@@ -4,9 +4,15 @@ import { useState } from "react"
 import { RouteHeader } from "@/components/route-header"
 import { ShieldCheck, Database, Globe, Scale, Lock, RefreshCw, Server, Activity } from "lucide-react"
 
+interface ComplianceData {
+    score: number
+    status: string
+    sources: { name: string; latency: string }[]
+}
+
 export default function CompliancePage() {
     const [isLoading, setIsLoading] = useState(false)
-    const [complianceData, setComplianceData] = useState<any>(null)
+    const [complianceData, setComplianceData] = useState<ComplianceData | null>(null)
 
     const fetchComplianceData = async () => {
         setIsLoading(true)
@@ -38,7 +44,7 @@ export default function CompliancePage() {
                     <p className="text-muted-foreground font-mono text-lg">
                         We replace quarterly PDFs with millisecond-latency API streams.
                         Our AI monitors issuer bank accounts, receivables, and cash flow
-                        24/7—providing a live "Trust Score" visible to every investor.
+                        24/7—providing a live &quot;Trust Score&quot; visible to every investor.
                     </p>
                 </div>
                 <div className="border-2 border-foreground p-8 bg-muted/20 relative overflow-hidden group min-h-[300px] flex flex-col items-center justify-center">
@@ -63,14 +69,14 @@ export default function CompliancePage() {
                                 </div>
 
                                 <div className={`font-mono text-xl font-bold px-4 py-1 inline-block ${complianceData.status === 'OPTIMAL' ? 'bg-green-500/20 text-green-700 dark:text-green-400' :
-                                    complianceData.status === 'HEALTHY' ? 'bg-blue-500/20 text-blue-700 dark:text-blue-400' :
-                                        'bg-red-500/20 text-red-700 dark:text-red-400'
+                                        complianceData.status === 'HEALTHY' ? 'bg-blue-500/20 text-blue-700 dark:text-blue-400' :
+                                            'bg-red-500/20 text-red-700 dark:text-red-400'
                                     }`}>
                                     STATUS: {complianceData.status}
                                 </div>
 
                                 <div className="text-sm font-mono text-muted-foreground border-t border-foreground/10 pt-4 mt-2 grid grid-cols-2 gap-x-8 gap-y-2 text-left">
-                                    {complianceData.sources.map((src: any) => (
+                                    {complianceData.sources.map((src) => (
                                         <div key={src.name} className="flex items-center justify-between gap-4">
                                             <span>{src.name}</span>
                                             <span className="text-accent text-[10px]">● {src.latency}</span>
@@ -146,7 +152,7 @@ export default function CompliancePage() {
                         <ShieldCheck className="w-10 h-10 text-accent" />
                         <h4 className="font-bold font-mono text-lg">VERIFY</h4>
                         <p className="text-sm font-mono text-muted-foreground">
-                            Our proprietary AI model analyzes burn rate, revenue retention, and fraud indicators. Anomalies trigger immediate "Circuit Breaker" pauses on trading.
+                            Our proprietary AI model analyzes burn rate, revenue retention, and fraud indicators. Anomalies trigger immediate &quot;Circuit Breaker&quot; pauses on trading.
                         </p>
                     </div>
 
@@ -180,7 +186,7 @@ export default function CompliancePage() {
                         <div className="space-y-2">
                             <h5 className="font-bold font-mono text-sm">TECHNOLOGY LIMITATIONS</h5>
                             <p className="text-xs font-mono text-muted-foreground leading-relaxed">
-                                The "Compliance Score" and "Oracle" systems are automated software tools. They analyze historical and real-time data but cannot predict future performance or guarantee the absence of fraud. API connections are dependent on third-party uptime. Smart contracts are experimental technology.
+                                The &quot;Compliance Score&quot; and &quot;Oracle&quot; systems are automated software tools. They analyze historical and real-time data but cannot predict future performance or guarantee the absence of fraud. API connections are dependent on third-party uptime. Smart contracts are experimental technology.
                             </p>
                         </div>
                     </div>
