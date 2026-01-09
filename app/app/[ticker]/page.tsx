@@ -2,6 +2,7 @@ import { DEALS } from "@/lib/deals"
 import { ArrowLeft, ShieldCheck, Globe, Activity, Zap, Percent, Clock, FileText, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { SwapWidget } from "@/components/trading/swap-widget"
 
 export function generateStaticParams() {
     return DEALS.map((deal) => ({
@@ -151,34 +152,11 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
 
                     {/* Right Column: Action Card */}
                     <div className="lg:col-span-1">
-                        <div className="sticky top-8 bg-foreground text-background p-6 sm:p-8 shadow-xl border-2 border-foreground">
-                            <div className="flex justify-between items-center mb-6 border-b border-background/20 pb-4">
-                                <span className="text-sm font-bold opacity-80 uppercase">MINIMUM TICKET</span>
-                                <span className="text-2xl font-bold font-mono">${deal.minInvestment}</span>
-                            </div>
-
-                            <div className="space-y-3 mb-8 font-mono">
-                                <div className="flex justify-between text-sm">
-                                    <span className="opacity-60">Round Size</span>
-                                    <span className="font-bold">$562,500</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="opacity-60">Closing Date</span>
-                                    <span className="font-bold">Feb 28, 2030</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="opacity-60">Structure</span>
-                                    <span className="font-bold">SPV / LLC</span>
-                                </div>
-                            </div>
-
-                            <button className="w-full bg-accent hover:bg-accent/90 text-background py-4 font-bold text-lg mb-3 transition-colors uppercase border-2 border-transparent">
-                                Invest Now
-                            </button>
-                            <p className="text-center text-xs opacity-50 px-4">
-                                By clicking Invest, you agree to the Terms of Service and accredited investor verification.
-                            </p>
-                        </div>
+                        <SwapWidget
+                            ticker={deal.ticker}
+                            currentPrice={1.00} // Mock price, 1 share = $1 nominal usually or valuation based
+                            minTicket={deal.minInvestment}
+                        />
                     </div>
                 </div>
 
