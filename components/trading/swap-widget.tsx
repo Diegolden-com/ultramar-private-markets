@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowDownUp, Info, RefreshCcw } from "lucide-react"
+import { ArrowDownUp, RefreshCcw } from "lucide-react"
 
 interface SwapWidgetProps {
     ticker: string
@@ -15,28 +15,24 @@ export function SwapWidget({ ticker, currentPrice, minTicket }: SwapWidgetProps)
     const [amountOut, setAmountOut] = useState<string>("")
     const [isLoading, setIsLoading] = useState(false)
 
-    // Derived state
     const inputToken = mode === "BUY" ? "USDC" : ticker
     const outputToken = mode === "BUY" ? ticker : "USDC"
 
-    // Simulate CPMM Pricing: Price Impact = 0.05% per $1000 traded
-    // Base Price is passed in prop
+    // Simulate CPMM Pricing
     useEffect(() => {
-        if (!amountIn || isNaN(Number(amountIn))) {
-            setAmountOut("")
-            return
-        }
-
-        const val = Number(amountIn)
-        const priceImpact = (val / 10000) * 0.01 // Mock impact
-        const effectivePrice = mode === "BUY"
-            ? currentPrice * (1 + priceImpact)
-            : currentPrice * (1 - priceImpact)
-
-        const computedOut = val / effectivePrice
-
-        // Simulating calc delay
         const timer = setTimeout(() => {
+            if (!amountIn || isNaN(Number(amountIn))) {
+                setAmountOut("")
+                return
+            }
+
+            const val = Number(amountIn)
+            const priceImpact = (val / 10000) * 0.01 // Mock impact
+            const effectivePrice = mode === "BUY"
+                ? currentPrice * (1 + priceImpact)
+                : currentPrice * (1 - priceImpact)
+
+            const computedOut = val / effectivePrice
             setAmountOut(mode === "BUY" ? computedOut.toFixed(2) : (val * effectivePrice).toFixed(2))
         }, 300)
 
