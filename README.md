@@ -63,12 +63,29 @@ We use a modular architecture consisting of three core contracts:
     - `depositYield`: Admin deposits yield (in Stablecoins).
     - `claim`: Token holders claim their pro-rata share of the yield.
 
-### 2. Tech Stack
+- **`SimpleAMM.sol`**: Automated Market Maker for secondary trading (x * y = k).
+  - **Key Features**:
+    - `addLiquidity`: Initializes the trading pool (requires Admin whitelist).
+    - `swap`: Instant settlement between Asset Tokens and USDC.
+    - **Fee**: 0.3% protocol fee.
+
+### 2. Usage Guide: Secondary Market Trading
+
+To enable trading for a new deal:
+
+1.  **Deploy**: Deploy `AssetToken` and `SimpleAMM` contracts.
+2.  **Whitelist AMM**: 
+    - **CRITICAL**: The Admin MUST call `AssetToken.updateWhitelist(AMM_ADDRESS, true)`. 
+    - Without this, the AMM cannot receive or send tokens, effectively pausing the market.
+3.  **Approve**: Admin calls `USDC.approve(AMM)` and `AssetToken.approve(AMM)`.
+4.  **Add Liquidity**: Admin calls `amm.addLiquidity(amountUSDC, amountAsset)` to set the initial price.
+
+### 3. Tech Stack
 - **Framework**: [Foundry](https://book.getfoundry.sh/)
 - **Network**: Mantle Network (Sepolia Testnet / Mainnet)
 - **Standards**: ERC20, AccessControl (OpenZeppelin)
 
-### 3. Development
+### 4. Development
 The smart contracts are located in the `contracts/` directory.
 
 **Setup:**
