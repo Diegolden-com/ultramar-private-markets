@@ -1,6 +1,6 @@
 "use client"
 
-import { Area, AreaChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
+import { Area, AreaChart, XAxis, YAxis, CartesianGrid } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/app/components/ui/chart"
 
 const data = [
@@ -32,31 +32,29 @@ export function PortfolioChart() {
             }}
             className="h-full w-full"
         >
-            <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={data} margin={{ top: 10, right: 10, bottom: 30, left: 10 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis
-                        dataKey="date"
-                        stroke="hsl(var(--foreground))"
-                        style={{ fontSize: "12px", fontFamily: "var(--font-mono)" }}
-                        tick={{ dy: 10 }}
-                    />
-                    <YAxis
-                        stroke="hsl(var(--foreground))"
-                        style={{ fontSize: "12px", fontFamily: "var(--font-mono)" }}
-                        tickFormatter={(value) => `$${value}`}
-                    />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Area
-                        type="monotone"
-                        dataKey="value"
-                        stroke="oklch(0.75 0.15 142)"
-                        fill="oklch(0.75 0.15 142)"
-                        fillOpacity={0.2}
-                        strokeWidth={3}
-                    />
-                </AreaChart>
-            </ResponsiveContainer>
+            <AreaChart data={data} margin={{ top: 10, right: 10, bottom: 30, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis
+                    dataKey="date"
+                    stroke="hsl(var(--foreground))"
+                    style={{ fontSize: "12px", fontFamily: "var(--font-mono)" }}
+                    tick={{ dy: 10 }}
+                />
+                <YAxis
+                    stroke="hsl(var(--foreground))"
+                    style={{ fontSize: "12px", fontFamily: "var(--font-mono)" }}
+                    tickFormatter={(value) => `$${value}`}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Area
+                    type="monotone"
+                    dataKey="value"
+                    stroke="oklch(0.75 0.15 142)"
+                    fill="oklch(0.75 0.15 142)"
+                    fillOpacity={0.2}
+                    strokeWidth={3}
+                />
+            </AreaChart>
         </ChartContainer>
     )
 }
