@@ -85,22 +85,35 @@ export default function AppDealBoard() {
           {filteredDeals.map((deal) => (
             <div
               key={deal.id}
-              className="group bg-background border-2 border-foreground hover:bg-muted/10 transition-all duration-300 flex flex-col"
+              className="group bg-background border-2 border-foreground hover:bg-muted/10 transition-all duration-300 flex flex-col overflow-hidden"
             >
+              {/* Image Header */}
+              <div className="relative h-48 w-full overflow-hidden border-b-2 border-foreground">
+                <div className="absolute inset-0 bg-accent/20 mix-blend-overlay z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
+                <img
+                  src={deal.image}
+                  alt={deal.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                />
+
+                {/* Ticker & Status Overlay */}
+                <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+                  <span className="text-xs font-bold font-mono text-background bg-foreground px-2 py-0.5 border border-transparent">
+                    {deal.ticker}
+                  </span>
+                  {deal.status === 'closing_soon' && (
+                    <span className="text-xs font-bold font-mono text-white bg-destructive px-2 py-0.5 border border-transparent flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> CLOSING
+                    </span>
+                  )}
+                </div>
+              </div>
+
               {/* Card Header */}
               <div className="p-6 border-b-2 border-foreground">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-bold font-mono text-accent bg-accent/10 px-2 py-0.5 border border-accent/20">
-                        {deal.ticker}
-                      </span>
-                      {deal.status === 'closing_soon' && (
-                        <span className="text-xs font-bold font-mono text-destructive bg-destructive/10 px-2 py-0.5 border border-destructive/20 flex items-center gap-1">
-                          <Clock className="w-3 h-3" /> CLOSING
-                        </span>
-                      )}
-                    </div>
                     <h3 className="text-xl font-bold font-mono truncate pr-2">{deal.name}</h3>
                   </div>
                   <div className="text-right">
