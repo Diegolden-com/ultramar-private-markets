@@ -2,6 +2,8 @@
 
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 export function FeatureGallery() {
     const features = [
@@ -31,6 +33,14 @@ export function FeatureGallery() {
     return (
         <section className="bg-background py-16 sm:py-24">
             <div className="container mx-auto px-4">
+                <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
+                    <h2 className="font-serif text-5xl font-bold tracking-tighter text-foreground sm:text-7xl md:text-8xl lg:text-[10rem] leading-none">
+                        Trending Firms
+                    </h2>
+                    <Link href="/app" className="group flex items-center gap-2 font-mono text-lg md:text-xl font-bold tracking-tight text-muted-foreground hover:text-foreground transition-colors mb-2 md:mb-4">
+                        View all <ArrowRight className="inline w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {features.map((feature, index) => (
                         <div
