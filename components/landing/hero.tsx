@@ -11,7 +11,7 @@ export function Hero() {
 
             <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards z-10 max-w-5xl">
                 <h1 className="mb-8 font-serif text-6xl font-bold tracking-tighter text-foreground sm:text-8xl md:text-9xl lg:text-[10rem] leading-none">
-                    Capital, <span className="block text-muted-foreground/80 italic font-medium mt-2 sm:mt-0 sm:inline">Unshackled.</span>
+                    Private Equity, <span className="block text-muted-foreground/80 italic font-medium mt-2 sm:mt-0 sm:inline">uncompromised.</span>
                 </h1>
                 <p className="mx-auto mb-12 max-w-2xl font-mono text-lg text-muted-foreground/80 sm:text-xl md:text-2xl tracking-tight">
                     Real assets yield returns. <br className="hidden sm:inline" />
