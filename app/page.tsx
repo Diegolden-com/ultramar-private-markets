@@ -7,8 +7,8 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-background selection:bg-accent selection:text-accent-foreground">
       <Hero />
-      <FeatureGallery />
       <TechSpecs />
+      <FeatureGallery />
       <Manifesto />
 
       <footer className="mt-auto border-t border-foreground/10 py-8 text-center">
