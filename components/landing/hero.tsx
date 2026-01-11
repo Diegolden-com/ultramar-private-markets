@@ -14,8 +14,8 @@ export function Hero() {
                     Capital, <span className="block text-muted-foreground/80 italic font-medium mt-2 sm:mt-0 sm:inline">Unshackled.</span>
                 </h1>
                 <p className="mx-auto mb-12 max-w-2xl font-mono text-lg text-muted-foreground/80 sm:text-xl md:text-2xl tracking-tight">
-                    Real assets. Real yield. <br className="hidden sm:inline" />
-                    On-chain transparency for the sovereign individual.
+                    Real assets yield returns. <br className="hidden sm:inline" />
+                    Buy companies online, transparently for the sovereign individual.
                 </p>
                 <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
                     <Link
@@ -29,7 +29,7 @@ export function Hero() {
                         href="/info"
                         className="group flex h-14 w-full items-center justify-center gap-2 rounded-full border border-foreground/10 bg-background/50 px-8 font-mono text-lg font-bold text-foreground backdrop-blur-md transition-all hover:bg-background/80 hover:scale-105 sm:w-auto"
                     >
-                        THE MANIFESTO
+                        LEARN MORE
                         <BookOpen className="h-5 w-5 opacity-70" />
                     </Link>
                 </div>
