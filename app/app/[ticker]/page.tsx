@@ -34,6 +34,17 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
             </div>
 
             <main className="container mx-auto px-4 py-8">
+                {/* Cover Image */}
+                <div className="relative h-64 md:h-96 w-full overflow-hidden border-2 border-foreground mb-8">
+                    <div className="absolute inset-0 bg-accent/10 mix-blend-overlay z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
+                    <img
+                        src={deal.image}
+                        alt={deal.name}
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+
                 {/* Header Section */}
                 <div className="mb-12">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
