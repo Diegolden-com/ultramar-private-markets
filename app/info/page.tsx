@@ -126,7 +126,7 @@ export default function InfoPage() {
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t-2 border-foreground">
-                                <Link href="/app" className="bg-foreground text-background px-6 py-3 font-mono font-bold flex items-center justify-center gap-2 hover:bg-background hover:text-foreground border-2 border-transparent hover:border-foreground transition-all">
+                                <Link href="/equities" className="bg-foreground text-background px-6 py-3 font-mono font-bold flex items-center justify-center gap-2 hover:bg-background hover:text-foreground border-2 border-transparent hover:border-foreground transition-all">
                                     VIEW DEAL ROOM <ArrowRight className="w-4 h-4" />
                                 </Link>
                             </div>
