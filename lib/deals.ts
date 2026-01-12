@@ -21,7 +21,7 @@ export const DEALS: Deal[] = [
     {
         id: "1",
         name: "Lavanderías CX",
-        ticker: "LAV.CX",
+        ticker: "lcx",
         description: "Chain of automated laundromats expanding to high-growth sectors. Proven recurring revenue model.",
         sector: "Consumer Services",
         location: "Mexico City, MX",
