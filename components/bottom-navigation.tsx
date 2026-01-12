@@ -15,16 +15,16 @@ export function BottomNavigation() {
             isActive: pathname === "/",
         },
         {
-            href: "/app",
-            label: "APP",
+            href: "/equities",
+            label: "EQUITIES",
             icon: LayoutGrid,
-            isActive: pathname.startsWith("/app"),
+            isActive: pathname.startsWith("/equities"),
         },
         {
-            href: "/dashboard",
-            label: "DASHBOARD",
+            href: "/portfolio",
+            label: "PORTFOLIO",
             icon: BarChart3,
-            isActive: pathname === "/dashboard",
+            isActive: pathname === "/portfolio",
         },
         {
             href: "/info",

@@ -37,16 +37,16 @@ export function Navigation() {
                             Home
                         </Link>
                         <Link
-                            href="/app"
-                            className={`font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors ${pathname.startsWith("/app") ? "text-accent" : ""}`}
+                            href="/equities"
+                            className={`font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors ${pathname.startsWith("/equities") ? "text-accent" : ""}`}
                         >
-                            App
+                            Equities
                         </Link>
                         <Link
-                            href="/dashboard"
-                            className={`font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors ${pathname === "/dashboard" ? "text-accent" : ""}`}
+                            href="/portfolio"
+                            className={`font-mono text-xs uppercase tracking-widest hover:text-accent transition-colors ${pathname === "/portfolio" ? "text-accent" : ""}`}
                         >
-                            Dashboard
+                            Portfolio
                         </Link>
                         <Link
                             href="/info"
