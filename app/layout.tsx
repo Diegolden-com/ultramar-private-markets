@@ -48,8 +48,17 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceMono.variable} ${playfair.variable} font-sans antialiased`}
       >
         <Providers>
-          <Navigation />
-          {children}
+          <div className="flex min-h-screen flex-col">
+            <Navigation />
+            <div className="flex-1">
+              {children}
+            </div>
+            <footer className="border-t border-foreground/10 py-8 text-center pb-24 md:pb-8">
+              <p className="font-mono text-xs text-muted-foreground">
+                ULTRAMAR PRIVATE EQUITIES © {new Date().getFullYear()}
+              </p>
+            </footer>
+          </div>
           <BottomNavigation />
           <RegisterServiceWorker />
         </Providers>
