@@ -14,6 +14,7 @@ export type Deal = {
     complianceScore: number
     status: "active" | "closing_soon" | "funded"
     tags: string[]
+    type: "primary" | "secondary"
 }
 
 export const DEALS: Deal[] = [
@@ -31,7 +32,8 @@ export const DEALS: Deal[] = [
         apy: 18.4,
         complianceScore: 98,
         status: "active",
-        tags: ["Cash Flow Positive", "Brick & Mortar", "Family owned"]
+        tags: ["Cash Flow Positive", "Brick & Mortar", "Family owned"],
+        type: "primary"
     },
     {
         id: "2",
@@ -47,7 +49,8 @@ export const DEALS: Deal[] = [
         apy: 14.2,
         complianceScore: 94,
         status: "closing_soon",
-        tags: ["High Growth", "Tech Enabled"]
+        tags: ["High Growth", "Tech Enabled"],
+        type: "primary"
     },
     {
         id: "3",
@@ -63,7 +66,8 @@ export const DEALS: Deal[] = [
         apy: 9.5,
         complianceScore: 99,
         status: "active",
-        tags: ["Asset Backed", "Low Volatility"]
+        tags: ["Asset Backed", "Low Volatility"],
+        type: "secondary"
     },
     {
         id: "4",
@@ -79,6 +83,7 @@ export const DEALS: Deal[] = [
         apy: 22.1,
         complianceScore: 91,
         status: "active",
-        tags: ["ESG", "High Yield"]
+        tags: ["ESG", "High Yield"],
+        type: "secondary"
     }
 ]
