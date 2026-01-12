@@ -1,5 +1,5 @@
 import { DEALS } from "@/lib/deals"
-import { ArrowLeft, ShieldCheck, Globe, Activity, Zap, Percent, Clock, FileText, CheckCircle2 } from "lucide-react"
+import { ArrowLeft, ShieldCheck, Globe, Activity, Zap, Percent, Clock, FileText, CheckCircle2, Globe2, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { SwapWidget } from "@/components/trading/swap-widget"
@@ -16,6 +16,78 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
 
     if (!deal) {
         notFound()
+
+    }
+
+    if (deal.ticker === 'lcx') {
+        return (
+            <div className="min-h-screen bg-background text-foreground font-mono pb-24">
+                <div className="border-b-2 border-foreground bg-background">
+                    <div className="container mx-auto px-4 py-4">
+                        <Link
+                            href="/equities"
+                            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            BACK TO MARKET
+                        </Link>
+                    </div>
+                </div>
+
+                <main className="container mx-auto px-4 py-12 max-w-4xl">
+                    <div className="relative z-10">
+                        <h3 className="text-2xl sm:text-3xl font-bold font-mono mb-2 uppercase">
+                            Lavanderías CX
+                        </h3>
+                        <div className="flex items-center gap-2 text-muted-foreground mb-6 font-mono text-sm">
+                            <Globe2 className="w-4 h-4" />
+                            <span>Mexico City, MX</span>
+                        </div>
+
+                        <p className="text-base sm:text-xl mb-8 font-serif leading-relaxed max-w-2xl text-muted-foreground">
+                            A laundromat chain with 3 existing locations looking for capital to expand their operations
+                            with a new storefront in the fastest-growing sector of their city.
+                        </p>
+
+                        <div className="grid sm:grid-cols-2 gap-8 mb-8">
+                            <div>
+                                <h4 className="font-bold font-mono text-xs text-muted-foreground mb-2 uppercase tracking-widest">
+                                    The Offering
+                                </h4>
+                                <p className="font-mono text-lg font-bold">6 Week Round</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold font-mono text-xs text-muted-foreground mb-2 uppercase tracking-widest">
+                                    Equity For Sale
+                                </h4>
+                                <p className="font-mono text-lg font-bold">Up to 12.5%</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold font-mono text-xs text-muted-foreground mb-2 uppercase tracking-widest">
+                                    Valuation Model
+                                </h4>
+                                <p className="font-mono text-lg font-bold">Pre-money valuation of FCF</p>
+                                <p className="font-mono text-xs text-muted-foreground mt-1">(Directly from QuickBooks)</p>
+                            </div>
+                            <div>
+                                <h4 className="font-bold font-mono text-xs text-muted-foreground mb-2 uppercase tracking-widest">
+                                    Discount Rate
+                                </h4>
+                                <p className="font-mono text-lg font-bold text-accent">
+                                    3x Yearly Treasury Rate
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t-2 border-foreground">
+                            <Link href="/equities" className="bg-foreground text-background px-6 py-3 font-mono font-bold flex items-center justify-center gap-2 hover:bg-background hover:text-foreground border-2 border-transparent hover:border-foreground transition-all">
+                                VIEW DEAL ROOM <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        )
     }
 
     return (
