@@ -1,262 +1,159 @@
 "use client"
 
-import { Download, TrendingUp, TrendingDown } from "lucide-react"
-import { PortfolioChart } from "@/app/components/portfolio-chart"
-
-const positions = [
-    {
-        strategy: "LENDING MARKETS",
-        balance: "0.00",
-        value: "$0.00",
-        pnl: "+$0.00",
-        pnlPercent: "+0.00%",
-        isPositive: true,
-    },
-    {
-        strategy: "POLYMARKET SYNTHETIC OPTIONS",
-        balance: "0.00",
-        value: "$0.00",
-        pnl: "+$0.00",
-        pnlPercent: "+0.00%",
-        isPositive: true,
-    },
-]
-
-const recentTransactions = [
-    {
-        date: "2025-01-15",
-        type: "DEPOSIT",
-        strategy: "LENDING MARKETS",
-        amount: "$0.00",
-    },
-    {
-        date: "2025-01-10",
-        type: "WITHDRAW",
-        strategy: "POLYMARKET SYNTHETIC OPTIONS",
-        amount: "$0.00",
-    },
-]
-
+import { useEffect, useState } from "react"
 import { RouteHeader } from "@/components/route-header"
+import { ArrowUpRight, ArrowDownRight, Wallet, PieChart, Activity, Loader2 } from "lucide-react"
 
-export default function DashboardPage() {
+interface Asset {
+    ticker: string;
+    name: string;
+    type: string;
+    balance: number;
+    price: number;
+    value: number;
+    change: number;
+    apy: number;
+}
+
+interface PortfolioData {
+    totalValue: number;
+    dayChange: number;
+    dayChangeValue: number;
+    assets: Asset[];
+}
+
+export default function PortfolioPage() {
+    const [data, setData] = useState<PortfolioData | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch('/api/portfolio')
+            .then(res => res.json())
+            .then(data => {
+                setData(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to fetch portfolio", err);
+                setLoading(false);
+            });
+    }, []);
+
+    const formatCurrency = (val: number) =>
+        new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+
     return (
         <main className="container mx-auto px-4 py-8 sm:py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <RouteHeader
                 title="PORTFOLIO"
-                subtitle="Monitor your portfolio performance and transaction history"
+                subtitle="Aggregated holdings across the Ultramar ecosystem."
             />
 
-            {/* Portfolio Overview */}
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-                <div className="border-2 border-foreground p-6">
-                    <h3 className="font-mono text-sm mb-2 text-muted-foreground">TOTAL PORTFOLIO VALUE</h3>
-                    <div className="text-4xl font-bold font-mono">$0.00</div>
+            {loading ? (
+                <div className="flex h-[400px] items-center justify-center">
+                    <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
                 </div>
-
-                <div className="border-2 border-foreground p-6">
-                    <h3 className="font-mono text-sm mb-2 text-muted-foreground">TOTAL P&L (ALL TIME)</h3>
-                    <div className="text-4xl font-bold font-mono flex items-center gap-2">
-                        +$0.00
-                        <TrendingUp className="w-6 h-6 text-accent" />
-                    </div>
-                </div>
-
-                <div className="border-2 border-foreground p-6">
-                    <h3 className="font-mono text-sm mb-2 text-muted-foreground">30D RETURN</h3>
-                    <div className="text-4xl font-bold font-mono text-accent">+0.00%</div>
-                </div>
-            </div>
-
-            {/* Portfolio Chart */}
-            <div className="border-2 border-foreground mb-12">
-                {/* Header Section */}
-                <div className="bg-foreground text-background p-4 sm:p-6">
-                    <h2 className="text-xl sm:text-2xl font-bold font-mono">PORTFOLIO PERFORMANCE</h2>
-                </div>
-
-                {/* Time Period Buttons */}
-                <div className="border-b-2 border-foreground p-3 sm:p-4 bg-muted/30">
-                    <div className="grid grid-cols-4 gap-2">
-                        <button className="border-2 border-foreground px-3 py-2 sm:px-4 sm:py-2 font-mono text-xs sm:text-sm hover:bg-background transition-colors">
-                            7D
-                        </button>
-                        <button className="border-2 border-foreground px-3 py-2 sm:px-4 sm:py-2 font-mono text-xs sm:text-sm bg-background hover:bg-foreground hover:text-background transition-colors">
-                            30D
-                        </button>
-                        <button className="border-2 border-foreground px-3 py-2 sm:px-4 sm:py-2 font-mono text-xs sm:text-sm hover:bg-background transition-colors">
-                            90D
-                        </button>
-                        <button className="border-2 border-foreground px-3 py-2 sm:px-4 sm:py-2 font-mono text-xs sm:text-sm hover:bg-background transition-colors">
-                            ALL
-                        </button>
-                    </div>
-                </div>
-
-                {/* Chart Container */}
-                <div className="bg-background p-3 sm:p-4 lg:p-6 pb-16 sm:pb-20 lg:pb-24">
-                    <div className="h-[280px] sm:h-[360px] lg:h-[420px] w-full">
-                        <PortfolioChart />
-                    </div>
-                </div>
-
-                {/* Chart Info - Collapsible */}
-                <div className="border-t-2 border-foreground bg-muted/30 p-3 sm:p-4">
-                    <details className="group">
-                        <summary className="font-mono text-xs sm:text-sm font-bold cursor-pointer list-none flex items-center justify-between hover:text-accent transition-colors">
-                            <span>CHART INFORMATION</span>
-                            <span className="text-lg group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        <p className="text-xs sm:text-sm font-mono text-muted-foreground mt-3 pt-3 border-t border-foreground/20">
-                            This chart aggregates performance across all your active positions. Use the time period buttons to
-                            adjust the view and analyze your portfolio's historical performance.
-                        </p>
-                    </details>
-                </div>
-            </div>
-
-            {/* Active Positions */}
-            <div className="mb-12">
-                <h2 className="text-xl sm:text-2xl font-bold font-mono mb-4 sm:mb-6">ACTIVE POSITIONS</h2>
-                <div className="border-2 border-foreground">
-                    {/* Desktop Table Header - Hidden on mobile */}
-                    <div className="hidden md:grid grid-cols-5 gap-4 p-4 border-b-2 border-foreground bg-muted font-mono text-sm">
-                        <div>STRATEGY</div>
-                        <div>BALANCE</div>
-                        <div>VALUE</div>
-                        <div>P&L</div>
-                        <div>P&L %</div>
-                    </div>
-
-                    {/* Position Items */}
-                    {positions.map((position, index) => (
-                        <div key={index}>
-                            {/* Mobile Card Layout */}
-                            <div className="md:hidden p-4 border-b-2 border-foreground last:border-b-0 hover:bg-muted transition-colors space-y-3">
-                                {/* Strategy Name - Prominent */}
-                                <div className="pb-3 border-b border-foreground/20">
-                                    <span className="font-mono text-xs text-muted-foreground block mb-1">STRATEGY</span>
-                                    <span className="font-mono text-base font-bold">{position.strategy}</span>
+            ) : data ? (
+                <div className="space-y-12">
+                    {/* Summary Card */}
+                    <div className="grid md:grid-cols-3 gap-6">
+                        <div className="md:col-span-2 bg-zinc-100 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-800 p-8 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-grid-black/[0.05] dark:bg-grid-white/[0.05]" />
+                            <div className="relative z-10 space-y-2">
+                                <div className="text-sm font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                                    <Wallet className="w-4 h-4" /> Total Equity
                                 </div>
-
-                                {/* Balance and Value in 2 columns */}
-                                <div className="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <span className="font-mono text-xs text-muted-foreground block mb-1">BALANCE</span>
-                                        <span className="font-mono text-sm">{position.balance}</span>
-                                    </div>
-                                    <div>
-                                        <span className="font-mono text-xs text-muted-foreground block mb-1">VALUE</span>
-                                        <span className="font-mono text-sm">{position.value}</span>
-                                    </div>
+                                <div className="text-5xl md:text-6xl font-bold font-mono tracking-tighter text-zinc-900 dark:text-white">
+                                    {formatCurrency(data.totalValue)}
                                 </div>
-
-                                {/* P&L Section - Highlighted */}
-                                <div className="pt-3 border-t border-foreground/20 bg-muted/50 -mx-4 px-4 py-3">
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <span className="font-mono text-xs text-muted-foreground block mb-1">P&L</span>
-                                            <span className="font-mono text-base font-bold">{position.pnl}</span>
-                                        </div>
-                                        <div>
-                                            <span className="font-mono text-xs text-muted-foreground block mb-1">P&L %</span>
-                                            <div
-                                                className={`font-mono text-base font-bold flex items-center gap-2 ${position.isPositive ? "text-accent" : "text-destructive"
-                                                    }`}
-                                            >
-                                                {position.pnlPercent}
-                                                {position.isPositive ? (
-                                                    <TrendingUp className="w-4 h-4" />
-                                                ) : (
-                                                    <TrendingDown className="w-4 h-4" />
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Desktop Grid Layout */}
-                            <div className="hidden md:grid grid-cols-5 gap-4 p-4 border-b-2 border-foreground last:border-b-0 hover:bg-muted transition-colors">
-                                <div className="font-mono font-bold">{position.strategy}</div>
-                                <div className="font-mono">{position.balance}</div>
-                                <div className="font-mono">{position.value}</div>
-                                <div className="font-mono">{position.pnl}</div>
-                                <div
-                                    className={`font-mono flex items-center gap-2 ${position.isPositive ? "text-accent" : "text-destructive"
-                                        }`}
-                                >
-                                    {position.pnlPercent}
-                                    {position.isPositive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Transaction History */}
-            <div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                    <h2 className="text-xl sm:text-2xl font-bold font-mono">TRANSACTION HISTORY</h2>
-                    <button className="flex items-center justify-center gap-2 border-2 border-foreground px-4 sm:px-6 py-3 font-mono text-sm hover:bg-muted transition-colors">
-                        <Download className="w-4 h-4" />
-                        <span className="hidden sm:inline">DOWNLOAD CSV</span>
-                        <span className="sm:hidden">CSV</span>
-                    </button>
-                </div>
-
-                <div className="border-2 border-foreground mb-6">
-                    {/* Desktop Table Header - Hidden on mobile */}
-                    <div className="hidden md:grid grid-cols-4 gap-4 p-4 border-b-2 border-foreground bg-muted font-mono text-sm">
-                        <div>DATE</div>
-                        <div>TYPE</div>
-                        <div>STRATEGY</div>
-                        <div>AMOUNT</div>
-                    </div>
-
-                    {/* Transaction Items */}
-                    {recentTransactions.map((tx, index) => (
-                        <div key={index}>
-                            {/* Mobile Card Layout */}
-                            <div className="md:hidden p-4 border-b-2 border-foreground last:border-b-0 hover:bg-muted transition-colors space-y-3">
-                                <div className="flex items-center justify-between">
-                                    <span className="font-mono text-xs text-muted-foreground">DATE</span>
-                                    <span className="font-mono text-sm">{tx.date}</span>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <span className="font-mono text-xs text-muted-foreground">TYPE</span>
-                                    <span className="font-mono text-sm font-bold bg-foreground text-background px-3 py-1">
-                                        {tx.type}
+                                <div className="flex items-center gap-2 font-mono text-sm">
+                                    <span className={data.dayChange >= 0 ? "text-emerald-600 dark:text-emerald-500" : "text-rose-600 dark:text-rose-500"}>
+                                        {data.dayChange >= 0 ? "+" : ""}{data.dayChange}%
+                                    </span>
+                                    <span className="text-zinc-500 dark:text-zinc-600">
+                                        ({data.dayChange >= 0 ? "+" : ""}{formatCurrency(data.dayChangeValue)}) today
                                     </span>
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <span className="font-mono text-xs text-muted-foreground">STRATEGY</span>
-                                    <span className="font-mono text-sm text-right max-w-[60%] break-words">{tx.strategy}</span>
-                                </div>
-                                <div className="flex items-center justify-between pt-2 border-t border-foreground/20">
-                                    <span className="font-mono text-xs text-muted-foreground">AMOUNT</span>
-                                    <span className="font-mono text-lg font-bold">{tx.amount}</span>
-                                </div>
-                            </div>
-
-                            {/* Desktop Grid Layout */}
-                            <div className="hidden md:grid grid-cols-4 gap-4 p-4 border-b-2 border-foreground last:border-b-0 hover:bg-muted transition-colors">
-                                <div className="font-mono">{tx.date}</div>
-                                <div className="font-mono font-bold">{tx.type}</div>
-                                <div className="font-mono">{tx.strategy}</div>
-                                <div className="font-mono">{tx.amount}</div>
                             </div>
                         </div>
-                    ))}
-                </div>
 
-                <p className="text-sm font-mono text-muted-foreground border-2 border-foreground p-4 bg-muted">
-                    <strong>DOWNLOAD CSV FUNCTIONALITY:</strong> This button will generate and download a CSV file containing
-                    your complete transaction history including timestamps, transaction hashes, gas fees, and net amounts.
-                    Useful for tax reporting and record keeping.
-                </p>
-            </div>
+                        <div className="bg-zinc-100 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-800 p-8 flex flex-col justify-center space-y-4">
+                            <div className="text-sm font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                                <Activity className="w-4 h-4" /> Performance
+                            </div>
+                            <div className="h-2 w-full bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                                <div className="h-full bg-emerald-500 w-[75%]" />
+                            </div>
+                            <div className="flex justify-between text-xs font-mono text-muted-foreground">
+                                <span>YTD Return</span>
+                                <span className="text-zinc-900 dark:text-white font-bold">+12.4%</span>
+                            </div>
+                            <div className="flex justify-between text-xs font-mono text-muted-foreground">
+                                <span>Realized Gains</span>
+                                <span className="text-zinc-900 dark:text-white font-bold">$14,200</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Industrial Asset List */}
+                    <div className="space-y-6">
+                        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/10 pb-4">
+                            <h3 className="text-xl font-bold font-mono flex items-center gap-2 text-zinc-900 dark:text-white">
+                                <PieChart className="w-5 h-5 text-accent" /> HOLDINGS
+                            </h3>
+                            <button className="text-xs font-mono bg-zinc-900 text-white dark:bg-white dark:text-black px-3 py-1 font-bold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors">
+                                EXPORT CSV
+                            </button>
+                        </div>
+
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b border-zinc-200 dark:border-white/10 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                                        <th className="py-4 px-4">Asset</th>
+                                        <th className="py-4 px-4">Type</th>
+                                        <th className="py-4 px-4 text-right">Balance</th>
+                                        <th className="py-4 px-4 text-right">Price</th>
+                                        <th className="py-4 px-4 text-right">Value</th>
+                                        <th className="py-4 px-4 text-right">24h</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="font-mono text-sm">
+                                    {data.assets.map((asset) => (
+                                        <tr key={asset.ticker} className="border-b border-zinc-200 dark:border-white/5 hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors group">
+                                            <td className="py-4 px-4">
+                                                <div className="font-bold text-zinc-900 dark:text-white">{asset.ticker}</div>
+                                                <div className="text-xs text-muted-foreground">{asset.name}</div>
+                                            </td>
+                                            <td className="py-4 px-4">
+                                                <span className="bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-2 py-1 rounded text-[10px] uppercase">
+                                                    {asset.type}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 px-4 text-right text-zinc-700 dark:text-zinc-300">
+                                                {asset.balance.toLocaleString()}
+                                            </td>
+                                            <td className="py-4 px-4 text-right text-zinc-700 dark:text-zinc-300">
+                                                {formatCurrency(asset.price)}
+                                            </td>
+                                            <td className="py-4 px-4 text-right font-bold text-zinc-900 dark:text-white">
+                                                {formatCurrency(asset.value)}
+                                            </td>
+                                            <td className={`py-4 px-4 text-right ${asset.change >= 0 ? "text-emerald-600 dark:text-emerald-500" : "text-rose-600 dark:text-rose-500"}`}>
+                                                {asset.change > 0 && "+"}{asset.change}%
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <div className="text-center text-red-500 font-mono">
+                    System Error: Unable to retrieve localized financial data.
+                </div>
+            )}
         </main>
     )
 }
