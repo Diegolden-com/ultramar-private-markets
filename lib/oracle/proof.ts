@@ -7,15 +7,16 @@ const ORACLE_PRIVATE_KEY = process.env.ORACLE_PRIVATE_KEY || '0x0000000000000000
 
 const account = privateKeyToAccount(ORACLE_PRIVATE_KEY as `0x${string}`);
 
-export async function generateSolvencyProof(companyAddress: string, ratio: number, timestamp: number) {
-    // We sign the tuple (company, ratio, timestamp)
-    // Ratio is multiplied by 100 for 2 decimals precision if sent as uint
+export async function generateSolvencyProof(companyAddress: string, ratio: number, liquidity: number, timestamp: number) {
+    // We sign the tuple (company, solvencyRatio, liquidityRatio, timestamp)
+    // Ratio is multiplied by 100 for 2 decimals precision if sent as uint (but here it's int256)
     const ratioScaled = Math.floor(ratio * 100);
+    const liquidityScaled = Math.floor(liquidity * 100);
 
     const messageHash = keccak256(
         encodePacked(
-            ['address', 'int256', 'uint256'],
-            [companyAddress as `0x${string}`, BigInt(ratioScaled), BigInt(timestamp)]
+            ['address', 'int256', 'uint256', 'uint256'],
+            [companyAddress as `0x${string}`, BigInt(ratioScaled), BigInt(liquidityScaled), BigInt(timestamp)]
         )
     );
 
@@ -29,6 +30,7 @@ export async function generateSolvencyProof(companyAddress: string, ratio: numbe
         data: {
             company: companyAddress,
             ratio: ratioScaled,
+            liquidity: liquidityScaled,
             timestamp
         }
     };

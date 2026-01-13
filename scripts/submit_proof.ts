@@ -44,7 +44,7 @@ async function main() {
     console.log("Metrics:", metrics);
 
     const companyAddress = "0x1234567890123456789012345678901234567890";
-    const proof = await generateSolvencyProof(companyAddress, metrics.solvencyRatio, metrics.timestamp);
+    const proof = await generateSolvencyProof(companyAddress, metrics.solvencyRatio, metrics.liquidityRatio, metrics.timestamp);
     console.log("Generated Proof Signature:", proof.signature);
 
     console.log("Submitting to Blockchain...");
@@ -55,7 +55,7 @@ async function main() {
         args: [
             proof.data.company as `0x${string}`,
             BigInt(proof.data.ratio),
-            BigInt(0), // Liquidity mock
+            BigInt(proof.data.liquidity),
             BigInt(proof.data.timestamp),
             proof.signature
         ]
