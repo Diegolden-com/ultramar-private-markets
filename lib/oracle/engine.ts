@@ -65,16 +65,22 @@ function getAmountFromReport(report: any, targetName: string): number {
     const traverse = (rows: any[]) => {
         for (const row of rows) {
             // Check Summary first as it often holds "Total X"
-            if (row.Summary && row.Summary.ColData && row.Summary.ColData[0] && row.Summary.ColData[0].value.includes(targetName)) {
-                const val = parseFloat(row.Summary.ColData[1].value);
-                if (!isNaN(val)) foundValue = val;
-                return;
+            if (row.Summary && row.Summary.ColData && row.Summary.ColData[0]) {
+                const label = row.Summary.ColData[0].value.toLowerCase();
+                if (label.includes(targetName.toLowerCase())) {
+                    const val = parseFloat(row.Summary.ColData[1].value);
+                    if (!isNaN(val)) foundValue = val;
+                    return;
+                }
             }
             // Check Data Row
-            if (row.ColData && row.ColData[0] && row.ColData[0].value.includes(targetName)) {
-                const val = parseFloat(row.ColData[1].value);
-                if (!isNaN(val)) foundValue = val;
-                return;
+            if (row.ColData && row.ColData[0]) {
+                const label = row.ColData[0].value.toLowerCase();
+                if (label.includes(targetName.toLowerCase())) {
+                    const val = parseFloat(row.ColData[1].value);
+                    if (!isNaN(val)) foundValue = val;
+                    return;
+                }
             }
 
             if (row.Rows && row.Rows.Row) {
