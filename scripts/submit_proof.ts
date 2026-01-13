@@ -1,4 +1,4 @@
-import { createWalletClient, http, createPublicClient, parseAbiItem, defineChain } from 'viem';
+import { createWalletClient, http, createPublicClient, parseAbi, defineChain } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { mainnet, foundry } from 'viem/chains';
 import { getBalanceSheet } from '@/lib/quickbooks/service';
@@ -50,7 +50,7 @@ async function main() {
     console.log("Submitting to Blockchain...");
     const hash = await client.writeContract({
         address: REGISTRY_ADDRESS,
-        abi: parseAbiItem(ABI),
+        abi: parseAbi(ABI),
         functionName: 'publishProvableSolvency',
         args: [
             proof.data.company as `0x${string}`,
