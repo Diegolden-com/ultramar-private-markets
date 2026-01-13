@@ -13,6 +13,8 @@
     "@supabase/supabase-js": "^2.90.1",
     "@swc/helpers": "^0.5.18",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "framer-motion": "^12.26.2",
     "intuit-oauth": "^4.2.2",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
