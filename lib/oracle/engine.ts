@@ -66,8 +66,8 @@ function getAmountFromReport(report: any, targetName: string): number {
         for (const row of rows) {
             // Check Summary first as it often holds "Total X"
             if (row.Summary && row.Summary.ColData && row.Summary.ColData[0]) {
-                const label = row.Summary.ColData[0].value.toLowerCase();
-                if (label.includes(targetName.toLowerCase())) {
+                const label = row.Summary.ColData[0].value.trim().toLowerCase();
+                if (label === targetName.toLowerCase()) {
                     const val = parseFloat(row.Summary.ColData[1].value);
                     if (!isNaN(val)) foundValue = val;
                     return;
@@ -75,8 +75,8 @@ function getAmountFromReport(report: any, targetName: string): number {
             }
             // Check Data Row
             if (row.ColData && row.ColData[0]) {
-                const label = row.ColData[0].value.toLowerCase();
-                if (label.includes(targetName.toLowerCase())) {
+                const label = row.ColData[0].value.trim().toLowerCase();
+                if (label === targetName.toLowerCase()) {
                     const val = parseFloat(row.ColData[1].value);
                     if (!isNaN(val)) foundValue = val;
                     return;
