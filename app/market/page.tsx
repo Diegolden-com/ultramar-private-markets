@@ -2,6 +2,7 @@
 
 import { RouteHeader } from "@/components/route-header"
 import { SwapWidget } from "@/components/trading/swap-widget"
+import { AmmCurve } from "@/components/market/amm-curve"
 import { ArrowLeftRight, TrendingUp, Zap, Lock } from "lucide-react"
 
 export default function MarketPage() {
@@ -27,32 +28,8 @@ export default function MarketPage() {
                     </div>
 
                     {/* Interactive Curve Visual */}
-                    <div className="bg-zinc-900 border-2 border-foreground/20 p-8 aspect-video relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-grid-white/[0.05]" />
-
-                        {/* The Curve Line */}
-                        <svg className="absolute inset-0 w-full h-full text-accent" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <path
-                                d="M 0 100 Q 20 20 100 0"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="0.5"
-                                className="opacity-50"
-                            />
-                            {/* Animated Point */}
-                            <circle cx="20" cy="20" r="1.5" fill="currentColor" className="animate-ping" style={{ animationDuration: '3s' }} />
-                        </svg>
-
-                        <div className="absolute bottom-4 left-4 font-mono text-xs text-muted-foreground">
-                            x * y = k
-                        </div>
-
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10">
-                            <ArrowLeftRight className="w-12 h-12 text-foreground mx-auto mb-2 opacity-50 group-hover:opacity-100 transition-opacity" />
-                            <div className="font-mono text-sm font-bold bg-background/80 backdrop-blur px-3 py-1 border border-white/10">
-                                AUTOMATED MARKET MAKER
-                            </div>
-                        </div>
+                    <div className="bg-zinc-900 border-2 border-foreground/20 aspect-video relative overflow-hidden group">
+                        <AmmCurve />
                     </div>
                 </div>
 
