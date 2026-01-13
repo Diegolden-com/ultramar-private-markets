@@ -1,50 +1,48 @@
 import { NextResponse } from 'next/server';
+import { getBalanceSheet } from '@/lib/quickbooks/service';
+import { calculateFinancials } from '@/lib/oracle/engine';
+import { generateSolvencyProof } from '@/lib/oracle/proof';
 
 export async function GET() {
-    // Simulate network latency for external API calls (Stripe, Plaid, Mercury)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Mock User ID for V1 demo
+    const userId = 'user_123';
 
-    // Mock data ingestion from "Trusted Sources"
-    const now = new Date();
+    try {
+        // 1. Try to fetch real data
+        const balanceSheet = await getBalanceSheet(userId);
+        const metrics = calculateFinancials(balanceSheet);
 
-    // Randomized mock logic for demonstration
-    const baseScore = 85;
-    const variance = Math.floor(Math.random() * 15); // 0-14
-    const finalScore = baseScore + (Math.random() > 0.5 ? variance : -variance);
+        // 2. Generate Proof
+        const companyAddress = "0x1234567890123456789012345678901234567890"; // Mock company address
+        const proof = await generateSolvencyProof(companyAddress, metrics.solvencyRatio, metrics.timestamp);
 
-    const status = finalScore >= 90 ? "OPTIMAL" : finalScore >= 70 ? "HEALTHY" : "RISK";
+        return NextResponse.json({
+            source: 'Live QuickBooks Data',
+            metrics,
+            proof
+        });
 
-    const payload = {
-        score: finalScore,
-        status: status,
-        lastSync: now.toISOString(),
-        sources: [
-            {
-                name: "Stripe",
-                status: "CONNECTED",
-                latency: "120ms",
-                dataPoint: "MRR: $1.2M (Confirmed)"
-            },
-            {
-                name: "Mercury",
-                status: "CONNECTED",
-                latency: "45ms",
-                dataPoint: "Cash Reserve: >18mo Burn"
-            },
-            {
-                name: "QuickBooks",
-                status: "CONNECTED",
-                latency: "210ms",
-                dataPoint: "Audit Trail: Clean"
-            },
-            {
-                name: "Plaid",
-                status: "VERIFIED",
-                latency: "85ms",
-                dataPoint: "Identity: Match"
-            }
-        ]
-    };
+    } catch (e: any) {
+        console.warn("Falling back to mock data:", e.message);
 
-    return NextResponse.json(payload);
+        // Fallback Mock Data Logic
+        const now = new Date();
+        const baseScore = 85;
+        const variance = Math.floor(Math.random() * 15);
+        const finalScore = baseScore + (Math.random() > 0.5 ? variance : -variance);
+        const status = finalScore >= 90 ? "OPTIMAL" : finalScore >= 70 ? "HEALTHY" : "RISK";
+
+        return NextResponse.json({
+            source: 'Mock Data (Not Connected)',
+            score: finalScore,
+            status: status,
+            lastSync: now.toISOString(),
+            sources: [
+                { name: "Stripe", status: "CONNECTED", latency: "120ms", dataPoint: "MRR: $1.2M (Confirmed)" },
+                { name: "Mercury", status: "CONNECTED", latency: "45ms", dataPoint: "Cash Reserve: >18mo Burn" },
+                { name: "QuickBooks", status: "DISCONNECTED", latency: "-", dataPoint: "Connect to enable" },
+                { name: "Plaid", status: "VERIFIED", latency: "85ms", dataPoint: "Identity: Match" }
+            ]
+        });
+    }
 }
