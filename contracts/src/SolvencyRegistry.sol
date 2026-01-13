@@ -16,7 +16,7 @@ contract SolvencyRegistry is AccessControl {
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
 
     struct SolvencyData {
-        uint256 solvencyRatio;    // (Assets - Liabilities) / Liabilities * 100
+        int256 solvencyRatio;     // (Assets - Liabilities) / Liabilities * 100
         uint256 liquidityRatio;   // Current Assets / Current Liabilities * 100
         uint256 timestamp;
         uint256 blockNumber;
@@ -26,7 +26,7 @@ contract SolvencyRegistry is AccessControl {
     mapping(address => SolvencyData) public latestSolvency;
     mapping(address => SolvencyData[]) public solvencyHistory;
 
-    event SolvencyUpdated(address indexed company, uint256 solvencyRatio, uint256 liquidityRatio, uint256 timestamp);
+    event SolvencyUpdated(address indexed company, int256 solvencyRatio, uint256 liquidityRatio, uint256 timestamp);
 
     constructor(address admin) {
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
@@ -41,7 +41,7 @@ contract SolvencyRegistry is AccessControl {
      */
     function publishSolvency(
         address company,
-        uint256 solvencyRatio,
+        int256 solvencyRatio,
         uint256 liquidityRatio,
         uint256 timestamp
     ) external onlyRole(ORACLE_ROLE) {
@@ -50,7 +50,7 @@ contract SolvencyRegistry is AccessControl {
 
     function publishProvableSolvency(
         address company,
-        uint256 solvencyRatio,
+        int256 solvencyRatio,
         uint256 liquidityRatio,
         uint256 timestamp,
         bytes calldata signature
@@ -68,7 +68,7 @@ contract SolvencyRegistry is AccessControl {
 
     function _updateSolvency(
         address company,
-        uint256 solvencyRatio,
+        int256 solvencyRatio,
         uint256 liquidityRatio,
         uint256 timestamp
     ) internal {

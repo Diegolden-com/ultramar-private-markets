@@ -43,7 +43,7 @@ contract SolvencyRegistryTest is Test {
     }
 
     function test_SignatureBasedUpdate() public {
-        uint256 solvency = 300;
+        int256 solvency = 300;
         uint256 liquidity = 400;
         uint256 timestamp = block.timestamp + 100;
 
@@ -62,7 +62,7 @@ contract SolvencyRegistryTest is Test {
     }
 
     function test_RevertInvalidSignature() public {
-         uint256 solvency = 300;
+         int256 solvency = 300;
         uint256 liquidity = 400;
         uint256 timestamp = block.timestamp + 100;
 

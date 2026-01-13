@@ -14,7 +14,7 @@ export async function generateSolvencyProof(companyAddress: string, ratio: numbe
 
     const messageHash = keccak256(
         encodePacked(
-            ['address', 'uint256', 'uint256'],
+            ['address', 'int256', 'uint256'],
             [companyAddress as `0x${string}`, BigInt(ratioScaled), BigInt(timestamp)]
         )
     );
