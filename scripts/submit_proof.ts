@@ -33,7 +33,7 @@ async function main() {
     // Default to Mantle Sepolia (5003) if no CHAIN_ID is provided
     const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 5003;
     const targetChain = chainId === 5003 ? mantleSepolia : foundry;
-    const rpcUrl = process.env.RPC_URL || (targetChain.id === 5003 ? "https://rpc.sepolia.mantle.xyz" : undefined);
+    const rpcUrl = process.env.RPC_URL || (targetChain.id === 5003 ? "https://rpc.sepolia.mantle.xyz" : "http://127.0.0.1:8545");
 
     const account = privateKeyToAccount((process.env.ORACLE_PRIVATE_KEY as `0x${string}`) || '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80');
     const client = createWalletClient({
