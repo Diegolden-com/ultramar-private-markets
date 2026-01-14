@@ -30,7 +30,9 @@ const mantleSepolia = defineChain({
 
 async function main() {
     // 1. Setup Client
-    const targetChain = process.env.CHAIN_ID === '5003' ? mantleSepolia : foundry;
+    // Default to Mantle Sepolia (5003) if no CHAIN_ID is provided
+    const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 5003;
+    const targetChain = chainId === 5003 ? mantleSepolia : foundry;
     const rpcUrl = process.env.RPC_URL || (targetChain.id === 5003 ? "https://rpc.sepolia.mantle.xyz" : undefined);
 
     const account = privateKeyToAccount((process.env.ORACLE_PRIVATE_KEY as `0x${string}`) || '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80');
