@@ -109,9 +109,10 @@ export default function AppDealBoard() {
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredDeals.map((deal) => (
-            <div
+            <Link
+              href={`/equities/${deal.ticker}`}
               key={deal.id}
-              className="group bg-background border-2 border-foreground hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden"
+              className="group bg-background border-2 border-foreground hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden cursor-pointer"
             >
               {/* Image Header */}
               <div className="relative h-64 w-full overflow-hidden border-b-2 border-foreground">
@@ -203,11 +204,11 @@ export default function AppDealBoard() {
                   ))}
                 </div>
 
-                <Link href={`/equities/${deal.ticker}`} className="w-full bg-foreground text-background py-4 font-mono font-bold flex items-center justify-center gap-2 hover:bg-accent hover:text-white border-2 border-transparent transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-y-[2px]">
+                <div className="w-full bg-foreground text-background py-4 font-mono font-bold flex items-center justify-center gap-2 group-hover:bg-accent group-hover:text-white border-2 border-transparent transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] group-hover:shadow-none group-hover:translate-y-[2px]">
                   VIEW DETAILS <ArrowUpRight className="w-4 h-4" />
-                </Link>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
