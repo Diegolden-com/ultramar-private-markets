@@ -1,96 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ultramar Private Equities (MVP)
 
-## Getting Started
+Ultramar is a vertically integrated financial operating system running on the **Mantle Network**, designed to tokenize Real World Assets (RWA) and provide cryptographic proofs of solvency.
 
-First, run the development server:
+## 🚀 MVP Deployment (Mantle Sepolia)
 
+- **SolvencyRegistry Contract**: `0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21`
+- **Explorer Link**: [View on Mantle Explorer](https://explorer.sepolia.mantle.xyz/address/0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21)
+- **Latest Proof Tx**: `0xafebb592f3c70494f003fa8affdd82fc33160bd0f358bb816530ee6e5efd7675`
+
+---
+
+## 📊 Project Status
+
+- **Frontend**: Complete and polished (`/portfolio`, `/oracle`, `/market`).
+- **Backend**: Functional Integration with QuickBooks and Mantle Testnet.
+- **Contracts**: Deployed and verifying proofs on-chain.
+
+## 🎯 System Objectives
+
+1.  **Real-Time Solvency**: Connect to accounting systems (QuickBooks) to generate ZK/cryptographic proofs of solvency.
+2.  **On-Chain Verification**: Publish proofs to the blockchain for transparent, immutable monitoring.
+3.  **Investor Protection**: Ensure equity represents a true residual claim (Assets - Liabilities).
+4.  **Dividend Distribution**: Facilitate automated profit sharing based on validated financial results.
+
+## 🏗 System Architecture
+
+### 1. Corporate Structure
+- **Operating Company**: Local entity (e.g., business in Mexico).
+- **SPV (Special Purpose Vehicle)**: Holding company in investor-friendly jurisdiction (Delaware, Singapore, etc.) owning 100% of the Operating Company.
+
+### 2. Accounting Integration (The Oracle)
+- **Source of Truth**: QuickBooks (accessed via OAuth 2.0).
+- **Process**:
+    - Fetches Balance Sheet (Assets, Liabilities, Equity).
+    - Computes Solvency Ratio (`(Assets - Liabilities) / Liabilities`).
+    - Signs data with a dedicated Oracle Private Key.
+    - **Privacy**: Only the ratios and integrity proofs are published; raw ledger data remains private.
+
+### 3. Smart Contracts (Foundry)
+- **`SolvencyRegistry.sol`**: Stores and verifies Oracle proofs.
+- **`AssetToken.sol`**: Permissioned ERC20 for equity shares.
+- **`SimpleAMM.sol`**: Automated Market Maker for secondary trading (Uniswap V2 style x*y=k).
+
+### 4. Tech Stack
+- **Frontend**: Next.js 14, TailwindCSS, Framer Motion.
+- **Backend**: Next.js API Routes, Intuit OAuth, Viem (EVM interaction).
+- **Chain**: Mantle Sepolia Testnet.
+
+## 🔮 Next Steps & Roadmap
+
+- [ ] **Backend Hardening**: Enhance error handling for the Oracle loop.
+- [ ] **ZK Proof Generation**: Move from trusted signer (Oracle) to full Zero-Knowledge Proofs (Circom/Halo2).
+- [ ] **Portfolio Module**: Connect frontend charts to live subgraphs.
+- [ ] **Secondary Market**: Deploy full Uniswap fork for liquidity.
+- [ ] **Mainnet Launch**: Deploy legal wrapper and contracts to Mantle Mainnet.
+
+---
+
+## 🛠 Usage
+
+### Development Server
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Run Oracle Proof Script
+```bash
+# Deploys a solvency proof to Mantle Sepolia
+bun run scripts/submit_proof.ts
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Onchain Architecture (POC)
-
-The onchain components are designed as a **Proof of Concept** for tokenizing Real World Assets (RWA), enabling permissioned fundraising, and distributing yields on the **Mantle Network**.
-
-> **Note**: These contracts are UNAUDITED and for POC purposes only.
-
-### 1. Smart Contracts
-We use a modular architecture consisting of three core contracts:
-
-- **`AssetToken.sol`**: A permissioned ERC20 token representing shares in a specific Private Equity deal.
-  - **Inheritance**: `ERC20`, `Ownable`, `AccessControl`
-  - **Key Features**:
-    - **Whitelist**: Only verified (KYC'd) addresses can hold tokens.
-    - **Restricted Transfer**: Transfers are blocked unless both sender and receiver are whitelisted.
-    - **Controlled Minting**: Only the `DealManager` or Admin can mint tokens.
-
-- **`DealManager.sol`**: Manages the fundraising lifecycle.
-  - **Key Features**:
-    - `startDeal`: Admin initializes a deal with duration, funding goal, and hardcap.
-    - `contribute`: Whitelisted users deposit Stablecoins (e.g., USDC).
-    - `closeDeal`: Finalizes the round. Funds move to treasury; Asset Tokens are minted to investors.
-    - `refund`: Allows users to withdraw if the deal fails (e.g. soft cap not met).
-
-- **`YieldDistributor.sol`**: Handles profit distribution.
-  - **Key Features**:
-    - `depositYield`: Admin deposits yield (in Stablecoins).
-    - `claim`: Token holders claim their pro-rata share of the yield.
-
-- **`SimpleAMM.sol`**: Automated Market Maker for secondary trading (x * y = k).
-  - **Key Features**:
-    - `addLiquidity`: Initializes the trading pool (requires Admin whitelist).
-    - `swap`: Instant settlement between Asset Tokens and USDC.
-    - **Fee**: 0.3% protocol fee.
-
-### 2. Usage Guide: Secondary Market Trading
-
-To enable trading for a new deal:
-
-1.  **Deploy**: Deploy `AssetToken` and `SimpleAMM` contracts.
-2.  **Whitelist AMM**: 
-    - **CRITICAL**: The Admin MUST call `AssetToken.updateWhitelist(AMM_ADDRESS, true)`. 
-    - Without this, the AMM cannot receive or send tokens, effectively pausing the market.
-3.  **Approve**: Admin calls `USDC.approve(AMM)` and `AssetToken.approve(AMM)`.
-4.  **Add Liquidity**: Admin calls `amm.addLiquidity(amountUSDC, amountAsset)` to set the initial price.
-
-### 3. Tech Stack
-- **Framework**: [Foundry](https://book.getfoundry.sh/)
-- **Network**: Mantle Network (Sepolia Testnet / Mainnet)
-- **Standards**: ERC20, AccessControl (OpenZeppelin)
-
-### 4. Development
-The smart contracts are located in the `contracts/` directory.
-
-**Setup:**
+### Contract Development
 ```bash
 cd contracts
-forge install
+forge build
 forge test
 ```
