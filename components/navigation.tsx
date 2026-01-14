@@ -16,7 +16,7 @@ export function Navigation() {
         ? `${user.wallet.address.slice(0, 6)}...${user.wallet.address.slice(-4)}`
         : 'No Wallet'
 
-    const network = "Arbitrum" // This could be dynamic if Privy/Wagmi exposes chain ID
+    const network = "Mantle Sepolia" // Updated to match provider config
 
     return (
         <nav className="border-b border-border bg-background sticky top-0 z-50">
