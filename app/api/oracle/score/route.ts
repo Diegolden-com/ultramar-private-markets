@@ -14,7 +14,7 @@ export async function GET() {
 
         // 2. Generate Proof
         const companyAddress = "0x1234567890123456789012345678901234567890"; // Mock company address
-        const proof = await generateSolvencyProof(companyAddress, metrics.solvencyRatio, metrics.timestamp);
+        const proof = await generateSolvencyProof(companyAddress, metrics.solvencyRatio, metrics.liquidityRatio, metrics.timestamp);
 
         return NextResponse.json({
             source: 'Live QuickBooks Data',

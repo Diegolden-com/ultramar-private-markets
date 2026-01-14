@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { RouteHeader } from "@/components/route-header"
 import { ShieldCheck, Database, Globe, Scale, Lock, RefreshCw, Server, Activity, Binary, CheckCircle, AlertTriangle } from "lucide-react"
-
 interface OracleResponse {
     source: string
     // Live Data Fields
@@ -144,9 +143,14 @@ export default function OraclePage() {
                                                 <span className="text-zinc-300 truncate max-w-[200px]">{data.proof.signature}</span>
                                             </div>
                                         </div>
-                                        <div className="text-[10px] text-center font-mono text-zinc-600">
-                                            VERIFIED ON REGISTRY: 0x71C...9B2
-                                        </div>
+                                        <a
+                                            href="https://explorer.sepolia.mantle.xyz/address/0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="text-[10px] text-center font-mono text-zinc-600 hover:text-accent underline decoration-dotted underline-offset-2 block mt-2 transition-colors"
+                                        >
+                                            LIVE ON MANTLE SEPOLIA: 0xE97...E21
+                                        </a>
                                     </div>
                                 ) : (
                                     // Fallback for mock data sources list
@@ -182,7 +186,7 @@ export default function OraclePage() {
                 <Card
                     icon={<Globe className="w-6 h-6" />}
                     title="Broadcast"
-                    desc="Signed proofs are published to the Registry contract (0x...)."
+                    desc="Signed proofs are instantly published to the SolvencyRegistry on Mantle Sepolia."
                     step="03"
                 />
             </div>

@@ -29,6 +29,15 @@ export function TechSpecs() {
                         <p className="font-mono text-sm text-muted-foreground leading-relaxed">
                             Ultramar is a vertically integrated financial operating system running on the Mantle Network.
                         </p>
+                        <a
+                            href="https://explorer.sepolia.mantle.xyz/address/0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 mt-4 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-[10px] font-mono font-bold text-emerald-500 hover:bg-emerald-500/20 transition-colors animate-pulse"
+                        >
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            LIVE ON MANTLE SEPOLIA
+                        </a>
                     </div>
                 </div>
 

@@ -12,17 +12,36 @@ const ABI = [
     "function publishProvableSolvency(address company, int256 solvencyRatio, uint256 liquidityRatio, uint256 timestamp, bytes calldata signature) external"
 ];
 
+const mantleSepolia = defineChain({
+    id: 5003,
+    name: 'Mantle Sepolia',
+    network: 'mantle-sepolia',
+    nativeCurrency: {
+        decimals: 18,
+        name: 'Mantle',
+        symbol: 'MNT',
+    },
+    rpcUrls: {
+        default: { http: ['https://rpc.sepolia.mantle.xyz'] },
+        public: { http: ['https://rpc.sepolia.mantle.xyz'] },
+    },
+    testnet: true,
+});
+
 async function main() {
     // 1. Setup Client
+    const targetChain = process.env.CHAIN_ID === '5003' ? mantleSepolia : foundry;
+    const rpcUrl = process.env.RPC_URL || (targetChain.id === 5003 ? "https://rpc.sepolia.mantle.xyz" : undefined);
+
     const account = privateKeyToAccount((process.env.ORACLE_PRIVATE_KEY as `0x${string}`) || '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80');
     const client = createWalletClient({
         account,
-        chain: foundry, // Default to Anvil
-        transport: http()
+        chain: targetChain,
+        transport: http(rpcUrl)
     });
     const publicClient = createPublicClient({
-        chain: foundry,
-        transport: http()
+        chain: targetChain,
+        transport: http(rpcUrl)
     });
 
     // Address of the deployed contract (Fill this in after deployment!)
