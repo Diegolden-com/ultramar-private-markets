@@ -45,3 +45,5 @@ next-env.d.ts
 contracts/cache/
 contracts/out/
 contracts/lib/
+contracts/broadcast/
+script_output*.txt
