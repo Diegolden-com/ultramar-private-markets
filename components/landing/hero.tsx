@@ -19,7 +19,7 @@ export function Hero() {
                 </p>
                 <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
                     <Link
-                        href="/app"
+                        href="/equities"
                         className="group flex h-14 w-full items-center justify-center gap-2 rounded-full border border-foreground/10 bg-foreground/90 px-8 font-mono text-lg font-bold text-background backdrop-blur-sm transition-all hover:bg-foreground hover:scale-105 sm:w-auto"
                     >
                         LAUNCH APP

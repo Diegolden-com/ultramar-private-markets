@@ -37,7 +37,7 @@ export function FeatureGallery() {
                     <h2 className="font-serif text-5xl font-bold tracking-tighter text-foreground sm:text-7xl md:text-8xl lg:text-[10rem] leading-none">
                         Trending Firms
                     </h2>
-                    <Link href="/app" className="group flex items-center gap-2 font-mono text-lg md:text-xl font-bold tracking-tight text-muted-foreground hover:text-foreground transition-colors mb-2 md:mb-4">
+                    <Link href="/equities" className="group flex items-center gap-2 font-mono text-lg md:text-xl font-bold tracking-tight text-muted-foreground hover:text-foreground transition-colors mb-2 md:mb-4">
                         View all <ArrowRight className="inline w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
