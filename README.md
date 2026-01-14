@@ -16,6 +16,44 @@ Ultramar is a vertically integrated financial operating system running on the **
 - **Backend**: Functional Integration with QuickBooks and Mantle Testnet.
 - **Contracts**: Deployed and verifying proofs on-chain.
 
+---
+
+## 📄 One Pager Pitch
+
+### The Problem
+- **Locked Markets**: Retail investors are excluded from high-growth private companies until they go public at multi-billion dollar valuations.
+- **Liquidity Trap**: Early investors and founders are locked into positions for 7-10 years with no easy exit liquidity.
+- **Opaque Data**: Private market financials are often outdated PDF reports, making due diligence slow and expensive.
+
+### The Solution: Ultramar
+**Ultramar** is a next-generation exchange for tokenizing equity in companies with **$10M–$30M revenue**.
+- **Always-On Compliance**: Our AI Oracle connects directly to banking and accounting APIs (QuickBooks, Plaid) to generate real-time solvency scores.
+- **Trustless Verification**: Solvency proofs are cryptographically signed and published to the **Mantle Network**, creating an immutable audit trail.
+- **24/7 Liquidity**: Permissioned AMM pools allow accredited investors to enter and exit positions instantly, 24/7.
+
+### Business Model
+1.  **Listing Fee**: One-time fee for issuers to onboard and tokenize legal structure.
+2.  **Trading Fees**: A % take rate on all secondary market volume (Protocol Fee).
+3.  **Compliance SaaS**: Recurring subscription for issuers to access the "Always-On" financial health dashboard.
+
+### Roadmap
+- **Phase 1 (Current)**: Testnet MVP with functional Oracle & AMM.
+- **Phase 2 (Seed)**: Legal structuring (SPV/ATS), Smart Contract Audits, and first Pilot Issuer ($10M+ Revenue).
+- **Phase 3 (Mainnet)**: Launch on Mantle Mainnet with KYC/KYB gates and initial liquidity.
+
+---
+
+## ⚖️ Compliance Declaration
+
+**Ultramar deals in Tokenized Real World Assets (RWA) which are classified as Securities.**
+
+- **Regulation**: This platform is designed to operate under **Reg D (506c)** in the US and relevant frameworks in other jurisdictions.
+- **Access Control**: All access to the permissioned smart contracts (`AssetToken`, `SimpleAMM`) is gated by a Whitelist.
+- **KYC/AML**: Production deployment requires strict Identity Verification (KYC) via partners (e.g., Persona, outputting via Privy/Civic).
+- **Disclaimer**: The current deployment is on **Mantle Sepolia Testnet** using mock assets (USDC Testnet) and is for **technical demonstration purposes only**. No real equity is being offered or traded at this stage.
+
+---
+
 ## 🎯 System Objectives
 
 1.  **Real-Time Solvency**: Connect to accounting systems (QuickBooks) to generate ZK/cryptographic proofs of solvency.
