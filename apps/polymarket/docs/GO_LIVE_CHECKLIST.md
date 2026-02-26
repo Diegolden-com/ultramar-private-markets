@@ -10,9 +10,10 @@ This checklist is the launch control sheet for running real capital on the Polym
 
 ## Prefill Snapshot (2026-02-26)
 
-- Snapshot commit: `386b430`
+- Original snapshot commit: `386b430`
+- Go-live staging run: `c904b56`..`ba7e140` (stages A-E)
 - Interpretation:
-  - `[x]` implemented in code/docs in this repo.
+  - `[x]` implemented in code/docs in this repo with passing tests.
   - `[ ]` not yet validated in operations/staging/prod, or not done.
 
 ## Launch Policy
@@ -141,3 +142,8 @@ Final decision:
   - `fe457f5` L2 bootstrap + startup health checks
   - `8b21261` order intents/state events + idempotency persistence
   - `59d8b4b` reconciliation worker (user stream + REST fallback)
+  - `c904b56` Stage A: CI + migration checks + startup health migration verification
+  - `7e899b1` Stage B: live preflight guards + key rotation runbook
+  - `953d036` Stage C: intent backlog report + SLA metrics + reconciliation age tracking
+  - `6636f50` Stage D: kill-switch + incident playbook
+  - `ba7e140` Stage E: canary profiles + ramp ladder + profile validation
