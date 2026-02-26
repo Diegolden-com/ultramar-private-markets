@@ -7,10 +7,11 @@ name = "ultramar-polymarket-backend"
 version = "0.1.0"
 description = "Backend services for the Polymarket vs Black-Scholes MVP"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "UNLICENSED" }
 authors = [{ name = "Diegolden" }]
 dependencies = [
+  "py-clob-client==0.34.6",
   "fastapi>=0.115",
   "uvicorn[standard]>=0.27",
   "pydantic>=2.7",

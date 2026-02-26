@@ -2,6 +2,32 @@
 
 MVP backend services for data ingestion, pricing, signals, and execution planning.
 
+## Local setup
+
+Use Python 3.10+ (the pinned `py-clob-client` release does not install on Python 3.9.6).
+
+```bash
+cp .env.example .env
+python3.10 -m venv .venv
+. .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+```
+
+Run backend quality checks:
+
+```bash
+python -m ruff check backend tests
+python -m pytest
+```
+
+From the monorepo root, these wrappers call the same checks:
+
+```bash
+corepack yarn workspace @ultramar/polymarket backend:lint
+corepack yarn workspace @ultramar/polymarket backend:test
+```
+
 ## Polymarket SDK Migration (Phase 1)
 
 The backend now uses an SDK-first market data gateway with legacy HTTP fallback.
@@ -15,6 +41,3 @@ The backend now uses an SDK-first market data gateway with legacy HTTP fallback.
 Current WebSocket default is aligned to the CLOB market channel:
 
 - `POLYMARKET_WS_URL=wss://ws-subscriptions-clob.polymarket.com/ws/market`
-
-Note: the official Python SDK may need environment-specific installation depending on your
-Python/pip setup. If unavailable, `auto` mode transparently uses the legacy client.
