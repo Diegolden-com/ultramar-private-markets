@@ -1,0 +1,11 @@
+flowchart TD
+  PM[Polymarket Orderbooks] --> IN[Ingest & Normalize]
+  DR[Deribit Orderbooks + Index] --> IN
+  IN --> RAW[(Raw Store)]
+  IN --> DB[(Postgres)]
+  DB --> MAP[Mapping Service]
+  MAP --> PR[Pricing: BS + CDF]
+  PR --> SIG[Signal Engine]
+  SIG --> EXE[Execution Plan]
+  SIG --> API[Signals API]
+  EXE --> API

@@ -1,0 +1,56 @@
+name: "Apps CI"
+
+on:
+  pull_request:
+    paths:
+      - "apps/capital/**"
+      - "apps/private-equities/**"
+      - ".github/workflows/apps-ci.yml"
+      - "package.json"
+      - "yarn.lock"
+      - ".yarnrc.yml"
+  push:
+    paths:
+      - "apps/capital/**"
+      - "apps/private-equities/**"
+      - ".github/workflows/apps-ci.yml"
+      - "package.json"
+      - "yarn.lock"
+      - ".yarnrc.yml"
+
+concurrency:
+  group: apps-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app-qa:
+    name: App QA (${{ matrix.workspace }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - workspace: "@ultramar/capital"
+          - workspace: "@ultramar/private-equities"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn workspace ${{ matrix.workspace }} lint
+
+      - name: Build
+        run: yarn workspace ${{ matrix.workspace }} build

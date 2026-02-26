@@ -1,0 +1,27 @@
+# MVP manual mappings for Polymarket markets
+# Fill in market_id + expiry once confirmed in Polymarket UI/API.
+# event_type: above | below | range
+
+- market_id: null
+  market_slug: "bitcoin-above-96k-on-december-26"
+  title: "Will Bitcoin be above $96k on Dec 26, 2025?"
+  underlying: "BTC"
+  quote: "USD"
+  event_type: "above"
+  strike: 96000
+  expiry: "2025-12-26T08:00:00Z"
+  outcome: "Yes"
+  deribit_instrument: "BTC-26DEC25-96000-C"
+  source: "polymarket"
+
+- market_id: null
+  market_slug: "ethereum-above-2900-on-december-26"
+  title: "Will ETH be above $2,900 on Dec 26, 2025?"
+  underlying: "ETH"
+  quote: "USD"
+  event_type: "above"
+  strike: 2900
+  expiry: "2025-12-26T08:00:00Z"
+  outcome: "Yes"
+  deribit_instrument: "ETH-26DEC25-2900-C"
+  source: "polymarket"

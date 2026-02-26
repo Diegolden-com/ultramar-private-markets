@@ -1,0 +1,24 @@
+flowchart LR
+  subgraph External
+    PM[Polymarket CLOB]
+    DR[Deribit API]
+  end
+
+  subgraph MVP_System
+    IN[Ingestion]
+    MAP[Market Mapping]
+    PR[Pricing & Probabilities]
+    SIG[Signal Engine]
+    EXE[Execution (Paper + Hedge Plan)]
+    RSK[Risk & Sizing]
+    API[API]
+  end
+
+  PM --> IN
+  DR --> IN
+  IN --> MAP
+  MAP --> PR
+  PR --> SIG
+  SIG --> RSK
+  RSK --> EXE
+  EXE --> API

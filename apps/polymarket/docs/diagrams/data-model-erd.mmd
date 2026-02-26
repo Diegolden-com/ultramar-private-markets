@@ -1,0 +1,51 @@
+erDiagram
+  MARKETS {
+    int id PK
+    string venue
+    string symbol
+    json meta
+    datetime created_at
+  }
+
+  SIGNALS {
+    int id PK
+    int market_id
+    float implied_prob
+    float theoretical_prob
+    float spread
+    json meta
+    datetime created_at
+  }
+
+  POSITIONS {
+    int id PK
+    int market_id
+    string venue
+    float size
+    float avg_price
+    json meta
+    datetime updated_at
+  }
+
+  ORDERBOOK_SNAPSHOTS {
+    int id PK
+    string venue
+    string market_key
+    json bids
+    json asks
+    datetime received_at
+  }
+
+  TRADES {
+    int id PK
+    string venue
+    string market_key
+    float price
+    float size
+    string side
+    datetime traded_at
+    json meta
+  }
+
+  MARKETS ||--o{ SIGNALS : has
+  MARKETS ||--o{ POSITIONS : has

@@ -1,0 +1,9 @@
+stateDiagram-v2
+  [*] --> Idle
+  Idle --> SignalDetected: spread >= 15%
+  SignalDetected --> RiskCheck
+  RiskCheck --> PlanOrders: within limits
+  RiskCheck --> Idle: rejected
+  PlanOrders --> PaperFill
+  PaperFill --> Hedged
+  Hedged --> Idle

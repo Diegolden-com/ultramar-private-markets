@@ -1,0 +1,11 @@
+flowchart LR
+  subgraph Host
+    API[FastAPI]
+    SCH[Scheduler]
+    DB[(Postgres)]
+    RAW[(Raw Store)]
+  end
+
+  API --> DB
+  SCH --> DB
+  SCH --> RAW

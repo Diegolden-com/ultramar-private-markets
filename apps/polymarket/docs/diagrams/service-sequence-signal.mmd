@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant W as Signal Worker
+  participant PM as Polymarket REST
+  participant DR as Deribit API
+  participant MP as Mapping Service
+  participant DB as Postgres
+
+  W->>MP: load mappings
+  W->>DR: get_index_price (spot)
+  loop per market
+    W->>PM: get orderbook
+    W->>DR: get_order_book (mark_iv)
+    W->>W: implied + theoretical + spread
+    W->>DB: insert signal
+  end

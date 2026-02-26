@@ -1,0 +1,26 @@
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    env: str = "dev"
+    log_level: str = "INFO"
+    database_url: str = "sqlite:///./ultramar.db"
+    polymarket_base_url: str = "https://clob.polymarket.com"
+    polymarket_ws_url: str = "wss://ws-subscribe.polymarket.com"
+    gamma_base_url: str = "https://gamma-api.polymarket.com"
+    deribit_base_url: str = "https://www.deribit.com/api/v2"
+    deribit_ws_url: str = "wss://www.deribit.com/ws/api/v2"
+    raw_store_root: str = "./data/raw"
+    max_capital_usd: float = 100000.0
+    max_position_usd: float = 10000.0
+    max_portfolio_usd: float = 100000.0
+    daily_loss_limit_usd: float = 15000.0
+    min_trade_usd: float = 10.0
+    kelly_fraction: float = 0.25
+    delta_band_fraction: float = 0.20
+    min_hedge_notional_usd: float = 10.0
+
+
+settings = Settings()

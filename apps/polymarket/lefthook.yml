@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    frontend-lint:
+      glob: "**/*.{js,jsx,ts,tsx,mjs,cjs}"
+      run: npx eslint {staged_files}
+    backend-ruff:
+      glob: "backend/**/*.py"
+      run: cd backend && if [ -x .venv/bin/python ]; then .venv/bin/python -m ruff check backend tests; else python3 -m ruff check backend tests; fi
+
+pre-push:
+  commands:
+    frontend-qa:
+      run: yarn qa:frontend
+    backend-qa:
+      run: yarn qa:backend
