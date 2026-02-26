@@ -5,10 +5,16 @@ on:
     paths:
       - "apps/polymarket/**"
       - ".github/workflows/polymarket-ci.yml"
+      - "package.json"
+      - "yarn.lock"
+      - ".yarnrc.yml"
   push:
     paths:
       - "apps/polymarket/**"
       - ".github/workflows/polymarket-ci.yml"
+      - "package.json"
+      - "yarn.lock"
+      - ".yarnrc.yml"
 
 concurrency:
   group: polymarket-ci-${{ github.ref }}
