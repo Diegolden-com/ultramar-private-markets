@@ -89,3 +89,23 @@ Execution now persists durable order records:
 
 Idempotency uses a deterministic key over signal + market + side + price + size, with a
 unique DB constraint to prevent duplicate placements.
+
+### Reconciliation Worker (User Stream + REST Fallback)
+
+`backend/workers/reconcile.py` closes the loop for `prepared`/`pending` order intents.
+
+Flow:
+
+- Consume Polymarket user-channel events (`/ws/user`) when enabled
+- Apply matched order status transitions to `order_intents` + `order_state_events`
+- Fallback to `get_order` REST checks for unresolved pending intents
+- In `live_shadow`, auto-finalize stale `prepared` intents as `shadow_finalized`
+
+Settings:
+
+- `POLYMARKET_RECONCILE_ENABLED=true`
+- `POLYMARKET_RECONCILE_MAX_INTENTS=200`
+- `POLYMARKET_RECONCILE_USER_STREAM_ENABLED=true`
+- `POLYMARKET_RECONCILE_STREAM_TIMEOUT_SECONDS=5`
+- `POLYMARKET_RECONCILE_REST_FALLBACK_ENABLED=true`
+- `POLYMARKET_RECONCILE_SHADOW_FINALIZE_SECONDS=30`

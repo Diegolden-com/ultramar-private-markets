@@ -203,6 +203,23 @@ class _PolymarketSDKClient:
             result["api_key_count"] = _count_api_keys(api_keys_payload)
         return result
 
+    def get_order(self, order_id: str) -> dict[str, Any]:
+        client = self._require_client()
+        self._ensure_l2_creds(client)
+        return _to_serializable(client.get_order(order_id))
+
+    def get_user_channel_auth(self) -> dict[str, str]:
+        client = self._require_client()
+        self._ensure_l2_creds(client)
+        creds = getattr(client, "creds", None)
+        if creds is None:
+            raise RuntimeError("polymarket api credentials unavailable")
+        return {
+            "apiKey": creds.api_key,
+            "secret": creds.api_secret,
+            "passphrase": creds.api_passphrase,
+        }
+
 
 class PolymarketSDKTradingGateway:
     venue = "polymarket"
@@ -303,3 +320,9 @@ class PolymarketSDKTradingGateway:
 
     def startup_healthcheck(self, verify_l2_access: bool = True) -> dict[str, Any]:
         return self.sdk_client.startup_healthcheck(verify_l2_access=verify_l2_access)
+
+    def get_order(self, order_id: str) -> dict[str, Any]:
+        return self.sdk_client.get_order(order_id)
+
+    def get_user_channel_auth(self) -> dict[str, str]:
+        return self.sdk_client.get_user_channel_auth()

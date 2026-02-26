@@ -5,6 +5,7 @@ import time
 
 from .executor import run_once as run_execute_once
 from .ingest import run_polymarket_mapped
+from .reconcile import run_once as run_reconcile_once
 from .signals import run_once as run_signals_once
 
 logger = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ def run_loop(interval_seconds: int = 60) -> None:
             run_polymarket_mapped()
             run_signals_once()
             run_execute_once()
+            run_reconcile_once()
         except Exception:
             logger.exception("scheduler loop error")
         elapsed = time.time() - started

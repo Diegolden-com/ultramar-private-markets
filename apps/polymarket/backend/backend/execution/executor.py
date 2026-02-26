@@ -160,7 +160,7 @@ def execute_signal(
     status = meta.get("status")
     if status in {"executed", "blocked"}:
         return ExecutionResult(False, "already_processed")
-    if status == "submitted" and meta.get("execution_gateway_status") in {"prepared", "pending"}:
+    if status == "submitted" and meta.get("execution_gateway_status"):
         return ExecutionResult(False, "awaiting_reconciliation")
 
     implied = signal.implied_prob

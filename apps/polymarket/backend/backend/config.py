@@ -23,6 +23,13 @@ class Settings(BaseSettings):
     polymarket_startup_healthcheck_enabled: bool = True
     polymarket_startup_healthcheck_fail_fast: bool = False
     polymarket_startup_healthcheck_verify_l2_access: bool = True
+    polymarket_reconcile_enabled: bool = True
+    polymarket_reconcile_max_intents: int = 200
+    polymarket_reconcile_user_stream_enabled: bool = True
+    polymarket_reconcile_stream_timeout_seconds: float = 5.0
+    polymarket_reconcile_rest_fallback_enabled: bool = True
+    polymarket_reconcile_shadow_finalize_seconds: float = 30.0
+    polymarket_user_ws_url: str = "wss://ws-subscriptions-clob.polymarket.com/ws/user"
     polymarket_timeout_seconds: float = 10.0
     polymarket_market_data_mode: str = "auto"
     polymarket_dual_run_compare: bool = True
