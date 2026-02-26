@@ -7,7 +7,7 @@ from ..db.session import SessionLocal
 from ..ingest.deribit_client import DeribitClient
 from ..ingest.gamma_client import GammaClient
 from ..ingest.normalize import normalize_deribit_orderbook, normalize_polymarket_orderbook
-from ..ingest.polymarket_client import PolymarketClient
+from ..ingest.polymarket_gateway import PolymarketMarketDataGateway
 from ..ingest.raw_store import RawStore
 from ..ingest.writers import write_orderbook_snapshot
 from ..mapping.service import MappingService
@@ -15,9 +15,19 @@ from ..mapping.service import MappingService
 logger = logging.getLogger(__name__)
 
 
+def _polymarket_gateway() -> PolymarketMarketDataGateway:
+    return PolymarketMarketDataGateway(
+        base_url=settings.polymarket_base_url,
+        api_key=settings.polymarket_api_key,
+        timeout=settings.polymarket_timeout_seconds,
+        mode=settings.polymarket_market_data_mode,
+        dual_run_compare=settings.polymarket_dual_run_compare,
+        fallback_to_legacy=settings.polymarket_sdk_fallback_to_legacy,
+    )
+
+
 def run_polymarket_once(token_id: str) -> None:
-    client = PolymarketClient(settings.polymarket_base_url)
-    raw = client.get_orderbook_by_token(token_id)
+    raw = _polymarket_gateway().get_orderbook_by_token(token_id)
     RawStore(settings.raw_store_root).write("polymarket", raw)
     normalized = normalize_polymarket_orderbook(raw)
     with SessionLocal() as db:
@@ -35,6 +45,7 @@ def run_deribit_once(instrument_name: str) -> None:
     logger.info("deribit orderbook stored", extra={"instrument": instrument_name})
 
 def run_polymarket_mapped() -> None:
+    gateway = _polymarket_gateway()
     mapping = MappingService().load()
     if not mapping:
         logger.warning("no polymarket mappings found")
@@ -45,7 +56,12 @@ def run_polymarket_mapped() -> None:
         if not token_id:
             logger.warning("no token id resolved", extra={"market_slug": entry.market_slug})
             continue
-        run_polymarket_once(token_id)
+        raw = gateway.get_orderbook_by_token(token_id)
+        RawStore(settings.raw_store_root).write("polymarket", raw)
+        normalized = normalize_polymarket_orderbook(raw)
+        with SessionLocal() as db:
+            write_orderbook_snapshot(db, normalized)
+        logger.info("polymarket orderbook stored", extra={"token_id": token_id})
 
 
 if __name__ == "__main__":

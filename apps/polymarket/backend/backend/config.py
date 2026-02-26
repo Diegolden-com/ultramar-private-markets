@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -8,7 +12,12 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     database_url: str = "sqlite:///./ultramar.db"
     polymarket_base_url: str = "https://clob.polymarket.com"
-    polymarket_ws_url: str = "wss://ws-subscribe.polymarket.com"
+    polymarket_api_key: Optional[str] = None
+    polymarket_timeout_seconds: float = 10.0
+    polymarket_market_data_mode: str = "auto"
+    polymarket_dual_run_compare: bool = True
+    polymarket_sdk_fallback_to_legacy: bool = True
+    polymarket_ws_url: str = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
     gamma_base_url: str = "https://gamma-api.polymarket.com"
     deribit_base_url: str = "https://www.deribit.com/api/v2"
     deribit_ws_url: str = "wss://www.deribit.com/ws/api/v2"

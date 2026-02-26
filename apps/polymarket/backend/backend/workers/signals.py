@@ -9,7 +9,7 @@ from ..db.session import SessionLocal
 from ..ingest.deribit_client import DeribitClient
 from ..ingest.gamma_client import GammaClient
 from ..ingest.normalize import normalize_polymarket_orderbook
-from ..ingest.polymarket_client import PolymarketClient
+from ..ingest.polymarket_gateway import PolymarketMarketDataGateway
 from ..mapping.service import MappingService
 from ..pricing.iv_surface import parse_mark_iv
 from ..pricing.probabilities import (
@@ -59,7 +59,14 @@ def _fetch_sigma(client: DeribitClient, instrument_name: str | None) -> float | 
 
 
 def run_once(r: float = 0.05) -> None:
-    client = PolymarketClient(settings.polymarket_base_url)
+    polymarket = PolymarketMarketDataGateway(
+        base_url=settings.polymarket_base_url,
+        api_key=settings.polymarket_api_key,
+        timeout=settings.polymarket_timeout_seconds,
+        mode=settings.polymarket_market_data_mode,
+        dual_run_compare=settings.polymarket_dual_run_compare,
+        fallback_to_legacy=settings.polymarket_sdk_fallback_to_legacy,
+    )
     deribit = DeribitClient(settings.deribit_base_url)
     gamma = GammaClient(settings.gamma_base_url)
     spot_prices = _fetch_spot_prices(deribit)
@@ -76,7 +83,7 @@ def run_once(r: float = 0.05) -> None:
             token_id = MappingService.resolve_clob_token_id(entry, gamma)
             if not token_id:
                 continue
-            raw = client.get_orderbook_by_token(token_id)
+            raw = polymarket.get_orderbook_by_token(token_id)
             normalized = normalize_polymarket_orderbook(raw)
             bids = normalized.get("bids", [])
             asks = normalized.get("asks", [])
