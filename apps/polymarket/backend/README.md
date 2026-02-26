@@ -47,6 +47,10 @@ endpoint reports `degraded` and the executor logs a warning (or fails fast when
 
 CI also runs `alembic check` to catch model/migration drift before merge.
 
+For local container orchestration, `apps/polymarket/docker-compose.yml` now defines:
+- `backend` (FastAPI API server)
+- `scheduler` (ingest + signals + executor + reconciliation loop)
+
 ## Polymarket SDK Migration (Phase 1)
 
 The backend now uses an SDK-first market data gateway with legacy HTTP fallback.
@@ -155,6 +159,7 @@ Settings:
 
 - `POLYMARKET_KILL_SWITCH_MAX_BACKLOG=50`
 - `POLYMARKET_KILL_SWITCH_MAX_AGE_SECONDS=600`
+- `DAILY_LOSS_LIMIT_USD=...` (enforced from intraday trade history in kill-switch checks)
 
 ### Canary and Ramp Ladder
 
@@ -167,3 +172,4 @@ python -m backend.execution.canary
 Profiles: `canary` (500 USD) -> `ramp_2x` (1000) -> `ramp_5x` (2500) -> `ramp_10x` (5000).
 Each profile defines caps, hold period, and objective promotion/rollback criteria.
 Use `validate_settings_against_profile()` to verify runtime config stays within bounds.
+Set `POLYMARKET_CANARY_PROFILE=canary` (or another ladder step) to enforce profile caps at runtime.

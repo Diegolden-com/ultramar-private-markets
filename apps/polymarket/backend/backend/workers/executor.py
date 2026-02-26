@@ -4,6 +4,7 @@ import logging
 
 from ..config import settings
 from ..db.session import SessionLocal
+from ..execution.canary import assert_settings_profile_limits
 from ..execution.executor import execute_signals_once
 from ..execution.factory import build_trading_gateway_from_settings
 from ..execution.kill_switch import check_kill_switch
@@ -15,6 +16,9 @@ _STARTUP_HEALTH_OK = False
 
 def run_once(limit: int = 50) -> None:
     global _STARTUP_HEALTH_OK
+    if settings.polymarket_execution_mode != "paper":
+        assert_settings_profile_limits()
+
     gateway = build_trading_gateway_from_settings()
 
     if settings.polymarket_startup_healthcheck_enabled and not _STARTUP_HEALTH_OK:
@@ -36,6 +40,7 @@ def run_once(limit: int = 50) -> None:
                 db,
                 max_backlog=settings.polymarket_kill_switch_max_backlog,
                 max_age_seconds=settings.polymarket_kill_switch_max_age_seconds,
+                daily_loss_limit_usd=settings.daily_loss_limit_usd,
             )
         if ks["triggered"]:
             logger.critical(

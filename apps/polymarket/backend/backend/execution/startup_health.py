@@ -8,6 +8,7 @@ from sqlalchemy import text
 
 from ..config import settings
 from ..db.session import SessionLocal
+from .canary import validate_settings_against_profile
 from .factory import build_trading_gateway_from_settings
 from .trading_gateway import TradingGateway
 
@@ -118,6 +119,55 @@ def _check_execution_gateway(
     }
 
 
+def _check_canary_profile(mode: str) -> dict[str, Any]:
+    profile = settings.polymarket_canary_profile
+    if mode == "paper":
+        return {
+            "name": "canary_profile",
+            "ok": True,
+            "status": "skipped",
+            "detail": "paper mode does not enforce canary profile limits",
+        }
+    if not profile:
+        return {
+            "name": "canary_profile",
+            "ok": True,
+            "status": "skipped",
+            "detail": "no POLYMARKET_CANARY_PROFILE configured",
+        }
+
+    result = validate_settings_against_profile(
+        profile,
+        max_capital_usd=settings.max_capital_usd,
+        max_position_usd=settings.max_position_usd,
+        max_portfolio_usd=settings.max_portfolio_usd,
+        daily_loss_limit_usd=settings.daily_loss_limit_usd,
+        min_trade_usd=settings.min_trade_usd,
+    )
+    if result.get("errors"):
+        return {
+            "name": "canary_profile",
+            "ok": False,
+            "status": "error",
+            "error": "; ".join(result["errors"]),
+        }
+    if result.get("ok", False):
+        return {
+            "name": "canary_profile",
+            "ok": True,
+            "status": "ok",
+            "detail": f"runtime limits comply with profile '{profile}'",
+        }
+    violations = result.get("violations", [])
+    return {
+        "name": "canary_profile",
+        "ok": False,
+        "status": "error",
+        "error": f"profile '{profile}' violations: {', '.join(violations)}",
+        "violations": violations,
+    }
+
+
 def run_startup_health_checks(
     mode: str | None = None,
     gateway: TradingGateway | None = None,
@@ -126,6 +176,7 @@ def run_startup_health_checks(
     checks = [
         _check_database(),
         _check_migration_head(),
+        _check_canary_profile(selected_mode),
         _check_execution_gateway(selected_mode, gateway=gateway),
     ]
     report = {
@@ -142,4 +193,3 @@ def run_startup_health_checks(
 
 def get_last_startup_health_report() -> dict[str, Any] | None:
     return _LAST_STARTUP_HEALTH_REPORT
-

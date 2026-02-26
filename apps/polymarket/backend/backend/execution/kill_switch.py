@@ -17,10 +17,22 @@ from typing import Any
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from ..db.models import OrderIntent
+from ..analytics.pnl import simple_pnl
+from ..db.models import OrderIntent, Trade
 from .reconciliation import ACTIVE_STATUSES
 
 logger = logging.getLogger(__name__)
+
+
+def _compute_daily_pnl(db: Session, now: datetime) -> float:
+    start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    trades = (
+        db.query(Trade.side, Trade.price, Trade.size)
+        .filter(Trade.traded_at >= start_of_day)
+        .all()
+    )
+    normalized = [{"side": side, "price": price, "size": size} for side, price, size in trades]
+    return simple_pnl(normalized)
 
 
 def check_kill_switch(
@@ -56,10 +68,13 @@ def check_kill_switch(
     if oldest_age > max_age_seconds:
         triggers.append(f"backlog_age:{oldest_age:.0f}s>{max_age_seconds:.0f}s")
 
-    # 3. Daily loss limit (if provided)
-    if daily_loss_limit_usd is not None and daily_pnl is not None:
-        if daily_pnl <= -daily_loss_limit_usd:
-            triggers.append(f"daily_loss:{daily_pnl:.2f}<=-{daily_loss_limit_usd:.2f}")
+    # 3. Daily loss limit
+    resolved_daily_pnl = daily_pnl
+    if daily_loss_limit_usd is not None and resolved_daily_pnl is None:
+        resolved_daily_pnl = _compute_daily_pnl(db, now)
+    if daily_loss_limit_usd is not None and resolved_daily_pnl is not None:
+        if resolved_daily_pnl <= -daily_loss_limit_usd:
+            triggers.append(f"daily_loss:{resolved_daily_pnl:.2f}<=-{daily_loss_limit_usd:.2f}")
 
     result = {
         "timestamp": now.isoformat(),
@@ -67,6 +82,8 @@ def check_kill_switch(
         "triggers": triggers,
         "active_backlog": active_count,
         "oldest_age_seconds": round(oldest_age, 1),
+        "daily_pnl": round(resolved_daily_pnl, 2) if resolved_daily_pnl is not None else None,
+        "daily_loss_limit_usd": daily_loss_limit_usd,
     }
     if triggers:
         logger.critical("KILL SWITCH TRIGGERED", extra=result)
@@ -82,6 +99,7 @@ def main() -> None:
             db,
             max_backlog=settings.polymarket_kill_switch_max_backlog,
             max_age_seconds=settings.polymarket_kill_switch_max_age_seconds,
+            daily_loss_limit_usd=settings.daily_loss_limit_usd,
         )
     json.dump(result, sys.stdout, indent=2)
     sys.stdout.write("\n")

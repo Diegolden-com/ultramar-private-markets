@@ -120,3 +120,19 @@ def test_migration_head_no_table(monkeypatch, db_session):
     monkeypatch.setattr(startup_health, "SessionLocal", lambda: db_session)
     result = startup_health._check_migration_head()
     assert result["ok"] is False
+
+
+def test_startup_health_fails_when_canary_profile_violated(patch_database_check, monkeypatch):
+    monkeypatch.setattr(startup_health.settings, "polymarket_canary_profile", "canary")
+    monkeypatch.setattr(startup_health.settings, "max_capital_usd", 1000.0)
+    monkeypatch.setattr(startup_health.settings, "max_position_usd", 200.0)
+    monkeypatch.setattr(startup_health.settings, "max_portfolio_usd", 1000.0)
+    monkeypatch.setattr(startup_health.settings, "daily_loss_limit_usd", 100.0)
+    monkeypatch.setattr(startup_health.settings, "min_trade_usd", 10.0)
+    gateway = StubGateway()
+
+    report = startup_health.run_startup_health_checks(mode="live", gateway=gateway)
+
+    assert report["ok"] is False
+    canary_check = next(check for check in report["checks"] if check["name"] == "canary_profile")
+    assert canary_check["status"] == "error"

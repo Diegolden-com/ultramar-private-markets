@@ -82,7 +82,10 @@ jobs:
         run: python -m ruff check backend tests
 
       - name: Migration check
-        run: python -m alembic check
+        run: |
+          rm -f ci_check.db
+          python -m alembic upgrade head
+          python -m alembic check
         env:
           DATABASE_URL: "sqlite:///./ci_check.db"
 

@@ -1,6 +1,12 @@
 from __future__ import annotations
 
-from backend.execution.canary import RAMP_LADDER, validate_settings_against_profile
+import pytest
+
+from backend.execution.canary import (
+    RAMP_LADDER,
+    assert_profile_limits,
+    validate_settings_against_profile,
+)
 
 
 def test_ramp_ladder_has_four_profiles():
@@ -29,7 +35,9 @@ def test_validate_within_profile():
         "canary",
         max_capital_usd=400.0,
         max_position_usd=80.0,
+        max_portfolio_usd=400.0,
         daily_loss_limit_usd=40.0,
+        min_trade_usd=5.0,
     )
     assert result["ok"] is True
     assert result["violations"] == []
@@ -40,11 +48,26 @@ def test_validate_exceeds_profile():
         "canary",
         max_capital_usd=1000.0,
         max_position_usd=80.0,
+        max_portfolio_usd=400.0,
         daily_loss_limit_usd=40.0,
+        min_trade_usd=5.0,
     )
     assert result["ok"] is False
     assert len(result["violations"]) == 1
     assert "max_capital_usd" in result["violations"][0]
+
+
+def test_validate_min_trade_floor_violation():
+    result = validate_settings_against_profile(
+        "canary",
+        max_capital_usd=400.0,
+        max_position_usd=80.0,
+        max_portfolio_usd=400.0,
+        daily_loss_limit_usd=40.0,
+        min_trade_usd=1.0,
+    )
+    assert result["ok"] is False
+    assert any("min_trade_usd" in item for item in result["violations"])
 
 
 def test_validate_unknown_profile():
@@ -55,3 +78,15 @@ def test_validate_unknown_profile():
         daily_loss_limit_usd=10.0,
     )
     assert "errors" in result
+
+
+def test_assert_profile_limits_raises_when_invalid():
+    with pytest.raises(ValueError, match="violate canary profile"):
+        assert_profile_limits(
+            "canary",
+            max_capital_usd=700.0,
+            max_position_usd=80.0,
+            max_portfolio_usd=400.0,
+            daily_loss_limit_usd=40.0,
+            min_trade_usd=5.0,
+        )

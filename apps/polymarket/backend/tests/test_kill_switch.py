@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 
-from backend.db.models import OrderIntent
+from backend.db.models import OrderIntent, Trade
 from backend.execution.kill_switch import check_kill_switch
 
 
@@ -75,6 +75,33 @@ def test_kill_switch_daily_loss_trigger(db_session):
     )
     assert result["triggered"] is True
     assert any("daily_loss" in t for t in result["triggers"])
+
+
+def test_kill_switch_daily_loss_trigger_from_trade_history(db_session):
+    now = datetime.utcnow()
+    db_session.add(
+        Trade(
+            venue="polymarket",
+            market_key="btc",
+            price=1.0,
+            size=1500.0,
+            side="buy",
+            traded_at=now - timedelta(minutes=5),
+        )
+    )
+    db_session.flush()
+
+    result = check_kill_switch(
+        db_session,
+        max_backlog=50,
+        max_age_seconds=600,
+        daily_loss_limit_usd=1000.0,
+        daily_pnl=None,
+        now=now,
+    )
+    assert result["triggered"] is True
+    assert any("daily_loss" in t for t in result["triggers"])
+    assert result["daily_pnl"] == -1500.0
 
 
 def test_kill_switch_no_trigger_within_limits(db_session):

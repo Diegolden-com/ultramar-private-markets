@@ -166,9 +166,9 @@ def _apply_intent_status(
     payload: dict[str, Any],
     error: str | None = None,
     external_order_id: str | None = None,
-) -> None:
+) -> bool:
     if status == intent.status and not error:
-        return
+        return False
 
     append_order_state_event(
         db,
@@ -187,6 +187,7 @@ def _apply_intent_status(
         error=error,
         payload=payload,
     )
+    return True
 
 
 def _collect_stream_events(
@@ -284,7 +285,7 @@ def reconcile_open_order_intents(
             intent = intents_by_order_id.get(order_id)
             if intent is None:
                 continue
-            _apply_intent_status(
+            changed = _apply_intent_status(
                 db,
                 intent,
                 status=mapped_status,
@@ -292,8 +293,9 @@ def reconcile_open_order_intents(
                 payload={"event": event},
                 external_order_id=order_id,
             )
-            applied += 1
-            reconciled += 1
+            if changed:
+                applied += 1
+                reconciled += 1
 
     get_order = getattr(gateway, "get_order", None)
     if rest_fallback_enabled and callable(get_order):
@@ -306,7 +308,7 @@ def reconcile_open_order_intents(
             try:
                 response = get_order(intent.external_order_id)
             except Exception as exc:
-                _apply_intent_status(
+                changed = _apply_intent_status(
                     db,
                     intent,
                     status=intent.status,
@@ -314,12 +316,14 @@ def reconcile_open_order_intents(
                     error=str(exc),
                     payload={"order_id": intent.external_order_id},
                 )
+                if changed:
+                    reconciled += 1
                 continue
 
             status = _extract_rest_status(response)
             if not status:
                 continue
-            _apply_intent_status(
+            changed = _apply_intent_status(
                 db,
                 intent,
                 status=status,
@@ -327,7 +331,8 @@ def reconcile_open_order_intents(
                 payload={"response": response},
                 external_order_id=intent.external_order_id,
             )
-            reconciled += 1
+            if changed:
+                reconciled += 1
 
     if mode == "live_shadow":
         for intent in intents:
@@ -338,14 +343,15 @@ def reconcile_open_order_intents(
             age = (now - intent.updated_at).total_seconds()
             if age < shadow_finalize_seconds:
                 continue
-            _apply_intent_status(
+            changed = _apply_intent_status(
                 db,
                 intent,
                 status="shadow_finalized",
                 reason="shadow_timeout_finalize",
                 payload={"age_seconds": age},
             )
-            reconciled += 1
+            if changed:
+                reconciled += 1
 
     db.commit()
 

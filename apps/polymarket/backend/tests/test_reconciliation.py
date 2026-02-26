@@ -158,3 +158,40 @@ def test_reconcile_shadow_prepared_finalization(db_session):
     updated_signal = db_session.query(Signal).filter(Signal.id == signal.id).one()
     assert refreshed.status == "shadow_finalized"
     assert updated_signal.meta.get("execution_gateway_status") == "shadow_finalized"
+
+
+def test_reconcile_noop_status_does_not_increment_updated_count(db_session):
+    signal = _create_signal(db_session, status="submitted", gateway_status="pending")
+    key = build_order_idempotency_key(
+        signal_id=signal.id,
+        market_key="token-1",
+        side="buy",
+        price=0.45,
+        size=20.0,
+    )
+    intent, _ = get_or_create_order_intent(
+        db_session,
+        signal_id=signal.id,
+        venue="polymarket",
+        market_key="token-1",
+        token_id="token-1",
+        side="buy",
+        price=0.45,
+        size=20.0,
+        idempotency_key=key,
+    )
+    intent.status = "pending"
+    intent.external_order_id = "ord-noop"
+    db_session.add(intent)
+    db_session.commit()
+
+    summary = reconcile_open_order_intents(
+        db=db_session,
+        gateway=StubGateway(
+            orders={"ord-noop": {"order": {"id": "ord-noop", "status": "PENDING"}}}
+        ),
+        mode="live",
+        stream_events=[],
+    )
+    assert summary["updated"] == 0
+    assert summary["events_applied"] == 0

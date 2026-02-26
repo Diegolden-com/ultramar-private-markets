@@ -252,7 +252,13 @@ def execute_signal(
             "notional": notional,
         },
     )
-    if (not created_intent) and order_intent.status in {"prepared", "pending", "filled"}:
+    if (not created_intent) and order_intent.status in {
+        "created",
+        "prepared",
+        "pending",
+        "submitted",
+        "filled",
+    }:
         meta.update(
             {
                 "status": "submitted",
@@ -267,7 +273,33 @@ def execute_signal(
         attributes.flag_modified(signal, "meta")
         db.add(signal)
         db.commit()
-        return ExecutionResult(False, "duplicate_order_intent")
+        return ExecutionResult(False, "awaiting_reconciliation")
+
+    # Persist a submission lock before the gateway call so a crash cannot
+    # replay a second live submission for the same idempotency key.
+    if created_intent and not isinstance(trading_gateway, PaperTradingGateway):
+        lock_acquired_at = datetime.utcnow().isoformat()
+        append_order_state_event(
+            db,
+            order_intent,
+            status="created",
+            reason="submission_lock_acquired",
+            payload={"locked_at": lock_acquired_at},
+        )
+        meta.update(
+            {
+                "status": "submitted",
+                "execution_gateway_status": "created",
+                "execution_order_intent_id": order_intent.id,
+                "execution_idempotency_key": order_intent.idempotency_key,
+                "execution_live_submitted": order_intent.live_submitted,
+                "execution_submission_lock": lock_acquired_at,
+            }
+        )
+        signal.meta = meta
+        attributes.flag_modified(signal, "meta")
+        db.add(signal)
+        db.commit()
 
     placement = trading_gateway.place_limit_order(
         LimitOrderRequest(

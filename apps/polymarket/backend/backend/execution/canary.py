@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import sys
 from dataclasses import asdict, dataclass
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -105,7 +106,9 @@ def validate_settings_against_profile(
     max_capital_usd: float,
     max_position_usd: float,
     daily_loss_limit_usd: float,
-) -> dict[str, list[str]]:
+    max_portfolio_usd: float | None = None,
+    min_trade_usd: float | None = None,
+) -> dict[str, Any]:
     """Check that runtime settings do not exceed the named profile caps."""
     profile = next((p for p in RAMP_LADDER if p.name == profile_name), None)
     if profile is None:
@@ -125,7 +128,54 @@ def validate_settings_against_profile(
             f"daily_loss_limit_usd {daily_loss_limit_usd} exceeds profile cap "
             f"{profile.daily_loss_limit_usd}"
         )
+    if max_portfolio_usd is not None and max_portfolio_usd > profile.max_portfolio_usd:
+        violations.append(
+            f"max_portfolio_usd {max_portfolio_usd} exceeds profile cap {profile.max_portfolio_usd}"
+        )
+    if min_trade_usd is not None and min_trade_usd < profile.min_trade_usd:
+        violations.append(
+            f"min_trade_usd {min_trade_usd} is below profile floor {profile.min_trade_usd}"
+        )
     return {"profile": profile_name, "ok": len(violations) == 0, "violations": violations}
+
+
+def assert_profile_limits(
+    profile_name: str | None,
+    *,
+    max_capital_usd: float,
+    max_position_usd: float,
+    max_portfolio_usd: float,
+    daily_loss_limit_usd: float,
+    min_trade_usd: float,
+) -> None:
+    if not profile_name:
+        return
+    result = validate_settings_against_profile(
+        profile_name,
+        max_capital_usd=max_capital_usd,
+        max_position_usd=max_position_usd,
+        max_portfolio_usd=max_portfolio_usd,
+        daily_loss_limit_usd=daily_loss_limit_usd,
+        min_trade_usd=min_trade_usd,
+    )
+    if result.get("errors"):
+        raise ValueError("; ".join(result["errors"]))
+    if not result.get("ok", False):
+        violations = ", ".join(result.get("violations", []))
+        raise ValueError(f"runtime settings violate canary profile '{profile_name}': {violations}")
+
+
+def assert_settings_profile_limits() -> None:
+    from ..config import settings
+
+    assert_profile_limits(
+        settings.polymarket_canary_profile,
+        max_capital_usd=settings.max_capital_usd,
+        max_position_usd=settings.max_position_usd,
+        max_portfolio_usd=settings.max_portfolio_usd,
+        daily_loss_limit_usd=settings.daily_loss_limit_usd,
+        min_trade_usd=settings.min_trade_usd,
+    )
 
 
 def main() -> None:

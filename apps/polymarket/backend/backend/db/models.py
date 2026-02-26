@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import JSON, Boolean, DateTime, Float, Integer, String
+from sqlalchemy import JSON, Boolean, DateTime, Float, Index, Integer, String, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -71,6 +71,10 @@ class Trade(Base):
 
 class OrderIntent(Base):
     __tablename__ = "order_intents"
+    __table_args__ = (
+        UniqueConstraint("idempotency_key", name="uq_order_intents_idempotency_key"),
+        Index("ix_order_intents_idempotency_key", "idempotency_key", unique=True),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     signal_id: Mapped[int] = mapped_column(Integer, index=True)
@@ -81,7 +85,7 @@ class OrderIntent(Base):
     price: Mapped[float] = mapped_column(Float)
     size: Mapped[float] = mapped_column(Float)
     status: Mapped[str] = mapped_column(String(32), index=True)
-    idempotency_key: Mapped[str] = mapped_column(String(128), unique=True, index=True)
+    idempotency_key: Mapped[str] = mapped_column(String(128))
     external_order_id: Mapped[Optional[str]] = mapped_column(
         String(128), nullable=True, index=True
     )
