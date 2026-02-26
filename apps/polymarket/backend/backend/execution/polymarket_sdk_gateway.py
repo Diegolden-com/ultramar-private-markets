@@ -64,6 +64,17 @@ def _extract_order_id(payload: Any) -> str | None:
     return None
 
 
+def _count_api_keys(payload: Any) -> int | None:
+    if isinstance(payload, list):
+        return len(payload)
+    if isinstance(payload, dict):
+        for key in ("apiKeys", "data", "keys"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return len(value)
+    return None
+
+
 class _PolymarketSDKClient:
     def __init__(self, config: PolymarketSDKGatewayConfig) -> None:
         self.config = config
@@ -156,11 +167,41 @@ class _PolymarketSDKClient:
         if self._has_l2_creds:
             return
 
-        creds = client.create_or_derive_api_creds()
+        creds = None
+        derive_error: Exception | None = None
+        create_error: Exception | None = None
+        try:
+            creds = client.derive_api_key()
+        except Exception as exc:
+            derive_error = exc
+
         if creds is None:
-            raise RuntimeError("failed to derive polymarket api creds")
+            try:
+                creds = client.create_api_key()
+            except Exception as exc:
+                create_error = exc
+
+        if creds is None:
+            raise RuntimeError(
+                "failed to bootstrap polymarket api creds "
+                f"(derive_error={derive_error}, create_error={create_error})"
+            )
         client.set_api_creds(creds)
         self._has_l2_creds = True
+
+    def startup_healthcheck(self, verify_l2_access: bool = True) -> dict[str, Any]:
+        client = self._require_client()
+        server_time = _to_serializable(client.get_server_time())
+        self._ensure_l2_creds(client)
+
+        result: dict[str, Any] = {
+            "server_time": server_time,
+            "l2_ready": self._has_l2_creds,
+        }
+        if verify_l2_access:
+            api_keys_payload = _to_serializable(client.get_api_keys())
+            result["api_key_count"] = _count_api_keys(api_keys_payload)
+        return result
 
 
 class PolymarketSDKTradingGateway:
@@ -260,3 +301,5 @@ class PolymarketSDKTradingGateway:
             payload={"signed_order": signed_payload, "response": response_payload},
         )
 
+    def startup_healthcheck(self, verify_l2_access: bool = True) -> dict[str, Any]:
+        return self.sdk_client.startup_healthcheck(verify_l2_access=verify_l2_access)

@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     polymarket_api_key: Optional[str] = None
     polymarket_api_secret: Optional[str] = None
     polymarket_api_passphrase: Optional[str] = None
+    polymarket_startup_healthcheck_enabled: bool = True
+    polymarket_startup_healthcheck_fail_fast: bool = False
+    polymarket_startup_healthcheck_verify_l2_access: bool = True
     polymarket_timeout_seconds: float = 10.0
     polymarket_market_data_mode: str = "auto"
     polymarket_dual_run_compare: bool = True

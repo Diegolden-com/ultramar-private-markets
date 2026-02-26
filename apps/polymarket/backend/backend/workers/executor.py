@@ -6,12 +6,28 @@ from ..config import settings
 from ..db.session import SessionLocal
 from ..execution.executor import execute_signals_once
 from ..execution.factory import build_trading_gateway_from_settings
+from ..execution.startup_health import run_startup_health_checks
 
 logger = logging.getLogger(__name__)
+_STARTUP_HEALTH_OK = False
 
 
 def run_once(limit: int = 50) -> None:
+    global _STARTUP_HEALTH_OK
     gateway = build_trading_gateway_from_settings()
+
+    if settings.polymarket_startup_healthcheck_enabled and not _STARTUP_HEALTH_OK:
+        report = run_startup_health_checks(
+            mode=settings.polymarket_execution_mode,
+            gateway=gateway,
+        )
+        if report["ok"]:
+            _STARTUP_HEALTH_OK = True
+        elif settings.polymarket_startup_healthcheck_fail_fast:
+            raise RuntimeError("execution startup health checks failed")
+        else:
+            logger.warning("execution startup health checks failed", extra={"report": report})
+
     with SessionLocal() as db:
         executed = execute_signals_once(db, limit=limit, trading_gateway=gateway)
     logger.info(

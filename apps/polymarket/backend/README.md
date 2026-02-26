@@ -64,3 +64,18 @@ For `live_shadow` and `live`, set:
 - `POLYMARKET_PRIVATE_KEY`
 - `POLYMARKET_CHAIN_ID`
 - optional L2 creds: `POLYMARKET_API_KEY`, `POLYMARKET_API_SECRET`, `POLYMARKET_API_PASSPHRASE`
+
+### Startup Health Checks
+
+Startup checks now run for API + execution worker by default:
+
+- Database connectivity (`SELECT 1`)
+- Execution gateway bootstrap
+  - `paper`: skipped
+  - `live_shadow` / `live`: Polymarket SDK L2 bootstrap + optional L2 access verification
+
+Controls:
+
+- `POLYMARKET_STARTUP_HEALTHCHECK_ENABLED=true`
+- `POLYMARKET_STARTUP_HEALTHCHECK_FAIL_FAST=false`
+- `POLYMARKET_STARTUP_HEALTHCHECK_VERIFY_L2_ACCESS=true`
