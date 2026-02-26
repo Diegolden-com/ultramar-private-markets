@@ -79,3 +79,13 @@ Controls:
 - `POLYMARKET_STARTUP_HEALTHCHECK_ENABLED=true`
 - `POLYMARKET_STARTUP_HEALTHCHECK_FAIL_FAST=false`
 - `POLYMARKET_STARTUP_HEALTHCHECK_VERIFY_L2_ACCESS=true`
+
+### Order Intent Persistence
+
+Execution now persists durable order records:
+
+- `order_intents`: one row per idempotent placement intent
+- `order_state_events`: append-only state transitions for each intent
+
+Idempotency uses a deterministic key over signal + market + side + price + size, with a
+unique DB constraint to prevent duplicate placements.

@@ -1,6 +1,9 @@
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import JSON, DateTime, Float, Integer, String
+from datetime import datetime
+from typing import Optional
+
+from sqlalchemy import JSON, Boolean, DateTime, Float, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -64,3 +67,38 @@ class Trade(Base):
     side: Mapped[str] = mapped_column(String(8))
     traded_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     meta: Mapped[dict] = mapped_column(JSON, default=dict)
+
+
+class OrderIntent(Base):
+    __tablename__ = "order_intents"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    signal_id: Mapped[int] = mapped_column(Integer, index=True)
+    venue: Mapped[str] = mapped_column(String(32), index=True)
+    market_key: Mapped[str] = mapped_column(String(128), index=True)
+    token_id: Mapped[Optional[str]] = mapped_column(String(128), nullable=True, index=True)
+    side: Mapped[str] = mapped_column(String(8))
+    price: Mapped[float] = mapped_column(Float)
+    size: Mapped[float] = mapped_column(Float)
+    status: Mapped[str] = mapped_column(String(32), index=True)
+    idempotency_key: Mapped[str] = mapped_column(String(128), unique=True, index=True)
+    external_order_id: Mapped[Optional[str]] = mapped_column(
+        String(128), nullable=True, index=True
+    )
+    live_submitted: Mapped[bool] = mapped_column(Boolean, default=False)
+    request_meta: Mapped[dict] = mapped_column(JSON, default=dict)
+    response_meta: Mapped[dict] = mapped_column(JSON, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class OrderStateEvent(Base):
+    __tablename__ = "order_state_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    order_intent_id: Mapped[int] = mapped_column(Integer, index=True)
+    status: Mapped[str] = mapped_column(String(32), index=True)
+    reason: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    error: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
+    payload: Mapped[dict] = mapped_column(JSON, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

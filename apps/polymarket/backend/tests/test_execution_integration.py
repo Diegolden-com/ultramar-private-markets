@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from backend.db.models import Position, Signal, Trade
+from backend.db.models import OrderIntent, OrderStateEvent, Position, Signal, Trade
 from backend.execution.executor import ExecutionConfig, execute_signal
 from backend.execution.trading_gateway import OrderPlacement
 
@@ -49,9 +49,13 @@ def test_signal_to_position_persistence(db_session):
 
     trade = db_session.query(Trade).one()
     position = db_session.query(Position).one()
+    intent = db_session.query(OrderIntent).one()
     assert trade.market_key == "123"
+    assert trade.meta.get("order_intent_id") == intent.id
     assert position.meta.get("market_key") == "123"
     assert signal.meta.get("status") == "executed"
+    assert signal.meta.get("execution_order_intent_id") == intent.id
+    assert db_session.query(OrderStateEvent).count() >= 2
 
 
 def test_daily_loss_limit_blocks_trade(db_session):
@@ -125,4 +129,47 @@ def test_prepared_gateway_does_not_create_trade(db_session):
     assert result.executed is False
     assert result.reason == "order_prepared"
     assert signal.meta.get("status") == "submitted"
+    assert signal.meta.get("execution_gateway_status") == "prepared"
     assert db_session.query(Trade).count() == 0
+    assert db_session.query(OrderIntent).count() == 1
+    assert db_session.query(OrderStateEvent).count() == 2
+
+
+def test_prepared_signal_is_not_resent(db_session):
+    signal = Signal(
+        market_id=1,
+        implied_prob=0.4,
+        theoretical_prob=0.7,
+        spread=0.3,
+        meta={"market_slug": "btc-above-100k", "token_id": "123", "spot": 100000},
+    )
+    db_session.add(signal)
+    db_session.commit()
+
+    config = ExecutionConfig(
+        bankroll_usd=1000.0,
+        max_position_usd=500.0,
+        max_portfolio_usd=1000.0,
+        daily_loss_limit_usd=500.0,
+        min_trade_usd=10.0,
+        kelly_fraction=0.5,
+        delta_band_fraction=0.2,
+        min_hedge_notional_usd=10.0,
+    )
+
+    first = execute_signal(
+        db_session,
+        signal,
+        config,
+        trading_gateway=PreparedOrderGateway(),
+    )
+    second = execute_signal(
+        db_session,
+        signal,
+        config,
+        trading_gateway=PreparedOrderGateway(),
+    )
+
+    assert first.reason == "order_prepared"
+    assert second.reason == "awaiting_reconciliation"
+    assert db_session.query(OrderIntent).count() == 1

@@ -10,6 +10,11 @@ from ..analytics.pnl import simple_pnl
 from ..config import settings
 from ..db.models import Position, Signal, Trade
 from ..execution.deribit_hedge import hedge_notional
+from ..execution.order_intents import (
+    append_order_state_event,
+    build_order_idempotency_key,
+    get_or_create_order_intent,
+)
 from ..execution.paper_gateway import PaperTradingGateway
 from ..execution.trading_gateway import LimitOrderRequest, TradingGateway
 from ..risk.kelly import fractional_kelly
@@ -155,6 +160,8 @@ def execute_signal(
     status = meta.get("status")
     if status in {"executed", "blocked"}:
         return ExecutionResult(False, "already_processed")
+    if status == "submitted" and meta.get("execution_gateway_status") in {"prepared", "pending"}:
+        return ExecutionResult(False, "awaiting_reconciliation")
 
     implied = signal.implied_prob
     theoretical = signal.theoretical_prob
@@ -182,6 +189,7 @@ def execute_signal(
     size = notional / price_for_size
     market_key = _market_key_for_signal(signal)
     market_slug = meta.get("market_slug")
+    token_id = meta.get("token_id")
 
     positions = db.query(Position).all()
     market_positions = [p for p in positions if _position_matches(p, market_key)]
@@ -218,16 +226,74 @@ def execute_signal(
         logger.info("signal blocked", extra={"signal_id": signal.id, "reasons": risk.reasons})
         return ExecutionResult(False, "risk_blocked")
 
+    idempotency_key = build_order_idempotency_key(
+        signal_id=signal.id,
+        market_key=market_key,
+        side=side,
+        price=implied,
+        size=size,
+    )
+    order_intent, created_intent = get_or_create_order_intent(
+        db,
+        signal_id=signal.id,
+        venue=trading_gateway.venue,
+        market_key=market_key,
+        token_id=token_id,
+        side=side,
+        price=implied,
+        size=size,
+        idempotency_key=idempotency_key,
+        request_meta={
+            "market_slug": market_slug,
+            "signal_id": signal.id,
+            "implied_prob": implied,
+            "theoretical_prob": theoretical,
+            "spread": signal.spread,
+            "notional": notional,
+        },
+    )
+    if (not created_intent) and order_intent.status in {"prepared", "pending", "filled"}:
+        meta.update(
+            {
+                "status": "submitted",
+                "execution_gateway_status": order_intent.status,
+                "execution_order_id": order_intent.external_order_id,
+                "execution_order_intent_id": order_intent.id,
+                "execution_idempotency_key": order_intent.idempotency_key,
+                "execution_live_submitted": order_intent.live_submitted,
+            }
+        )
+        signal.meta = meta
+        attributes.flag_modified(signal, "meta")
+        db.add(signal)
+        db.commit()
+        return ExecutionResult(False, "duplicate_order_intent")
+
     placement = trading_gateway.place_limit_order(
         LimitOrderRequest(
             market_key=market_key,
             market_id=str(signal.market_id),
-            token_id=meta.get("token_id"),
+            token_id=token_id,
             side=side,
             price=implied,
             size=size,
             meta={"signal_id": signal.id, "market_slug": market_slug},
         )
+    )
+    placement_payload = {
+        "order_id": placement.order_id,
+        "live_submitted": placement.live_submitted,
+        "payload": placement.payload or {},
+    }
+    append_order_state_event(
+        db,
+        order_intent,
+        status=placement.status,
+        reason="gateway_placement",
+        error=placement.error,
+        payload=placement_payload,
+        external_order_id=placement.order_id,
+        live_submitted=placement.live_submitted,
     )
     hedge_plan = _plan_hedge(notional, side, meta.get("spot"), config)
 
@@ -237,6 +303,8 @@ def execute_signal(
                 "status": "submitted" if placement.status in {"prepared", "pending"} else "blocked",
                 "execution_gateway_status": placement.status,
                 "execution_order_id": placement.order_id,
+                "execution_order_intent_id": order_intent.id,
+                "execution_idempotency_key": order_intent.idempotency_key,
                 "execution_live_submitted": placement.live_submitted,
                 "execution_payload": placement.payload,
                 "execution_error": placement.error,
@@ -260,6 +328,8 @@ def execute_signal(
         side=placement.side,
         meta={
             "signal_id": signal.id,
+            "order_intent_id": order_intent.id,
+            "idempotency_key": order_intent.idempotency_key,
             "implied_prob": implied,
             "theoretical_prob": theoretical,
             "spread": signal.spread,
@@ -286,6 +356,20 @@ def execute_signal(
     )
     db.flush()
 
+    append_order_state_event(
+        db,
+        order_intent,
+        status="filled",
+        reason="trade_recorded",
+        payload={
+            "trade_id": trade.id,
+            "position_id": position.id,
+            "filled_at": placement.filled_at,
+        },
+        external_order_id=placement.order_id,
+        live_submitted=placement.live_submitted,
+    )
+
     meta.update(
         {
             "status": "executed",
@@ -296,6 +380,8 @@ def execute_signal(
             "trade_id": trade.id,
             "position_id": position.id,
             "execution_order_id": placement.order_id,
+            "execution_order_intent_id": order_intent.id,
+            "execution_idempotency_key": order_intent.idempotency_key,
             "execution_live_submitted": placement.live_submitted,
         }
     )
