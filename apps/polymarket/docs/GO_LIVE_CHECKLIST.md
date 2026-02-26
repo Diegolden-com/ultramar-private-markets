@@ -78,10 +78,10 @@ Gate output:
 
 ## Phase 4: Live Canary (Tiny Capital)
 
-- [ ] Enable `live` with strict caps:
-- [ ] `MAX_CAPITAL_USD` <= canary budget.
-- [ ] `MAX_POSITION_USD` and `MIN_TRADE_USD` tuned for low blast radius.
-- [ ] Canary duration target (minimum 3-7 days) set before start.
+- [x] Canary profile defined: `max_capital=500`, `max_position=100`, `daily_loss=50` (`canary.py`).
+- [x] Profile validation: `validate_settings_against_profile("canary", ...)` enforces caps.
+- [ ] Enable `live` with canary profile caps applied.
+- [ ] Canary duration target: minimum 7 days (`hold_days=7` in profile).
 - [ ] Manual review of every order intent/state event during canary.
 - [ ] Zero unresolved intents older than SLA during canary.
 - [ ] No critical incidents (key leak, uncontrolled order spam, stale position risk).
@@ -91,14 +91,16 @@ Gate output:
 
 ## Phase 5: Capital Ramp Ladder
 
-- [ ] Predefined ladder documented (example: 1x -> 2x -> 5x -> 10x).
-- [ ] Advancement condition is objective (PnL stability, drawdown bounds, reconciliation health).
-- [ ] Rollback condition is objective and immediate.
-- [ ] Each ladder step includes a hold period and post-step review.
-- [ ] Max capital hard cap is version-controlled and requires approval to raise.
+- [x] Predefined ladder documented: canary -> 2x -> 5x -> 10x (`canary.py` RAMP_LADDER).
+- [x] Advancement criteria are objective per step (PnL stability, drawdown bounds, reconciliation health).
+- [x] Rollback criteria are objective and immediate per step.
+- [x] Each step includes a hold period (7-14 days) and post-step review.
+- [x] Max capital hard cap is version-controlled in `canary.py` (requires PR to change).
+- [x] Runtime validation: `validate_settings_against_profile()` catches config exceeding profile caps.
+- [x] CLI: `python -m backend.execution.canary` prints full ramp ladder for audit.
 
 Gate output:
-- [ ] Sign-off: controlled scaling process is active.
+- [ ] Sign-off: controlled scaling process is active (requires canary completion first).
 
 ## Kill Switch Conditions (Immediate Stop)
 

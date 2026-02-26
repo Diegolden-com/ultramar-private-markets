@@ -142,3 +142,28 @@ python -m backend.execution.intent_report
 Outputs JSON with active counts, per-status breakdown, max/avg age, and any
 SLA breaches. Exit code 0 if SLA is healthy, 1 if any intent exceeds the
 threshold.
+
+### Kill Switch
+
+Executor auto-halts when backlog exceeds safety thresholds. Manual check:
+
+```bash
+python -m backend.execution.kill_switch
+```
+
+Settings:
+
+- `POLYMARKET_KILL_SWITCH_MAX_BACKLOG=50`
+- `POLYMARKET_KILL_SWITCH_MAX_AGE_SECONDS=600`
+
+### Canary and Ramp Ladder
+
+Version-controlled capital profiles for staged live rollout:
+
+```bash
+python -m backend.execution.canary
+```
+
+Profiles: `canary` (500 USD) -> `ramp_2x` (1000) -> `ramp_5x` (2500) -> `ramp_10x` (5000).
+Each profile defines caps, hold period, and objective promotion/rollback criteria.
+Use `validate_settings_against_profile()` to verify runtime config stays within bounds.
