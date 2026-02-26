@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from datetime import datetime
 from typing import Any
 
@@ -9,6 +10,10 @@ from ..config import settings
 from ..db.session import SessionLocal
 from .factory import build_trading_gateway_from_settings
 from .trading_gateway import TradingGateway
+
+logger = logging.getLogger(__name__)
+
+EXPECTED_ALEMBIC_HEAD = "0002_order_intents"
 
 _LAST_STARTUP_HEALTH_REPORT: dict[str, Any] | None = None
 
@@ -20,6 +25,44 @@ def _check_database() -> dict[str, Any]:
         return {"name": "database", "ok": True, "status": "ok"}
     except Exception as exc:
         return {"name": "database", "ok": False, "status": "error", "error": str(exc)}
+
+
+def _check_migration_head() -> dict[str, Any]:
+    try:
+        with SessionLocal() as db:
+            result = db.execute(text("SELECT version_num FROM alembic_version"))
+            row = result.fetchone()
+            if row is None:
+                return {
+                    "name": "migration_head",
+                    "ok": False,
+                    "status": "error",
+                    "error": "no alembic version found — migrations have not been applied",
+                }
+            current = row[0]
+            if current != EXPECTED_ALEMBIC_HEAD:
+                return {
+                    "name": "migration_head",
+                    "ok": False,
+                    "status": "error",
+                    "error": f"migration drift: db at {current}, expected {EXPECTED_ALEMBIC_HEAD}",
+                }
+            return {
+                "name": "migration_head",
+                "ok": True,
+                "status": "ok",
+                "detail": f"db at expected head {current}",
+            }
+    except Exception as exc:
+        detail = str(exc)
+        if "alembic_version" in detail.lower() or "no such table" in detail.lower():
+            return {
+                "name": "migration_head",
+                "ok": False,
+                "status": "error",
+                "error": "alembic_version table missing — run 'alembic upgrade head'",
+            }
+        return {"name": "migration_head", "ok": False, "status": "error", "error": detail}
 
 
 def _check_execution_gateway(
@@ -80,7 +123,11 @@ def run_startup_health_checks(
     gateway: TradingGateway | None = None,
 ) -> dict[str, Any]:
     selected_mode = (mode or settings.polymarket_execution_mode or "paper").lower()
-    checks = [_check_database(), _check_execution_gateway(selected_mode, gateway=gateway)]
+    checks = [
+        _check_database(),
+        _check_migration_head(),
+        _check_execution_gateway(selected_mode, gateway=gateway),
+    ]
     report = {
         "checked_at": datetime.utcnow().isoformat(),
         "execution_mode": selected_mode,

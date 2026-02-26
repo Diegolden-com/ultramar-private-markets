@@ -24,6 +24,11 @@ def patch_database_check(monkeypatch):
         "_check_database",
         lambda: {"name": "database", "ok": True, "status": "ok"},
     )
+    monkeypatch.setattr(
+        startup_health,
+        "_check_migration_head",
+        lambda: {"name": "migration_head", "ok": True, "status": "ok"},
+    )
 
 
 def test_startup_health_skips_gateway_in_paper_mode(patch_database_check):
@@ -68,3 +73,50 @@ def test_startup_health_fails_when_gateway_bootstrap_fails(patch_database_check)
     )
     assert gateway_check["status"] == "error"
     assert "startup_healthcheck_failed" in gateway_check["error"]
+
+
+# --- migration head check tests ---
+
+
+def test_migration_head_ok(monkeypatch, db_session):
+    from sqlalchemy import text
+
+    db_session.execute(
+        text("CREATE TABLE IF NOT EXISTS alembic_version (version_num VARCHAR(32) NOT NULL)")
+    )
+    db_session.execute(text("DELETE FROM alembic_version"))
+    db_session.execute(
+        text("INSERT INTO alembic_version (version_num) VALUES (:v)"),
+        {"v": startup_health.EXPECTED_ALEMBIC_HEAD},
+    )
+    db_session.commit()
+
+    monkeypatch.setattr(startup_health, "SessionLocal", lambda: db_session)
+    result = startup_health._check_migration_head()
+    assert result["ok"] is True
+    assert result["status"] == "ok"
+
+
+def test_migration_head_drift(monkeypatch, db_session):
+    from sqlalchemy import text
+
+    db_session.execute(
+        text("CREATE TABLE IF NOT EXISTS alembic_version (version_num VARCHAR(32) NOT NULL)")
+    )
+    db_session.execute(text("DELETE FROM alembic_version"))
+    db_session.execute(
+        text("INSERT INTO alembic_version (version_num) VALUES (:v)"),
+        {"v": "0001_initial"},
+    )
+    db_session.commit()
+
+    monkeypatch.setattr(startup_health, "SessionLocal", lambda: db_session)
+    result = startup_health._check_migration_head()
+    assert result["ok"] is False
+    assert "migration drift" in result["error"]
+
+
+def test_migration_head_no_table(monkeypatch, db_session):
+    monkeypatch.setattr(startup_health, "SessionLocal", lambda: db_session)
+    result = startup_health._check_migration_head()
+    assert result["ok"] is False

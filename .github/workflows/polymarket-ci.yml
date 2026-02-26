@@ -81,6 +81,11 @@ jobs:
       - name: Ruff
         run: python -m ruff check backend tests
 
+      - name: Migration check
+        run: python -m alembic check
+        env:
+          DATABASE_URL: "sqlite:///./ci_check.db"
+
       - name: Pytest
         run: python -m pytest
 

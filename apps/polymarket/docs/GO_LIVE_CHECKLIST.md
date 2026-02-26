@@ -24,8 +24,10 @@ This checklist is the launch control sheet for running real capital on the Polym
 ## Phase 0: Environment and Build Readiness
 
 - [x] Production/staging env vars are complete and documented.
+- [x] Alembic migration check enforced in CI (`alembic check` catches model/migration drift).
+- [x] Startup health checks verify DB is at expected Alembic head (`0002_order_intents`).
+- [x] CI green on `main` for backend lint + tests (`polymarket-ci.yml`: ruff + pytest + alembic check).
 - [ ] Alembic migrations applied in target environments (`alembic upgrade head`).
-- [ ] CI green on `main` for backend lint + tests.
 - [ ] Reconciliation worker is enabled and running in staging.
 - [x] Runtime can execute all worker entrypoints (`ingest`, `signals`, `executor`, `reconcile`) without crashes.
 

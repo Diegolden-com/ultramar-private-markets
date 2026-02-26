@@ -40,6 +40,13 @@ cd /Users/diegolden/Code/Diegolden/project-ultramar/apps/polymarket/backend
 .venv/bin/python -m alembic upgrade head
 ```
 
+Startup health checks automatically verify the database is at the expected
+Alembic head (`0002_order_intents`). If migrations are behind, the health
+endpoint reports `degraded` and the executor logs a warning (or fails fast when
+`POLYMARKET_STARTUP_HEALTHCHECK_FAIL_FAST=true`).
+
+CI also runs `alembic check` to catch model/migration drift before merge.
+
 ## Polymarket SDK Migration (Phase 1)
 
 The backend now uses an SDK-first market data gateway with legacy HTTP fallback.
