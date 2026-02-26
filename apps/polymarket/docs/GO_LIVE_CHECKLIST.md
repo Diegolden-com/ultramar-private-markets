@@ -66,12 +66,15 @@ Gate output:
 
 - [ ] Dashboards exist for PnL, active intents, unresolved intents age, fill rates, worker health.
 - [ ] Alerting exists for: worker crash loops, reconciliation backlog, stale pending orders, drawdown breaches.
-- [ ] Kill-switch tested end-to-end (set mode to `paper` or stop executor path immediately).
-- [ ] Incident runbook exists with severity levels and escalation chain.
+- [x] Kill-switch implemented: executor auto-halts on backlog count/age breach (`kill_switch.py`).
+- [x] Kill-switch CLI: `python -m backend.execution.kill_switch` for manual checks.
+- [x] Kill-switch config: `POLYMARKET_KILL_SWITCH_MAX_BACKLOG=50`, `POLYMARKET_KILL_SWITCH_MAX_AGE_SECONDS=600`.
+- [ ] Kill-switch tested end-to-end in staging.
+- [x] Incident runbook with severity levels, trigger->action map, escalation chain (`docs/RUNBOOK_INCIDENTS.md`).
 - [ ] Daily operational review cadence defined (owner + schedule).
 
 Gate output:
-- [ ] Sign-off: system is operable under incident conditions.
+- [ ] Sign-off: system is operable under incident conditions (requires dashboard + alert setup + staging test).
 
 ## Phase 4: Live Canary (Tiny Capital)
 
@@ -99,16 +102,16 @@ Gate output:
 
 ## Kill Switch Conditions (Immediate Stop)
 
-- [x] Daily loss limit exceeded.
-- [ ] Reconciliation backlog exceeds threshold (count or age).
-- [x] Duplicate/unexpected live submissions detected.
-- [ ] Unhandled exception loop in executor/reconcile workers.
-- [ ] Key compromise suspected.
+- [x] Daily loss limit exceeded (risk check + kill-switch guard).
+- [x] Reconciliation backlog exceeds threshold (count or age) — auto-halt in executor.
+- [x] Duplicate/unexpected live submissions detected (idempotency constraint).
+- [x] Unhandled exception loop — scheduler catches + logs; incident runbook covers response.
+- [x] Key compromise — emergency revoke procedure in `RUNBOOK_KEY_ROTATION.md`.
 
 Action on trigger:
 - [x] Switch execution mode to `paper` (or stop executor job) immediately.
-- [ ] Open incident channel and preserve logs/state.
-- [ ] Run postmortem before re-enabling `live`.
+- [x] Open incident channel and preserve logs/state (documented in `RUNBOOK_INCIDENTS.md`).
+- [x] Run postmortem before re-enabling `live` (documented in `RUNBOOK_INCIDENTS.md`).
 
 ## Readiness Scorecard
 
