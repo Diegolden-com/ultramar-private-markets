@@ -28,6 +28,15 @@ corepack yarn workspace @ultramar/polymarket backend:lint
 corepack yarn workspace @ultramar/polymarket backend:test
 ```
 
+## Deploy / Pull Checklist
+
+After pulling backend changes, apply DB migrations before starting workers:
+
+```bash
+cd /Users/diegolden/Code/Diegolden/project-ultramar/apps/polymarket/backend
+.venv/bin/python -m alembic upgrade head
+```
+
 ## Polymarket SDK Migration (Phase 1)
 
 The backend now uses an SDK-first market data gateway with legacy HTTP fallback.
