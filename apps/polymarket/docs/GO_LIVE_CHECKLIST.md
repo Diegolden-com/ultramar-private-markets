@@ -8,6 +8,13 @@ This checklist is the launch control sheet for running real capital on the Polym
 - Do not start the next phase until all required items in the current phase are done.
 - Every item must include owner + evidence (PR, dashboard screenshot, run log, or incident doc).
 
+## Prefill Snapshot (2026-02-26)
+
+- Snapshot commit: `386b430`
+- Interpretation:
+  - `[x]` implemented in code/docs in this repo.
+  - `[ ]` not yet validated in operations/staging/prod, or not done.
+
 ## Launch Policy
 
 - Capital safety > uptime > feature velocity.
@@ -16,11 +23,11 @@ This checklist is the launch control sheet for running real capital on the Polym
 
 ## Phase 0: Environment and Build Readiness
 
-- [ ] Production/staging env vars are complete and documented.
+- [x] Production/staging env vars are complete and documented.
 - [ ] Alembic migrations applied in target environments (`alembic upgrade head`).
 - [ ] CI green on `main` for backend lint + tests.
 - [ ] Reconciliation worker is enabled and running in staging.
-- [ ] Runtime can execute all worker entrypoints (`ingest`, `signals`, `executor`, `reconcile`) without crashes.
+- [x] Runtime can execute all worker entrypoints (`ingest`, `signals`, `executor`, `reconcile`) without crashes.
 
 Gate output:
 - [ ] Sign-off: infra ready for shadow trading.
@@ -43,7 +50,7 @@ Gate output:
 - [ ] Snapshot parity thresholds defined and met (SDK vs fallback feeds).
 - [ ] Reconciliation closes all `prepared/pending` intents within target SLA.
 - [ ] Backtest/replay assumptions documented versus live observations (fees, slippage, latency).
-- [ ] Risk limits verified in runtime config (`MAX_*`, `DAILY_LOSS_LIMIT_USD`, etc).
+- [x] Risk limits verified in runtime config (`MAX_*`, `DAILY_LOSS_LIMIT_USD`, etc).
 
 Gate output:
 - [ ] Sign-off: expected edge still exists after realistic frictions.
@@ -85,14 +92,14 @@ Gate output:
 
 ## Kill Switch Conditions (Immediate Stop)
 
-- [ ] Daily loss limit exceeded.
+- [x] Daily loss limit exceeded.
 - [ ] Reconciliation backlog exceeds threshold (count or age).
-- [ ] Duplicate/unexpected live submissions detected.
+- [x] Duplicate/unexpected live submissions detected.
 - [ ] Unhandled exception loop in executor/reconcile workers.
 - [ ] Key compromise suspected.
 
 Action on trigger:
-- [ ] Switch execution mode to `paper` (or stop executor job) immediately.
+- [x] Switch execution mode to `paper` (or stop executor job) immediately.
 - [ ] Open incident channel and preserve logs/state.
 - [ ] Run postmortem before re-enabling `live`.
 
@@ -107,12 +114,18 @@ Action on trigger:
 
 Final decision:
 - [ ] APPROVED FOR LIVE CAPITAL
-- [ ] BLOCKED (reasons documented)
+- [x] BLOCKED (reasons documented)
 
 ## Sign-Off
 
 - Technical owner:
 - Trading/risk owner:
 - Security owner:
-- Date:
+- Date: 2026-02-26 (prefill snapshot)
 - Evidence links:
+  - `9011a47` SDK-first market data gateway
+  - `ff689ed` trading gateway contract + SDK adapter
+  - `71a790f` execution mode factory (`paper`, `live_shadow`, `live`)
+  - `fe457f5` L2 bootstrap + startup health checks
+  - `8b21261` order intents/state events + idempotency persistence
+  - `59d8b4b` reconciliation worker (user stream + REST fallback)
