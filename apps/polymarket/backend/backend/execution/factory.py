@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 from ..config import settings
 from .paper_gateway import PaperTradingGateway
 from .polymarket_sdk_gateway import (
@@ -8,7 +10,43 @@ from .polymarket_sdk_gateway import (
 )
 from .trading_gateway import TradingGateway
 
+logger = logging.getLogger(__name__)
+
 VALID_EXECUTION_MODES = {"paper", "live_shadow", "live"}
+
+_BLOCKED_PRIVATE_KEYS = frozenset({
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",  # hardhat #0
+    "test",
+    "example",
+    "changeme",
+    "",
+})
+
+
+def _run_live_preflight(
+    private_key: str,
+    api_key: str | None,
+    api_secret: str | None,
+    api_passphrase: str | None,
+) -> None:
+    """Hard guards that must pass before building a live gateway."""
+    pk_lower = (private_key or "").strip().lower()
+    if pk_lower in _BLOCKED_PRIVATE_KEYS:
+        raise ValueError(
+            "POLYMARKET_PRIVATE_KEY is a blocked test/example value — "
+            "refusing to build live gateway"
+        )
+    if len(pk_lower) < 16:
+        raise ValueError(
+            "POLYMARKET_PRIVATE_KEY looks too short to be a real key — "
+            "refusing to build live gateway"
+        )
+    if not all([api_key, api_secret, api_passphrase]):
+        raise ValueError(
+            "live mode requires POLYMARKET_API_KEY, POLYMARKET_API_SECRET, and "
+            "POLYMARKET_API_PASSPHRASE — provide all three L2 credentials"
+        )
 
 
 def build_trading_gateway(
@@ -34,6 +72,9 @@ def build_trading_gateway(
 
     if not private_key:
         raise ValueError("POLYMARKET_PRIVATE_KEY is required for live_shadow/live execution modes")
+
+    if normalized_mode == "live":
+        _run_live_preflight(private_key, api_key, api_secret, api_passphrase)
 
     config = PolymarketSDKGatewayConfig(
         host=host,

@@ -38,12 +38,14 @@ Gate output:
 
 - [ ] Trading private key stored in a secret manager (not `.env` checked into git).
 - [ ] Least-privilege API keys for exchange and telemetry services.
-- [ ] Rotation runbook exists for `POLYMARKET_PRIVATE_KEY` and API creds.
-- [ ] Emergency revoke procedure tested and timed.
-- [ ] Access controls in place for who can change execution mode and max capital.
+- [x] Live-mode preflight guards block test/example keys and require L2 creds (`factory.py`).
+- [x] Rotation runbook exists for `POLYMARKET_PRIVATE_KEY` and API creds (`docs/RUNBOOK_KEY_ROTATION.md`).
+- [x] Emergency revoke procedure documented with 5-minute target (`RUNBOOK_KEY_ROTATION.md`).
+- [ ] Emergency revoke procedure tested and timed in staging.
+- [x] Access controls documented — who can change execution mode and raise capital (`RUNBOOK_KEY_ROTATION.md`).
 
 Gate output:
-- [ ] Sign-off: key custody and secret hygiene approved.
+- [ ] Sign-off: key custody and secret hygiene approved (requires secret manager setup + revoke test).
 
 ## Phase 2: Strategy and Data Validation (No Live Orders)
 
