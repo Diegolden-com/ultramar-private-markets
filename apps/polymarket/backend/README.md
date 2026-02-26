@@ -52,3 +52,15 @@ Execution now has a pluggable gateway contract:
 
 The executor handles non-filled gateway statuses (`prepared`, `pending`, `rejected`)
 without persisting a trade fill, which enables safe shadow rollout before live mode.
+
+Execution mode is configured via `POLYMARKET_EXECUTION_MODE`:
+
+- `paper` (default): uses `PaperTradingGateway` and persists simulated fills.
+- `live_shadow`: uses `PolymarketSDKTradingGateway` but only prepares signed orders.
+- `live`: uses `PolymarketSDKTradingGateway` and submits live orders.
+
+For `live_shadow` and `live`, set:
+
+- `POLYMARKET_PRIVATE_KEY`
+- `POLYMARKET_CHAIN_ID`
+- optional L2 creds: `POLYMARKET_API_KEY`, `POLYMARKET_API_SECRET`, `POLYMARKET_API_PASSPHRASE`

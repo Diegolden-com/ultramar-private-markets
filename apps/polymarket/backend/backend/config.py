@@ -12,7 +12,14 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     database_url: str = "sqlite:///./ultramar.db"
     polymarket_base_url: str = "https://clob.polymarket.com"
+    polymarket_execution_mode: str = "paper"
+    polymarket_chain_id: int = 137
+    polymarket_private_key: Optional[str] = None
+    polymarket_signature_type: Optional[int] = None
+    polymarket_funder: Optional[str] = None
     polymarket_api_key: Optional[str] = None
+    polymarket_api_secret: Optional[str] = None
+    polymarket_api_passphrase: Optional[str] = None
     polymarket_timeout_seconds: float = 10.0
     polymarket_market_data_mode: str = "auto"
     polymarket_dual_run_compare: bool = True
