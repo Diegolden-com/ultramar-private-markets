@@ -41,3 +41,14 @@ The backend now uses an SDK-first market data gateway with legacy HTTP fallback.
 Current WebSocket default is aligned to the CLOB market channel:
 
 - `POLYMARKET_WS_URL=wss://ws-subscriptions-clob.polymarket.com/ws/market`
+
+### Execution Adapter Layer
+
+Execution now has a pluggable gateway contract:
+
+- `PaperTradingGateway`: current default behavior, immediate simulated fills.
+- `PolymarketSDKTradingGateway`: creates signed orders via `py-clob-client`; when
+  `submit_live=False`, it only prepares orders (no live submission).
+
+The executor handles non-filled gateway statuses (`prepared`, `pending`, `rejected`)
+without persisting a trade fill, which enables safe shadow rollout before live mode.

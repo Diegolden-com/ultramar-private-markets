@@ -2,6 +2,24 @@ from datetime import datetime
 
 from backend.db.models import Position, Signal, Trade
 from backend.execution.executor import ExecutionConfig, execute_signal
+from backend.execution.trading_gateway import OrderPlacement
+
+
+class PreparedOrderGateway:
+    venue = "polymarket"
+
+    def place_limit_order(self, request):
+        return OrderPlacement(
+            venue=self.venue,
+            market_key=request.market_key,
+            side=request.side,
+            price=request.price,
+            size=request.size,
+            status="prepared",
+            submitted_at=datetime.utcnow().isoformat(),
+            live_submitted=False,
+            payload={"signed_order": {"token_id": request.token_id}},
+        )
 
 
 def test_signal_to_position_persistence(db_session):
@@ -74,3 +92,37 @@ def test_daily_loss_limit_blocks_trade(db_session):
     assert result.executed is False
     assert signal.meta.get("status") == "blocked"
     assert "daily_loss_limit" in signal.meta.get("risk_reasons", [])
+
+
+def test_prepared_gateway_does_not_create_trade(db_session):
+    signal = Signal(
+        market_id=1,
+        implied_prob=0.4,
+        theoretical_prob=0.7,
+        spread=0.3,
+        meta={"market_slug": "btc-above-100k", "token_id": "123", "spot": 100000},
+    )
+    db_session.add(signal)
+    db_session.commit()
+
+    config = ExecutionConfig(
+        bankroll_usd=1000.0,
+        max_position_usd=500.0,
+        max_portfolio_usd=1000.0,
+        daily_loss_limit_usd=500.0,
+        min_trade_usd=10.0,
+        kelly_fraction=0.5,
+        delta_band_fraction=0.2,
+        min_hedge_notional_usd=10.0,
+    )
+
+    result = execute_signal(
+        db_session,
+        signal,
+        config,
+        trading_gateway=PreparedOrderGateway(),
+    )
+    assert result.executed is False
+    assert result.reason == "order_prepared"
+    assert signal.meta.get("status") == "submitted"
+    assert db_session.query(Trade).count() == 0

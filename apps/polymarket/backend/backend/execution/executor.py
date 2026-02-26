@@ -10,7 +10,8 @@ from ..analytics.pnl import simple_pnl
 from ..config import settings
 from ..db.models import Position, Signal, Trade
 from ..execution.deribit_hedge import hedge_notional
-from ..execution.paper import PaperOrder, simulate_fill
+from ..execution.paper_gateway import PaperTradingGateway
+from ..execution.trading_gateway import LimitOrderRequest, TradingGateway
 from ..risk.kelly import fractional_kelly
 from ..risk.limits import check_risk_limits
 
@@ -146,8 +147,10 @@ def execute_signal(
     db: Session,
     signal: Signal,
     config: ExecutionConfig | None = None,
+    trading_gateway: TradingGateway | None = None,
 ) -> ExecutionResult:
     config = config or ExecutionConfig.from_settings()
+    trading_gateway = trading_gateway or PaperTradingGateway()
     meta = signal.meta or {}
     status = meta.get("status")
     if status in {"executed", "blocked"}:
@@ -215,30 +218,56 @@ def execute_signal(
         logger.info("signal blocked", extra={"signal_id": signal.id, "reasons": risk.reasons})
         return ExecutionResult(False, "risk_blocked")
 
-    order = PaperOrder(
-        venue="polymarket",
-        market_key=market_key,
-        side=side,
-        price=implied,
-        size=size,
-        created_at=datetime.utcnow(),
+    placement = trading_gateway.place_limit_order(
+        LimitOrderRequest(
+            market_key=market_key,
+            market_id=str(signal.market_id),
+            token_id=meta.get("token_id"),
+            side=side,
+            price=implied,
+            size=size,
+            meta={"signal_id": signal.id, "market_slug": market_slug},
+        )
     )
-    fill = simulate_fill(order)
     hedge_plan = _plan_hedge(notional, side, meta.get("spot"), config)
 
+    if placement.status != "filled":
+        meta.update(
+            {
+                "status": "submitted" if placement.status in {"prepared", "pending"} else "blocked",
+                "execution_gateway_status": placement.status,
+                "execution_order_id": placement.order_id,
+                "execution_live_submitted": placement.live_submitted,
+                "execution_payload": placement.payload,
+                "execution_error": placement.error,
+            }
+        )
+        signal.meta = meta
+        attributes.flag_modified(signal, "meta")
+        db.add(signal)
+        db.commit()
+        if placement.status == "prepared":
+            return ExecutionResult(False, "order_prepared", hedge_plan=hedge_plan)
+        if placement.status == "pending":
+            return ExecutionResult(False, "order_pending", hedge_plan=hedge_plan)
+        return ExecutionResult(False, "order_rejected", hedge_plan=hedge_plan)
+
     trade = Trade(
-        venue=order.venue,
-        market_key=order.market_key,
-        price=order.price,
-        size=order.size,
-        side=order.side,
+        venue=placement.venue,
+        market_key=placement.market_key,
+        price=placement.price,
+        size=placement.size,
+        side=placement.side,
         meta={
             "signal_id": signal.id,
             "implied_prob": implied,
             "theoretical_prob": theoretical,
             "spread": signal.spread,
             "notional": notional,
-            "filled_at": fill.get("filled_at"),
+            "filled_at": placement.filled_at,
+            "execution_status": placement.status,
+            "execution_order_id": placement.order_id,
+            "execution_live_submitted": placement.live_submitted,
             "hedge_plan": hedge_plan,
         },
     )
@@ -250,10 +279,10 @@ def execute_signal(
         market_id=signal.market_id,
         market_key=market_key,
         market_slug=market_slug,
-        venue=order.venue,
+        venue=placement.venue,
         side=side,
-        price=order.price,
-        size=order.size,
+        price=placement.price,
+        size=placement.size,
     )
     db.flush()
 
@@ -266,6 +295,8 @@ def execute_signal(
             "notional": notional,
             "trade_id": trade.id,
             "position_id": position.id,
+            "execution_order_id": placement.order_id,
+            "execution_live_submitted": placement.live_submitted,
         }
     )
     signal.meta = meta
@@ -280,11 +311,15 @@ def execute_signal(
     return ExecutionResult(True, "executed", trade_id=trade.id, hedge_plan=hedge_plan)
 
 
-def execute_signals_once(db: Session, limit: int = 50) -> int:
+def execute_signals_once(
+    db: Session,
+    limit: int = 50,
+    trading_gateway: TradingGateway | None = None,
+) -> int:
     signals = db.query(Signal).order_by(Signal.id.desc()).limit(limit).all()
     executed = 0
     for signal in signals:
-        result = execute_signal(db, signal)
+        result = execute_signal(db, signal, trading_gateway=trading_gateway)
         if result.executed:
             executed += 1
     return executed
