@@ -128,3 +128,17 @@ Settings:
 - `POLYMARKET_RECONCILE_STREAM_TIMEOUT_SECONDS=5`
 - `POLYMARKET_RECONCILE_REST_FALLBACK_ENABLED=true`
 - `POLYMARKET_RECONCILE_SHADOW_FINALIZE_SECONDS=30`
+- `POLYMARKET_RECONCILE_SLA_SECONDS=300` (intent age threshold for SLA breach alerts)
+
+### Intent Backlog Report
+
+Deterministic snapshot of unresolved order intents, useful for dashboards and
+pre-deploy checks:
+
+```bash
+python -m backend.execution.intent_report
+```
+
+Outputs JSON with active counts, per-status breakdown, max/avg age, and any
+SLA breaches. Exit code 0 if SLA is healthy, 1 if any intent exceeds the
+threshold.

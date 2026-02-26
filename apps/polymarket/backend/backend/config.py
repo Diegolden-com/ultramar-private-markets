@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     polymarket_reconcile_stream_timeout_seconds: float = 5.0
     polymarket_reconcile_rest_fallback_enabled: bool = True
     polymarket_reconcile_shadow_finalize_seconds: float = 30.0
+    polymarket_reconcile_sla_seconds: float = 300.0
     polymarket_user_ws_url: str = "wss://ws-subscriptions-clob.polymarket.com/ws/user"
     polymarket_timeout_seconds: float = 10.0
     polymarket_market_data_mode: str = "auto"

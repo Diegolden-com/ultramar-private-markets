@@ -348,10 +348,18 @@ def reconcile_open_order_intents(
             reconciled += 1
 
     db.commit()
+
+    # Compute backlog age metrics for monitoring.
+    ages = [(now - i.updated_at).total_seconds() for i in intents if i.status in ACTIVE_STATUSES]
+    max_age = max(ages) if ages else 0.0
+    remaining_active = len(ages)
+
     return {
         "processed": len(intents),
         "updated": reconciled,
         "events_applied": applied,
+        "remaining_active": remaining_active,
+        "max_age_seconds": round(max_age, 1),
     }
 
 

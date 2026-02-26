@@ -52,7 +52,10 @@ Gate output:
 - [ ] `paper` mode run for at least 7 days continuously.
 - [ ] `live_shadow` run for at least 7 days continuously.
 - [ ] Snapshot parity thresholds defined and met (SDK vs fallback feeds).
-- [ ] Reconciliation closes all `prepared/pending` intents within target SLA.
+- [x] Reconciliation SLA threshold configurable (`POLYMARKET_RECONCILE_SLA_SECONDS=300`).
+- [x] Deterministic intent backlog report available (`python -m backend.execution.intent_report`).
+- [x] Reconciliation returns backlog age metrics (`remaining_active`, `max_age_seconds`).
+- [ ] Reconciliation closes all `prepared/pending` intents within target SLA (verify in staging).
 - [ ] Backtest/replay assumptions documented versus live observations (fees, slippage, latency).
 - [x] Risk limits verified in runtime config (`MAX_*`, `DAILY_LOSS_LIMIT_USD`, etc).
 
