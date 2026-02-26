@@ -2,6 +2,9 @@
 
 MVP backend services for data ingestion, pricing, signals, and execution planning.
 
+Go-live execution checklist:
+- `../docs/GO_LIVE_CHECKLIST.md`
+
 ## Local setup
 
 Use Python 3.10+ (the pinned `py-clob-client` release does not install on Python 3.9.6).
