@@ -57,7 +57,7 @@ export default function RootLayout({
             </div>
             <footer className="border-t border-foreground/10 py-8 text-center pb-24 md:pb-8">
               <p className="font-mono text-xs text-muted-foreground">
-                ULTRAMAR PRIVATE EQUITIES © {new Date().getFullYear()}
+                CX LAUNDRY © {new Date().getFullYear()} — By <a href="https://molino.dev" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">molino.dev</a> c/o <a href="https://diegolden.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">diegolden.com</a>
               </p>
             </footer>
           </div>
