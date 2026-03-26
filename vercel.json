@@ -1,0 +1,3 @@
+{
+  "install": "corepack enable && yarn install"
+}
