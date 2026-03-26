@@ -26,8 +26,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Ultramar Private Equities",
-  description: "Private Equity Management",
+  title: "CX Laundry - Private Equity Presale",
+  description: "Join the presale for tech-enabled brick and mortar laundromat chain",
   manifest: "/manifest.json",
   icons: {
     icon: "/icon-192.jpg",
