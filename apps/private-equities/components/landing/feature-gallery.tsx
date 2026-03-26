@@ -9,11 +9,19 @@ import { motion } from "framer-motion"
 export function FeatureGallery() {
     const features = [
         {
+            title: "SUSTAINABILITY",
+            subtitle: "Solarpunk Laundromat",
+            image: "/solarpunk-laundromat.png",
+            description: "AI-powered automated laundry with 100% solar energy and water recycling.",
+            className: "md:col-span-2 md:row-span-2 h-[500px] md:h-[600px]",
+            featured: true,
+        },
+        {
             title: "INDUSTRIAL",
             subtitle: "Automated Warehousing",
             image: "/industrial-warehouse.png",
             description: "Yield from the physical backbone of global supply chains.",
-            className: "md:col-span-2 md:row-span-2 h-[500px] md:h-[600px]",
+            className: "md:col-span-1 md:row-span-1 h-[250px] md:h-[290px]",
         },
         {
             title: "LOGISTICS",
@@ -22,13 +30,6 @@ export function FeatureGallery() {
             description: "Fractional ownership of trade routes and transport assets.",
             className: "md:col-span-1 md:row-span-1 h-[250px] md:h-[290px]",
         },
-        {
-            title: "DATA INFRASTRUCTURE",
-            subtitle: "Server Farms",
-            image: "/data-infrastructure.png",
-            description: "The digital estate.",
-            className: "md:col-span-1 md:row-span-1 h-[250px] md:h-[290px]",
-        }
     ]
 
     return (
@@ -75,8 +76,17 @@ export function FeatureGallery() {
                                     priority={index === 0}
                                 />
 
-                                {/* Layered overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10 transition-opacity duration-500 group-hover:from-black/80 group-hover:via-black/30" />
+                                {/* Ticker & Status Overlay */}
+                                <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+                                    <span className="text-xs font-bold font-mono text-background bg-foreground/90 px-3 py-1.5 border border-transparent shadow-sm backdrop-blur-md">
+                                        {feature.title}
+                                    </span>
+                                    {feature.featured && (
+                                        <span className="text-xs font-bold font-mono text-white bg-accent px-3 py-1.5 border border-transparent flex items-center shadow-sm">
+                                            FEATURED
+                                        </span>
+                                    )}
+                                </div>
 
                                 {/* Animated border glow on hover */}
                                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -85,9 +95,6 @@ export function FeatureGallery() {
 
                                 <div className="absolute bottom-0 left-0 w-full p-6 md:p-8">
                                     <div className="backdrop-blur-md bg-black/30 border border-white/10 rounded-xl p-5 transition-all duration-500 group-hover:bg-black/50 group-hover:border-white/20">
-                                        <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent/90">
-                                            {feature.title}
-                                        </p>
                                         <h3 className="mb-3 font-serif text-2xl md:text-3xl font-bold text-white tracking-tight">
                                             {feature.subtitle}
                                         </h3>
