@@ -1,3 +1,5 @@
 {
-  "installCommand": "corepack enable && yarn install"
+  "installCommand": "corepack enable && yarn install",
+  "buildCommand": "cd apps/private-equities && yarn build",
+  "outputDirectory": "apps/private-equities/.next"
 }
