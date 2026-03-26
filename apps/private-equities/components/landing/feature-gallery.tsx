@@ -10,9 +10,9 @@ export function FeatureGallery() {
     const features = [
         {
             title: "SUSTAINABILITY",
-            subtitle: "Solarpunk Laundromat",
+            subtitle: "CX Laundry",
             image: "/solarpunk-laundromat.png",
-            description: "AI-powered automated laundry with 100% solar energy and water recycling.",
+            description: "Join the presale for this tech-enabled brick and mortar Laundromat chain.",
             className: "md:col-span-2 md:row-span-2 h-[500px] md:h-[600px]",
             featured: true,
         },
