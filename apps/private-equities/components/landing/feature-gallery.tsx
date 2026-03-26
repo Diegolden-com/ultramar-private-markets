@@ -4,6 +4,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { motion } from "framer-motion"
 
 export function FeatureGallery() {
     const features = [
@@ -31,50 +32,72 @@ export function FeatureGallery() {
     ]
 
     return (
-        <section className="bg-background py-16 sm:py-24">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
-                    <h2 className="font-serif text-5xl font-bold tracking-tighter text-foreground sm:text-7xl md:text-8xl lg:text-[10rem] leading-none">
+        <section className="bg-background py-20 sm:py-32 relative overflow-hidden">
+            {/* Subtle background pattern */}
+            <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_1px_1px,currentColor,transparent)] bg-[length:32px_32px]" />
+            
+            <div className="container mx-auto px-4 relative">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6"
+                >
+                    <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[0.9]">
                         Trending Firms
                     </h2>
-                    <Link href="/equities" className="group flex items-center gap-2 font-mono text-lg md:text-xl font-bold tracking-tight text-muted-foreground hover:text-foreground transition-colors mb-2 md:mb-4">
-                        View all <ArrowRight className="inline w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    <Link href="/equities" className="group flex items-center gap-3 font-mono text-sm font-medium tracking-tight text-muted-foreground hover:text-foreground transition-colors mb-2 md:mb-4">
+                        <span>View all</span>
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                     </Link>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                </motion.div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {features.map((feature, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            className={cn(
-                                "group relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-700 hover:scale-[1.01]",
-                                feature.className
-                            )}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.15, duration: 0.6 }}
+                            className={cn("relative", feature.className)}
                         >
-                            <Image
-                                src={feature.image}
-                                alt={feature.title}
-                                fill
-                                className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                                priority={index === 0}
-                            />
+                            <Link
+                                href="/equities"
+                                className="group relative overflow-hidden rounded-2xl border border-border/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-accent/30 block w-full h-full"
+                            >
+                                <Image
+                                    src={feature.image}
+                                    alt={feature.title}
+                                    fill
+                                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                                    priority={index === 0}
+                                />
 
-                            {/* Gradient Overlay - Subtle Apple-style fade */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500" />
+                                {/* Layered overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10 transition-opacity duration-500 group-hover:from-black/80 group-hover:via-black/30" />
 
-                            <div className="absolute bottom-0 left-0 w-full p-8 md:p-10">
-                                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 transition-all duration-500 hover:bg-white/10">
-                                    <p className="mb-2 font-mono text-xs font-bold uppercase tracking-widest text-accent/90">
-                                        {feature.title}
-                                    </p>
-                                    <h3 className="mb-3 font-serif text-2xl md:text-4xl font-bold text-white tracking-tight">
-                                        {feature.subtitle}
-                                    </h3>
-                                    <p className="font-sans text-sm md:text-base text-gray-300 font-medium">
-                                        {feature.description}
-                                    </p>
+                                {/* Animated border glow on hover */}
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                    <div className="absolute inset-0 rounded-2xl border border-accent/50 animate-pulse" />
                                 </div>
-                            </div>
-                        </div>
+
+                                <div className="absolute bottom-0 left-0 w-full p-6 md:p-8">
+                                    <div className="backdrop-blur-md bg-black/30 border border-white/10 rounded-xl p-5 transition-all duration-500 group-hover:bg-black/50 group-hover:border-white/20">
+                                        <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent/90">
+                                            {feature.title}
+                                        </p>
+                                        <h3 className="mb-3 font-serif text-2xl md:text-3xl font-bold text-white tracking-tight">
+                                            {feature.subtitle}
+                                        </h3>
+                                        <p className="font-sans text-sm text-white/70 font-medium leading-relaxed">
+                                            {feature.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Link>
+                        </motion.div>
                     ))}
                 </div>
             </div>

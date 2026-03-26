@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { RouteHeader } from "@/components/route-header"
-import { Wallet, PieChart, Activity, Loader2 } from "lucide-react"
+import { Wallet, PieChart, Activity, Loader2, TrendingUp, TrendingDown, Download } from "lucide-react"
+import { motion } from "framer-motion"
 
 interface Asset {
     ticker: string;
@@ -54,103 +55,160 @@ export default function PortfolioPage() {
                     <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
                 </div>
             ) : data ? (
-                <div className="space-y-12">
-                    {/* Summary Card */}
+                <div className="space-y-10">
+                    {/* Summary Cards - Premium design */}
                     <div className="grid md:grid-cols-3 gap-6">
-                        <div className="md:col-span-2 bg-zinc-100 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-800 p-8 relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-grid-black/[0.05] dark:bg-grid-white/[0.05]" />
-                            <div className="relative z-10 space-y-2">
-                                <div className="text-sm font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-                                    <Wallet className="w-4 h-4" /> Total Equity
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="md:col-span-2 relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="p-2 rounded-lg bg-accent/10">
+                                        <Wallet className="w-5 h-5 text-accent" />
+                                    </div>
+                                    <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">Total Equity</span>
                                 </div>
-                                <div className="text-5xl md:text-6xl font-bold font-mono tracking-tighter text-zinc-900 dark:text-white">
+                                <div className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-foreground mb-3">
                                     {formatCurrency(data.totalValue)}
                                 </div>
-                                <div className="flex items-center gap-2 font-mono text-sm">
-                                    <span className={data.dayChange >= 0 ? "text-emerald-600 dark:text-emerald-500" : "text-rose-600 dark:text-rose-500"}>
-                                        {data.dayChange >= 0 ? "+" : ""}{data.dayChange}%
-                                    </span>
-                                    <span className="text-zinc-500 dark:text-zinc-600">
-                                        ({data.dayChange >= 0 ? "+" : ""}{formatCurrency(data.dayChangeValue)}) today
-                                    </span>
+                                <div className="flex items-center gap-3 font-mono text-sm">
+                                    {data.dayChange >= 0 ? (
+                                        <>
+                                            <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-500">
+                                                <TrendingUp className="w-4 h-4" />
+                                                +{data.dayChange}%
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                ({data.dayChange >= 0 ? "+" : ""}{formatCurrency(data.dayChangeValue)}) today
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span className="flex items-center gap-1 text-rose-600 dark:text-rose-500">
+                                                <TrendingDown className="w-4 h-4" />
+                                                {data.dayChange}%
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                ({formatCurrency(data.dayChangeValue)}) today
+                                            </span>
+                                        </>
+                                    )}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="bg-zinc-100 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-800 p-8 flex flex-col justify-center space-y-4">
-                            <div className="text-sm font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-                                <Activity className="w-4 h-4" /> Performance
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1, duration: 0.5 }}
+                            className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 flex flex-col"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-chart-3/10 via-transparent to-transparent" />
+                            <div className="relative z-10 flex-1">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="p-2 rounded-lg bg-chart-3/10">
+                                        <Activity className="w-5 h-5 text-chart-3" />
+                                    </div>
+                                    <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">Performance</span>
+                                </div>
+                                <div className="h-3 w-full bg-muted rounded-full overflow-hidden mb-4">
+                                    <motion.div 
+                                        initial={{ width: 0 }}
+                                        animate={{ width: "75%" }}
+                                        transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+                                        className="h-full bg-gradient-to-r from-accent to-emerald-500 rounded-full" 
+                                    />
+                                </div>
+                                <div className="flex justify-between items-center text-sm font-mono">
+                                    <span className="text-muted-foreground">YTD Return</span>
+                                    <span className="font-bold text-foreground">+12.4%</span>
+                                </div>
+                                <div className="flex justify-between items-center text-sm font-mono mt-3">
+                                    <span className="text-muted-foreground">Realized Gains</span>
+                                    <span className="font-bold text-foreground">$14,200</span>
+                                </div>
                             </div>
-                            <div className="h-2 w-full bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
-                                <div className="h-full bg-emerald-500 w-[75%]" />
-                            </div>
-                            <div className="flex justify-between text-xs font-mono text-muted-foreground">
-                                <span>YTD Return</span>
-                                <span className="text-zinc-900 dark:text-white font-bold">+12.4%</span>
-                            </div>
-                            <div className="flex justify-between text-xs font-mono text-muted-foreground">
-                                <span>Realized Gains</span>
-                                <span className="text-zinc-900 dark:text-white font-bold">$14,200</span>
-                            </div>
-                        </div>
+                        </motion.div>
                     </div>
 
-                    {/* Industrial Asset List */}
-                    <div className="space-y-6">
-                        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/10 pb-4">
-                            <h3 className="text-xl font-bold font-mono flex items-center gap-2 text-zinc-900 dark:text-white">
-                                <PieChart className="w-5 h-5 text-accent" /> HOLDINGS
+                    {/* Holdings Table */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="space-y-6"
+                    >
+                        <div className="flex items-center justify-between border-b border-border/60 pb-4">
+                            <h3 className="text-lg font-bold font-mono flex items-center gap-3 text-foreground">
+                                <div className="p-2 rounded-lg bg-accent/10">
+                                    <PieChart className="w-4 h-4 text-accent" />
+                                </div>
+                                <span className="tracking-widest">HOLDINGS</span>
                             </h3>
-                            <button className="text-xs font-mono bg-zinc-900 text-white dark:bg-white dark:text-black px-3 py-1 font-bold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors">
+                            <button className="flex items-center gap-2 text-xs font-mono bg-foreground text-background px-4 py-2 rounded-lg font-semibold hover:bg-foreground/90 transition-colors">
+                                <Download className="w-3 h-3" />
                                 EXPORT CSV
                             </button>
                         </div>
 
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="border-b border-zinc-200 dark:border-white/10 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                                        <th className="py-4 px-4">Asset</th>
-                                        <th className="py-4 px-4">Type</th>
-                                        <th className="py-4 px-4 text-right">Balance</th>
-                                        <th className="py-4 px-4 text-right">Price</th>
-                                        <th className="py-4 px-4 text-right">Value</th>
-                                        <th className="py-4 px-4 text-right">24h</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="font-mono text-sm">
-                                    {data.assets.map((asset) => (
-                                        <tr key={asset.ticker} className="border-b border-zinc-200 dark:border-white/5 hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors group">
-                                            <td className="py-4 px-4">
-                                                <div className="font-bold text-zinc-900 dark:text-white">{asset.ticker}</div>
-                                                <div className="text-xs text-muted-foreground">{asset.name}</div>
-                                            </td>
-                                            <td className="py-4 px-4">
-                                                <span className="bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-2 py-1 rounded text-[10px] uppercase">
-                                                    {asset.type}
-                                                </span>
-                                            </td>
-                                            <td className="py-4 px-4 text-right text-zinc-700 dark:text-zinc-300">
-                                                {asset.balance.toLocaleString()}
-                                            </td>
-                                            <td className="py-4 px-4 text-right text-zinc-700 dark:text-zinc-300">
-                                                {formatCurrency(asset.price)}
-                                            </td>
-                                            <td className="py-4 px-4 text-right font-bold text-zinc-900 dark:text-white">
-                                                {formatCurrency(asset.value)}
-                                            </td>
-                                            <td className={`py-4 px-4 text-right ${asset.change >= 0 ? "text-emerald-600 dark:text-emerald-500" : "text-rose-600 dark:text-rose-500"}`}>
-                                                {asset.change > 0 && "+"}{asset.change}%
-                                            </td>
+                        <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left">
+                                    <thead>
+                                        <tr className="border-b border-border/60 bg-muted/30 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                                            <th className="py-4 px-6 font-medium">Asset</th>
+                                            <th className="py-4 px-6 font-medium">Type</th>
+                                            <th className="py-4 px-6 text-right font-medium">Balance</th>
+                                            <th className="py-4 px-6 text-right font-medium">Price</th>
+                                            <th className="py-4 px-6 text-right font-medium">Value</th>
+                                            <th className="py-4 px-6 text-right font-medium">24h</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody className="font-mono text-sm">
+                                        {data.assets.map((asset, index) => (
+                                            <motion.tr 
+                                                key={asset.ticker}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.3 + index * 0.05, duration: 0.3 }}
+                                                className="border-b border-border/40 hover:bg-muted/30 transition-colors group"
+                                            >
+                                                <td className="py-5 px-6">
+                                                    <div className="font-bold text-foreground">{asset.ticker}</div>
+                                                    <div className="text-xs text-muted-foreground mt-0.5">{asset.name}</div>
+                                                </td>
+                                                <td className="py-5 px-6">
+                                                    <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-muted/50 text-muted-foreground text-[10px] uppercase font-medium">
+                                                        {asset.type}
+                                                    </span>
+                                                </td>
+                                                <td className="py-5 px-6 text-right text-muted-foreground">
+                                                    {asset.balance.toLocaleString()}
+                                                </td>
+                                                <td className="py-5 px-6 text-right text-muted-foreground">
+                                                    {formatCurrency(asset.price)}
+                                                </td>
+                                                <td className="py-5 px-6 text-right font-bold text-foreground">
+                                                    {formatCurrency(asset.value)}
+                                                </td>
+                                                <td className={`py-5 px-6 text-right ${asset.change >= 0 ? "text-emerald-600 dark:text-emerald-500" : "text-rose-600 dark:text-rose-500"}`}>
+                                                    {asset.change > 0 && "+"}{asset.change}%
+                                                </td>
+                                            </motion.tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             ) : (
-                <div className="text-center text-red-500 font-mono">
+                <div className="text-center text-red-500 font-mono p-8 rounded-2xl border border-red-500/20 bg-red-500/5">
                     System Error: Unable to retrieve localized financial data.
                 </div>
             )}
