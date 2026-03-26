@@ -9,25 +9,24 @@ import { motion } from "framer-motion"
 export function FeatureGallery() {
     const features = [
         {
-            title: "SUSTAINABILITY",
-            subtitle: "CX Laundry",
-            image: "/solarpunk-laundromat.png",
-            description: "Join the presale for this tech-enabled brick and mortar Laundromat chain.",
-            className: "md:col-span-2 md:row-span-2 h-[500px] md:h-[600px]",
-            featured: true,
-        },
-        {
             title: "INDUSTRIAL",
             subtitle: "Automated Warehousing",
             image: "/industrial-warehouse.png",
             description: "Yield from the physical backbone of global supply chains.",
-            className: "md:col-span-1 md:row-span-1 h-[250px] md:h-[290px]",
+            className: "md:col-span-2 md:row-span-2 h-[500px] md:h-[600px]",
         },
         {
             title: "LOGISTICS",
             subtitle: "Global Shipping",
             image: "/shipping-logistics.png",
             description: "Fractional ownership of trade routes and transport assets.",
+            className: "md:col-span-1 md:row-span-1 h-[250px] md:h-[290px]",
+        },
+        {
+            title: "DATA INFRASTRUCTURE",
+            subtitle: "Server Farms",
+            image: "/data-infrastructure.png",
+            description: "The digital estate.",
             className: "md:col-span-1 md:row-span-1 h-[250px] md:h-[290px]",
         },
     ]
@@ -81,11 +80,6 @@ export function FeatureGallery() {
                                     <span className="text-xs font-bold font-mono text-background bg-foreground/90 px-3 py-1.5 border border-transparent shadow-sm backdrop-blur-md">
                                         {feature.title}
                                     </span>
-                                    {feature.featured && (
-                                        <span className="text-xs font-bold font-mono text-white bg-accent px-3 py-1.5 border border-transparent flex items-center shadow-sm">
-                                            FEATURED
-                                        </span>
-                                    )}
                                 </div>
 
                                 {/* Animated border glow on hover */}

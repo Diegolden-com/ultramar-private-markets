@@ -20,7 +20,7 @@ export type Deal = {
 export const DEALS: Deal[] = [
     {
         id: "1",
-        name: "Lavanderías CX",
+        name: "CX Laundry",
         ticker: "lcx",
         description: "Chain of automated laundromats expanding to high-growth sectors. Proven recurring revenue model.",
         sector: "Consumer Services",

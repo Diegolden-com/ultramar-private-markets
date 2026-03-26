@@ -40,16 +40,8 @@ export function Navigation() {
                             <OakLeafLogo className="w-10 h-10 md:w-11 md:h-11" />
                         </motion.div>
                         <span className="text-lg md:text-xl font-serif font-semibold tracking-wide text-foreground">
-                            CX <span className="text-muted-foreground/60 italic font-normal">LAUNDRY</span>
+                            ULTRAMAR <span className="text-muted-foreground/60 italic font-normal">PRIVATE EQUITIES</span>
                         </span>
-                        <a 
-                            href="https://www.cleanx.mx" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="hidden lg:inline-flex items-center px-3 py-1 rounded-md bg-accent/10 text-accent text-xs font-mono hover:bg-accent/20 transition-colors"
-                        >
-                            cleanx.mx
-                        </a>
                     </Link>
 
                     <div className="hidden md:flex gap-6 items-center">

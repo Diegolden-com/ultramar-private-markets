@@ -33,41 +33,22 @@ export function Hero() {
                     transition={{ delay: 0.2, duration: 0.6 }}
                     className="mb-6 font-mono text-xs tracking-[0.4em] text-accent uppercase"
                 >
-                    CX Laundry Presale
+                    Ultramar Private Equities
                 </motion.p>
 
                 <h1 className="mb-10 font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight text-foreground leading-[0.95]">
-                    The Future of <span className="block text-muted-foreground/70 italic font-light mt-2">Laundry.</span>
+                    Private Equity, <span className="block text-muted-foreground/70 italic font-light mt-2">uncompromised.</span>
                 </h1>
                 
                 <motion.p 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
-                    className="mx-auto mb-8 max-w-2xl font-sans text-lg sm:text-xl md:text-2xl text-muted-foreground/80 leading-relaxed"
+                    className="mx-auto mb-14 max-w-2xl font-sans text-lg sm:text-xl md:text-2xl text-muted-foreground/80 leading-relaxed"
                 >
-                    Tech-enabled brick and mortar laundromat chain. <br className="hidden sm:inline" />
-                    ESG-centered family business, carbon-neutral by 2030.
+                    Real assets yield returns. <br className="hidden sm:inline" />
+                    Buy companies online, transparently for the sovereign individual.
                 </motion.p>
-
-                {/* Presale CTA */}
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.6 }}
-                    className="mx-auto mb-12 max-w-lg"
-                >
-                    <p className="font-mono text-sm text-muted-foreground/70 mb-4">
-                        Register for presale before <span className="text-accent font-bold">06/01/2026</span>
-                    </p>
-                    <a 
-                        href="mailto:presale@cleanx.mx?subject=Presale%20Registration"
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-accent/10 border border-accent/30 text-accent font-mono text-sm hover:bg-accent/20 transition-colors"
-                    >
-                        Send email to presale@cleanx.mx
-                        <span className="text-xs opacity-60">(Join whitelist)</span>
-                    </a>
-                </motion.div>
                 
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -80,20 +61,18 @@ export function Hero() {
                         className="group relative flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-foreground px-8 font-mono text-sm font-bold text-background transition-all duration-300 hover:bg-foreground/90 hover:shadow-[0_0_40px_-10px_rgba(0,0,0,0.3)]"
                     >
                         <span className="relative z-10 flex items-center gap-2">
-                            VIEW DEALS
+                            LAUNCH APP
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </span>
                         <div className="absolute inset-0 -translate-x-full bg-accent transition-transform duration-500 group-hover:translate-x-0" />
                     </Link>
-                    <a
-                        href="https://www.cleanx.mx"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
+                        href="/info"
                         className="group flex h-14 items-center justify-center gap-3 rounded-full border border-foreground/15 bg-foreground/[0.03] px-8 font-mono text-sm font-bold text-foreground backdrop-blur-sm transition-all duration-300 hover:bg-foreground/[0.06] hover:border-foreground/25"
                     >
-                        VISIT WEBSITE
+                        LEARN MORE
                         <BookOpen className="h-4 w-4 opacity-50" />
-                    </a>
+                    </Link>
                 </motion.div>
             </motion.div>
 

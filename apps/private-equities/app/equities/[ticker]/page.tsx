@@ -137,6 +137,39 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
                                                 <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400" />
                                             </div>
                                             <div>
+                                                <h3 className="font-bold text-sm mb-1 uppercase">Presale</h3>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Register before <span className="text-accent font-bold">06/01/2026</span> — Send email to <a href="mailto:presale@cleanx.mx" className="text-accent hover:underline">presale@cleanx.mx</a> to join the whitelist
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <div className="mt-1 bg-green-500/10 p-1 border border-green-500/20">
+                                                <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-sm mb-1 uppercase">ESG & Sustainability</h3>
+                                                <p className="text-sm text-muted-foreground">
+                                                    ESG-centered family business, achieving carbon-neutrality before 2030
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <div className="mt-1 bg-green-500/10 p-1 border border-green-500/20">
+                                                <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-sm mb-1 uppercase">Website</h3>
+                                                <p className="text-sm text-muted-foreground">
+                                                    <a href="https://www.cleanx.mx" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">www.cleanx.mx</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <div className="mt-1 bg-green-500/10 p-1 border border-green-500/20">
+                                                <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                            </div>
+                                            <div>
                                                 <h3 className="font-bold text-sm mb-1 uppercase">The Offering</h3>
                                                 <p className="text-sm text-muted-foreground">
                                                     6 Week Round
