@@ -10,7 +10,7 @@
     "dev:capital": "yarn workspace @ultramar/capital dev",
     "dev:polymarket": "yarn workspace @ultramar/polymarket dev",
     "dev:private-equities": "yarn workspace @ultramar/private-equities dev",
-    "build": "yarn workspace @ultramar/private-equities build",
+    "build": "cd apps/private-equities && yarn build",
     "lint": "yarn workspaces foreach -pt run lint",
     "typecheck": "yarn workspaces foreach -pt --include @ultramar/polymarket run typecheck"
   }
