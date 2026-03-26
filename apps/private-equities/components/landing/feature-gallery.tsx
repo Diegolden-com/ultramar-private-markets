@@ -5,14 +5,17 @@ import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { DEALS } from "@/lib/deals"
 
 export function FeatureGallery() {
+    const lcxDeal = DEALS.find((deal) => deal.ticker === "lcx")
+    
     const features = [
         {
-            title: "INDUSTRIAL",
-            subtitle: "Automated Warehousing",
-            image: "/industrial-warehouse.png",
-            description: "Yield from the physical backbone of global supply chains.",
+            title: lcxDeal?.ticker?.toUpperCase() ?? "LCX",
+            subtitle: lcxDeal?.name ?? "CX Laundry",
+            image: lcxDeal?.image ?? "/solarpunk-laundromat.png",
+            description: lcxDeal?.description ?? "",
             className: "md:col-span-2 md:row-span-2 h-[500px] md:h-[600px]",
         },
         {
@@ -64,7 +67,7 @@ export function FeatureGallery() {
                             className={cn("relative", feature.className)}
                         >
                             <Link
-                                href={index === 0 ? "https://www.ultramar.capital/equities/lcx" : "/equities"}
+                                href={index === 0 ? "/equities/lcx" : "/equities"}
                                 className="group relative overflow-hidden rounded-2xl border border-border/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-accent/30 block w-full h-full"
                             >
                                 <Image
