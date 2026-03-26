@@ -47,7 +47,7 @@ export function Hero() {
                     className="mx-auto mb-8 max-w-2xl font-sans text-lg sm:text-xl md:text-2xl text-muted-foreground/80 leading-relaxed"
                 >
                     Tech-enabled brick and mortar laundromat chain. <br className="hidden sm:inline" />
-                    Sustainable, automated, profitable.
+                    ESG-centered family business, carbon-neutral by 2030.
                 </motion.p>
 
                 {/* Presale CTA */}
