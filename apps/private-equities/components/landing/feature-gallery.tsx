@@ -64,7 +64,7 @@ export function FeatureGallery() {
                             className={cn("relative", feature.className)}
                         >
                             <Link
-                                href="/equities"
+                                href={index === 0 ? "https://www.ultramar.capital/equities/lcx" : "/equities"}
                                 className="group relative overflow-hidden rounded-2xl border border-border/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-accent/30 block w-full h-full"
                             >
                                 <Image
