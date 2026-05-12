@@ -37,8 +37,8 @@
 - Custom chart wrappers: `portfolio-chart.tsx`, `equity-curve-chart.tsx`
 
 ### Forms & Validation
-- **React Hook Form 7.60.0** - Form state management
-- **Zod 3.25.76** - Schema validation
+- **React Hook Form 7.75.0** - Form state management
+- **Zod 4.4.3** - Schema validation
 - **@hookform/resolvers** - Zod integration
 
 ### Additional Libraries
@@ -50,7 +50,7 @@
 - **@vercel/analytics** - Analytics tracking
 
 ### Development Tools
-- **pnpm** - Package manager
+- **Yarn 4 via Corepack** - Workspace package manager
 - **PostCSS** - CSS processing
 - **ESLint** - Linting (currently ignored during builds)
 
@@ -95,7 +95,7 @@ v0-oak/
 ├── tsconfig.json                 # TypeScript config (strict mode)
 ├── next.config.mjs               # Next.js config (relaxed validation)
 ├── postcss.config.mjs            # PostCSS config (Tailwind v4)
-└── package.json                  # Dependencies (pnpm)
+└── package.json                  # App-specific dependencies
 ```
 
 **File Count:** 17 TypeScript/JavaScript source files
@@ -359,7 +359,6 @@ Defined in `app/globals.css`:
 ### `next.config.mjs`
 ```javascript
 {
-  eslint: { ignoreDuringBuilds: true },        // Skip linting in builds
   typescript: { ignoreBuildErrors: true },     // Skip TS errors in builds
   images: { unoptimized: true }                // No image optimization
 }
@@ -630,16 +629,15 @@ app/components/bottom-navigation.tsx
 5. **Non-Functional Actions:** Buy/Sell/CSV download buttons don't work
 
 ### Build Configuration
-**Relaxed Validation (intentional for prototyping):**
+**Relaxed TypeScript Validation (intentional for prototyping):**
 ```javascript
 // next.config.mjs
-eslint: { ignoreDuringBuilds: true }
 typescript: { ignoreBuildErrors: true }
 ```
 
 **Implications:**
 - TypeScript errors may exist in codebase
-- ESLint warnings are suppressed
+- ESLint still runs through the workspace lint command
 - Production build would need stricter validation
 
 ### Missing Infrastructure
@@ -670,18 +668,18 @@ images: { unoptimized: true }
 
 ### Getting Started
 ```bash
-# Install dependencies
-pnpm install
+# Install dependencies from the monorepo root
+corepack yarn install
 
 # Run development server
-pnpm dev
+corepack yarn workspace @ultramar/capital dev
 # Opens on http://localhost:3000
 
 # Build for production
-pnpm build
+corepack yarn workspace @ultramar/capital build
 
 # Start production server
-pnpm start
+corepack yarn workspace @ultramar/capital start
 ```
 
 ### Adding Components
@@ -775,7 +773,7 @@ function ClientComponent() {
 - `typescript@5.x` - Type checking
 - `@types/*` - Type definitions
 - `postcss` - CSS processing
-- `eslint` - Linting (currently disabled)
+- `eslint` - Linting
 
 ### Notable Absences (Future Needs)
 - No state management: Redux, Zustand, Jotai
@@ -954,7 +952,7 @@ const data = [
 
 ### Task: Implement Wallet Connection (Future)
 **Recommended Approach:**
-1. Install Web3 libraries: `pnpm add wagmi viem @tanstack/react-query`
+1. Add Web3 libraries from the monorepo root, scoped to this workspace: `corepack yarn workspace @ultramar/capital add wagmi viem @tanstack/react-query`
 2. Create WagmiConfig provider
 3. Add ConnectButton component
 4. Use `useAccount`, `useConnect`, `useDisconnect` hooks
@@ -998,7 +996,7 @@ async function Page() {
 **Issue: Styles Not Applying**
 - Check Tailwind v4 syntax (different from v3)
 - Verify `globals.css` is imported in `app/layout.tsx`
-- Clear `.next` cache: `rm -rf .next && pnpm dev`
+- Clear `.next` cache: `rm -rf .next && corepack yarn workspace @ultramar/capital dev`
 
 **Issue: Component Not Found**
 - Check path alias: `@/` should resolve to root
@@ -1011,9 +1009,8 @@ async function Page() {
 - Check `.dark` class is being applied to `<html>` element
 
 **Issue: TypeScript Errors**
-- Build errors are currently ignored (`ignoreBuildErrors: true`)
 - For development, check `tsconfig.json` paths
-- Ensure types are installed: `pnpm add -D @types/node @types/react`
+- Ensure shared types are installed in the root manifest
 
 **Issue: Hydration Errors**
 - Check for server/client mismatches (e.g., `Date.now()` on server)
@@ -1029,7 +1026,7 @@ async function Page() {
 
 1. **Hot Reload Issues:** Restart dev server if changes don't reflect
 2. **Cache Issues:** Delete `.next` folder and restart
-3. **Port Conflicts:** Change port with `pnpm dev -p 3001`
+3. **Port Conflicts:** Change port with `corepack yarn workspace @ultramar/capital dev -p 3001`
 4. **Path Alias Issues:** Restart TypeScript server in IDE
 5. **Styling Issues:** Use browser DevTools to inspect applied classes
 
@@ -1134,20 +1131,20 @@ async function Page() {
 ### Useful Commands
 ```bash
 # Development
-pnpm dev              # Start dev server
-pnpm build            # Build for production
-pnpm start            # Start production server
-pnpm lint             # Run ESLint (currently disabled)
+corepack yarn workspace @ultramar/capital dev      # Start dev server
+corepack yarn workspace @ultramar/capital build    # Build for production
+corepack yarn workspace @ultramar/capital start    # Start production server
+corepack yarn workspace @ultramar/capital lint     # Run ESLint
 
 # shadcn/ui
 npx shadcn@latest add [component]  # Add component
 npx shadcn@latest add --all        # Add all components
 
 # Package Management
-pnpm add [package]               # Add dependency
-pnpm add -D [package]            # Add dev dependency
-pnpm remove [package]            # Remove dependency
-pnpm update                      # Update all dependencies
+corepack yarn workspace @ultramar/capital add [package]     # Add app dependency
+corepack yarn add -D [package]                              # Add shared dev dependency at root
+corepack yarn workspace @ultramar/capital remove [package]  # Remove app dependency
+corepack yarn up [package]                                  # Update dependency
 ```
 
 ---

@@ -2,6 +2,7 @@ import { EnvVarWarning } from "@/components/env-var-warning";
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { hasEnvVars } from "@/lib/utils";
+import { ultramarSuiteLinks } from "@/lib/ultramar-apps";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -29,6 +30,17 @@ export default function ProtectedLayout({
               >
                 Dashboard
               </Link>
+              <div className="hidden items-center gap-4 md:flex">
+                {ultramarSuiteLinks.map((app) => (
+                  <a
+                    key={app.href}
+                    href={app.href}
+                    className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {app.label}
+                  </a>
+                ))}
+              </div>
             </div>
             <div className="flex items-center gap-4">
               {!hasEnvVars ? (
@@ -50,6 +62,15 @@ export default function ProtectedLayout({
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
             Ultramar
           </p>
+          {ultramarSuiteLinks.map((app) => (
+            <a
+              key={app.href}
+              href={app.href}
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {app.label}
+            </a>
+          ))}
         </footer>
       </div>
     </main>

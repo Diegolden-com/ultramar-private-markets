@@ -1,6 +1,8 @@
-# Strategy Flow Diagrams
+# Ultramar Capital Strategy Flow Diagrams
 
-Diagramas de flujo detallados de cada estrategia y sus interacciones con APIs externas.
+Detailed strategy and portfolio flows for `@ultramar/capital`, the allocator app inside Ultramar.capital.
+
+These diagrams describe the product-level strategy model. The Polymarket execution engine is implemented in `apps/polymarket`; the private-market/RWA oracle and contracts are implemented in `apps/private-equities`.
 
 ---
 

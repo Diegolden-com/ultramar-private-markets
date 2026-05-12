@@ -8,6 +8,7 @@ import { OakLeafLogo } from "./oak-leaf-logo"
 import { usePrivy } from '@privy-io/react-auth'
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
+import { ultramarSuiteLinks } from "@/lib/ultramar-apps"
 
 export function Navigation() {
     const pathname = usePathname()
@@ -61,7 +62,18 @@ export function Navigation() {
                                 )}
                             </Link>
                         ))}
-                        
+
+                        <div className="h-5 w-px bg-border/60" />
+                        {ultramarSuiteLinks.map((link) => (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                className="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-accent"
+                            >
+                                {link.label}
+                            </a>
+                        ))}
+
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -169,6 +181,18 @@ export function Navigation() {
                             </motion.button>
                         )}
                     </div>
+                </div>
+
+                <div className="mt-3 flex gap-4 overflow-x-auto border-t border-border/40 pt-2 md:hidden">
+                    {ultramarSuiteLinks.map((link) => (
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            className="shrink-0 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition-colors hover:text-accent"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
                 </div>
             </div>
         </nav>

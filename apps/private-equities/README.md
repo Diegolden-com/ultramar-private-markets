@@ -1,116 +1,126 @@
-# Ultramar Private Equities (MVP)
+# Ultramar Private Equities
 
-Ultramar is a vertically integrated financial operating system running on the **Mantle Network**, designed to tokenize Real World Assets (RWA) and provide cryptographic proofs of solvency.
+`@ultramar/private-equities` is the private-market and RWA tokenization variant of Ultramar.capital. It turns issuer financial data into solvency signals, publishes proof records to Mantle, and presents tokenized private assets through an investor-facing interface.
 
-## 🚀 MVP Deployment (Mantle Sepolia)
+Public host: `private-equities.ultramar.capital`
 
-- **SolvencyRegistry Contract**: `0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21`
-- **Explorer Link**: [View on Mantle Explorer](https://explorer.sepolia.mantle.xyz/address/0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21)
-- **Latest Proof Tx**: `0xafebb592f3c70494f003fa8affdd82fc33160bd0f358bb816530ee6e5efd7675`
+## Role in Ultramar.capital
 
----
+Ultramar Private Equities is the specialist product behind the Private Markets strategy shown in `apps/capital`.
 
-## 📊 Project Status
+Its focus is different from the allocator app:
 
-- **Frontend**: Complete and polished (`/portfolio`, `/oracle`, `/market`).
-- **Backend**: Functional Integration with QuickBooks and Mantle Testnet.
-- **Contracts**: Deployed and verifying proofs on-chain.
+- **Capital** explains private markets as one strategy in a broader portfolio.
+- **Private Equities** owns the issuer/investor workflows, oracle scoring, tokenized asset UX, and contracts.
 
----
+## Product Scope
 
-## 📄 One Pager Pitch
+The workspace models a permissioned private-market exchange:
 
-### The Problem
-- **Locked Markets**: Retail investors are excluded from high-growth private companies until they go public at multi-billion dollar valuations.
-- **Liquidity Trap**: Early investors and founders are locked into positions for 7-10 years with no easy exit liquidity.
-- **Opaque Data**: Private market financials are often outdated PDF reports, making due diligence slow and expensive.
+- issuer financial data flows in through accounting/banking integrations;
+- the oracle computes solvency and liquidity metrics;
+- proof records can be signed and published on-chain;
+- private-equity/RWA assets are represented as permissioned tokens;
+- investors view holdings, deals, market data, and solvency status.
 
-### The Solution: Ultramar
-**Ultramar** is a next-generation exchange for tokenizing equity in companies with **$10M–$30M revenue**.
-- **Always-On Compliance**: Our AI Oracle connects directly to banking and accounting APIs (QuickBooks, Plaid) to generate real-time solvency scores.
-- **Trustless Verification**: Solvency proofs are cryptographically signed and published to the **Mantle Network**, creating an immutable audit trail.
-- **24/7 Liquidity**: Permissioned AMM pools allow accredited investors to enter and exit positions instantly, 24/7.
+Current app data includes mock/demo paths for portfolio and market views. The QuickBooks/OAuth and proof code is present for the oracle path, while production securities issuance requires legal, KYC/KYB, custody, and compliance gates outside this repository.
 
-### Business Model
-1.  **Listing Fee**: One-time fee for issuers to onboard and tokenize legal structure.
-2.  **Trading Fees**: A % take rate on all secondary market volume (Protocol Fee).
-3.  **Compliance SaaS**: Recurring subscription for issuers to access the "Always-On" financial health dashboard.
+## Product Surfaces
 
-### Roadmap
-- **Phase 1 (Current)**: Testnet MVP with functional Oracle & AMM.
-- **Phase 2 (Seed)**: Legal structuring (SPV/ATS), Smart Contract Audits, and first Pilot Issuer ($10M+ Revenue).
-- **Phase 3 (Mainnet)**: Launch on Mantle Mainnet with KYC/KYB gates and initial liquidity.
+- `/`: private-equities landing page.
+- `/equities`: tokenized asset list.
+- `/equities/[ticker]`: asset detail page.
+- `/equities/deals`: deal exploration.
+- `/market`: secondary-market view.
+- `/portfolio`: investor portfolio shell.
+- `/oracle`: solvency oracle view.
+- `/info`: product information.
+- `/law`: legal/compliance explanation.
 
----
+## API Surface
 
-## ⚖️ Compliance Declaration
+- `GET /api/integration/quickbooks/auth`: starts QuickBooks OAuth.
+- `GET /api/integration/quickbooks/callback`: handles QuickBooks OAuth callback.
+- `GET /api/oracle/score`: returns live QuickBooks-derived metrics when connected, otherwise demo solvency data.
+- `GET /api/portfolio`: returns demo portfolio/indexing data for the investor view.
 
-**Ultramar deals in Tokenized Real World Assets (RWA) which are classified as Securities.**
+## Contract Subcomponents
 
-- **Regulation**: This platform is designed to operate under **Reg D (506c)** in the US and relevant frameworks in other jurisdictions.
-- **Access Control**: All access to the permissioned smart contracts (`AssetToken`, `SimpleAMM`) is gated by a Whitelist.
-- **KYC/AML**: Production deployment requires strict Identity Verification (KYC) via partners (e.g., Persona, outputting via Privy/Civic).
-- **Disclaimer**: The current deployment is on **Mantle Sepolia Testnet** using mock assets (USDC Testnet) and is for **technical demonstration purposes only**. No real equity is being offered or traded at this stage.
+Foundry contracts live in `contracts/`.
 
----
+| Contract | Purpose |
+| --- | --- |
+| `SolvencyRegistry.sol` | Stores latest and historical solvency proofs for issuer/company addresses. |
+| `AssetToken.sol` | Permissioned ERC20 representing private-equity deal shares, including whitelist and dividend accounting. |
+| `DealManager.sol` | Coordinates deal lifecycle and token issuance flows. |
+| `SimpleAMM.sol` | Minimal AMM-style secondary-market component for token/USDC liquidity experiments. |
 
-## 🎯 System Objectives
+Current Mantle Sepolia registry deployment:
 
-1.  **Real-Time Solvency**: Connect to accounting systems (QuickBooks) to generate ZK/cryptographic proofs of solvency.
-2.  **On-Chain Verification**: Publish proofs to the blockchain for transparent, immutable monitoring.
-3.  **Investor Protection**: Ensure equity represents a true residual claim (Assets - Liabilities).
-4.  **Dividend Distribution**: Facilitate automated profit sharing based on validated financial results.
+- `SolvencyRegistry`: `0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21`
+- Explorer: `https://explorer.sepolia.mantle.xyz/address/0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21`
 
-## 🏗 System Architecture
+## Technical Stack
 
-### 1. Corporate Structure
-- **Operating Company**: Local entity (e.g., business in Mexico).
-- **SPV (Special Purpose Vehicle)**: Holding company in investor-friendly jurisdiction (Delaware, Singapore, etc.) owning 100% of the Operating Company.
+- Next.js `16.2.6`
+- React `19.2.6`
+- TypeScript `5.9.3`
+- Tailwind CSS `4.3.0`
+- Privy for wallet/auth integration
+- QuickBooks OAuth for issuer financial data
+- Viem for EVM interactions
+- Foundry for Solidity development
+- Mantle Sepolia for current proof demo
 
-### 2. Accounting Integration (The Oracle)
-- **Source of Truth**: QuickBooks (accessed via OAuth 2.0).
-- **Process**:
-    - Fetches Balance Sheet (Assets, Liabilities, Equity).
-    - Computes Solvency Ratio (`(Assets - Liabilities) / Liabilities`).
-    - Signs data with a dedicated Oracle Private Key.
-    - **Privacy**: Only the ratios and integrity proofs are published; raw ledger data remains private.
+Dependencies shared with other Ultramar apps are declared in the monorepo root. This app declares only Private Equities-specific packages, plus `react` and `react-dom` because Yarn peer boundaries require React apps to provide them locally.
 
-### 3. Smart Contracts (Foundry)
-- **`SolvencyRegistry.sol`**: Stores and verifies Oracle proofs.
-- **`AssetToken.sol`**: Permissioned ERC20 for equity shares.
-- **`SimpleAMM.sol`**: Automated Market Maker for secondary trading (Uniswap V2 style x*y=k).
+## Deployment
 
-### 4. Tech Stack
-- **Frontend**: Next.js 14, TailwindCSS, Framer Motion.
-- **Backend**: Next.js API Routes, Intuit OAuth, Viem (EVM interaction).
-- **Chain**: Mantle Sepolia Testnet.
+This workspace is deployed from the monorepo root with `vercel.private-equities.json`:
 
-## 🔮 Next Steps & Roadmap
-
-- [ ] **Backend Hardening**: Enhance error handling for the Oracle loop.
-- [ ] **ZK Proof Generation**: Move from trusted signer (Oracle) to full Zero-Knowledge Proofs (Circom/Halo2).
-- [ ] **Portfolio Module**: Connect frontend charts to live subgraphs.
-- [ ] **Secondary Market**: Deploy full Uniswap fork for liquidity.
-- [ ] **Mainnet Launch**: Deploy legal wrapper and contracts to Mantle Mainnet.
-
----
-
-## 🛠 Usage
-
-### Development Server
 ```bash
-bun dev
+vercel link --yes --project ultramar-private-equities --scope pachuco
+rm -rf .vercel/output
+vercel --local-config vercel.private-equities.json build --prod --yes
+vercel deploy --prebuilt --prod --yes
 ```
 
-### Run Oracle Proof Script
+The app links to `capital.ultramar.capital` and `polymarket.ultramar.capital` from its navigation shell. The default URLs can be overridden with `NEXT_PUBLIC_ULTRAMAR_CAPITAL_URL` and `NEXT_PUBLIC_ULTRAMAR_POLYMARKET_URL`.
+
+## Local Commands
+
+Frontend from the monorepo root:
+
 ```bash
-# Deploys a solvency proof to Mantle Sepolia
-bun run scripts/submit_proof.ts
+corepack yarn workspace @ultramar/private-equities dev
+corepack yarn workspace @ultramar/private-equities lint
+corepack yarn workspace @ultramar/private-equities build
 ```
 
-### Contract Development
+Contracts:
+
 ```bash
-cd contracts
+cd apps/private-equities/contracts
 forge build
 forge test
+forge fmt
 ```
+
+## Compliance Notes
+
+This workspace models tokenized Real World Assets and private-equity securities. Production deployment must include:
+
+- investor accreditation and KYC/KYB gates;
+- jurisdiction-specific offering exemptions or regulated venue support;
+- issuer onboarding and disclosure workflows;
+- custody, transfer restrictions, and secondary-market controls;
+- audited contracts and oracle operations.
+
+The current Mantle Sepolia deployment is a technical demonstration and does not represent a live offering of securities.
+
+## Related Docs
+
+- `contracts/README.md`: contract-level documentation and Foundry commands.
+- `contracts/src/*`: Solidity source.
+- `lib/quickbooks/*`: OAuth and QuickBooks service integration.
+- `lib/oracle/*`: financial scoring and proof generation.

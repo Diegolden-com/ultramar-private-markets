@@ -2,6 +2,7 @@ import PositionSummary from "@/components/PositionSummary";
 import SignalTable from "@/components/SignalTable";
 import { Activity, BarChart3, Wallet, TrendingUp } from "lucide-react";
 import Link from "next/link";
+import { ultramarSuiteLinks } from "@/lib/ultramar-apps";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
 
@@ -90,6 +91,17 @@ export default async function DashboardPage() {
             <span className="hidden text-xs text-muted-foreground sm:inline">
               Dashboard
             </span>
+            <div className="hidden items-center gap-4 text-xs text-muted-foreground md:flex">
+              {ultramarSuiteLinks.map((app) => (
+                <a
+                  key={app.href}
+                  href={app.href}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {app.label}
+                </a>
+              ))}
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5 font-mono text-xs text-signal-positive">

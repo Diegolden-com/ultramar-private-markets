@@ -1,4 +1,6 @@
-# Black‑Scholes vs Polymarket Arbitrage System — Architecture & Task Plan
+# Ultramar Polymarket — Black-Scholes vs Polymarket Arbitrage System
+
+This spec belongs to `@ultramar/polymarket`, the specialist Polymarket strategy workspace inside Ultramar.capital. The allocator-facing strategy card and investor education live in `apps/capital`; this workspace owns the market-data, pricing, risk, execution, and reconciliation plan.
 
 **Version:** 0.1   
 **Status:** Design (Architecture Deep Dive)  

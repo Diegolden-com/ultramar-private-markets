@@ -11,6 +11,7 @@ import {
   Target,
 } from "lucide-react";
 import Link from "next/link";
+import { ultramarSuiteLinks } from "@/lib/ultramar-apps";
 
 const FEATURES = [
   {
@@ -83,6 +84,15 @@ export default function Home() {
               >
                 Dashboard
               </Link>
+              {ultramarSuiteLinks.map((app) => (
+                <a
+                  key={app.href}
+                  href={app.href}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {app.label}
+                </a>
+              ))}
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -92,6 +102,25 @@ export default function Home() {
             <Button size="sm" asChild>
               <Link href="/auth/sign-up">Sign up</Link>
             </Button>
+          </div>
+        </div>
+        <div className="border-t border-border sm:hidden">
+          <div className="mx-auto flex max-w-6xl gap-4 overflow-x-auto px-6 py-2 text-xs text-muted-foreground">
+            <Link
+              href="/dashboard"
+              className="shrink-0 transition-colors hover:text-foreground"
+            >
+              Dashboard
+            </Link>
+            {ultramarSuiteLinks.map((app) => (
+              <a
+                key={app.href}
+                href={app.href}
+                className="shrink-0 transition-colors hover:text-foreground"
+              >
+                {app.label}
+              </a>
+            ))}
           </div>
         </div>
       </nav>
@@ -223,13 +252,22 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
             Ultramar
           </p>
-          <p className="text-xs text-muted-foreground">
-            Crypto options signal infrastructure
-          </p>
+          <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+            <span>Crypto options signal infrastructure</span>
+            {ultramarSuiteLinks.map((app) => (
+              <a
+                key={app.href}
+                href={app.href}
+                className="transition-colors hover:text-foreground"
+              >
+                {app.label}
+              </a>
+            ))}
+          </div>
         </div>
       </footer>
     </main>

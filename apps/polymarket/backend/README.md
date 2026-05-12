@@ -1,6 +1,23 @@
 # Ultramar Polymarket Backend
 
-MVP backend services for data ingestion, pricing, signals, and execution planning.
+Backend services for the Ultramar.capital Polymarket strategy: market ingestion, Black-Scholes probability pricing, signal generation, risk checks, order intent persistence, execution adapters, and reconciliation.
+
+This backend is the execution-adjacent component of `@ultramar/polymarket`. The Next.js app presents the dashboard and auth surface; this Python service owns the market data, model, and operating controls.
+
+## Service Map
+
+| Area | Path | Responsibility |
+| --- | --- | --- |
+| API | `backend/api/` | FastAPI app and public/internal routes. |
+| Ingestion | `backend/ingest/` | Polymarket, Gamma, Deribit, WebSocket, raw storage, and normalization. |
+| Mapping | `backend/mapping/` | Manual mapping from Polymarket events to underlyings, strikes, and expiries. |
+| Pricing | `backend/pricing/` | Black-Scholes, CDF, implied probability, IV surface, and spot helpers. |
+| Signals | `backend/signals/` | Discrepancy calculation and trade filters. |
+| Risk | `backend/risk/` | Exposure, Kelly sizing, and hard limit checks. |
+| Execution | `backend/execution/` | Paper/live gateways, order intents, kill switch, canary ladder, and reconciliation utilities. |
+| Workers | `backend/workers/` | Scheduler, ingestion, signal, execution, hedge, and reconcile loops. |
+| DB | `backend/db/` | SQLAlchemy models, sessions, and Alembic migrations. |
+| Analytics | `backend/analytics/` | PnL and reporting helpers. |
 
 Go-live execution checklist:
 - `../docs/GO_LIVE_CHECKLIST.md`

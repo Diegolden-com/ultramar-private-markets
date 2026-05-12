@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "installCommand": "corepack enable && corepack yarn install --immutable",
+  "buildCommand": "corepack yarn workspace @ultramar/capital build",
+  "outputDirectory": "apps/capital/.next"
+}

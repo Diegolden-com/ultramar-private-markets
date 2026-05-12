@@ -1,8 +1,15 @@
-# API Architecture - Ultramar Capital (MVP)
+# API Architecture - Ultramar Capital
 
 ## Overview
 
-Backend API para Ultramar Capital enfocado en **MVP**: Estrategias, Posiciones y Portfolio. Este documento especifica cómo cada estrategia se conecta a APIs externas reales (Deribit, Polymarket, Aave) y ejecuta sus operaciones.
+Backend/API architecture for `@ultramar/capital`, the main allocator variant of Ultramar.capital. This document describes the target strategy, position, and portfolio API model that the Capital app exposes to investors.
+
+Capital is the portfolio and strategy-catalog layer. Specialist engines live in sibling workspaces:
+
+- Polymarket probability dislocation and execution logic lives in `apps/polymarket`.
+- Private-market tokenization, oracle proofs, and contracts live in `apps/private-equities`.
+
+Some endpoints below are implemented today and some are target architecture for the full Ultramar.capital strategy suite.
 
 ## Technology Stack MVP
 

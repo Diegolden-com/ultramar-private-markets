@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from "./theme-provider"
 import { OakLeafLogo } from "./oak-leaf-logo"
+import { ultramarSuiteLinks } from "@/lib/ultramar-apps"
 
 export function Navigation() {
   const pathname = usePathname()
@@ -50,6 +51,16 @@ export function Navigation() {
             >
               Info
             </Link>
+            <div className="h-5 w-px bg-border" />
+            {ultramarSuiteLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-accent transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
             <button
               onClick={toggleTheme}
               className="border border-border p-2 hover:bg-muted hover:border-accent transition-all"
@@ -101,6 +112,18 @@ export function Navigation() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-3 flex gap-4 overflow-x-auto md:hidden">
+          {ultramarSuiteLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="shrink-0 font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-accent transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
       </div>
     </nav>
