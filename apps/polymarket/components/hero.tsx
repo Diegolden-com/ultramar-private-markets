@@ -10,7 +10,7 @@ const SAMPLE_SIGNALS = [
 
 export function Hero() {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-border bg-card p-1">
+    <div className="relative w-full max-w-full overflow-hidden rounded-xl border border-border bg-card p-1">
       {/* Terminal header */}
       <div className="flex items-center gap-2 border-b border-border px-4 py-2">
         <div className="h-2.5 w-2.5 rounded-full bg-signal-negative/60" />
@@ -26,8 +26,8 @@ export function Hero() {
       </div>
 
       {/* Terminal body */}
-      <div className="overflow-hidden bg-background/50 p-0">
-        <table className="w-full text-left font-mono text-sm">
+      <div className="overflow-x-auto bg-background/50 p-0">
+        <table className="min-w-[520px] text-left font-mono text-sm">
           <thead>
             <tr className="border-b border-border text-xs text-muted-foreground">
               <th className="px-4 py-2.5 font-medium">MARKET</th>

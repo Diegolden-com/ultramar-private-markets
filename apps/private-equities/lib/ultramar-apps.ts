@@ -10,13 +10,41 @@ export const ultramarDomains = {
         "https://private-equities.ultramar.capital",
 } as const
 
-export const ultramarSuiteLinks = [
+export const ultramarCurrentApp = "privateEquities"
+
+export const ultramarProductFacets = [
     {
+        key: "capital",
         label: "Capital",
         href: ultramarDomains.capital,
+        eyebrow: "Allocator",
+        title: "Portfolio allocator",
+        cta: "View strategies",
+        description:
+            "The investor-facing gateway for comparing the Ultramar strategy suite, risk notes, and portfolio views.",
     },
     {
+        key: "polymarket",
         label: "Polymarket",
         href: ultramarDomains.polymarket,
+        eyebrow: "Signals",
+        title: "Event-market alpha",
+        cta: "Open signals",
+        description:
+            "A quantitative dashboard for Polymarket probability dislocations, Deribit context, and execution monitoring.",
+    },
+    {
+        key: "privateEquities",
+        label: "Private Equities",
+        href: "/equities",
+        eyebrow: "Private markets",
+        title: "Tokenized real assets",
+        cta: "Explore assets",
+        description:
+            "The RWA rail for issuer data, solvency proofs, permissioned assets, and secondary-market experiments.",
     },
 ] as const
+
+export const ultramarSuiteLinks = ultramarProductFacets.filter(
+    (app) => app.key !== ultramarCurrentApp,
+)

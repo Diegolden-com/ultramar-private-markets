@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ultramarSuiteLinks } from "@/lib/ultramar-apps";
+import { UltramarFacets } from "@/components/ultramar-facets";
 
 const FEATURES = [
   {
@@ -138,36 +139,39 @@ export default function Home() {
                   MVP Live
                 </span>
               </div>
-              <h1 className="animate-fade-in-up delay-2 text-4xl font-semibold leading-tight tracking-tight lg:text-5xl">
-                Trading signals where{" "}
-                <span className="text-primary">options</span> meet{" "}
-                <span className="text-primary">prediction markets</span>
-              </h1>
-              <p className="animate-fade-in-up delay-3 max-w-lg text-base leading-relaxed text-muted-foreground lg:text-lg">
-                Ultramar detects price discrepancies between crypto options on
-                Deribit and prediction markets on Polymarket. Real-time signals,
-                theoretical pricing, and automated execution.
+              <p className="animate-fade-in-up delay-2 text-xs font-medium uppercase tracking-[0.3em] text-primary">
+                Ultramar.capital / Signals
               </p>
-              <div className="animate-fade-in-up delay-4 flex items-center gap-3 pt-2">
-                <Button size="lg" asChild>
+              <h1 className="animate-fade-in-up delay-3 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
+                Ultramar Polymarket
+              </h1>
+              <p className="animate-fade-in-up delay-4 max-w-lg text-base leading-relaxed text-muted-foreground lg:text-lg">
+                The signal layer for Ultramar.capital. It compares Polymarket
+                prices with derivatives-implied probabilities, then turns those
+                dislocations into monitored trading signals.
+              </p>
+              <div className="animate-fade-in-up delay-5 flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
+                <Button size="lg" className="w-full sm:w-auto" asChild>
                   <Link href="/dashboard">
-                    Open Dashboard
+                    Open Signal Dashboard
                     <ChevronRight className="ml-1 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" asChild>
+                <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
                   <Link href="/auth/sign-up">Create Account</Link>
                 </Button>
               </div>
             </div>
 
             {/* Right: Terminal */}
-            <div className="animate-fade-in-up delay-3">
+            <div className="min-w-0 animate-fade-in-up delay-3">
               <Hero />
             </div>
           </div>
         </div>
       </section>
+
+      <UltramarFacets />
 
       {/* Features */}
       <section className="border-t border-border bg-card/50">
