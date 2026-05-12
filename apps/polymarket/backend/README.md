@@ -36,7 +36,7 @@ corepack yarn workspace @ultramar/polymarket backend:test
 After pulling backend changes, apply DB migrations before starting workers:
 
 ```bash
-cd /Users/diegolden/Code/Diegolden/project-ultramar/apps/polymarket/backend
+cd /Users/diegolden/Code/project-ultramar/apps/polymarket/backend
 .venv/bin/python -m alembic upgrade head
 ```
 

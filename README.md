@@ -2,9 +2,9 @@
 
 Canonical handoff for consolidating and upgrading this codebase.
 
-## Current Status (updated: 2026-02-26)
+## Current Status (updated: 2026-05-12)
 
-Phase 1, 2 and 3 are complete.
+Phase 1, 2, 3 and 4 are complete.
 
 ### Phase 1: Workspace Consolidation (complete)
 
@@ -42,8 +42,8 @@ Phase 1, 2 and 3 are complete.
 
 ### Phase 3: Next.js Upgrade + Version Pinning (complete)
 
-- All apps pinned to `next@16.1.6`
-- `eslint-config-next` pinned to `16.1.6` in polymarket and private-equities
+- All apps pinned to `next@16.2.6`
+- `eslint-config-next` pinned to `16.2.6`
 - Added ESLint setup for capital:
   - `eslint` + `eslint-config-next` in `apps/capital/package.json`
   - `apps/capital/eslint.config.mjs`
@@ -59,7 +59,7 @@ Phase 1, 2 and 3 are complete.
   - `apps/private-equities/components/theme-provider.tsx`
   - `apps/capital/components/theme-provider.tsx`
 
-Build validation (all on Next.js 16.1.6 with Turbopack):
+Build validation (all on Next.js 16.2.6 with Turbopack):
 
 - `yarn workspace @ultramar/capital build` — PASS (18 routes)
 - `yarn workspace @ultramar/polymarket build` — PASS (15 routes)
@@ -70,6 +70,19 @@ Lint validation:
 - `yarn workspace @ultramar/polymarket lint` — PASS
 - `yarn workspace @ultramar/capital lint` — PASS (0 errors, 0 warnings)
 - `yarn workspace @ultramar/private-equities lint` — PASS (0 errors, 0 warnings)
+
+### Phase 4: Workspace Dependency Refresh (complete)
+
+- Shared runtime dependencies consolidated into the root `package.json`
+- Shared tooling dependencies consolidated into root `devDependencies`
+- App manifests now keep only app-specific dependencies, except `react`/`react-dom` where Yarn peer boundaries require the app to provide them
+- Polymarket migrated from Tailwind CSS v3 config to Tailwind CSS v4 CSS-first setup
+- Root scripts normalized for Yarn 4:
+  - `yarn build` builds all app workspaces
+  - `yarn lint` lints all app workspaces
+  - `yarn typecheck` typechecks Polymarket
+- Added Yarn `packageExtensions` for third-party peer metadata gaps in the wallet stack
+- Lockfile deduplicated with `yarn dedupe`
 
 ## Important Migration Artifact
 
@@ -98,9 +111,9 @@ project-ultramar/
       polymarket-cd.yml
       apps-ci.yml
   apps/
-    capital/          (Next.js 16.1.6)
-    polymarket/       (Next.js 16.1.6)
-    private-equities/ (Next.js 16.1.6)
+    capital/          (Next.js 16.2.6)
+    polymarket/       (Next.js 16.2.6)
+    private-equities/ (Next.js 16.2.6)
   packages/
   package.json
   yarn.lock
@@ -119,20 +132,19 @@ project-ultramar/
 
 ### Peer Dependency Warnings
 
-- `vaul` requests React `^18.2.0` while capital uses React `19.2.0`
-- `recharts` requests `react-is` in capital and private-equities
-
-These are currently non-blocking (builds pass) but should be tracked before larger dependency refreshes.
+- `yarn explain peer-requirements | rg '^p.*→ ✘'` is clean after the Phase 4 refresh
+- `react-is` is declared at the root for `recharts`
+- Yarn `packageExtensions` covers missing transitive peer metadata from `@reown`, `@solana`, and `x402` packages
 
 ## Quick Recovery Commands (after /clear)
 
 ```bash
-cd /Users/diegolden/Code/Diegolden/project-ultramar
+cd /Users/diegolden/Code/project-ultramar
 corepack yarn workspaces list
 corepack yarn install
-corepack yarn workspace @ultramar/capital build
-corepack yarn workspace @ultramar/polymarket build
-corepack yarn workspace @ultramar/private-equities build
+corepack yarn build
+corepack yarn lint
+corepack yarn typecheck
 ```
 
 ## Definition of Done
@@ -149,4 +161,4 @@ Phase 2/3 done when: **COMPLETE**
 
 - no hardcoded legacy package-manager commands remain in active scripts/workflows
 - CI/CD runs from monorepo paths
-- all apps pinned and validated on target Next version (`16.1.6`)
+- all apps pinned and validated on target Next version (`16.2.6`)

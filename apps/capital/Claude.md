@@ -20,12 +20,12 @@
 ## Technology Stack
 
 ### Core Framework
-- **Next.js 16.0.0** - App Router architecture (file-based routing)
-- **React 19.2.0** - Latest stable release
-- **TypeScript 5.x** - Strict mode enabled with path aliases (@/*)
+- **Next.js 16.2.6** - App Router architecture (file-based routing)
+- **React 19.2.6** - Latest stable release
+- **TypeScript 5.9.3** - Strict mode enabled with path aliases (@/*)
 
 ### UI & Styling
-- **Tailwind CSS 4.1.9** - Latest v4 with CSS-first configuration
+- **Tailwind CSS 4.3.0** - Latest v4 with CSS-first configuration
 - **shadcn/ui** - Built on Radix UI primitives (40+ packages)
 - **Radix UI** - Accessible component primitives
 - **Lucide React** - Icon library
@@ -740,8 +740,8 @@ function ClientComponent() {
 ### Production Dependencies (Partial List)
 
 **UI Framework:**
-- `next@16.0.0` - React framework
-- `react@19.2.0`, `react-dom@19.2.0` - React library
+- `next@16.2.6` - React framework
+- `react@19.2.6`, `react-dom@19.2.6` - React library
 
 **UI Components:**
 - `@radix-ui/*` - 40+ accessible component primitives
@@ -750,12 +750,12 @@ function ClientComponent() {
 - `embla-carousel-react` - Carousels
 
 **Forms & Validation:**
-- `react-hook-form@7.60.0` - Form state
-- `zod@3.25.76` - Schema validation
+- `react-hook-form@7.75.0` - Form state
+- `zod@4.4.3` - Schema validation
 - `@hookform/resolvers` - RHF + Zod integration
 
 **Styling:**
-- `tailwindcss@4.1.9` - Utility-first CSS
+- `tailwindcss@4.3.0` - Utility-first CSS
 - `class-variance-authority` - Variant utilities
 - `clsx`, `tailwind-merge` - Class merging
 

@@ -117,10 +117,10 @@ See [API_ARCHITECTURE.md](./API_ARCHITECTURE.md#strategy-4-private-equities-hf3)
 ## Technology Stack
 
 ### Frontend
-- **Next.js 16.0.0** - App Router with React Server Components
-- **React 19.2.0** - Latest stable release
-- **TypeScript 5.x** - Strict mode with path aliases
-- **Tailwind CSS 4.1.9** - Utility-first styling (brutalist design)
+- **Next.js 16.2.6** - App Router with React Server Components
+- **React 19.2.6** - Latest stable release
+- **TypeScript 5.9.3** - Strict mode with path aliases
+- **Tailwind CSS 4.3.0** - Utility-first styling (brutalist design)
 - **shadcn/ui** - Accessible Radix UI components
 - **Recharts** - Financial charting
 

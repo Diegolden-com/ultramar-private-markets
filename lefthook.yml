@@ -1,0 +1,2 @@
+# Lefthook installs hooks at the git root for this monorepo.
+# App-specific hook commands live in workspace-level configs.
