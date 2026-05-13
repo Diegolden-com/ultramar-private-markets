@@ -4961,6 +4961,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ultramar/product-model@workspace:*, @ultramar/product-model@workspace:packages/product-model":
+  version: 0.0.0-use.local
+  resolution: "@ultramar/product-model@workspace:packages/product-model"
+  dependencies:
+    typescript: "npm:5.9.3"
+  languageName: unknown
+  linkType: soft
+
+"@ultramar/ultramar@workspace:apps/ultramar":
+  version: 0.0.0-use.local
+  resolution: "@ultramar/ultramar@workspace:apps/ultramar"
+  dependencies:
+    "@ultramar/product-model": "workspace:*"
+    react: "npm:19.2.6"
+    react-dom: "npm:19.2.6"
+  languageName: unknown
+  linkType: soft
+
 "@unrs/resolver-binding-android-arm-eabi@npm:1.11.1":
   version: 1.11.1
   resolution: "@unrs/resolver-binding-android-arm-eabi@npm:1.11.1"

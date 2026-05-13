@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
   "installCommand": "corepack enable && corepack yarn install --immutable",
-  "buildCommand": "corepack yarn workspace @ultramar/polymarket build",
-  "outputDirectory": "apps/polymarket/.next"
+  "buildCommand": "corepack yarn workspace @ultramar/ultramar build",
+  "outputDirectory": "apps/ultramar/.next"
 }

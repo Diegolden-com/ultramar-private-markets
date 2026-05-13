@@ -1,0 +1,17 @@
+{
+  "name": "@ultramar/ultramar",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "yarn run -T next dev",
+    "build": "yarn run -T next build",
+    "start": "yarn run -T next start",
+    "lint": "yarn run -T eslint .",
+    "typecheck": "yarn run -T tsc --noEmit"
+  },
+  "dependencies": {
+    "@ultramar/product-model": "workspace:*",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  }
+}

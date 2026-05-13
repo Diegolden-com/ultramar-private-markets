@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
   "installCommand": "corepack enable && corepack yarn install --immutable",
-  "buildCommand": "corepack yarn workspace @ultramar/private-equities build",
-  "outputDirectory": "apps/private-equities/.next"
+  "buildCommand": "corepack yarn workspace @ultramar/ultramar build",
+  "outputDirectory": "apps/ultramar/.next"
 }

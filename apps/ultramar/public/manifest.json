@@ -1,0 +1,24 @@
+{
+    "name": "Ultramar Private Equities",
+    "short_name": "Ultramar PE",
+    "description": "Private Equity Management",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#0c4a6e",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/icon-192.jpg",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512.jpg",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

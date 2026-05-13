@@ -1,106 +1,75 @@
 # Ultramar.capital Product Map
 
-This document is the product taxonomy for the monorepo. Use it when deciding where a feature, bugfix, integration, or document belongs.
+This is the canonical taxonomy for the monorepo and public product experience.
 
-## Umbrella
+## Platform
 
-**Ultramar.capital** is the platform brand. It groups multiple investment-product variants under one workspace:
+**Ultramar.capital** is the platform brand and the only canonical public domain. It owns the shared home, product navigation, auth entry points, investor context, SEO, and redirect strategy.
 
-- an allocator app;
-- a Polymarket quant strategy engine;
-- a private-market/RWA tokenization product.
+“Capital” should not be presented as a third product. It is the umbrella layer that helps users understand and navigate the two product lines.
 
-The workspaces are variants of one product family, not unrelated apps.
+## Public Products
 
-## Public Routing
+| Product | Canonical route | Purpose | Primary audience |
+| --- | --- | --- | --- |
+| Private Equities | `/private-equities` | Private-market and tokenized RWA workflows: assets, deals, oracle, market, portfolio, and legal boundaries. | Issuers, eligible investors, and operators managing private-market rails. |
+| Arbitrage Hedge Fund | `/arbitrage-hedge-fund` | Polymarket-first quantitative arbitrage fund surface: signals, dashboard, risk, and research. | Allocators, quants, and risk reviewers evaluating systematic event-market exposure. |
 
-The public app structure uses subdomains under `ultramar.capital`:
+## Route Ownership
 
-| Public host | Product | Workspace |
-| --- | --- | --- |
-| `capital.ultramar.capital` | Ultramar Capital | `apps/capital` |
-| `polymarket.ultramar.capital` | Ultramar Polymarket | `apps/polymarket` |
-| `private-equities.ultramar.capital` | Ultramar Private Equities | `apps/private-equities` |
+### Private Equities
 
-Each frontend includes cross-app navigation links to its sibling Ultramar apps.
+The Private Equities product owns:
 
-## Variants
+- `/private-equities`
+- `/private-equities/assets`
+- `/private-equities/assets/[ticker]`
+- `/private-equities/deals`
+- `/private-equities/portfolio`
+- `/private-equities/oracle`
+- `/private-equities/market`
+- `/private-equities/legal`
+- `/api/private-equities/*`
 
-### Ultramar Capital
+It covers issuer financial data, solvency proof concepts, permissioned private assets, private-market deal discovery, eligible secondary transfer views, and investor portfolio state.
 
-Workspace: `apps/capital`
+### Arbitrage Hedge Fund
 
-Purpose:
+The Arbitrage Hedge Fund product owns:
 
-- investor-facing allocator;
-- strategy catalogue;
-- portfolio dashboard;
-- education and risk pages;
-- API surface for strategy metadata and lending-market examples.
+- `/arbitrage-hedge-fund`
+- `/arbitrage-hedge-fund/signals`
+- `/arbitrage-hedge-fund/dashboard`
+- `/arbitrage-hedge-fund/risk`
+- `/arbitrage-hedge-fund/research`
+- `/api/arbitrage/*`
 
-Owns:
+V1 is Polymarket-first. The active product compares Polymarket implied probabilities with model probabilities and exposes spreads, confidence, positions, and risk guardrails.
 
-- Capital landing, strategy, dashboard, info, login routes;
-- strategy cards and charts;
-- investor-facing copy for the four strategy families.
+Lending markets and derivative arbitrage are not active public products in this taxonomy. They may appear only in research context until promoted with complete product language and risk controls.
 
-Does not own:
+## Legacy Workspaces
 
-- Polymarket live execution;
-- private-equity contract operations;
-- issuer accounting integrations.
+| Workspace | Current role |
+| --- | --- |
+| `apps/ultramar` | Canonical mega app. |
+| `packages/product-model` | Shared taxonomy and route metadata. |
+| `apps/capital` | Historical allocator implementation and docs. Legacy public paths redirect to the mega app. |
+| `apps/polymarket` | Historical frontend plus active Python backend and runbooks for the hedge-fund engine. Legacy public paths redirect to `/arbitrage-hedge-fund`. |
+| `apps/private-equities` | Historical frontend plus QuickBooks/oracle/contracts implementation reference. Legacy public paths redirect to `/private-equities`. |
 
-### Ultramar Polymarket
+## Redirect Rules
 
-Workspace: `apps/polymarket`
+- `www.ultramar.capital/*` redirects to `https://ultramar.capital/*`.
+- `capital.ultramar.capital/*` redirects to the canonical home, fund, or private-equities route depending on the old path.
+- `polymarket.ultramar.capital/*` redirects to `/arbitrage-hedge-fund/*`, while `/auth/*` redirects to shared auth.
+- `private-equities.ultramar.capital/*` redirects to `/private-equities/*`.
 
-Purpose:
-
-- Polymarket probability dislocation strategy;
-- Black-Scholes/lognormal probability modeling;
-- Deribit hedge context;
-- signal generation;
-- order intent, execution adapter, reconciliation, and risk controls.
-
-Owns:
-
-- Polymarket dashboard and auth shell;
-- Python ingestion/pricing/signal/risk/execution backend;
-- go-live and incident runbooks;
-- E2E tests for the Polymarket frontend.
-
-Does not own:
-
-- the generic investor strategy catalogue;
-- RWA/private-equity tokenization contracts.
-
-### Ultramar Private Equities
-
-Workspace: `apps/private-equities`
-
-Purpose:
-
-- private-equity/RWA tokenization experience;
-- issuer solvency oracle;
-- QuickBooks integration;
-- investor portfolio and market views;
-- permissioned token and proof contracts.
-
-Owns:
-
-- private-equity frontend routes;
-- QuickBooks OAuth and oracle scoring APIs;
-- Foundry contracts for solvency proofs, asset tokens, deals, and AMM experiments.
-
-Does not own:
-
-- Polymarket probability modeling;
-- general allocator copy outside private markets.
+The implementation source of truth is `apps/ultramar/next.config.ts`.
 
 ## Shared Rules
 
-- Shared runtime and tooling dependencies belong in the root `package.json` when they are used by more than one workspace.
-- Workspace manifests should keep only app-specific packages, except React peer-boundary requirements.
-- Product docs should name the variant explicitly: Ultramar Capital, Ultramar Polymarket, or Ultramar Private Equities.
-- Architecture docs should say whether they describe implemented behavior, target architecture, or demo/mock surfaces.
-- Production securities, live trading, and issuer data workflows require compliance and operational review before being treated as live systems.
+- Product copy must present exactly two public product choices.
+- Shared product names, descriptions, CTAs, and nav links belong in `packages/product-model`.
+- App UI should use the same header, footer, product crosslink, and CTA patterns across both products.
+- Production securities, live trading, issuer data, and execution workflows require compliance and operational review before being treated as live systems.
