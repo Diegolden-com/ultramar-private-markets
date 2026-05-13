@@ -126,7 +126,7 @@ export default async function ResearchArticlePage({
               sizes="(min-width: 1024px) 900px, 100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-foreground/12" />
+            <div className="absolute inset-0 bg-black/12" />
           </div>
         </section>
 

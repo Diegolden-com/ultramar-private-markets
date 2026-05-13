@@ -63,23 +63,23 @@ export default function ArbitrageHedgeFundPage() {
       />
       <section className="relative min-h-[72vh] overflow-hidden">
         <Image
-          src="/abstract-financial-growth-chart-geometric-shapes.jpg"
-          alt="Quantitative trading signal infrastructure"
+          src="/tarot-market.png"
+          alt="Wheel of fortune market signal card"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-foreground/74" />
+        <div className="absolute inset-0 bg-black/74" />
         <div className="relative mx-auto flex min-h-[72vh] max-w-7xl items-center px-4 py-20 sm:px-6">
-          <div className="max-w-3xl text-background">
+          <div className="max-w-3xl text-[oklch(0.98_0.015_85)]">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">
               {product.eyebrow}
             </p>
             <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-6xl">
               Arbitrage Hedge Fund built around Polymarket dislocations.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-background/78">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/80">
               The fund product normalizes Polymarket prices against
               derivatives-implied probabilities, then turns durable spreads into
               monitored signals with sizing, hedging, and risk controls.
@@ -94,7 +94,7 @@ export default function ArbitrageHedgeFundPage() {
               </Link>
               <Link
                 href="/arbitrage-hedge-fund/risk"
-                className="inline-flex items-center justify-center gap-2 rounded-md border border-background/30 px-5 py-3 text-sm font-semibold text-background hover:bg-background hover:text-foreground"
+                className="inline-flex items-center justify-center gap-2 rounded-md border border-white/30 px-5 py-3 text-sm font-semibold text-[oklch(0.98_0.015_85)] hover:bg-[oklch(0.98_0.015_85)] hover:text-[oklch(0.12_0.03_75)]"
               >
                 Review Risk
                 <ArrowRight className="h-4 w-4" />

@@ -4,6 +4,7 @@ import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { canonicalDomain, platform } from "@ultramar/product-model";
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -42,10 +43,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/abstract-financial-growth-chart-geometric-shapes.jpg",
+        url: "/tarot-market.png",
         width: 1200,
         height: 630,
-        alt: "Ultramar.capital institutional platform",
+        alt: "Ultramar.capital mysterious market system",
       },
     ],
   },
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ultramar.capital",
     description: platform.description,
-    images: ["/abstract-financial-growth-chart-geometric-shapes.jpg"],
+    images: ["/tarot-market.png"],
   },
   icons: {
     icon: "/icon-192.jpg",
@@ -63,8 +64,23 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f8f3e8",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8f3e8" },
+    { media: "(prefers-color-scheme: dark)", color: "#11100d" },
+  ],
 };
+
+const themeScript = `
+(() => {
+  try {
+    const stored = localStorage.getItem("ultramar-theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = stored === "light" || stored === "dark" ? stored : prefersDark ? "dark" : "light";
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.style.colorScheme = theme;
+  } catch (_) {}
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -72,10 +88,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${dmSans.variable} ${jetBrainsMono.variable} ${playfair.variable} font-sans antialiased`}
       >
+        <Script
+          id="ultramar-theme-script"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeScript }}
+        />
         <JsonLd id="organization-json-ld" data={organizationJsonLd()} />
         <JsonLd id="website-json-ld" data={websiteJsonLd()} />
         <AppShell>{children}</AppShell>

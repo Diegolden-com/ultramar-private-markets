@@ -40,7 +40,7 @@ export const researchArticles: ResearchArticle[] = [
     publishedAt: "2026-05-13",
     updatedAt: "2026-05-13",
     readingTime: "7 min read",
-    image: "/abstract-financial-growth-chart-geometric-shapes.jpg",
+    image: "/tarot-market.png",
     keywords: [
       "Polymarket arbitrage",
       "prediction market arbitrage",
@@ -105,7 +105,7 @@ export const researchArticles: ResearchArticle[] = [
     publishedAt: "2026-05-13",
     updatedAt: "2026-05-13",
     readingTime: "8 min read",
-    image: "/solarpunk-laundromat.png",
+    image: "/tarot-law.png",
     keywords: [
       "tokenized private equity",
       "tokenized real-world assets",
@@ -235,7 +235,7 @@ export const researchArticles: ResearchArticle[] = [
     publishedAt: "2026-05-13",
     updatedAt: "2026-05-13",
     readingTime: "7 min read",
-    image: "/abstract-financial-growth-chart-geometric-shapes.jpg",
+    image: "/tarot-law.png",
     keywords: [
       "event-market arbitrage risk",
       "Polymarket risk controls",

@@ -35,7 +35,7 @@ export const metadata = createSeoMetadata({
 
 const productImages = {
   "private-equities": "/solarpunk-laundromat.png",
-  "arbitrage-hedge-fund": "/abstract-financial-growth-chart-geometric-shapes.jpg",
+  "arbitrage-hedge-fund": "/tarot-market.png",
 } as const;
 
 const productIcons = {
@@ -87,29 +87,29 @@ export default function HomePage() {
       />
       <section className="relative isolate min-h-[76vh] overflow-hidden">
         <Image
-          src="/abstract-financial-growth-chart-geometric-shapes.jpg"
-          alt="Institutional financial growth chart"
+          src="/tarot-market.png"
+          alt="Mysterious market cycle tarot card"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-foreground/78" />
-        <div className="absolute inset-0 bg-background/10" />
+        <div className="absolute inset-0 bg-black/78" />
+        <div className="absolute inset-0 bg-white/10" />
         <div className="absolute inset-0 overflow-hidden opacity-35">
-          <div className="absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-background/45 to-transparent" />
-          <div className="absolute left-1/2 top-0 h-full w-px bg-gradient-to-b from-transparent via-background/60 to-transparent" />
-          <div className="absolute left-3/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-background/45 to-transparent" />
+          <div className="absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/45 to-transparent" />
+          <div className="absolute left-1/2 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/60 to-transparent" />
+          <div className="absolute left-3/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/45 to-transparent" />
         </div>
         <div className="relative mx-auto flex min-h-[76vh] max-w-7xl items-center px-4 py-20 text-center sm:px-6">
-          <div className="mx-auto max-w-5xl text-background">
+          <div className="mx-auto max-w-5xl text-[oklch(0.98_0.015_85)]">
             <p className="font-mono text-xs font-bold uppercase tracking-[0.38em] text-accent">
               Ultramar.capital / Investment platform
             </p>
             <h1 className="mt-7 font-serif text-5xl font-bold leading-[0.95] sm:text-7xl lg:text-8xl">
               Ultramar.capital
             </h1>
-            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-background/78 sm:text-xl">
+            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-white/80 sm:text-xl">
               Two capital products, one institutional surface: tokenized
               private-market access and Polymarket-first arbitrage fund
               infrastructure under a single canonical brand.
@@ -117,7 +117,7 @@ export default function HomePage() {
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="/private-equities"
-                className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-background px-8 font-mono text-sm font-bold uppercase tracking-widest text-foreground transition hover:bg-background/92"
+                className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-[oklch(0.98_0.015_85)] px-8 font-mono text-sm font-bold uppercase tracking-widest text-[oklch(0.12_0.03_75)] transition hover:bg-[oklch(0.94_0.015_85)]"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Private Equities
@@ -126,7 +126,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/arbitrage-hedge-fund"
-                className="inline-flex h-14 items-center justify-center gap-3 rounded-full border border-background/30 bg-background/[0.04] px-8 font-mono text-sm font-bold uppercase tracking-widest text-background backdrop-blur-sm transition hover:border-background/60 hover:bg-background/10"
+                className="inline-flex h-14 items-center justify-center gap-3 rounded-full border border-white/30 bg-white/[0.04] px-8 font-mono text-sm font-bold uppercase tracking-widest text-[oklch(0.98_0.015_85)] backdrop-blur-sm transition hover:border-white/60 hover:bg-white/10"
               >
                 Arbitrage Hedge Fund
                 <ArrowRight className="h-4 w-4" />
@@ -182,7 +182,7 @@ export default function HomePage() {
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-foreground/10 transition group-hover:bg-transparent" />
+                <div className="absolute inset-0 bg-black/10 transition group-hover:bg-transparent" />
                 <span className="absolute left-4 top-4 bg-foreground px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background">
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -252,19 +252,19 @@ export default function HomePage() {
                   sizes={index === 0 ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 100vw"}
                   className="object-cover transition duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/15 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
                 <div className="absolute left-4 top-4 z-10 flex items-center gap-2">
                   <span className="bg-background/95 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
                     {deal.ticker}
                   </span>
-                  <span className="border border-background/35 bg-foreground/45 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background backdrop-blur">
+                  <span className="border border-white/35 bg-black/45 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-white backdrop-blur">
                     {deal.type}
                   </span>
                 </div>
                 <div className="absolute bottom-0 left-0 w-full p-5 md:p-7">
-                  <div className="border border-background/15 bg-foreground/35 p-5 text-background backdrop-blur-md transition group-hover:bg-foreground/50">
+                  <div className="border border-white/15 bg-black/35 p-5 text-white backdrop-blur-md transition group-hover:bg-black/50">
                     <h3 className="font-serif text-2xl font-bold md:text-3xl">{deal.name}</h3>
-                    <p className="mt-3 text-sm leading-6 text-background/72">{deal.description}</p>
+                    <p className="mt-3 text-sm leading-6 text-white/72">{deal.description}</p>
                   </div>
                 </div>
               </Link>

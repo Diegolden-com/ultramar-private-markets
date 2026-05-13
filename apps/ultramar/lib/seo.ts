@@ -21,10 +21,10 @@ export type ItemListEntry = {
 
 export const seoImages = {
   platform: {
-    url: "/abstract-financial-growth-chart-geometric-shapes.jpg",
+    url: "/tarot-market.png",
     width: 1200,
     height: 630,
-    alt: "Ultramar.capital institutional platform",
+    alt: "Ultramar.capital mysterious market system",
   },
   privateEquities: {
     url: "/solarpunk-laundromat.png",
@@ -33,10 +33,10 @@ export const seoImages = {
     alt: "Ultramar Private Equities operating asset",
   },
   arbitrage: {
-    url: "/abstract-financial-growth-chart-geometric-shapes.jpg",
+    url: "/tarot-market.png",
     width: 1200,
     height: 630,
-    alt: "Ultramar Arbitrage Hedge Fund signal infrastructure",
+    alt: "Ultramar Arbitrage Hedge Fund market signal card",
   },
 } satisfies Record<string, SeoImage>;
 

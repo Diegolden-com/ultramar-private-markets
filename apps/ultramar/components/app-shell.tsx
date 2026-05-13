@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { primaryNav, products } from "@ultramar/product-model";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -45,6 +46,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
+            <ThemeToggle />
             <Link
               href="/auth/login"
               className="rounded px-3 py-2 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -59,14 +61,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
 
-          <button
-            className="grid h-10 w-10 place-items-center rounded border border-border md:hidden"
-            onClick={() => setOpen((value) => !value)}
-            aria-label="Toggle navigation"
-            type="button"
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle compact />
+            <button
+              className="grid h-10 w-10 place-items-center rounded border border-border bg-card"
+              onClick={() => setOpen((value) => !value)}
+              aria-label="Toggle navigation"
+              type="button"
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         {open ? (
@@ -96,11 +101,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {children}
 
-      <footer className="border-t border-border bg-foreground text-background">
+      <footer className="border-t border-border bg-footer text-footer-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
           <div>
             <p className="font-serif text-2xl font-semibold">Ultramar.capital</p>
-            <p className="mt-3 max-w-md text-sm leading-6 text-background/70">
+            <p className="mt-3 max-w-md text-sm leading-6 text-footer-foreground/70">
               One capital platform, two product lines: private-market access and
               Polymarket-first arbitrage fund infrastructure.
             </p>
@@ -110,7 +115,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Link href={product.href} className="font-semibold hover:text-accent">
                 {product.name}
               </Link>
-              <p className="mt-2 text-sm leading-6 text-background/65">
+              <p className="mt-2 text-sm leading-6 text-footer-foreground/65">
                 {product.shortDescription}
               </p>
             </div>
@@ -119,7 +124,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Link href="/research" className="font-semibold hover:text-accent">
               Research
             </Link>
-            <p className="mt-2 text-sm leading-6 text-background/65">
+            <p className="mt-2 text-sm leading-6 text-footer-foreground/65">
               Memos built for private-market, RWA, and Polymarket arbitrage citations.
             </p>
           </div>
