@@ -1,5 +1,7 @@
+import { JsonLd } from "@/components/json-ld";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { findDeal, formatCurrency, deals } from "@/lib/deals";
+import { breadcrumbJsonLd, createSeoMetadata, webPageJsonLd } from "@/lib/seo";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -26,13 +28,18 @@ export async function generateMetadata({
   const deal = findDeal(ticker);
   if (!deal) return {};
 
-  return {
+  return createSeoMetadata({
     title: `${deal.name} Private Equity`,
     description: deal.description,
-    alternates: {
-      canonical: `/private-equities/assets/${deal.ticker}`,
+    path: `/private-equities/assets/${deal.ticker}`,
+    image: {
+      url: deal.image,
+      width: 1200,
+      height: 630,
+      alt: `${deal.name} private-market asset`,
     },
-  };
+    keywords: [deal.name, deal.ticker, deal.sector, "private equity asset"],
+  });
 }
 
 export default async function AssetDetailPage({
@@ -46,6 +53,22 @@ export default async function AssetDetailPage({
 
   return (
     <main>
+      <JsonLd
+        id={`${deal.ticker.toLowerCase()}-asset-json-ld`}
+        data={[
+          webPageJsonLd({
+            path: `/private-equities/assets/${deal.ticker}`,
+            name: `${deal.name} Private Equity`,
+            description: deal.description,
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Private Equities", path: "/private-equities" },
+            { name: "Assets", path: "/private-equities/assets" },
+            { name: deal.name, path: `/private-equities/assets/${deal.ticker}` },
+          ]),
+        ]}
+      />
       <section className="border-b border-border">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
           <Link

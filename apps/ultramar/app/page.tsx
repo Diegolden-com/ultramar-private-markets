@@ -1,13 +1,34 @@
+import { JsonLd } from "@/components/json-ld";
 import { MetricCard } from "@/components/metric-card";
 import { SectionHeader } from "@/components/section-header";
+import { createSeoMetadata, seoImages, webPageJsonLd } from "@/lib/seo";
 import { products } from "@ultramar/product-model";
 import { ArrowRight, BarChart3, BriefcaseBusiness, ShieldCheck, Target } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+const homeDescription =
+  "Ultramar.capital is the canonical platform for Private Equities and a Polymarket-first Arbitrage Hedge Fund.";
+
+export const metadata = createSeoMetadata({
+  title: "Ultramar.capital | Private Equities and Arbitrage Hedge Fund",
+  description: homeDescription,
+  path: "/",
+  image: seoImages.platform,
+  keywords: ["investment platform", "private market access", "prediction market arbitrage"],
+});
+
 export default function HomePage() {
   return (
     <main>
+      <JsonLd
+        id="home-webpage-json-ld"
+        data={webPageJsonLd({
+          path: "/",
+          name: "Ultramar.capital",
+          description: homeDescription,
+        })}
+      />
       <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden">
         <Image
           src="/abstract-financial-growth-chart-geometric-shapes.jpg"

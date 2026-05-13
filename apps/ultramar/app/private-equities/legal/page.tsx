@@ -1,14 +1,14 @@
 import { SectionHeader } from "@/components/section-header";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { BadgeCheck, FileWarning, LockKeyhole, Scale } from "lucide-react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Private Equities Legal",
   description: "Legal and compliance overview for Ultramar Private Equities.",
-  alternates: {
-    canonical: "/private-equities/legal",
-  },
-};
+  path: "/private-equities/legal",
+  image: seoImages.privateEquities,
+  keywords: ["private equity compliance", "RWA legal", "investor eligibility"],
+});
 
 export default function LegalPage() {
   return (

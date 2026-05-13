@@ -1,12 +1,12 @@
 import { AuthPanel } from "@/components/auth-panel";
-import type { Metadata } from "next";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Update Password",
-  alternates: {
-    canonical: "/auth/update-password",
-  },
-};
+  description: "Update an Ultramar.capital account password.",
+  path: "/auth/update-password",
+  noIndex: true,
+});
 
 export default function UpdatePasswordPage() {
   return (

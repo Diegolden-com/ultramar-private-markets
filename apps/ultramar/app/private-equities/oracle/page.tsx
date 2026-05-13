@@ -1,14 +1,14 @@
 import { OracleConsole } from "@/components/oracle-console";
 import { SectionHeader } from "@/components/section-header";
-import type { Metadata } from "next";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Private Equities Oracle",
   description: "Issuer accounting oracle and solvency proof workflow.",
-  alternates: {
-    canonical: "/private-equities/oracle",
-  },
-};
+  path: "/private-equities/oracle",
+  image: seoImages.privateEquities,
+  keywords: ["issuer oracle", "solvency proof", "QuickBooks oracle", "RWA transparency"],
+});
 
 export default function OraclePage() {
   return (

@@ -1,12 +1,12 @@
 import { AuthPanel } from "@/components/auth-panel";
-import type { Metadata } from "next";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Account Requested",
-  alternates: {
-    canonical: "/auth/sign-up-success",
-  },
-};
+  description: "Ultramar.capital account request confirmation.",
+  path: "/auth/sign-up-success",
+  noIndex: true,
+});
 
 export default function SignUpSuccessPage() {
   return (

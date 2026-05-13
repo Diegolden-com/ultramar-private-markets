@@ -1,14 +1,14 @@
 import { SectionHeader } from "@/components/section-header";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { BookOpenText, FlaskConical, Lock, Radar } from "lucide-react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Research",
   description: "Research backlog for future arbitrage strategies at Ultramar.capital.",
-  alternates: {
-    canonical: "/arbitrage-hedge-fund/research",
-  },
-};
+  path: "/arbitrage-hedge-fund/research",
+  image: seoImages.arbitrage,
+  keywords: ["arbitrage research", "Polymarket research", "derivative arbitrage research"],
+});
 
 export default function ResearchPage() {
   return (

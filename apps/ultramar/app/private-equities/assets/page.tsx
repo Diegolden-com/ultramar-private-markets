@@ -1,15 +1,15 @@
 import { AssetExplorer } from "@/components/asset-explorer";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { SectionHeader } from "@/components/section-header";
-import type { Metadata } from "next";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Private Equities Assets",
   description: "Browse primary and secondary private-market assets on Ultramar.capital.",
-  alternates: {
-    canonical: "/private-equities/assets",
-  },
-};
+  path: "/private-equities/assets",
+  image: seoImages.privateEquities,
+  keywords: ["private equity assets", "RWA marketplace", "tokenized assets"],
+});
 
 export default function AssetsPage() {
   return (

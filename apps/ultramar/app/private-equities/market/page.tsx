@@ -1,16 +1,16 @@
 import { SectionHeader } from "@/components/section-header";
 import { deals, formatCurrency } from "@/lib/deals";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { ArrowRight, LineChart, Repeat2 } from "lucide-react";
-import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Private Equities Market",
   description: "Secondary market view for eligible private-equity tokens.",
-  alternates: {
-    canonical: "/private-equities/market",
-  },
-};
+  path: "/private-equities/market",
+  image: seoImages.privateEquities,
+  keywords: ["private equity secondary market", "eligible transfers", "tokenized equity market"],
+});
 
 export default function MarketPage() {
   return (

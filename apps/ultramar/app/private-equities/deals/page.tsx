@@ -1,16 +1,16 @@
 import { SectionHeader } from "@/components/section-header";
 import { deals, formatCurrency } from "@/lib/deals";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { ArrowRight, Clock, FileCheck2 } from "lucide-react";
-import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Private Equities Deals",
   description: "Issuer rounds and private-market deal flow on Ultramar.capital.",
-  alternates: {
-    canonical: "/private-equities/deals",
-  },
-};
+  path: "/private-equities/deals",
+  image: seoImages.privateEquities,
+  keywords: ["issuer rounds", "private market deals", "private equity deal flow"],
+});
 
 export default function DealsPage() {
   return (

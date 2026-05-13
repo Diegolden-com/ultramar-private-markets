@@ -1,12 +1,12 @@
 import { AuthPanel } from "@/components/auth-panel";
-import type { Metadata } from "next";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Sign In",
-  alternates: {
-    canonical: "/auth/login",
-  },
-};
+  description: "Sign in to Ultramar.capital investor workflows.",
+  path: "/auth/login",
+  noIndex: true,
+});
 
 export default function LoginPage() {
   return (

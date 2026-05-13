@@ -1,12 +1,12 @@
 import { AuthPanel } from "@/components/auth-panel";
-import type { Metadata } from "next";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Authentication Error",
-  alternates: {
-    canonical: "/auth/error",
-  },
-};
+  description: "Authentication error page for Ultramar.capital account access.",
+  path: "/auth/error",
+  noIndex: true,
+});
 
 export default function AuthErrorPage() {
   return (

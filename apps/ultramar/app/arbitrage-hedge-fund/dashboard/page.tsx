@@ -1,14 +1,14 @@
 import { SignalDashboard } from "@/components/signal-dashboard";
 import { SectionHeader } from "@/components/section-header";
-import type { Metadata } from "next";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Dashboard",
   description: "Allocator dashboard for Polymarket-first arbitrage fund activity.",
-  alternates: {
-    canonical: "/arbitrage-hedge-fund/dashboard",
-  },
-};
+  path: "/arbitrage-hedge-fund/dashboard",
+  image: seoImages.arbitrage,
+  keywords: ["arbitrage dashboard", "Polymarket fund dashboard", "event market exposure"],
+});
 
 export default function DashboardPage() {
   return (

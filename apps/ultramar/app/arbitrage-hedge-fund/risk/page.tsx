@@ -1,14 +1,14 @@
 import { SectionHeader } from "@/components/section-header";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { AlertTriangle, Gauge, Shield, SlidersHorizontal } from "lucide-react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Risk",
   description: "Risk controls for the Polymarket-first Arbitrage Hedge Fund.",
-  alternates: {
-    canonical: "/arbitrage-hedge-fund/risk",
-  },
-};
+  path: "/arbitrage-hedge-fund/risk",
+  image: seoImages.arbitrage,
+  keywords: ["hedge fund risk controls", "Polymarket risk", "arbitrage sizing"],
+});
 
 export default function RiskPage() {
   return (

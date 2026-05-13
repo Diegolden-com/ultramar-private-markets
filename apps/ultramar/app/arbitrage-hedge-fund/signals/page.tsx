@@ -1,14 +1,14 @@
 import { SignalDashboard } from "@/components/signal-dashboard";
 import { SectionHeader } from "@/components/section-header";
-import type { Metadata } from "next";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Signals",
   description: "Polymarket-first arbitrage signal board for Ultramar.capital.",
-  alternates: {
-    canonical: "/arbitrage-hedge-fund/signals",
-  },
-};
+  path: "/arbitrage-hedge-fund/signals",
+  image: seoImages.arbitrage,
+  keywords: ["Polymarket signals", "prediction market arbitrage", "event market signal board"],
+});
 
 export default function SignalsPage() {
   return (

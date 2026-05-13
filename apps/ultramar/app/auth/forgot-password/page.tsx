@@ -1,12 +1,12 @@
 import { AuthPanel } from "@/components/auth-panel";
-import type { Metadata } from "next";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Reset Password",
-  alternates: {
-    canonical: "/auth/forgot-password",
-  },
-};
+  description: "Reset an Ultramar.capital account password.",
+  path: "/auth/forgot-password",
+  noIndex: true,
+});
 
 export default function ForgotPasswordPage() {
   return (

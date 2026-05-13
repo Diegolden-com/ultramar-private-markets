@@ -1,15 +1,15 @@
 import { MetricCard } from "@/components/metric-card";
 import { SectionHeader } from "@/components/section-header";
+import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { Activity, Download, PieChart, TrendingUp, Wallet } from "lucide-react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata = createSeoMetadata({
   title: "Private Equities Portfolio",
   description: "Investor portfolio view for Ultramar Private Equities.",
-  alternates: {
-    canonical: "/private-equities/portfolio",
-  },
-};
+  path: "/private-equities/portfolio",
+  image: seoImages.privateEquities,
+  keywords: ["private equity portfolio", "tokenized holdings", "investor portfolio"],
+});
 
 const holdings = [
   { ticker: "lcx", name: "CX Laundry", units: 12500, price: 1.08, value: 13500, change: 4.6 },

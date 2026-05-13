@@ -1,26 +1,45 @@
+import { JsonLd } from "@/components/json-ld";
 import { MetricCard } from "@/components/metric-card";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { SectionHeader } from "@/components/section-header";
+import {
+  breadcrumbJsonLd,
+  createSeoMetadata,
+  seoImages,
+  serviceJsonLd,
+  webPageJsonLd,
+} from "@/lib/seo";
 import { productBySlug } from "@ultramar/product-model";
 import { ArrowRight, BarChart3, Gauge, Radar, Shield, Target } from "lucide-react";
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Arbitrage Hedge Fund",
-  description:
-    "Polymarket-first arbitrage fund infrastructure for Ultramar.capital.",
-  alternates: {
-    canonical: "/arbitrage-hedge-fund",
-  },
-};
-
 const product = productBySlug["arbitrage-hedge-fund"];
+const description =
+  "Polymarket-first arbitrage hedge fund infrastructure with signal monitoring, position exposure, and risk controls.";
+
+export const metadata = createSeoMetadata({
+  title: "Arbitrage Hedge Fund",
+  description,
+  path: product.href,
+  image: seoImages.arbitrage,
+  keywords: ["Polymarket arbitrage", "prediction market hedge fund", "event market signals"],
+});
 
 export default function ArbitrageHedgeFundPage() {
   return (
     <main>
+      <JsonLd
+        id="arbitrage-hedge-fund-json-ld"
+        data={[
+          webPageJsonLd({ path: product.href, name: "Ultramar Arbitrage Hedge Fund", description }),
+          serviceJsonLd({ product, serviceType: "Polymarket-first arbitrage fund" }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Arbitrage Hedge Fund", path: product.href },
+          ]),
+        ]}
+      />
       <section className="relative min-h-[72vh] overflow-hidden">
         <Image
           src="/abstract-financial-growth-chart-geometric-shapes.jpg"

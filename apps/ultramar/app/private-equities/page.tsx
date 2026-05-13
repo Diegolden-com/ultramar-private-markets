@@ -1,26 +1,45 @@
+import { JsonLd } from "@/components/json-ld";
 import { MetricCard } from "@/components/metric-card";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { SectionHeader } from "@/components/section-header";
+import {
+  breadcrumbJsonLd,
+  createSeoMetadata,
+  seoImages,
+  serviceJsonLd,
+  webPageJsonLd,
+} from "@/lib/seo";
 import { productBySlug } from "@ultramar/product-model";
 import { ArrowRight, Building2, DatabaseZap, FileCheck2, LineChart, WalletCards } from "lucide-react";
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Private Equities",
-  description:
-    "Private-market and tokenized real-world asset workflows for Ultramar.capital.",
-  alternates: {
-    canonical: "/private-equities",
-  },
-};
-
 const product = productBySlug["private-equities"];
+const description =
+  "Private-market and tokenized real-world asset workflows for issuers, eligible investors, oracle proofs, markets, and portfolios.";
+
+export const metadata = createSeoMetadata({
+  title: "Private Equities",
+  description,
+  path: product.href,
+  image: seoImages.privateEquities,
+  keywords: ["tokenized private equity", "private market assets", "issuer oracle", "RWA platform"],
+});
 
 export default function PrivateEquitiesPage() {
   return (
     <main>
+      <JsonLd
+        id="private-equities-json-ld"
+        data={[
+          webPageJsonLd({ path: product.href, name: "Ultramar Private Equities", description }),
+          serviceJsonLd({ product, serviceType: "Private-market investing platform" }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Private Equities", path: product.href },
+          ]),
+        ]}
+      />
       <section className="relative min-h-[72vh] overflow-hidden">
         <Image
           src="/solarpunk-laundromat.png"
