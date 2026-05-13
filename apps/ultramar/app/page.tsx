@@ -23,7 +23,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const homeDescription =
-  "Ultramar.capital is the canonical platform for Private Equities and a Polymarket-first Arbitrage Hedge Fund.";
+  "Ultramar.capital is the institutional surface for Private Equities and a Polymarket-first Arbitrage Hedge Fund.";
 
 export const metadata = createSeoMetadata({
   title: "Ultramar.capital | Private Equities and Arbitrage Hedge Fund",
@@ -61,6 +61,31 @@ const homeFaqs = [
   },
 ];
 
+const manifestoItems = [
+  {
+    label: "01",
+    title: "Private Equities, uncompromised.",
+    body: "Issuer data, eligibility, asset context, and portfolio state sit inside one controlled rail.",
+  },
+  {
+    label: "02",
+    title: "Arbitrage without theater.",
+    body: "The fund surface exposes signals, confidence, exposure, and risk language before allocation.",
+  },
+  {
+    label: "03",
+    title: "One canonical institution.",
+    body: "Capital is the platform layer. The products stay legible, separate, and internally linked.",
+  },
+];
+
+const operatingModel = [
+  "Shared header and footer across every public route",
+  "Canonical SEO on ultramar.capital only",
+  "Legacy subdomains redirected into the mega app",
+  "Product copy avoids presenting Capital as a third offer",
+];
+
 export default function HomePage() {
   return (
     <main>
@@ -85,54 +110,102 @@ export default function HomePage() {
           faqJsonLd(homeFaqs),
         ]}
       />
-      <section className="relative isolate min-h-[76vh] overflow-hidden">
-        <Image
-          src="/tarot-market.png"
-          alt="Mysterious market cycle tarot card"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/78" />
-        <div className="absolute inset-0 bg-white/10" />
-        <div className="absolute inset-0 overflow-hidden opacity-35">
-          <div className="absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/45 to-transparent" />
-          <div className="absolute left-1/2 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/60 to-transparent" />
-          <div className="absolute left-3/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/45 to-transparent" />
-        </div>
-        <div className="relative mx-auto flex min-h-[76vh] max-w-7xl items-center px-4 py-20 text-center sm:px-6">
-          <div className="mx-auto max-w-5xl text-[oklch(0.98_0.015_85)]">
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.38em] text-accent">
-              Ultramar.capital / Investment platform
-            </p>
-            <h1 className="mt-7 font-serif text-5xl font-bold leading-[0.95] sm:text-7xl lg:text-8xl">
-              Ultramar.capital
-            </h1>
-            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-white/80 sm:text-xl">
-              Two capital products, one institutional surface: tokenized
-              private-market access and Polymarket-first arbitrage fund
-              infrastructure under a single canonical brand.
-            </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/private-equities"
-                className="group relative inline-flex h-14 items-center justify-center gap-3 overflow-hidden rounded-full bg-[oklch(0.98_0.015_85)] px-8 font-mono text-sm font-bold uppercase tracking-widest text-[oklch(0.12_0.03_75)] transition hover:bg-[oklch(0.94_0.015_85)]"
-              >
-                <span className="relative z-10 flex items-center gap-2">
+
+      <section className="relative isolate overflow-hidden bg-foreground text-background">
+        <div className="blackwork-hatch absolute inset-0 opacity-[0.08]" />
+        <div className="financial-grid absolute inset-0 opacity-[0.08]" />
+        <div className="relative mx-auto grid min-h-[78vh] max-w-7xl gap-0 px-4 py-10 sm:px-6 lg:grid-cols-[1.04fr_0.96fr]">
+          <div className="flex flex-col justify-between border-x border-background/15 px-5 py-8 sm:px-8 lg:py-12 lg:pr-12">
+            <div>
+              <p className="font-mono text-xs font-bold uppercase tracking-[0.32em] text-background/60">
+                Ultramar.capital / Institutional capital interface
+              </p>
+              <h1 className="mt-8 max-w-4xl break-words font-serif text-4xl font-bold leading-[0.9] [overflow-wrap:anywhere] sm:text-7xl lg:text-8xl">
+                Ultramar.capital
+              </h1>
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-background/75 sm:text-xl">
+                Private-market rails and Polymarket-first fund infrastructure,
+                governed through one spare, auditable, institutional surface.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
+              <div className="border-l border-background/25 pl-5">
+                <p className="font-serif text-3xl font-semibold leading-tight sm:text-5xl">
+                  Private Equities, uncompromised.
+                </p>
+                <p className="mt-4 max-w-xl text-sm leading-6 text-background/60">
+                  The phrase that worked stays as the organizing principle:
+                  clean private access, visible controls, no marketplace noise.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+                <Link
+                  href="/private-equities"
+                  className="group inline-flex h-12 items-center justify-center gap-3 rounded border border-background bg-background px-5 font-mono text-xs font-bold uppercase tracking-widest text-foreground transition hover:bg-transparent hover:text-background"
+                >
                   Private Equities
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </span>
-              </Link>
-              <Link
-                href="/arbitrage-hedge-fund"
-                className="inline-flex h-14 items-center justify-center gap-3 rounded-full border border-white/30 bg-white/[0.04] px-8 font-mono text-sm font-bold uppercase tracking-widest text-[oklch(0.98_0.015_85)] backdrop-blur-sm transition hover:border-white/60 hover:bg-white/10"
-              >
-                Arbitrage Hedge Fund
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                </Link>
+                <Link
+                  href="/arbitrage-hedge-fund"
+                  className="group inline-flex h-12 items-center justify-center gap-3 rounded border border-background/30 px-5 font-mono text-xs font-bold uppercase tracking-widest text-background transition hover:border-background hover:bg-background hover:text-foreground"
+                >
+                  Arbitrage Fund
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </Link>
+              </div>
             </div>
           </div>
+
+          <aside className="grid border-x border-b border-background/15 lg:border-l-0 lg:border-y">
+            <div className="relative min-h-[240px] overflow-hidden border-b border-background/15 sm:min-h-[320px]">
+              <Image
+                src="/abstract-financial-growth-chart-geometric-shapes.jpg"
+                alt="Institutional market geometry"
+                fill
+                priority
+                sizes="(min-width: 1024px) 46vw, 100vw"
+                className="image-blackwork object-cover opacity-[0.78]"
+              />
+              <div className="absolute inset-0 bg-foreground/50" />
+              <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-background/20 bg-foreground/75 text-background backdrop-blur-sm">
+                {["Issuer", "Oracle", "Portfolio"].map((label) => (
+                  <div key={label} className="border-r border-background/20 p-4 last:border-r-0">
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-background/50">
+                      Rail
+                    </p>
+                    <p className="mt-2 text-sm font-semibold">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="hidden bg-background text-foreground sm:grid sm:grid-cols-2">
+              {products.map((product, index) => {
+                const Icon = productIcons[product.slug];
+                return (
+                  <Link
+                    key={product.slug}
+                    href={product.href}
+                    className="group min-h-56 border-b border-foreground/15 p-5 transition hover:bg-foreground hover:text-background sm:border-b-0 sm:border-r sm:last:border-r-0"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <p className="font-mono text-xs font-bold uppercase tracking-[0.24em] text-muted-foreground group-hover:text-background/60">
+                        0{index + 1} / {product.eyebrow}
+                      </p>
+                      <Icon className="h-5 w-5 text-accent group-hover:text-background" />
+                    </div>
+                    <h2 className="mt-12 font-serif text-3xl font-bold leading-none">
+                      {product.name}
+                    </h2>
+                    <p className="mt-4 text-sm leading-6 text-muted-foreground group-hover:text-background/65">
+                      {product.shortDescription}
+                    </p>
+                  </Link>
+                );
+              })}
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -160,67 +233,69 @@ export default function HomePage() {
       </section>
 
       <section className="relative overflow-hidden px-4 py-20 sm:px-6">
-        <div className="asset-noise absolute inset-0 text-foreground opacity-[0.025]" />
+        <div className="financial-grid absolute inset-0 opacity-[0.35]" />
         <div className="relative mx-auto max-w-7xl">
-        <SectionHeader
-          eyebrow="Products"
-          title="Two operating surfaces for capital"
-          description="The interface presents Private Equities and Arbitrage Hedge Fund as the only product choices. Shared navigation keeps context visible across both."
-        />
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          {products.map((product, index) => (
-            <Link
-              key={product.slug}
-              href={product.href}
-              className="group grid overflow-hidden rounded border border-border/70 bg-card/75 transition hover:-translate-y-0.5 hover:border-accent hover:shadow-xl md:grid-cols-[0.92fr_1.08fr]"
-            >
-              <div className="relative min-h-72 border-b border-border/70 md:border-b-0 md:border-r">
-                <Image
-                  src={productImages[product.slug]}
-                  alt={product.name}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-black/10 transition group-hover:bg-transparent" />
-                <span className="absolute left-4 top-4 bg-foreground px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <div className="flex flex-col p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-accent">
-                    {product.eyebrow}
+          <SectionHeader
+            eyebrow="Products"
+            title="Two operating surfaces for capital"
+            description="Private Equities and Arbitrage Hedge Fund remain the only product choices. Shared navigation keeps context visible across both."
+          />
+          <div className="mt-12 grid gap-px bg-border lg:grid-cols-2">
+            {products.map((product, index) => (
+              <Link
+                key={product.slug}
+                href={product.href}
+                className="group grid bg-background transition hover:bg-card md:grid-cols-[0.88fr_1.12fr]"
+              >
+                <div className="relative min-h-72 overflow-hidden border-b border-border md:border-b-0 md:border-r">
+                  <Image
+                    src={productImages[product.slug]}
+                    alt={product.name}
+                    fill
+                    sizes="(min-width: 1024px) 44vw, 100vw"
+                    className="image-blackwork object-cover transition duration-700 group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-foreground/20" />
+                  <span className="absolute left-4 top-4 bg-foreground px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="flex min-h-[360px] flex-col p-6 sm:p-8">
+                  <div className="flex items-start justify-between gap-4">
+                    <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-accent">
+                      {product.eyebrow}
+                    </p>
+                    {(() => {
+                      const Icon = productIcons[product.slug];
+                      return <Icon className="h-5 w-5 text-accent" />;
+                    })()}
+                  </div>
+                  <h2 className="mt-5 font-serif text-4xl font-bold leading-none sm:text-5xl">
+                    {product.name}
+                  </h2>
+                  <p className="mt-5 text-sm leading-6 text-muted-foreground">
+                    {product.description}
                   </p>
-                  {(() => {
-                    const Icon = productIcons[product.slug];
-                    return <Icon className="h-5 w-5 text-accent" />;
-                  })()}
+                  <div className="mt-auto grid gap-4 border-t border-border pt-6">
+                    <ProductFact label="For" value={product.audience} />
+                    <ProductFact label="Problem" value={product.problem} />
+                  </div>
+                  <span className="mt-6 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-accent">
+                    {product.primaryCta}
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                  </span>
                 </div>
-                <h2 className="mt-3 font-serif text-4xl font-bold">{product.name}</h2>
-                <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                  {product.description}
-                </p>
-                <div className="mt-6 grid gap-4 border-t border-border pt-5">
-                  <ProductFact label="For" value={product.audience} />
-                  <ProductFact label="Problem" value={product.problem} />
-                </div>
-                <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
-                  {product.primaryCta}
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="border-t border-border bg-background">
-          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+      <section className="border-t border-border bg-foreground text-background">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
           <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
+              <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-background/50">
                 Private-market visual system
               </p>
               <h2 className="mt-4 font-serif text-5xl font-bold leading-none sm:text-7xl">
@@ -229,43 +304,49 @@ export default function HomePage() {
             </div>
             <Link
               href="/private-equities/assets"
-              className="group inline-flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground transition hover:text-foreground"
+              className="group inline-flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-widest text-background/60 transition hover:text-background"
             >
               View assets
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-px bg-background/20 md:grid-cols-3">
             {deals.slice(0, 3).map((deal, index) => (
               <Link
                 key={deal.id}
                 href={`/private-equities/assets/${deal.ticker}`}
-                className={`group relative block overflow-hidden rounded border border-border/60 shadow-xl transition hover:border-accent/50 ${
-                  index === 0 ? "min-h-[520px] md:col-span-2 md:row-span-2" : "min-h-[250px]"
+                className={`group relative block overflow-hidden bg-foreground transition ${
+                  index === 0 ? "min-h-[520px] md:col-span-2 md:row-span-2" : "min-h-[260px]"
                 }`}
               >
                 <Image
                   src={deal.image}
                   alt={deal.name}
                   fill
-                  sizes={index === 0 ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 100vw"}
-                  className="object-cover transition duration-700 group-hover:scale-105"
+                  sizes={
+                    index === 0
+                      ? "(min-width: 768px) 66vw, 100vw"
+                      : "(min-width: 768px) 33vw, 100vw"
+                  }
+                  className="image-blackwork object-cover opacity-80 transition duration-700 group-hover:scale-[1.03]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
-                <div className="absolute left-4 top-4 z-10 flex items-center gap-2">
-                  <span className="bg-background/95 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
+                <div className="absolute inset-0 bg-foreground/30" />
+                <div className="absolute left-4 top-4 z-10 flex flex-wrap items-center gap-2">
+                  <span className="bg-background px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
                     {deal.ticker}
                   </span>
-                  <span className="border border-white/35 bg-black/45 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-white backdrop-blur">
+                  <span className="border border-background/50 bg-foreground/50 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background backdrop-blur">
                     {deal.type}
                   </span>
                 </div>
                 <div className="absolute bottom-0 left-0 w-full p-5 md:p-7">
-                  <div className="border border-white/15 bg-black/35 p-5 text-white backdrop-blur-md transition group-hover:bg-black/50">
-                    <h3 className="font-serif text-2xl font-bold md:text-3xl">{deal.name}</h3>
-                    <p className="mt-3 text-sm leading-6 text-white/72">{deal.description}</p>
-                  </div>
+                  <p className="font-serif text-2xl font-bold leading-tight text-background md:text-3xl">
+                    {deal.name}
+                  </p>
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-background/70">
+                    {deal.description}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -289,23 +370,23 @@ export default function HomePage() {
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
             </Link>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 grid gap-px bg-border md:grid-cols-2 xl:grid-cols-4">
             {researchArticles.map((article) => (
               <Link
                 key={article.slug}
                 href={`/research/${article.slug}`}
-                className="group flex min-h-72 flex-col rounded border border-border/70 bg-background p-5 transition hover:-translate-y-0.5 hover:border-accent hover:shadow-lg"
+                className="group flex min-h-72 flex-col bg-background p-5 transition hover:bg-foreground hover:text-background"
               >
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-accent group-hover:text-background">
                   {article.cluster}
                 </p>
                 <h3 className="mt-4 font-serif text-2xl font-bold leading-tight">
                   {article.title}
                 </h3>
-                <p className="mt-4 flex-1 text-sm leading-6 text-muted-foreground">
+                <p className="mt-4 flex-1 text-sm leading-6 text-muted-foreground group-hover:text-background/65">
                   {article.description}
                 </p>
-                <span className="mt-6 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-accent">
+                <span className="mt-6 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-accent group-hover:text-background">
                   Read memo
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </span>
@@ -315,40 +396,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 sm:py-32">
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.38em] text-accent">
-          Operating philosophy
-        </p>
-        <p className="mt-10 font-serif text-4xl font-bold leading-[1.12] text-foreground sm:text-6xl">
-          Capital used to live behind gateways.
-          <br />
-          <span className="italic text-muted-foreground/50">Ultramar turns it into a governed interface.</span>
-        </p>
-        <div className="mt-16 grid gap-5 sm:grid-cols-3">
-          {[
-            {
-              title: "Borderless",
-              body: "Products are framed around access, transfer, and allocator context instead of isolated domains.",
-            },
-            {
-              title: "Governed",
-              body: "Each surface makes eligibility, risk, and operating boundaries visible before action.",
-            },
-            {
-              title: "Observable",
-              body: "Signals, proofs, positions, and portfolio state sit close to the product narrative.",
-            },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="rounded border border-border/60 p-6 text-left transition hover:border-accent/40 hover:bg-accent/5"
-            >
-              <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-foreground">
-                {item.title}
-              </h3>
-              <p className="mt-4 text-sm leading-6 text-muted-foreground">{item.body}</p>
-            </div>
-          ))}
+      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32">
+        <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
+          <div>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.38em] text-accent">
+              Operating philosophy
+            </p>
+            <h2 className="mt-8 font-serif text-5xl font-bold leading-none sm:text-7xl">
+              Governed, spare, visible.
+            </h2>
+          </div>
+          <div className="grid gap-px bg-border">
+            {manifestoItems.map((item) => (
+              <div key={item.label} className="grid gap-5 bg-background p-6 sm:grid-cols-[96px_1fr]">
+                <p className="font-mono text-xs font-bold uppercase tracking-[0.28em] text-muted-foreground">
+                  {item.label}
+                </p>
+                <div>
+                  <h3 className="font-serif text-3xl font-bold leading-tight">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -361,10 +431,7 @@ export default function HomePage() {
           />
           <div className="grid gap-4">
             {homeFaqs.map((item) => (
-              <details
-                key={item.question}
-                className="group rounded border border-border/70 bg-card/70 p-5"
-              >
+              <details key={item.question} className="group rounded border border-border/70 bg-card/70 p-5">
                 <summary className="cursor-pointer list-none font-serif text-2xl font-bold marker:hidden">
                   {item.question}
                 </summary>
@@ -382,14 +449,9 @@ export default function HomePage() {
             title="One brand system, shared routes, product-specific workflows"
             description="Every product page answers what it is, who it serves, what workflow it owns, and where the other product fits."
           />
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              "Shared header and footer across every public route",
-              "Canonical SEO on ultramar.capital only",
-              "Legacy subdomains redirected into the mega app",
-              "Product copy avoids presenting Capital as a third offer",
-            ].map((item) => (
-              <div key={item} className="rounded border border-border/70 bg-background p-5">
+          <div className="grid gap-px bg-border sm:grid-cols-2">
+            {operatingModel.map((item) => (
+              <div key={item} className="bg-background p-5">
                 <BriefcaseBusiness className="h-5 w-5 text-accent" />
                 <p className="mt-4 text-sm font-medium leading-6">{item}</p>
               </div>

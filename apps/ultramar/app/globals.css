@@ -4,63 +4,63 @@
 
 :root {
   color-scheme: light;
-  --background: oklch(0.985 0.015 85);
-  --foreground: oklch(0.15 0.02 80);
-  --card: oklch(0.98 0.02 85);
+  --background: oklch(0.982 0.004 247);
+  --foreground: oklch(0.075 0.006 247);
+  --card: oklch(0.995 0.002 247);
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.12 0.03 75);
-  --primary-foreground: oklch(0.98 0.015 85);
-  --secondary: oklch(0.92 0.015 85);
-  --secondary-foreground: oklch(0.2 0.025 80);
-  --muted: oklch(0.92 0.015 85);
-  --muted-foreground: oklch(0.5 0.02 75);
-  --accent: oklch(0.6 0.12 45);
-  --accent-foreground: oklch(0.98 0.015 85);
+  --primary: oklch(0.075 0.006 247);
+  --primary-foreground: oklch(0.982 0.004 247);
+  --secondary: oklch(0.93 0.005 247);
+  --secondary-foreground: oklch(0.16 0.01 247);
+  --muted: oklch(0.92 0.006 247);
+  --muted-foreground: oklch(0.43 0.012 247);
+  --accent: oklch(0.5 0.135 250);
+  --accent-foreground: oklch(0.985 0.004 247);
   --destructive: oklch(0.58 0.2 27);
-  --destructive-foreground: oklch(0.99 0.006 90);
-  --border: oklch(0.85 0.015 80);
+  --destructive-foreground: oklch(0.99 0.002 247);
+  --border: oklch(0.8 0.006 247);
   --input: var(--border);
   --ring: var(--accent);
-  --chart-1: oklch(0.2 0.04 75);
-  --chart-2: oklch(0.55 0.08 45);
+  --chart-1: oklch(0.16 0.01 247);
+  --chart-2: oklch(0.5 0.135 250);
   --chart-3: oklch(0.54 0.11 178);
   --chart-4: oklch(0.37 0.08 148);
-  --chart-5: oklch(0.42 0.1 235);
-  --footer: oklch(0.08 0.02 70);
-  --footer-foreground: oklch(0.96 0.015 85);
+  --chart-5: oklch(0.55 0.16 25);
+  --footer: oklch(0.05 0.004 247);
+  --footer-foreground: oklch(0.97 0.004 247);
   --radius: 0.25rem;
 }
 
 .dark {
   color-scheme: dark;
-  --background: oklch(0.08 0.02 70);
-  --foreground: oklch(0.96 0.015 85);
-  --card: oklch(0.115 0.025 70);
+  --background: oklch(0.055 0.004 247);
+  --foreground: oklch(0.965 0.004 247);
+  --card: oklch(0.095 0.006 247);
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.92 0.015 85);
-  --primary-foreground: oklch(0.08 0.02 70);
-  --secondary: oklch(0.18 0.035 70);
-  --secondary-foreground: oklch(0.96 0.015 85);
-  --muted: oklch(0.18 0.035 70);
-  --muted-foreground: oklch(0.68 0.02 75);
-  --accent: oklch(0.7 0.12 45);
-  --accent-foreground: oklch(0.08 0.02 70);
+  --primary: oklch(0.965 0.004 247);
+  --primary-foreground: oklch(0.055 0.004 247);
+  --secondary: oklch(0.155 0.008 247);
+  --secondary-foreground: oklch(0.965 0.004 247);
+  --muted: oklch(0.155 0.008 247);
+  --muted-foreground: oklch(0.68 0.01 247);
+  --accent: oklch(0.68 0.12 250);
+  --accent-foreground: oklch(0.055 0.004 247);
   --destructive: oklch(0.62 0.18 25);
-  --destructive-foreground: oklch(0.98 0.015 85);
-  --border: oklch(0.28 0.03 70);
+  --destructive-foreground: oklch(0.985 0.004 247);
+  --border: oklch(0.27 0.008 247);
   --input: var(--border);
   --ring: var(--accent);
-  --chart-1: oklch(0.78 0.1 45);
+  --chart-1: oklch(0.86 0.004 247);
   --chart-2: oklch(0.65 0.1 165);
   --chart-3: oklch(0.72 0.09 235);
   --chart-4: oklch(0.68 0.11 135);
   --chart-5: oklch(0.72 0.13 25);
-  --footer: oklch(0.04 0.015 70);
-  --footer-foreground: oklch(0.96 0.015 85);
+  --footer: oklch(0.035 0.004 247);
+  --footer-foreground: oklch(0.97 0.004 247);
 }
 
 @theme inline {
@@ -123,6 +123,28 @@
       linear-gradient(to right, color-mix(in oklch, var(--border) 55%, transparent) 1px, transparent 1px),
       linear-gradient(to bottom, color-mix(in oklch, var(--border) 55%, transparent) 1px, transparent 1px);
     background-size: 44px 44px;
+  }
+
+  .blackwork-hatch {
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        currentColor 0,
+        currentColor 1px,
+        transparent 1px,
+        transparent 14px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        currentColor 0,
+        currentColor 1px,
+        transparent 1px,
+        transparent 18px
+      );
+  }
+
+  .image-blackwork {
+    filter: grayscale(1) contrast(1.22) brightness(0.82);
   }
 
   .asset-noise {
