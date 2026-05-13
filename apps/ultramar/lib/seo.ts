@@ -8,6 +8,17 @@ export type SeoImage = {
   alt: string;
 };
 
+export type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+export type ItemListEntry = {
+  name: string;
+  url: string;
+  description?: string;
+};
+
 export const seoImages = {
   platform: {
     url: "/abstract-financial-growth-chart-geometric-shapes.jpg",
@@ -33,8 +44,12 @@ export const defaultKeywords = [
   "Ultramar.capital",
   "private equities",
   "tokenized real world assets",
+  "tokenized private equity",
   "RWA investing",
+  "private market investing",
+  "issuer oracle",
   "Polymarket arbitrage",
+  "prediction market arbitrage",
   "arbitrage hedge fund",
   "private market platform",
 ];
@@ -116,9 +131,22 @@ export function organizationJsonLd() {
     "@type": "Organization",
     "@id": `${canonicalDomain}/#organization`,
     name: platform.name,
+    alternateName: [
+      "Ultramar",
+      "Ultramar Capital",
+      "Ultramar Private Equities",
+      "Ultramar Arbitrage Hedge Fund",
+    ],
     url: canonicalDomain,
     logo: absoluteUrl("/icon-512.jpg"),
     description: platform.description,
+    knowsAbout: [
+      "Private market investing",
+      "Tokenized real-world assets",
+      "Issuer operating data",
+      "Polymarket arbitrage",
+      "Prediction market signals",
+    ],
   };
 }
 
@@ -129,6 +157,7 @@ export function websiteJsonLd() {
     "@id": `${canonicalDomain}/#website`,
     name: platform.name,
     url: canonicalDomain,
+    description: platform.description,
     publisher: {
       "@id": `${canonicalDomain}/#organization`,
     },
@@ -197,5 +226,91 @@ export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
       name: item.name,
       item: absoluteUrl(item.path),
     })),
+  };
+}
+
+export function faqJsonLd(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export function itemListJsonLd({
+  path,
+  name,
+  description,
+  items,
+}: {
+  path: string;
+  name: string;
+  description?: string;
+  items: ItemListEntry[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${absoluteUrl(path)}#item-list`,
+    name,
+    description,
+    url: absoluteUrl(path),
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Thing",
+        name: item.name,
+        url: absoluteUrl(item.url),
+        ...(item.description ? { description: item.description } : {}),
+      },
+    })),
+  };
+}
+
+export function articleJsonLd({
+  path,
+  headline,
+  description,
+  image,
+  datePublished,
+  dateModified,
+  keywords = [],
+}: {
+  path: string;
+  headline: string;
+  description: string;
+  image: SeoImage;
+  datePublished: string;
+  dateModified: string;
+  keywords?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${absoluteUrl(path)}#article`,
+    headline,
+    description,
+    image: [absoluteUrl(image.url)],
+    datePublished,
+    dateModified,
+    author: {
+      "@id": `${canonicalDomain}/#organization`,
+    },
+    publisher: {
+      "@id": `${canonicalDomain}/#organization`,
+    },
+    mainEntityOfPage: {
+      "@id": `${absoluteUrl(path)}#webpage`,
+    },
+    keywords,
+    inLanguage: "en",
   };
 }

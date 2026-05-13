@@ -2,9 +2,11 @@ import { JsonLd } from "@/components/json-ld";
 import { MetricCard } from "@/components/metric-card";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { SectionHeader } from "@/components/section-header";
+import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
+  faqJsonLd,
   seoImages,
   serviceJsonLd,
   webPageJsonLd,
@@ -17,6 +19,24 @@ import Link from "next/link";
 const product = productBySlug["arbitrage-hedge-fund"];
 const description =
   "Polymarket-first arbitrage hedge fund infrastructure with signal monitoring, position exposure, and risk controls.";
+
+const arbitrageFaqs = [
+  {
+    question: "What makes the Ultramar Arbitrage Hedge Fund Polymarket-first?",
+    answer:
+      "The v1 product focuses on Polymarket event-market dislocations, comparing market prices with derivatives-implied probabilities before turning persistent spreads into monitored signals.",
+  },
+  {
+    question: "Does the fund product include risk controls?",
+    answer:
+      "Yes. The product surface exposes signal confidence, sizing, concentration, exposure, hedge policy, and failure modes so allocators can evaluate the control system next to the opportunity.",
+  },
+  {
+    question: "Are lending markets and derivative arbitrage active products?",
+    answer:
+      "No. They remain research context until data quality, risk limits, and allocator language are complete enough to graduate into product surfaces.",
+  },
+];
 
 export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund",
@@ -34,6 +54,7 @@ export default function ArbitrageHedgeFundPage() {
         data={[
           webPageJsonLd({ path: product.href, name: "Ultramar Arbitrage Hedge Fund", description }),
           serviceJsonLd({ product, serviceType: "Polymarket-first arbitrage fund" }),
+          faqJsonLd(arbitrageFaqs),
           breadcrumbJsonLd([
             { name: "Home", path: "/" },
             { name: "Arbitrage Hedge Fund", path: product.href },
@@ -149,6 +170,64 @@ export default function ArbitrageHedgeFundPage() {
                 <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-card/40">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
+          <SectionHeader
+            eyebrow="Research"
+            title="Polymarket arbitrage memos for allocators"
+            description="These pages support outreach around prediction-market arbitrage, signal construction, and event-market risk controls while linking back into the active fund workflow."
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {researchArticles
+              .filter((article) => article.cluster === "Polymarket arbitrage")
+              .map((article) => (
+                <Link
+                  key={article.slug}
+                  href={`/research/${article.slug}`}
+                  className="group rounded border border-border/70 bg-background p-5 transition hover:border-accent hover:shadow-md"
+                >
+                  <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                    {article.eyebrow}
+                  </p>
+                  <h3 className="mt-3 font-serif text-2xl font-bold leading-tight">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    {article.description}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-accent">
+                    Read memo
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-background">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
+          <SectionHeader
+            eyebrow="Allocator SEO"
+            title="How the Polymarket arbitrage product is framed"
+            description="The page targets prediction-market arbitrage and hedge-fund risk language while keeping research-only strategies out of the commercial product."
+          />
+          <div className="grid gap-4">
+            {arbitrageFaqs.map((item) => (
+              <details
+                key={item.question}
+                className="rounded border border-border/70 bg-card/70 p-5"
+              >
+                <summary className="cursor-pointer list-none font-serif text-2xl font-bold">
+                  {item.question}
+                </summary>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.answer}</p>
+              </details>
             ))}
           </div>
         </div>

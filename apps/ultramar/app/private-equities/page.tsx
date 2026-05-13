@@ -2,9 +2,11 @@ import { JsonLd } from "@/components/json-ld";
 import { MetricCard } from "@/components/metric-card";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { SectionHeader } from "@/components/section-header";
+import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
+  faqJsonLd,
   seoImages,
   serviceJsonLd,
   webPageJsonLd,
@@ -17,6 +19,24 @@ import Link from "next/link";
 const product = productBySlug["private-equities"];
 const description =
   "Private-market and tokenized real-world asset workflows for issuers, eligible investors, oracle proofs, markets, and portfolios.";
+
+const privateEquitiesFaqs = [
+  {
+    question: "How does Ultramar Private Equities support tokenized private-market assets?",
+    answer:
+      "It connects issuer onboarding, asset discovery, compliance-aware investor flows, oracle-backed operating data, market views, and portfolio tracking into one private-market workflow.",
+  },
+  {
+    question: "Is Ultramar Private Equities a public exchange?",
+    answer:
+      "No. The public site describes the product workflow. Production participation requires investor eligibility checks, legal review, issuer documents, and jurisdiction-specific transfer controls.",
+  },
+  {
+    question: "Why does the private-equities product include an issuer oracle?",
+    answer:
+      "The issuer oracle turns operating data into investor-facing solvency and liquidity context so private-market assets can be evaluated with more consistent information.",
+  },
+];
 
 export const metadata = createSeoMetadata({
   title: "Private Equities",
@@ -34,6 +54,7 @@ export default function PrivateEquitiesPage() {
         data={[
           webPageJsonLd({ path: product.href, name: "Ultramar Private Equities", description }),
           serviceJsonLd({ product, serviceType: "Private-market investing platform" }),
+          faqJsonLd(privateEquitiesFaqs),
           breadcrumbJsonLd([
             { name: "Home", path: "/" },
             { name: "Private Equities", path: product.href },
@@ -149,6 +170,64 @@ export default function PrivateEquitiesPage() {
                 <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-card/40">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
+          <SectionHeader
+            eyebrow="Research"
+            title="Private-market memos built for citation"
+            description="These pages support outreach around tokenized private equity, issuer data, and RWA operating infrastructure while linking back into the product workflow."
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {researchArticles
+              .filter((article) => article.cluster === "Private markets")
+              .map((article) => (
+                <Link
+                  key={article.slug}
+                  href={`/research/${article.slug}`}
+                  className="group rounded border border-border/70 bg-background p-5 transition hover:border-accent hover:shadow-md"
+                >
+                  <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-accent">
+                    {article.eyebrow}
+                  </p>
+                  <h3 className="mt-3 font-serif text-2xl font-bold leading-tight">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    {article.description}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-accent">
+                    Read memo
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-background">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
+          <SectionHeader
+            eyebrow="Private-market SEO"
+            title="What the product means in practice"
+            description="These answers keep the page aligned with tokenized private equity, RWA investing, issuer data, and compliance-aware market access without keyword stuffing."
+          />
+          <div className="grid gap-4">
+            {privateEquitiesFaqs.map((item) => (
+              <details
+                key={item.question}
+                className="rounded border border-border/70 bg-card/70 p-5"
+              >
+                <summary className="cursor-pointer list-none font-serif text-2xl font-bold">
+                  {item.question}
+                </summary>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.answer}</p>
+              </details>
             ))}
           </div>
         </div>

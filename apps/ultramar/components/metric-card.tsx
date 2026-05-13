@@ -12,9 +12,9 @@ export function MetricCard({
   icon: LucideIcon;
 }) {
   return (
-    <div className="rounded-lg border border-border bg-card p-5">
+    <div className="rounded border border-border/70 bg-card/70 p-5 transition-colors hover:border-accent/50">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
           {label}
         </p>
         <Icon className="h-4 w-4 text-accent" />
