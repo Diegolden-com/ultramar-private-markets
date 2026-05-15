@@ -1,8 +1,4 @@
 import { JsonLd } from "@/components/json-ld";
-import { ProductCrosslink } from "@/components/product-crosslink";
-import { SignalDashboard } from "@/components/signal-dashboard";
-import { SectionHeader } from "@/components/section-header";
-import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -11,8 +7,15 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import { ArrowRight, BarChart3, Gauge, Radar, Shield } from "lucide-react";
-import Link from "next/link";
+import {
+  averageAbsoluteSpread,
+  samplePositions,
+  sampleSignals,
+  totalExposure,
+  type Position,
+  type Signal,
+} from "@/lib/arbitrage";
+import { Bolt, CircleSlash, Timer } from "lucide-react";
 
 const signalsPath = "/arbitrage-hedge-fund/signals";
 const description =
@@ -20,25 +23,21 @@ const description =
 
 const signalBoardItems = [
   {
-    icon: Radar,
     title: "Market observation",
     body: "The board keeps active and monitored Polymarket events in one place, with venue, update timing, and signal status visible beside each market.",
     href: `${signalsPath}#market-observation`,
   },
   {
-    icon: BarChart3,
     title: "Probability comparison",
     body: "Implied prices are compared with model probabilities so the fund can separate raw event interest from durable dislocation candidates.",
     href: `${signalsPath}#probability-comparison`,
   },
   {
-    icon: Gauge,
     title: "Confidence language",
     body: "Signals graduate from monitoring to sizing only when spread persistence, liquidity, and comparison quality support allocator-facing confidence.",
     href: `${signalsPath}#confidence-language`,
   },
   {
-    icon: Shield,
     title: "Product boundary",
     body: "Lending markets and derivative-only strategies stay out of the active surface until they have risk limits and allocator language.",
     href: `${signalsPath}#product-boundary`,
@@ -63,9 +62,7 @@ const signalFaqs = [
   },
 ];
 
-const relatedResearch = researchArticles.filter((article) =>
-  ["polymarket-arbitrage-explainer", "event-market-risk-controls"].includes(article.slug),
-);
+const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Signals",
@@ -81,9 +78,26 @@ export const metadata = createSeoMetadata({
   ],
 });
 
-export default function SignalsPage() {
+export default async function SignalsPage() {
+  const [signals, positions] = await Promise.all([
+    fetchBackend<Signal[]>("/signals", sampleSignals),
+    fetchBackend<Position[]>("/positions", samplePositions),
+  ]);
+  const avgSpread = averageAbsoluteSpread(signals);
+  const exposure = totalExposure(positions);
+  const exposureMetrics = [
+    ["Signals", signals.length.toString(), "plain"],
+    ["Avg Spread", avgSpread.toFixed(3), "signal"],
+    [
+      "Exposure",
+      `$${exposure.toLocaleString("en-US", { maximumFractionDigits: 0 })}`,
+      "plain",
+    ],
+    ["Active Positions", positions.length.toString(), "signal"],
+  ] as const;
+
   return (
-    <main>
+    <main className="mx-auto flex w-full max-w-[1800px] flex-col gap-6 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
       <JsonLd
         id="arbitrage-signals-json-ld"
         data={[
@@ -111,74 +125,172 @@ export default function SignalsPage() {
           ]),
         ]}
       />
-      <section className="financial-grid border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-          <SectionHeader
-            eyebrow="Arbitrage Hedge Fund"
-            title="Polymarket signal board"
-            description={description}
-          />
+
+      <header className="mt-4 flex flex-col justify-between gap-6 border-b border-border-muted pb-4 md:flex-row md:items-end">
+        <div>
+          <h1 className="font-serif text-3xl font-semibold leading-tight text-on-surface">
+            Arbitrage Operations
+          </h1>
+          <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            Live Risk & Signal Feed // System V4.2
+          </p>
         </div>
-      </section>
-      <section className="border-b border-border bg-muted/30">
-        <div className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
-          {signalBoardItems.map((item) => (
-            <div
-              key={item.title}
-              id={item.href.split("#")[1]}
-              className="rounded-lg border border-border bg-card p-5"
-            >
-              <item.icon className="h-5 w-5 text-accent" />
-              <h2 className="mt-4 text-lg font-semibold">{item.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <SignalDashboard />
-      </section>
-      <section className="border-t border-border bg-card/40">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader
-            eyebrow="Research context"
-            title="Signals tied back to the arbitrage thesis"
-            description="The route links search intent for Polymarket arbitrage to the research memos that explain why the spread exists and when it is usable."
-          />
-          <div className="grid gap-4 md:grid-cols-2">
-            {relatedResearch.map((article) => (
-              <Link
-                key={article.slug}
-                href={`/research/${article.slug}`}
-                className="group rounded-lg border border-border bg-background p-5 transition hover:border-accent"
-              >
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                  {article.eyebrow}
-                </p>
-                <h2 className="mt-3 text-lg font-semibold leading-tight">{article.title}</h2>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  {article.description}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-foreground group-hover:text-accent">
-                  Read memo
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </span>
-              </Link>
-            ))}
+        <div className="flex gap-4">
+          <div className="flex flex-col items-start md:items-end">
+            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              Market Status
+            </span>
+            <span className="flex items-center gap-1 font-mono text-sm font-medium text-status-signal">
+              <span className="inline-block h-2 w-2 bg-status-signal" />
+              Open
+            </span>
+          </div>
+          <div className="border-l border-border-muted pl-4">
+            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              Last Update
+            </span>
+            <span className="block font-mono text-sm font-medium text-on-surface">14:02:44 UTC</span>
           </div>
         </div>
-      </section>
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="grid gap-4 md:grid-cols-3">
-          {signalFaqs.map((item) => (
-            <div key={item.question} className="rounded-lg border border-border bg-card p-5">
-              <h2 className="text-base font-semibold leading-6">{item.question}</h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.answer}</p>
+      </header>
+
+      <section className="grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-4">
+        {exposureMetrics.map(([label, value, tone]) => (
+          <div
+            key={label}
+            className={`min-h-[100px] bg-surface p-4 ${tone === "signal" ? "border-t border-status-signal" : ""}`}
+          >
+            <div className="flex items-start justify-between">
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                {label}
+              </span>
             </div>
-          ))}
+            <div
+              className={`mt-4 font-mono text-xl font-semibold ${
+                tone === "signal" ? "text-status-signal" : "text-on-surface"
+              }`}
+            >
+              {value}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section className="overflow-x-auto border border-border-muted bg-border-muted">
+        <div className="min-w-[980px]">
+          <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_1fr_1fr] gap-1 bg-surface-container">
+            {["Asset / Event", "Type", "Impl Prob", "Model Prob", "Spread vs Impl", "Confidence", "Status"].map(
+              (label) => (
+                <div
+                  key={label}
+                  className="bg-surface p-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant"
+                >
+                  {label}
+                </div>
+              ),
+            )}
+          </div>
+
+          {signals.map((signal) => {
+            const row = toSignalRow(signal);
+            const Icon = row.icon;
+            return (
+              <div
+                key={row.event}
+                className={`grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_1fr_1fr] gap-1 bg-surface-container transition-colors hover:bg-surface-variant ${
+                  row.state === "inactive" ? "opacity-60" : ""
+                }`}
+              >
+                <div className="flex items-center gap-2 bg-surface p-3 font-mono text-sm font-medium text-on-surface">
+                  <Icon
+                    className={`h-4 w-4 ${
+                      row.state === "live" ? "text-status-signal" : "text-on-surface-variant"
+                    }`}
+                  />
+                  {row.event}
+                </div>
+                <div className="flex items-center bg-surface p-3 font-mono text-sm font-medium text-on-surface-variant">
+                  {row.type}
+                </div>
+                <div className="flex items-center justify-end bg-surface p-3 font-mono text-sm font-medium text-on-surface">
+                  {row.implied}
+                </div>
+                <div
+                  className={`flex items-center justify-end bg-surface p-3 font-mono text-sm font-bold ${
+                    row.state === "live" ? "text-status-signal" : "text-on-surface"
+                  }`}
+                >
+                  {row.model}
+                </div>
+                <div className="flex flex-col justify-center gap-1 bg-surface p-3 font-mono text-sm font-medium">
+                  <span className={row.spread.startsWith("-") ? "text-destructive" : "text-status-signal"}>
+                    {row.spread}
+                  </span>
+                  <div className="relative h-[2px] w-full bg-surface-variant">
+                    <div
+                      className={`absolute top-0 h-full ${
+                        row.spread.startsWith("-") ? "right-0 bg-destructive opacity-50" : "left-0 bg-status-signal"
+                      }`}
+                      style={{ width: row.width }}
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center bg-surface p-3 font-mono text-sm font-medium text-on-surface">
+                  {row.confidence}
+                </div>
+                <div className="flex items-center gap-2 bg-surface p-3">
+                  <span
+                    className={`h-2 w-2 ${
+                      row.state === "live"
+                        ? "bg-status-signal"
+                        : row.state === "pending"
+                          ? "hatch-pattern border border-on-surface-variant"
+                          : "border border-on-surface bg-transparent"
+                    }`}
+                  />
+                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                    {row.status}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
-      <ProductCrosslink current="arbitrage-hedge-fund" />
     </main>
   );
+}
+
+async function fetchBackend<T>(path: string, fallback: T): Promise<T> {
+  if (!baseUrl) return fallback;
+
+  try {
+    const response = await fetch(`${baseUrl}${path}`, { cache: "no-store" });
+    if (!response.ok) return fallback;
+    const data = (await response.json()) as T;
+    return Array.isArray(data) && data.length === 0 ? fallback : data;
+  } catch {
+    return fallback;
+  }
+}
+
+function toSignalRow(signal: Signal) {
+  const state =
+    signal.status === "Active" ? "live" : signal.status === "Sizing" ? "pending" : "inactive";
+  return {
+    event: signal.market,
+    type: signal.venue,
+    implied: formatProb(signal.impliedProb),
+    model: formatProb(signal.theoreticalProb),
+    spread: `${signal.spread > 0 ? "+" : ""}${(signal.spread * 100).toFixed(1)}%`,
+    confidence: signal.confidence,
+    status: signal.status,
+    state,
+    width: `${Math.min(Math.max(Math.abs(signal.spread) * 1000, 8), 100)}%`,
+    icon: state === "live" ? Bolt : state === "pending" ? Timer : CircleSlash,
+  };
+}
+
+function formatProb(value: number) {
+  return `${(value * 100).toFixed(1)}%`;
 }

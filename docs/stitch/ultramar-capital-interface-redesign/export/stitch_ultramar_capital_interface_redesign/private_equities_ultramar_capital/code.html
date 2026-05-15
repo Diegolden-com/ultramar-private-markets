@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Private Equities - Gated Workroom</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#dce1ff",
+                        "inverse-surface": "#e3e2e5",
+                        "secondary-fixed": "#e1e2e4",
+                        "inverse-primary": "#004dea",
+                        "surface-variant": "#343537",
+                        "border-muted": "#1F2937",
+                        "secondary": "#c5c7c8",
+                        "on-surface-variant": "#c3c5d9",
+                        "on-tertiary-fixed-variant": "#404754",
+                        "surface-paper": "#FFFFFF",
+                        "outline-variant": "#434656",
+                        "on-tertiary": "#2a313d",
+                        "on-primary-container": "#e3e6ff",
+                        "on-secondary": "#2e3132",
+                        "surface-container": "#1f2022",
+                        "surface-ink": "#07080A",
+                        "tertiary-container": "#616876",
+                        "on-primary-fixed-variant": "#0039b3",
+                        "on-tertiary-container": "#e1e8f8",
+                        "surface-dim": "#121316",
+                        "on-background": "#e3e2e5",
+                        "on-primary-fixed": "#001551",
+                        "surface-container-highest": "#343537",
+                        "tertiary": "#c0c7d6",
+                        "tertiary-fixed-dim": "#c0c7d6",
+                        "surface-tint": "#b6c4ff",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-secondary-container": "#b3b5b7",
+                        "background": "#121316",
+                        "on-error": "#690005",
+                        "on-surface": "#e3e2e5",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#dce2f3",
+                        "surface-container-high": "#292a2c",
+                        "surface": "#121316",
+                        "surface-bright": "#38393c",
+                        "secondary-container": "#444749",
+                        "on-secondary-fixed": "#191c1e",
+                        "surface-container-lowest": "#0d0e10",
+                        "on-tertiary-fixed": "#151c27",
+                        "on-primary": "#002780",
+                        "on-secondary-fixed-variant": "#444749",
+                        "primary-container": "#0055ff",
+                        "outline": "#8d90a2",
+                        "error-container": "#93000a",
+                        "status-signal": "#0055FF",
+                        "secondary-fixed-dim": "#c5c7c8",
+                        "surface-container-low": "#1b1c1e",
+                        "primary": "#b6c4ff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#2f3033",
+                        "interactive-focus": "#0055FF"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "grid-col-width": "calc(100% / 12)",
+                        "margin-sm": "16px",
+                        "gutter": "1px",
+                        "margin-lg": "48px",
+                        "margin-md": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl-mobile": ["Playfair Display"],
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono-sm": ["JetBrains Mono"],
+                        "headline-md": ["Playfair Display"],
+                        "data-mono-lg": ["JetBrains Mono"],
+                        "data-mono-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "label-mono-sm": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "data-mono-lg": ["20px", { "lineHeight": "1.0", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-mono-md": ["14px", { "lineHeight": "1.0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .bg-hatch {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(31, 41, 55, 0.5) 2px, rgba(31, 41, 55, 0.5) 4px);
+        }
+        .grid-bg {
+            background-image: linear-gradient(to right, #1F2937 1px, transparent 1px), linear-gradient(to bottom, #1F2937 1px, transparent 1px);
+            background-size: 100px 100px;
+        }
+        /* Custom scrollbar for terminal feel */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #07080A; border-left: 1px solid #1F2937; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; }
+        ::-webkit-scrollbar-thumb:hover { background: #343537; }
+    </style>
+</head>
+<body class="bg-surface-ink text-on-surface min-h-screen flex flex-col font-body-md antialiased pt-12">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-lg h-12 bg-surface dark:bg-surface border-b border-border-muted dark:border-border-muted">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface dark:text-on-surface">ULTRAMAR.CAPITAL</span>
+<nav class="hidden md:flex gap-6 h-full items-end">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">EQUITIES</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">ARBITRAGE</a>
+<!-- Active Item -->
+<a class="text-status-signal dark:text-status-signal border-b-2 border-status-signal pb-1 font-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200 opacity-80 transition-opacity" href="#">DATA ROOM</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">GOVERNANCE</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-label-mono-sm text-label-mono-sm uppercase border border-border-muted px-4 py-2 hover:bg-primary-container hover:border-primary-container transition-colors">TERMINAL ACCESS</button>
+<button class="font-label-mono-sm text-label-mono-sm uppercase text-on-surface-variant hover:text-primary">AUTH</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-[1600px] mx-auto px-margin-lg py-margin-md flex flex-col gap-unit">
+<!-- Hero Section: RWA Rail -->
+<section class="border border-border-muted p-8 bg-surface relative overflow-hidden group">
+<div class="absolute inset-0 bg-hatch opacity-30 pointer-events-none"></div>
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+<div class="md:col-span-8 flex flex-col gap-4">
+<span class="font-label-mono-sm text-label-mono-sm text-status-signal uppercase">Secure Enclave • T-0 Settlement</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface uppercase tracking-tight">CONTROLLED RWA RAIL</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Gated execution environment for tokenized real-world assets. Institutional-grade compliance verification embedded at the protocol level.
+                    </p>
+</div>
+<div class="md:col-span-4 flex flex-col gap-2 border-l border-border-muted pl-8">
+<div class="flex justify-between items-center border-b border-border-muted pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">NETWORK STATUS</span>
+<span class="flex items-center gap-2 font-label-mono-sm text-label-mono-sm text-status-signal">
+<span class="w-2 h-2 bg-status-signal"></span> ONLINE
+                        </span>
+</div>
+<div class="flex justify-between items-center border-b border-border-muted pb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">24H VOLUME</span>
+<span class="font-data-mono-md text-data-mono-md text-on-surface">$1.24B</span>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">ACTIVE NODES</span>
+<span class="font-data-mono-md text-data-mono-md text-on-surface">42/42</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Contextual Navigation (Sub-nav for Equities) -->
+<nav class="flex border border-border-muted bg-surface overflow-x-auto">
+<a class="px-6 py-3 font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase border-r border-border-muted hover:bg-surface-variant" href="#">Assets</a>
+<a class="px-6 py-3 font-label-mono-sm text-label-mono-sm text-status-signal border-b-2 border-status-signal uppercase border-r border-border-muted bg-surface-container" href="#">Deals</a>
+<a class="px-6 py-3 font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase border-r border-border-muted hover:bg-surface-variant" href="#">Oracle</a>
+<a class="px-6 py-3 font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase border-r border-border-muted hover:bg-surface-variant" href="#">Market</a>
+<a class="px-6 py-3 font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase border-r border-border-muted hover:bg-surface-variant" href="#">Portfolio</a>
+<a class="px-6 py-3 font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase hover:bg-surface-variant" href="#">Legal</a>
+</nav>
+<!-- Capital Raise Memo: Lavanderias CX -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-unit">
+<!-- Main Memo Content -->
+<section class="md:col-span-8 border border-border-muted bg-surface-paper text-surface-ink flex flex-col">
+<header class="border-b border-border-muted p-6 flex justify-between items-start">
+<div>
+<span class="font-label-mono-sm text-label-mono-sm text-surface-variant uppercase block mb-2">OFFERING MEMORANDUM • CONFIDENTIAL</span>
+<h2 class="font-headline-lg text-headline-lg font-bold tracking-tight">Lavanderias CX</h2>
+<p class="font-label-mono-sm text-label-mono-sm mt-1">SERIES B • LATAM COMMERCIAL REAL ESTATE &amp; OPERATIONS</p>
+</div>
+<img alt="Grayscale architectural abstract of an industrial commercial facility, shot with stark high contrast and harsh geometric shadows." class="w-24 h-24 object-cover border border-border-muted grayscale" data-alt="A stark, high-contrast black and white architectural photograph of a modern industrial facility. The image emphasizes rigid geometric lines, deep shadows, and an imposing sense of scale. The mood is severe, functional, and institutional, aligning with a brutalist financial terminal aesthetic. There are no people visible, focusing entirely on structural permanence." src="assets/industrial-facility.png"/>
+</header>
+<div class="p-8 flex flex-col gap-6 flex-grow bg-white">
+<p class="font-body-lg text-body-lg leading-relaxed">
+                        Lavanderias CX operates a highly automated, sovereign-grade commercial laundry network across major LATAM urban centers. This raise aims to finance the acquisition of 14 key logistic nodes and integrate proprietary energy-arbitrage hardware to reduce operational OPEX by a projected 42% over the next fiscal cycle.
+                    </p>
+<div class="border-t border-border-muted pt-6">
+<h3 class="font-headline-md text-headline-md mb-4">Use of Funds</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-4">
+<span class="font-data-mono-md text-data-mono-md w-16 pt-1">55%</span>
+<div>
+<span class="font-label-mono-sm text-label-mono-sm font-bold block">ASSET ACQUISITION</span>
+<span class="font-body-md text-body-md text-surface-variant">Real estate purchase of identified tier-1 logistic hubs in SP, CDMX, and BOG.</span>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<span class="font-data-mono-md text-data-mono-md w-16 pt-1">30%</span>
+<div>
+<span class="font-label-mono-sm text-label-mono-sm font-bold block">CAPEX (AUTOMATION)</span>
+<span class="font-body-md text-body-md text-surface-variant">Deployment of localized micro-grid hardware and automated processing lines.</span>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<span class="font-data-mono-md text-data-mono-md w-16 pt-1">15%</span>
+<div>
+<span class="font-label-mono-sm text-label-mono-sm font-bold block">WORKING CAPITAL</span>
+<span class="font-body-md text-body-md text-surface-variant">Buffer for regulatory clearance delays and initial integration phases.</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Sidebar Data/Status Blocks -->
+<aside class="md:col-span-4 flex flex-col gap-unit">
+<!-- Target Raise Block -->
+<div class="border border-border-muted border-t-status-signal bg-surface p-6 flex flex-col gap-4">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase">TARGET RAISE</span>
+<div class="font-data-mono-lg text-data-mono-lg text-4xl text-on-surface">$45,000,000</div>
+<div class="w-full h-1 bg-surface-variant mt-2">
+<div class="h-full bg-status-signal w-[60%]"></div>
+</div>
+<div class="flex justify-between font-label-mono-sm text-label-mono-sm">
+<span class="text-on-surface-variant">COMMITTED: $27M</span>
+<span class="text-status-signal">60%</span>
+</div>
+</div>
+<!-- Data Room Status -->
+<div class="border border-border-muted bg-surface p-6 flex flex-col gap-4">
+<div class="flex justify-between items-center border-b border-border-muted pb-4">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase">DATA ROOM</span>
+<span class="flex items-center gap-2 font-label-mono-sm text-label-mono-sm text-status-signal border border-status-signal px-2 py-1">
+<span class="w-2 h-2 bg-status-signal"></span> READY
+                        </span>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface">FINANCIALS_AUDITED.PDF</span>
+<span class="material-symbols-outlined text-status-signal text-[16px]">check</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface">LEGAL_RESTRUCTURE.PDF</span>
+<span class="material-symbols-outlined text-status-signal text-[16px]">check</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">ENV_IMPACT_REPORT.PDF</span>
+<div class="w-4 h-4 border border-on-surface-variant bg-hatch"></div>
+</div>
+</div>
+<button class="w-full mt-4 border border-border-muted bg-surface-ink text-on-surface font-label-mono-sm text-label-mono-sm py-3 uppercase hover:bg-primary-container hover:border-primary-container transition-colors">ACCESS ROOM</button>
+</div>
+<!-- Diligence Path -->
+<div class="border border-border-muted bg-surface flex-grow p-6 flex flex-col">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase mb-4 border-b border-border-muted pb-2">DILIGENCE PATH</span>
+<div class="flex-grow relative border-l border-border-muted ml-2 space-y-6 py-2">
+<div class="relative pl-6">
+<div class="absolute left-[-5px] top-1 w-2 h-2 bg-status-signal"></div>
+<span class="font-label-mono-sm text-label-mono-sm text-status-signal block">PHASE 1: INITIAL REVIEW</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">COMPLETED</span>
+</div>
+<div class="relative pl-6">
+<div class="absolute left-[-5px] top-1 w-2 h-2 bg-status-signal"></div>
+<span class="font-label-mono-sm text-label-mono-sm text-status-signal block">PHASE 2: DEEP DIVE</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">COMPLETED</span>
+</div>
+<div class="relative pl-6">
+<div class="absolute left-[-5px] top-1 w-2 h-2 border border-status-signal bg-surface-ink"></div>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface block">PHASE 3: LEGAL CLEARANCE</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">IN PROGRESS</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-margin-md px-margin-lg flex flex-col md:flex-row justify-between items-center gap-unit bg-surface-container-lowest border-t border-border-muted dark:border-border-muted mt-auto">
+<div class="flex flex-col gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface uppercase tracking-tight">ULTRAMAR.CAPITAL</span>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">©2024 ULTRAMAR CAPITAL GROUP. ALL RIGHTS RESERVED. REGULATED ENTITY.</span>
+</div>
+<nav class="flex gap-4 font-label-mono-sm text-label-mono-sm">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline uppercase transition-all duration-300 ease-in-out" href="#">COMPLIANCE</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline uppercase transition-all duration-300 ease-in-out" href="#">LEGAL</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline uppercase transition-all duration-300 ease-in-out" href="#">SITEMAP</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline uppercase transition-all duration-300 ease-in-out" href="#">API</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline uppercase transition-all duration-300 ease-in-out" href="#">SYSTEM STATUS</a>
+</nav>
+</footer>
+</body></html>

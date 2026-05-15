@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Asset Detail - Lavanderias CX</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#dce1ff",
+                        "inverse-surface": "#e3e2e5",
+                        "secondary-fixed": "#e1e2e4",
+                        "inverse-primary": "#004dea",
+                        "surface-variant": "#343537",
+                        "border-muted": "#1F2937",
+                        "secondary": "#c5c7c8",
+                        "on-surface-variant": "#c3c5d9",
+                        "on-tertiary-fixed-variant": "#404754",
+                        "surface-paper": "#FFFFFF",
+                        "outline-variant": "#434656",
+                        "on-tertiary": "#2a313d",
+                        "on-primary-container": "#e3e6ff",
+                        "on-secondary": "#2e3132",
+                        "surface-container": "#1f2022",
+                        "surface-ink": "#07080A",
+                        "tertiary-container": "#616876",
+                        "on-primary-fixed-variant": "#0039b3",
+                        "on-tertiary-container": "#e1e8f8",
+                        "surface-dim": "#121316",
+                        "on-background": "#e3e2e5",
+                        "on-primary-fixed": "#001551",
+                        "surface-container-highest": "#343537",
+                        "tertiary": "#c0c7d6",
+                        "tertiary-fixed-dim": "#c0c7d6",
+                        "surface-tint": "#b6c4ff",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-secondary-container": "#b3b5b7",
+                        "background": "#121316",
+                        "on-error": "#690005",
+                        "on-surface": "#e3e2e5",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#dce2f3",
+                        "surface-container-high": "#292a2c",
+                        "surface": "#121316",
+                        "surface-bright": "#38393c",
+                        "secondary-container": "#444749",
+                        "on-secondary-fixed": "#191c1e",
+                        "surface-container-lowest": "#0d0e10",
+                        "on-tertiary-fixed": "#151c27",
+                        "on-primary": "#002780",
+                        "on-secondary-fixed-variant": "#444749",
+                        "primary-container": "#0055ff",
+                        "outline": "#8d90a2",
+                        "error-container": "#93000a",
+                        "status-signal": "#0055FF",
+                        "secondary-fixed-dim": "#c5c7c8",
+                        "surface-container-low": "#1b1c1e",
+                        "primary": "#b6c4ff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#2f3033",
+                        "interactive-focus": "#0055FF"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "grid-col-width": "calc(100% / 12)",
+                        "margin-sm": "16px",
+                        "gutter": "1px",
+                        "margin-lg": "48px",
+                        "margin-md": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl-mobile": ["Playfair Display"],
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono-sm": ["JetBrains Mono"],
+                        "headline-md": ["Playfair Display"],
+                        "data-mono-lg": ["JetBrains Mono"],
+                        "data-mono-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "label-mono-sm": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "data-mono-lg": ["20px", { "lineHeight": "1.0", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-mono-md": ["14px", { "lineHeight": "1.0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hatch-pattern {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px);
+        }
+        .data-room-active {
+            background-color: #0055FF;
+        }
+        .data-room-pending {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,85,255,0.5) 2px, rgba(0,85,255,0.5) 4px);
+        }
+    </style>
+</head>
+<body class="bg-surface-ink text-on-surface font-body-md min-h-screen antialiased flex flex-col">
+<!-- Top Navigation from Shared Components -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-lg h-12 bg-surface dark:bg-surface border-b border-border-muted dark:border-border-muted">
+<div class="flex items-center gap-margin-md">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface dark:text-on-surface">ULTRAMAR.CAPITAL</span>
+<div class="hidden md:flex items-center gap-margin-md ml-margin-lg">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm text-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">EQUITIES</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm text-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">ARBITRAGE</a>
+<a class="text-status-signal dark:text-status-signal font-label-mono-sm text-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200 border-b-2 border-status-signal pb-1 opacity-80" href="#">DATA ROOM</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm text-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">GOVERNANCE</a>
+</div>
+</div>
+<div class="flex items-center gap-unit">
+<button class="font-label-mono-sm text-label-mono-sm uppercase text-on-surface-variant hover:text-primary transition-colors px-4 py-1">AUTH</button>
+<button class="font-label-mono-sm text-label-mono-sm uppercase bg-surface-ink border border-surface-paper text-surface-paper hover:bg-status-signal hover:border-status-signal transition-colors px-4 py-1">TERMINAL ACCESS</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[calc(48px+32px)] px-margin-lg pb-margin-lg grid grid-cols-1 md:grid-cols-12 gap-gutter bg-border-muted">
+<!-- Left Column: Main Memo Content -->
+<div class="md:col-span-8 lg:col-span-9 bg-surface-ink flex flex-col gap-gutter">
+<!-- Header Block -->
+<div class="bg-surface p-margin-md border border-border-muted">
+<div class="flex justify-between items-start mb-margin-md">
+<div>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block mb-2">ASSET IDENTIFIER</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">LAVANDERIAS CX</h1>
+</div>
+<div class="text-right">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block mb-2">CLASSIFICATION</span>
+<span class="font-data-mono-md text-data-mono-md text-on-surface border border-border-muted px-2 py-1 bg-surface-dim">REAL ASSET / YIELD</span>
+</div>
+</div>
+<!-- Raise Progress -->
+<div class="mt-margin-md border-t border-border-muted pt-margin-md">
+<div class="flex justify-between mb-2">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant">FUNDING PROGRESS</span>
+<span class="font-data-mono-md text-data-mono-md text-status-signal">60%</span>
+</div>
+<div class="w-full h-2 bg-surface-dim border border-border-muted relative">
+<div class="absolute top-0 left-0 h-full bg-status-signal w-[60%]"></div>
+</div>
+<div class="flex justify-between mt-2">
+<div>
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block">COMMITTED</span>
+<span class="font-data-mono-lg text-data-mono-lg text-on-surface">$27,000,000</span>
+</div>
+<div class="text-right">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block">TARGET RAISE</span>
+<span class="font-data-mono-lg text-data-mono-lg text-on-surface">$45,000,000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Asset Memo Content -->
+<div class="bg-surface p-margin-lg border border-border-muted font-body-lg text-body-lg text-on-surface leading-relaxed">
+<h2 class="font-headline-lg text-headline-lg mb-margin-md border-b border-border-muted pb-2">EXECUTIVE SUMMARY</h2>
+<p class="mb-margin-md text-on-surface-variant">
+                    Lavanderias CX represents a strategic roll-up opportunity within the fragmented commercial laundry sector in Tier-1 Latin American metropolitan nodes. The asset targets stable, inflation-resistant cash flows backed by long-term institutional hospitality and healthcare contracts. This memorandum outlines the terms for the Series A tranche, focused on acquiring 14 operational facilities and upgrading critical infrastructure to automation standards.
+                </p>
+<!-- Use of Funds Matrix -->
+<h3 class="font-headline-md text-headline-md mt-margin-lg mb-margin-md">USE OF FUNDS</h3>
+<div class="grid grid-cols-3 gap-gutter bg-border-muted border border-border-muted mb-margin-lg">
+<div class="bg-surface p-4">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block mb-2">ASSET ACQUISITION</span>
+<span class="font-data-mono-lg text-data-mono-lg text-on-surface block mb-1">55%</span>
+<span class="font-data-mono-md text-data-mono-md text-on-surface-variant">$24.75M</span>
+</div>
+<div class="bg-surface p-4">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block mb-2">CAPEX &amp; AUTOMATION</span>
+<span class="font-data-mono-lg text-data-mono-lg text-on-surface block mb-1">30%</span>
+<span class="font-data-mono-md text-data-mono-md text-on-surface-variant">$13.50M</span>
+</div>
+<div class="bg-surface p-4">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant block mb-2">WORKING CAPITAL</span>
+<span class="font-data-mono-lg text-data-mono-lg text-on-surface block mb-1">15%</span>
+<span class="font-data-mono-md text-data-mono-md text-on-surface-variant">$6.75M</span>
+</div>
+</div>
+<!-- Terms Table -->
+<h3 class="font-headline-md text-headline-md mt-margin-lg mb-margin-md">OFFERING TERMS</h3>
+<div class="border border-border-muted mb-margin-lg">
+<div class="grid grid-cols-2 border-b border-border-muted bg-surface-dim">
+<div class="p-2 font-label-mono-sm text-label-mono-sm text-on-surface-variant">PARAMETER</div>
+<div class="p-2 font-label-mono-sm text-label-mono-sm text-on-surface-variant">SPECIFICATION</div>
+</div>
+<div class="grid grid-cols-2 border-b border-border-muted">
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">INSTRUMENT</div>
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">PREFERRED EQUITY</div>
+</div>
+<div class="grid grid-cols-2 border-b border-border-muted">
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">TARGET IRR</div>
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">18.5% (NET)</div>
+</div>
+<div class="grid grid-cols-2 border-b border-border-muted">
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">MINIMUM TICKET</div>
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">$500,000</div>
+</div>
+<div class="grid grid-cols-2">
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">LOCK-UP PERIOD</div>
+<div class="p-3 font-data-mono-md text-data-mono-md text-on-surface">36 MONTHS</div>
+</div>
+</div>
+<!-- Risk Factors Block -->
+<div class="bg-surface-dim border-t border-status-signal border-l border-r border-b border-border-muted p-margin-md mt-margin-lg">
+<h3 class="font-label-mono-sm text-label-mono-sm text-status-signal mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                        CRITICAL RISK FACTORS
+                    </h3>
+<ul class="list-none space-y-4 font-body-md text-body-md text-on-surface-variant">
+<li class="pl-4 border-l-2 border-border-muted"><strong>OPERATIONAL INTEGRATION:</strong> Risk of delayed cash flow stabilization during the transition of legacy facilities to automated systems.</li>
+<li class="pl-4 border-l-2 border-border-muted"><strong>FX EXPOSURE:</strong> Unhedged localized revenue streams subject to regional currency volatility against USD reporting standard.</li>
+<li class="pl-4 border-l-2 border-border-muted"><strong>SUPPLY CHAIN:</strong> Disruption in industrial machinery delivery schedules could impact CapEx deployment timeline.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Right Column: Context & Status -->
+<div class="md:col-span-4 lg:col-span-3 bg-surface-ink flex flex-col gap-gutter">
+<!-- Diligence Path Checklist -->
+<div class="bg-surface border border-border-muted p-margin-md">
+<h3 class="font-label-mono-sm text-label-mono-sm text-on-surface-variant mb-margin-sm border-b border-border-muted pb-2">DILIGENCE PATH</h3>
+<div class="space-y-3 font-data-mono-md text-data-mono-md text-on-surface">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 border border-border-muted bg-surface-dim"></div>
+<span class="opacity-50 line-through">KYC CLEARANCE</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 border border-border-muted bg-surface-dim"></div>
+<span class="opacity-50 line-through">NDA EXECUTION</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 border border-status-signal data-room-active"></div>
+<span>MEMO REVIEW</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 border border-border-muted data-room-pending"></div>
+<span class="text-status-signal">DATA ROOM ACCESS</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 border border-border-muted bg-transparent"></div>
+<span>CAPITAL CALL</span>
+</div>
+</div>
+</div>
+<!-- Data Room Status -->
+<div class="bg-surface border border-border-muted p-margin-md">
+<h3 class="font-label-mono-sm text-label-mono-sm text-on-surface-variant mb-margin-sm border-b border-border-muted pb-2">DATA ROOM STATUS</h3>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-4 h-4 border border-status-signal data-room-pending"></div>
+<span class="font-data-mono-md text-data-mono-md text-status-signal">PENDING AUTHORIZATION</span>
+</div>
+<button class="w-full font-label-mono-sm text-label-mono-sm uppercase bg-surface-ink border border-border-muted text-on-surface-variant hover:border-status-signal hover:text-status-signal transition-colors py-2">REQUEST UNLOCK</button>
+</div>
+<!-- Oracle Bridge Module -->
+<div class="bg-surface border border-border-muted p-margin-md hatch-pattern flex-grow">
+<h3 class="font-label-mono-sm text-label-mono-sm text-on-surface-variant mb-margin-sm border-b border-border-muted pb-2">ORACLE BRIDGE</h3>
+<div class="flex flex-col items-center justify-center h-32 opacity-50">
+<span class="material-symbols-outlined text-[32px] mb-2">lock</span>
+<span class="font-label-mono-sm text-label-mono-sm text-center">TELEMETRY LOCKED<br/>AWAITING CLEARANCE</span>
+</div>
+</div>
+<!-- Action Block -->
+<div class="bg-surface border border-border-muted p-margin-md mt-auto">
+<button class="w-full font-label-mono-sm text-label-mono-sm uppercase bg-surface-ink border border-surface-paper text-surface-paper hover:bg-status-signal hover:border-status-signal transition-colors py-3">INITIATE ALLOCATION</button>
+</div>
+</div>
+</main>
+<!-- Footer from Shared Components -->
+<footer class="w-full py-margin-md px-margin-lg flex flex-col md:flex-row justify-between items-center gap-unit bg-surface-container-lowest border-t border-border-muted dark:border-border-muted transition-all duration-300 ease-in-out mt-auto">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">ULTRAMAR.CAPITAL</span>
+<div class="flex flex-wrap gap-margin-sm items-center justify-center">
+<a class="font-label-mono-sm text-label-mono-sm text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline" href="#">COMPLIANCE</a>
+<a class="font-label-mono-sm text-label-mono-sm text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline" href="#">LEGAL</a>
+<a class="font-label-mono-sm text-label-mono-sm text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline" href="#">SITEMAP</a>
+<a class="font-label-mono-sm text-label-mono-sm text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline" href="#">API</a>
+<a class="font-label-mono-sm text-label-mono-sm text-on-surface-variant dark:text-on-surface-variant hover:text-status-signal dark:hover:text-status-signal underline" href="#">SYSTEM STATUS</a>
+</div>
+<span class="font-body-md text-body-md text-on-surface dark:text-on-surface text-center md:text-right">©2024 ULTRAMAR CAPITAL GROUP. ALL RIGHTS RESERVED. REGULATED ENTITY.</span>
+</footer>
+</body></html>

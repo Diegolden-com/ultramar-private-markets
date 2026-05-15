@@ -3,11 +3,10 @@ import { JsonLd } from "@/components/json-ld";
 import { organizationJsonLd, seoImages, websiteJsonLd } from "@/lib/seo";
 import { canonicalDomain, platform } from "@ultramar/product-model";
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google";
-import Script from "next/script";
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -57,23 +56,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f7f9" },
-    { media: "(prefers-color-scheme: dark)", color: "#07080a" },
-  ],
+  themeColor: "#07080a",
 };
-
-const themeScript = `
-(() => {
-  try {
-    const stored = localStorage.getItem("ultramar-theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = stored === "light" || stored === "dark" ? stored : prefersDark ? "dark" : "light";
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    document.documentElement.style.colorScheme = theme;
-  } catch (_) {}
-})();
-`;
 
 export default function RootLayout({
   children,
@@ -81,15 +65,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark">
       <body
-        className={`${dmSans.variable} ${jetBrainsMono.variable} ${playfair.variable} font-sans antialiased`}
+        className={`${inter.variable} ${jetBrainsMono.variable} ${playfair.variable} font-sans antialiased`}
       >
-        <Script
-          id="ultramar-theme-script"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: themeScript }}
-        />
         <JsonLd id="organization-json-ld" data={organizationJsonLd()} />
         <JsonLd id="website-json-ld" data={websiteJsonLd()} />
         <AppShell>{children}</AppShell>

@@ -3,64 +3,54 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  color-scheme: light;
-  --background: oklch(0.982 0.004 247);
-  --foreground: oklch(0.075 0.006 247);
-  --card: oklch(0.995 0.002 247);
+  color-scheme: dark;
+  --background: #07080a;
+  --foreground: #e3e2e5;
+  --card: #121316;
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.075 0.006 247);
-  --primary-foreground: oklch(0.982 0.004 247);
-  --secondary: oklch(0.93 0.005 247);
-  --secondary-foreground: oklch(0.16 0.01 247);
-  --muted: oklch(0.92 0.006 247);
-  --muted-foreground: oklch(0.43 0.012 247);
-  --accent: oklch(0.5 0.135 250);
-  --accent-foreground: oklch(0.985 0.004 247);
-  --destructive: oklch(0.58 0.2 27);
-  --destructive-foreground: oklch(0.99 0.002 247);
-  --border: oklch(0.8 0.006 247);
+  --primary: #b6c4ff;
+  --primary-foreground: #002780;
+  --secondary: #c5c7c8;
+  --secondary-foreground: #2e3132;
+  --muted: #1b1c1e;
+  --muted-foreground: #c3c5d9;
+  --accent: #0055ff;
+  --accent-foreground: #ffffff;
+  --destructive: #ffb4ab;
+  --destructive-foreground: #690005;
+  --border: #1f2937;
   --input: var(--border);
   --ring: var(--accent);
-  --chart-1: oklch(0.16 0.01 247);
-  --chart-2: oklch(0.5 0.135 250);
-  --chart-3: oklch(0.54 0.11 178);
-  --chart-4: oklch(0.37 0.08 148);
-  --chart-5: oklch(0.55 0.16 25);
-  --footer: oklch(0.05 0.004 247);
-  --footer-foreground: oklch(0.97 0.004 247);
-  --radius: 0.25rem;
+  --chart-1: #e3e2e5;
+  --chart-2: #0055ff;
+  --chart-3: #b6c4ff;
+  --chart-4: #8d90a2;
+  --chart-5: #ffb4ab;
+  --footer: #0d0e10;
+  --footer-foreground: #e3e2e5;
+  --surface: #121316;
+  --surface-dim: #121316;
+  --surface-container-lowest: #0d0e10;
+  --surface-container-low: #1b1c1e;
+  --surface-container: #1f2022;
+  --surface-container-high: #292a2c;
+  --surface-container-highest: #343537;
+  --surface-variant: #343537;
+  --surface-paper: #ffffff;
+  --surface-ink: #07080a;
+  --on-surface: #e3e2e5;
+  --on-surface-variant: #c3c5d9;
+  --outline: #8d90a2;
+  --outline-variant: #434656;
+  --status-signal: #0055ff;
+  --border-muted: #1f2937;
+  --radius: 0rem;
 }
 
 .dark {
   color-scheme: dark;
-  --background: oklch(0.055 0.004 247);
-  --foreground: oklch(0.965 0.004 247);
-  --card: oklch(0.095 0.006 247);
-  --card-foreground: var(--foreground);
-  --popover: var(--card);
-  --popover-foreground: var(--foreground);
-  --primary: oklch(0.965 0.004 247);
-  --primary-foreground: oklch(0.055 0.004 247);
-  --secondary: oklch(0.155 0.008 247);
-  --secondary-foreground: oklch(0.965 0.004 247);
-  --muted: oklch(0.155 0.008 247);
-  --muted-foreground: oklch(0.68 0.01 247);
-  --accent: oklch(0.68 0.12 250);
-  --accent-foreground: oklch(0.055 0.004 247);
-  --destructive: oklch(0.62 0.18 25);
-  --destructive-foreground: oklch(0.985 0.004 247);
-  --border: oklch(0.27 0.008 247);
-  --input: var(--border);
-  --ring: var(--accent);
-  --chart-1: oklch(0.86 0.004 247);
-  --chart-2: oklch(0.65 0.1 165);
-  --chart-3: oklch(0.72 0.09 235);
-  --chart-4: oklch(0.68 0.11 135);
-  --chart-5: oklch(0.72 0.13 25);
-  --footer: oklch(0.035 0.004 247);
-  --footer-foreground: oklch(0.97 0.004 247);
 }
 
 @theme inline {
@@ -93,8 +83,24 @@
   --color-chart-5: var(--chart-5);
   --color-footer: var(--footer);
   --color-footer-foreground: var(--footer-foreground);
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-variant: var(--surface-variant);
+  --color-surface-paper: var(--surface-paper);
+  --color-surface-ink: var(--surface-ink);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-status-signal: var(--status-signal);
+  --color-border-muted: var(--border-muted);
+  --radius-sm: 0rem;
+  --radius-md: 0rem;
   --radius-lg: var(--radius);
 }
 
@@ -120,9 +126,21 @@
 @layer utilities {
   .financial-grid {
     background-image:
-      linear-gradient(to right, color-mix(in oklch, var(--border) 55%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in oklch, var(--border) 55%, transparent) 1px, transparent 1px);
+      linear-gradient(to right, color-mix(in srgb, var(--border) 70%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--border) 70%, transparent) 1px, transparent 1px);
     background-size: 44px 44px;
+  }
+
+  .terminal-grid {
+    background-image: linear-gradient(to right, var(--border-muted) 1px, transparent 1px);
+    background-size: calc(100% / 12) 100%;
+  }
+
+  .terminal-grid-2d {
+    background-image:
+      linear-gradient(to right, var(--border-muted) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border-muted) 1px, transparent 1px);
+    background-size: 100px 100px;
   }
 
   .blackwork-hatch {
@@ -141,6 +159,26 @@
         transparent 1px,
         transparent 18px
       );
+  }
+
+  .hatch-pattern {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--border-muted) 70%, transparent) 3px,
+      color-mix(in srgb, var(--border-muted) 70%, transparent) 4px
+    );
+  }
+
+  .hatch-pattern-blue {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      color-mix(in srgb, var(--status-signal) 50%, transparent) 2px,
+      color-mix(in srgb, var(--status-signal) 50%, transparent) 4px
+    );
   }
 
   .image-blackwork {

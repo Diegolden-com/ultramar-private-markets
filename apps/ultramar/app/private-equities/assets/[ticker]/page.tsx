@@ -1,26 +1,8 @@
 import { JsonLd } from "@/components/json-ld";
-import { ProductCrosslink } from "@/components/product-crosslink";
-import { findDeal, formatCurrency, deals, type CapitalRaise, type DataRoomItem } from "@/lib/deals";
+import { deals, findDeal, formatCurrency } from "@/lib/deals";
 import { breadcrumbJsonLd, createSeoMetadata, webPageJsonLd } from "@/lib/seo";
-import {
-  AlertTriangle,
-  ArrowLeft,
-  BadgeDollarSign,
-  CheckCircle2,
-  CircleDashed,
-  DatabaseZap,
-  FileCheck2,
-  FileClock,
-  FileText,
-  Globe2,
-  LockKeyhole,
-  ShieldCheck,
-  Target,
-  type LucideIcon,
-  WalletCards,
-} from "lucide-react";
+import { AlertTriangle, ArrowLeft, Lock } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -29,6 +11,14 @@ const statusLabels = {
   closing_soon: "Closing soon",
   funded: "Funded",
 } as const;
+
+const diligenceSteps = [
+  ["KYC Clearance", "complete"],
+  ["NDA Execution", "complete"],
+  ["Memo Review", "active"],
+  ["Data Room Access", "pending"],
+  ["Capital Call", "idle"],
+] as const;
 
 export function generateStaticParams() {
   return deals.map((deal) => ({ ticker: deal.ticker }));
@@ -66,43 +56,14 @@ export default async function AssetDetailPage({
   const deal = findDeal(ticker);
   if (!deal) notFound();
 
-  const statusLabel = statusLabels[deal.status];
-  const marketRail = deal.type === "primary" ? "Primary" : "Secondary";
-  const assetMetrics = [
-    {
-      label: "Valuation",
-      value: formatCurrency(deal.valuation),
-      detail: "Issuer valuation frame",
-    },
-    {
-      label: "Minimum",
-      value: formatCurrency(deal.minInvestment),
-      detail: "Entry ticket shown before eligibility review",
-    },
-    {
-      label: "Target return",
-      value: `${deal.apy}%`,
-      detail: "Illustrative target from the asset profile, subject to final documents",
-    },
-    {
-      label: "Equity for sale",
-      value: `${deal.equityForSale}%`,
-      detail: "Available allocation in the current rail",
-    },
-    {
-      label: "Compliance",
-      value: `${deal.complianceScore}`,
-      detail: "Internal review score displayed on the asset route",
-    },
-    {
-      label: "Market rail",
-      value: marketRail,
-      detail: "Primary issuer round or eligible secondary transfer",
-    },
-  ];
+  const targetRaise = deal.capitalRaise?.targetRaise ?? deal.valuation;
+  const fundingProgress = deal.capitalRaise ? 60 : deal.equityForSale;
+  const committed = targetRaise * (fundingProgress / 100);
+  const useOfFunds = getUseOfFunds(deal);
+  const offeringTerms = getOfferingTerms(deal);
 
   return (
-    <main>
+    <main className="grid grid-cols-1 gap-1 bg-border-muted px-4 py-8 text-on-surface md:grid-cols-12 md:px-12">
       <JsonLd
         id={`${deal.ticker.toLowerCase()}-asset-json-ld`}
         data={[
@@ -120,539 +81,256 @@ export default async function AssetDetailPage({
         ]}
       />
 
-      <section className="relative isolate overflow-hidden bg-foreground text-background">
-        <div className="blackwork-hatch absolute inset-0 opacity-[0.08]" />
-        <div className="financial-grid absolute inset-0 opacity-[0.08]" />
-        <div className="relative mx-auto max-w-7xl px-4 pt-5 sm:px-6">
-          <Link
-            href="/private-equities/assets"
-            className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-background/55 transition hover:text-background"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to assets
-          </Link>
-        </div>
+      <div className="flex flex-col gap-1 bg-surface-ink md:col-span-8 lg:col-span-9">
+        <Link
+          href="/private-equities/assets"
+          className="inline-flex w-fit items-center gap-2 bg-surface-ink py-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to assets
+        </Link>
 
-        <div className="relative mx-auto grid min-h-[70vh] max-w-7xl gap-0 px-4 pb-10 pt-4 sm:px-6 lg:grid-cols-[1.04fr_0.96fr]">
-          <div className="flex flex-col justify-between border-x border-background/15 px-5 py-8 sm:px-8 lg:py-12 lg:pr-12">
+        <section className="border border-border-muted bg-surface p-6 md:p-8">
+          <div className="mb-8 flex items-start justify-between gap-4">
             <div>
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.32em] text-background/60">
-                {deal.ticker} / {deal.sector}
+              <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                Asset Identifier
               </p>
-              <h1 className="mt-8 max-w-4xl break-words font-serif text-4xl font-bold leading-[0.9] [overflow-wrap:anywhere] sm:text-7xl lg:text-8xl">
+              <h1 className="font-serif text-4xl font-bold leading-[1.1] text-on-surface md:text-5xl">
                 {deal.name}
               </h1>
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-background/75">
-                {deal.description}
+            </div>
+            <div className="text-right">
+              <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                Classification
               </p>
-            </div>
-
-            <div className="mt-12 grid gap-px bg-background/20 sm:grid-cols-3">
-              <AssetHeroFact label="Status" value={statusLabel} />
-              <AssetHeroFact label="Market rail" value={marketRail} />
-              <AssetHeroFact label="Location" value={deal.location} />
+              <span className="border border-border-muted bg-surface-dim px-2 py-1 font-mono text-sm font-medium uppercase text-on-surface">
+                {deal.sector}
+              </span>
             </div>
           </div>
 
-          <aside className="grid border-x border-b border-background/15 lg:border-l-0 lg:border-y">
-            <div className="relative min-h-[360px] overflow-hidden sm:min-h-[460px]">
-              <Image
-                src={deal.image}
-                alt={deal.name}
-                fill
-                priority
-                sizes="(min-width: 1024px) 47vw, 100vw"
-                className="image-blackwork object-cover opacity-85"
+          <div className="border-t border-border-muted pt-6">
+            <div className="mb-2 flex justify-between">
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                Funding Progress
+              </span>
+              <span className="font-mono text-sm font-medium text-status-signal">
+                {fundingProgress}%
+              </span>
+            </div>
+            <div className="relative h-2 w-full border border-border-muted bg-surface-dim">
+              <div
+                className="absolute left-0 top-0 h-full bg-status-signal"
+                style={{ width: `${fundingProgress}%` }}
               />
-              <div className="absolute inset-0 bg-foreground/40" />
-              <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                <span className="bg-background px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
-                  {deal.ticker}
-                </span>
-                <span className="border border-background/50 bg-foreground/55 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background backdrop-blur">
-                  {marketRail}
-                </span>
+            </div>
+            <div className="mt-3 flex justify-between">
+              <div>
+                <p className="block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                  Committed
+                </p>
+                <p className="font-mono text-xl font-semibold text-on-surface">
+                  {formatCurrency(committed)}
+                </p>
               </div>
-              <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-background/20 bg-foreground/80 backdrop-blur-sm">
-                <AssetImageStat label="Valuation" value={formatCurrency(deal.valuation)} />
-                <AssetImageStat label="Target" value={`${deal.apy}%`} />
-                <AssetImageStat label="Score" value={`${deal.complianceScore}`} />
+              <div className="text-right">
+                <p className="block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                  Target Raise
+                </p>
+                <p className="font-mono text-xl font-semibold text-on-surface">
+                  {formatCurrency(targetRaise)}
+                </p>
               </div>
             </div>
-          </aside>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
-              Asset memo
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-bold leading-none sm:text-6xl">
-              Terms, context, and controls on one page.
-            </h2>
-            <p className="mt-5 max-w-xl text-sm leading-6 text-muted-foreground">
-              The public profile keeps the asset narrative next to the same
-              valuation, minimum, yield, equity, and compliance fields used by
-              the index.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-2">
-              {deal.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="border border-border px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground"
-                >
-                  {tag}
-                </span>
+        <article className="border border-border-muted bg-surface p-6 text-lg leading-relaxed text-on-surface md:p-12">
+          <h2 className="mb-6 border-b border-border-muted pb-2 font-serif text-3xl font-semibold leading-tight">
+            Executive Summary
+          </h2>
+          <p className="mb-8 text-on-surface-variant">{deal.description}</p>
+
+          <h3 className="mb-4 mt-8 font-serif text-2xl font-medium">Use of Funds</h3>
+          <div className="mb-8 grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-3">
+            {useOfFunds.map(({ label, percent, amount }) => (
+              <div key={label} className="bg-surface p-4">
+                <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                  {label}
+                </p>
+                <p className="mb-1 block font-mono text-xl font-semibold text-on-surface">{percent}</p>
+                <p className="font-mono text-sm font-medium text-on-surface-variant">{amount}</p>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="mb-4 mt-8 font-serif text-2xl font-medium">Offering Terms</h3>
+          <div className="mb-8 border border-border-muted">
+            <div className="grid grid-cols-2 border-b border-border-muted bg-surface-dim">
+              <div className="p-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                Parameter
+              </div>
+              <div className="p-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                Specification
+              </div>
+            </div>
+            {offeringTerms.map(([label, value], index) => (
+              <div
+                key={label}
+                className={`grid grid-cols-2 ${index === offeringTerms.length - 1 ? "" : "border-b border-border-muted"}`}
+              >
+                <div className="p-3 font-mono text-sm font-medium uppercase text-on-surface">{label}</div>
+                <div className="p-3 font-mono text-sm font-medium uppercase text-on-surface">{value}</div>
+              </div>
+            ))}
+          </div>
+
+          <section className="border border-border-muted border-t-status-signal bg-surface-dim p-6">
+            <h3 className="mb-4 flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              <AlertTriangle className="h-4 w-4" />
+              Critical Risk Factors
+            </h3>
+            <ul className="space-y-4 text-sm leading-normal text-on-surface-variant">
+              {(deal.capitalRaise?.risks ?? [
+                "Operational integration risk during facility transition and automation deployment.",
+                "FX exposure from localized revenue streams against USD reporting standards.",
+                "Supply-chain disruption could impact CapEx deployment timelines.",
+              ]).slice(0, 3).map((risk) => (
+                <li key={risk} className="border-l-2 border-border-muted pl-4">
+                  {risk}
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </section>
+        </article>
+      </div>
 
-          <div className="grid gap-px bg-border sm:grid-cols-2">
-            {assetMetrics.map((metric) => (
-              <AssetMetric key={metric.label} {...metric} />
+      <aside className="flex flex-col gap-1 bg-surface-ink md:col-span-4 lg:col-span-3">
+        <section className="border border-border-muted bg-surface p-6">
+          <h2 className="mb-4 border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            Diligence Path
+          </h2>
+          <div className="space-y-3 font-mono text-sm font-medium uppercase text-on-surface">
+            {diligenceSteps.map(([label, state]) => (
+              <div key={label} className="flex items-center gap-3">
+                <span
+                  className={`h-3 w-3 border ${
+                    state === "active"
+                      ? "border-status-signal bg-status-signal"
+                      : state === "pending"
+                        ? "hatch-pattern-blue border-border-muted"
+                        : state === "complete"
+                          ? "border-border-muted bg-surface-dim"
+                          : "border-border-muted bg-transparent"
+                  }`}
+                />
+                <span
+                  className={
+                    state === "complete"
+                      ? "text-on-surface-variant line-through opacity-50"
+                      : state === "pending"
+                        ? "text-status-signal"
+                        : "text-on-surface"
+                  }
+                >
+                  {label}
+                </span>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {deal.capitalRaise ? (
-        <CapitalRaiseMemo dealName={deal.name} raise={deal.capitalRaise} />
-      ) : null}
+        <section className="border border-border-muted bg-surface p-6">
+          <h2 className="mb-4 border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            Data Room Status
+          </h2>
+          <div className="mb-4 flex items-center gap-3">
+            <span className="h-4 w-4 border border-status-signal hatch-pattern-blue" />
+            <span className="font-mono text-sm font-medium uppercase text-status-signal">
+              Pending Authorization
+            </span>
+          </div>
+          <button
+            className="w-full border border-border-muted bg-surface-ink py-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:border-status-signal hover:text-status-signal"
+            type="button"
+          >
+            Request Unlock
+          </button>
+        </section>
 
-      <section className="border-y border-border bg-foreground text-background">
-        <div className="mx-auto grid max-w-7xl gap-px bg-background/20 px-4 py-16 sm:px-6 md:grid-cols-3">
-          {[
-            {
-              icon: FileText,
-              label: "01",
-              title: "Offering context",
-              body: "The asset profile consolidates valuation, minimum tickets, target yield, issuer narrative, and route state.",
-            },
-            {
-              icon: DatabaseZap,
-              label: "02",
-              title: "Oracle bridge",
-              body: "Issuer operating data can feed solvency and liquidity proofs used by marketplace and portfolio surfaces.",
-            },
-            {
-              icon: CheckCircle2,
-              label: "03",
-              title: "Controlled access",
-              body: "Production securities workflows require KYC, suitability, legal wrapper, and transfer restrictions.",
-            },
-          ].map((item) => (
-            <div key={item.title} className="bg-foreground p-6">
-              <div className="flex items-start justify-between gap-4">
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.28em] text-background/50">
-                  {item.label}
-                </p>
-                <item.icon className="h-5 w-5 text-background" />
-              </div>
-              <h2 className="mt-10 font-serif text-3xl font-bold leading-tight">{item.title}</h2>
-              <p className="mt-4 text-sm leading-6 text-background/65">{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
-              Issuer frame
+        <section className="hatch-pattern flex flex-1 flex-col border border-border-muted bg-surface p-6">
+          <h2 className="mb-4 border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            Oracle Bridge
+          </h2>
+          <div className="flex h-32 flex-col items-center justify-center opacity-50">
+            <Lock className="mb-2 h-8 w-8" />
+            <p className="text-center font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+              Telemetry locked
+              <br />
+              Awaiting clearance
             </p>
-            <h2 className="mt-4 font-serif text-4xl font-bold leading-none sm:text-6xl">
-              Visible boundaries before allocation.
-            </h2>
           </div>
-          <div className="grid gap-px bg-border sm:grid-cols-3">
-            {[
-              { icon: Globe2, label: "Location", value: deal.location },
-              { icon: ShieldCheck, label: "Status", value: statusLabel },
-              { icon: FileText, label: "Tags", value: deal.tags.join(" / ") },
-            ].map((item) => (
-              <div key={item.label} className="bg-background p-5">
-                <item.icon className="h-5 w-5 text-accent" />
-                <p className="mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                  {item.label}
-                </p>
-                <p className="mt-2 break-words text-sm font-semibold leading-6">{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <ProductCrosslink current="private-equities" />
+        <section className="mt-auto border border-border-muted bg-surface p-6">
+          <button
+            className="w-full border border-surface-paper bg-surface-ink py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-surface-paper transition-colors hover:border-status-signal hover:bg-status-signal"
+            type="button"
+          >
+            Initiate Allocation
+          </button>
+          <p className="mt-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            Status: {statusLabels[deal.status]} / {deal.location}
+          </p>
+        </section>
+      </aside>
     </main>
   );
 }
 
-function AssetHeroFact({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="bg-foreground p-4">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-background/50">
-        {label}
-      </p>
-      <p className="mt-2 break-words font-mono text-sm font-semibold text-background">{value}</p>
-    </div>
-  );
-}
+function getUseOfFunds(deal: NonNullable<ReturnType<typeof findDeal>>) {
+  if (deal.capitalRaise) {
+    return deal.capitalRaise.useOfFunds.map((item) => ({
+      label: item.label,
+      percent: `${item.percent}%`,
+      amount: formatCurrency((deal.capitalRaise?.targetRaise ?? 0) * (item.percent / 100)),
+    }));
+  }
 
-function AssetImageStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="border-r border-background/20 p-4 last:border-r-0">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-background/50">
-        {label}
-      </p>
-      <p className="mt-2 truncate font-mono text-lg font-semibold text-background">{value}</p>
-    </div>
-  );
-}
-
-function AssetMetric({
-  label,
-  value,
-  detail,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-}) {
-  return (
-    <div className="bg-background p-5">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </p>
-      <p className="mt-4 break-words font-mono text-2xl font-semibold">{value}</p>
-      <p className="mt-3 text-sm leading-6 text-muted-foreground">{detail}</p>
-    </div>
-  );
-}
-
-function CapitalRaiseMemo({ dealName, raise }: { dealName: string; raise: CapitalRaise }) {
-  const raiseFacts = [
+  return [
     {
-      icon: CircleDashed,
-      label: "Round status",
-      value: raise.roundStatus,
+      label: "Available allocation",
+      percent: `${deal.equityForSale}%`,
+      amount: formatCurrency(deal.valuation * (deal.equityForSale / 100)),
     },
     {
-      icon: BadgeDollarSign,
-      label: "Target raise",
-      value: formatCurrency(raise.targetRaise),
+      label: "Minimum ticket",
+      percent: "Entry",
+      amount: formatCurrency(deal.minInvestment),
     },
     {
-      icon: FileClock,
-      label: "Closing window",
-      value: raise.closingWindow,
-    },
-    {
-      icon: FileCheck2,
-      label: "Instrument",
-      value: raise.instrument,
-    },
-    {
-      icon: WalletCards,
-      label: "Investor profile",
-      value: raise.investorProfile,
+      label: "Target return",
+      percent: `${deal.apy}%`,
+      amount: deal.type === "primary" ? "Primary rail" : "Secondary rail",
     },
   ];
-
-  return (
-    <>
-      <section className="border-b border-border bg-card/40">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
-              Capital raise memo
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-bold leading-none sm:text-6xl">
-              {raise.roundTitle}
-            </h2>
-            <p className="mt-5 max-w-xl text-sm leading-6 text-muted-foreground">
-              {raise.summary}
-            </p>
-            <div className="mt-6 border border-destructive/25 bg-destructive/5 p-5">
-              <div className="flex items-start gap-3">
-                <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
-                <div>
-                  <h3 className="font-serif text-2xl font-bold leading-tight">
-                    Informational context only.
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    This public page does not collect money, publish wire
-                    instructions, accept binding commitments, or open
-                    subscription orders. Those steps stay inside a
-                    counsel-approved, investor-gated workflow.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-px bg-border sm:grid-cols-2">
-            {raiseFacts.map((fact) => (
-              <RaiseFact key={fact.label} {...fact} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
-              Proof and gating
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-bold leading-none sm:text-6xl">
-              What makes the round diligence-ready.
-            </h2>
-          </div>
-          <div className="grid gap-px bg-border lg:grid-cols-2">
-            <div className="bg-background p-5">
-              <ShieldCheck className="h-5 w-5 text-accent" />
-              <h3 className="mt-8 font-serif text-3xl font-bold leading-tight">
-                Investor proof points
-              </h3>
-              <div className="mt-5 grid gap-3">
-                {raise.proofPoints.map((item) => (
-                  <p key={item} className="border-t border-border pt-3 text-sm leading-6 text-muted-foreground">
-                    {item}
-                  </p>
-                ))}
-              </div>
-            </div>
-            <div className="bg-background p-5">
-              <FileCheck2 className="h-5 w-5 text-accent" />
-              <h3 className="mt-8 font-serif text-3xl font-bold leading-tight">
-                CRM stage labels
-              </h3>
-              <div className="mt-5 grid gap-px bg-border">
-                {raise.crmStages.map((stage, index) => (
-                  <div key={stage} className="grid grid-cols-[52px_1fr] bg-background">
-                    <p className="border-r border-border px-3 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <p className="px-3 py-3 text-sm font-semibold">{stage}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2">
-          <div>
-            <div className="mb-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-accent">
-                  Use of funds
-                </p>
-                <h3 className="mt-3 font-serif text-3xl font-bold leading-tight">
-                  Capital deployment by line item.
-                </h3>
-              </div>
-              <Target className="h-5 w-5 text-accent" />
-            </div>
-            <div className="grid gap-px bg-border">
-              {raise.useOfFunds.map((item) => (
-                <div key={item.label} className="bg-background p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="font-mono text-xs font-bold uppercase tracking-[0.18em]">
-                        {item.label}
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {item.body}
-                      </p>
-                    </div>
-                    <p className="font-mono text-lg font-semibold">{item.percent}%</p>
-                  </div>
-                  <div className="mt-4 h-1 bg-muted">
-                    <div className="h-full bg-accent" style={{ width: `${item.percent}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <div className="mb-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-accent">
-                  Closing path
-                </p>
-                <h3 className="mt-3 font-serif text-3xl font-bold leading-tight">
-                  Milestones before capital can move.
-                </h3>
-              </div>
-              <CircleDashed className="h-5 w-5 text-accent" />
-            </div>
-            <div className="grid gap-px bg-border">
-              {raise.milestones.map((item) => (
-                <div key={item.label} className="grid gap-4 bg-background p-5 sm:grid-cols-[88px_1fr]">
-                  <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                    {item.timing}
-                  </p>
-                  <div>
-                    <h4 className="font-serif text-2xl font-bold leading-tight">{item.label}</h4>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-border bg-foreground text-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-background/50">
-              Data room
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-bold leading-none sm:text-6xl">
-              {dealName} is not subscription-ready until these controls clear.
-            </h2>
-            <p className="mt-5 max-w-xl text-sm leading-6 text-background/65">
-              {raise.diligenceStatus}. The public page can explain the round;
-              private access still depends on documents, eligibility, and legal
-              approval.
-            </p>
-          </div>
-          <div className="grid gap-px bg-background/20 sm:grid-cols-2">
-            {raise.dataRoom.map((item) => (
-              <DataRoomItemCard key={item.label} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
-              Investor process
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-bold leading-none sm:text-6xl">
-              Public interest becomes private diligence.
-            </h2>
-          </div>
-          <div className="grid gap-px bg-border">
-            {raise.investorProcess.map((item, index) => (
-              <div key={item.label} className="grid gap-5 bg-background p-5 sm:grid-cols-[88px_1fr]">
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
-                  {String(index + 1).padStart(2, "0")}
-                </p>
-                <div>
-                  <h3 className="font-serif text-2xl font-bold leading-tight">{item.label}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-border bg-card/40">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2">
-          <RiskList
-            eyebrow="Risk factors"
-            title="Risks that stay visible."
-            icon={AlertTriangle}
-            items={raise.risks}
-          />
-          <RiskList
-            eyebrow="Before close"
-            title="Missing before commitments."
-            icon={LockKeyhole}
-            items={raise.missingBeforeClose}
-          />
-        </div>
-      </section>
-    </>
-  );
 }
 
-function RaiseFact({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: LucideIcon;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="bg-background p-5">
-      <Icon className="h-5 w-5 text-accent" />
-      <p className="mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </p>
-      <p className="mt-2 break-words text-sm font-semibold leading-6">{value}</p>
-    </div>
-  );
-}
+function getOfferingTerms(deal: NonNullable<ReturnType<typeof findDeal>>) {
+  if (deal.capitalRaise) {
+    return [
+      ["Instrument", deal.capitalRaise.instrument],
+      ["Target raise", formatCurrency(deal.capitalRaise.targetRaise)],
+      ["Closing window", deal.capitalRaise.closingWindow],
+      ["Investor profile", deal.capitalRaise.investorProfile],
+    ];
+  }
 
-const dataRoomStatus = {
-  ready: { label: "Ready", icon: CheckCircle2 },
-  in_review: { label: "In review", icon: CircleDashed },
-  missing: { label: "Missing", icon: AlertTriangle },
-  gated: { label: "Gated", icon: LockKeyhole },
-} as const;
-
-function DataRoomItemCard({ item }: { item: DataRoomItem }) {
-  const status = dataRoomStatus[item.status];
-  const StatusIcon = status.icon;
-
-  return (
-    <div className="bg-foreground p-5">
-      <div className="flex items-start justify-between gap-4">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-background/50">
-          {status.label}
-        </p>
-        <StatusIcon className="h-5 w-5 text-background" />
-      </div>
-      <h3 className="mt-8 font-serif text-2xl font-bold leading-tight">{item.label}</h3>
-      <p className="mt-3 text-sm leading-6 text-background/65">{item.body}</p>
-    </div>
-  );
-}
-
-function RiskList({
-  eyebrow,
-  title,
-  icon: Icon,
-  items,
-}: {
-  eyebrow: string;
-  title: string;
-  icon: LucideIcon;
-  items: string[];
-}) {
-  return (
-    <div>
-      <div className="mb-6 flex items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-accent">
-            {eyebrow}
-          </p>
-          <h2 className="mt-3 font-serif text-3xl font-bold leading-tight">{title}</h2>
-        </div>
-        <Icon className="h-5 w-5 text-accent" />
-      </div>
-      <div className="grid gap-px bg-border">
-        {items.map((item) => (
-          <p key={item} className="bg-background p-5 text-sm leading-6 text-muted-foreground">
-            {item}
-          </p>
-        ))}
-      </div>
-    </div>
-  );
+  return [
+    ["Instrument", deal.type === "primary" ? "Primary private-market allocation" : "Eligible secondary transfer"],
+    ["Target return", `${deal.apy}%`],
+    ["Minimum ticket", formatCurrency(deal.minInvestment)],
+    ["Market rail", deal.type === "primary" ? "Primary" : "Secondary"],
+  ];
 }

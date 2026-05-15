@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULTRAMAR.CAPITAL - Arbitrage Risk Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#dce1ff",
+                      "inverse-surface": "#e3e2e5",
+                      "secondary-fixed": "#e1e2e4",
+                      "inverse-primary": "#004dea",
+                      "surface-variant": "#343537",
+                      "border-muted": "#1F2937",
+                      "secondary": "#c5c7c8",
+                      "on-surface-variant": "#c3c5d9",
+                      "on-tertiary-fixed-variant": "#404754",
+                      "surface-paper": "#FFFFFF",
+                      "outline-variant": "#434656",
+                      "on-tertiary": "#2a313d",
+                      "on-primary-container": "#e3e6ff",
+                      "on-secondary": "#2e3132",
+                      "surface-container": "#1f2022",
+                      "surface-ink": "#07080A",
+                      "tertiary-container": "#616876",
+                      "on-primary-fixed-variant": "#0039b3",
+                      "on-tertiary-container": "#e1e8f8",
+                      "surface-dim": "#121316",
+                      "on-background": "#e3e2e5",
+                      "on-primary-fixed": "#001551",
+                      "surface-container-highest": "#343537",
+                      "tertiary": "#c0c7d6",
+                      "tertiary-fixed-dim": "#c0c7d6",
+                      "surface-tint": "#b6c4ff",
+                      "primary-fixed-dim": "#b6c4ff",
+                      "on-secondary-container": "#b3b5b7",
+                      "background": "#121316",
+                      "on-error": "#690005",
+                      "on-surface": "#e3e2e5",
+                      "error": "#ffb4ab",
+                      "tertiary-fixed": "#dce2f3",
+                      "surface-container-high": "#292a2c",
+                      "surface": "#121316",
+                      "surface-bright": "#38393c",
+                      "secondary-container": "#444749",
+                      "on-secondary-fixed": "#191c1e",
+                      "surface-container-lowest": "#0d0e10",
+                      "on-tertiary-fixed": "#151c27",
+                      "on-primary": "#002780",
+                      "on-secondary-fixed-variant": "#444749",
+                      "primary-container": "#0055ff",
+                      "outline": "#8d90a2",
+                      "error-container": "#93000a",
+                      "status-signal": "#0055FF",
+                      "secondary-fixed-dim": "#c5c7c8",
+                      "surface-container-low": "#1b1c1e",
+                      "primary": "#b6c4ff",
+                      "on-error-container": "#ffdad6",
+                      "inverse-on-surface": "#2f3033",
+                      "interactive-focus": "#0055FF"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "grid-col-width": "calc(100% / 12)",
+                      "margin-sm": "16px",
+                      "gutter": "1px",
+                      "margin-lg": "48px",
+                      "margin-md": "32px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-xl-mobile": ["Playfair Display"],
+                      "headline-xl": ["Playfair Display"],
+                      "headline-lg": ["Playfair Display"],
+                      "label-mono-sm": ["JetBrains Mono"],
+                      "headline-md": ["Playfair Display"],
+                      "data-mono-lg": ["JetBrains Mono"],
+                      "data-mono-md": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "label-mono-sm": ["11px", {"lineHeight": "1.2", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "data-mono-lg": ["20px", {"lineHeight": "1.0", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "data-mono-md": ["14px", {"lineHeight": "1.0", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .terminal-grid {
+            background-image: linear-gradient(to right, #1F2937 1px, transparent 1px);
+            background-size: calc(100% / 12) 100%;
+        }
+        .hatch-pattern {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(31, 41, 55, 0.5) 3px, rgba(31, 41, 55, 0.5) 4px);
+        }
+    </style>
+</head>
+<body class="bg-surface-ink text-on-surface min-h-screen flex flex-col font-body-md selection:bg-status-signal selection:text-white">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-lg h-12 bg-surface dark:bg-surface border-b border-border-muted dark:border-border-muted flat no shadows">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface dark:text-on-surface">ULTRAMAR.CAPITAL</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">EQUITIES</a>
+<a class="text-status-signal dark:text-status-signal border-b-2 border-status-signal pb-1 font-label-mono-sm uppercase opacity-80 transition-opacity" href="#">ARBITRAGE</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">DATA ROOM</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-mono-sm uppercase hover:text-primary dark:hover:text-primary transition-colors duration-200" href="#">GOVERNANCE</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-label-mono-sm text-label-mono-sm uppercase border border-white px-3 py-1 hover:bg-primary-container hover:border-primary-container transition-colors">TERMINAL ACCESS</button>
+<button class="font-label-mono-sm text-label-mono-sm uppercase border border-border-muted text-on-surface-variant px-3 py-1 hover:border-white transition-colors">AUTH</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow pt-[48px] relative terminal-grid mx-margin-lg border-l border-r border-border-muted flex flex-col">
+<!-- Hero Section -->
+<section class="border-b border-border-muted p-8 flex flex-col gap-6 relative">
+<div class="absolute inset-0 hatch-pattern opacity-20 pointer-events-none z-[-1]"></div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface max-w-4xl">Polymarket-first quantitative fund surface.</h1>
+<div class="flex gap-4 items-center">
+<span class="font-label-mono-sm text-label-mono-sm uppercase text-on-surface-variant tracking-widest border border-border-muted px-2 py-1 bg-surface-container">SYSTEM STATUS: ACTIVE</span>
+<span class="w-2 h-2 bg-status-signal block"></span>
+</div>
+</section>
+<!-- High-Density Metrics Band -->
+<section class="grid grid-cols-1 md:grid-cols-4 border-b border-border-muted">
+<div class="p-4 border-r border-border-muted flex flex-col gap-2">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase">TOTAL AUM (USD)</span>
+<span class="font-data-mono-lg text-data-mono-lg">142,500,000.00</span>
+</div>
+<div class="p-4 border-r border-border-muted flex flex-col gap-2 bg-surface-container-low">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase">AVG SPREAD YIELD</span>
+<span class="font-data-mono-lg text-data-mono-lg text-status-signal">+4.2%</span>
+</div>
+<div class="p-4 border-r border-border-muted flex flex-col gap-2">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase">SIGNAL CONFIDENCE (µ)</span>
+<span class="font-data-mono-lg text-data-mono-lg">0.892</span>
+</div>
+<div class="p-4 flex flex-col gap-2 relative overflow-hidden group cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase">ACTIVE MARKETS</span>
+<span class="font-data-mono-lg text-data-mono-lg">124</span>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+</div>
+</section>
+<!-- Signal Generation Flow & Core Content Area -->
+<div class="flex flex-col lg:flex-row flex-grow">
+<!-- Left Column: Live Signals -->
+<div class="lg:w-2/3 border-r border-border-muted flex flex-col">
+<div class="p-4 border-b border-border-muted bg-surface flex justify-between items-center">
+<h2 class="font-label-mono-sm text-label-mono-sm uppercase text-on-surface tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">monitoring</span> LIVE SIGNALS
+                    </h2>
+<span class="font-label-mono-sm text-label-mono-sm text-status-signal">REAL-TIME</span>
+</div>
+<!-- Signal Table -->
+<div class="flex-grow flex flex-col">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-0 border-b border-border-muted px-4 py-2 bg-surface-container-low font-label-mono-sm text-label-mono-sm text-on-surface-variant uppercase">
+<div class="col-span-3">ASSET/EVENT</div>
+<div class="col-span-2">TYPE</div>
+<div class="col-span-2 text-right">PROBABILITY</div>
+<div class="col-span-2 text-right">SPREAD</div>
+<div class="col-span-3 text-right">ACTION</div>
+</div>
+<!-- Rows -->
+<div class="grid grid-cols-12 gap-0 border-b border-border-muted px-4 py-3 font-data-mono-md text-data-mono-md items-center hover:bg-surface-container transition-colors">
+<div class="col-span-3 truncate pr-4 text-on-surface">2024 US Election Winner</div>
+<div class="col-span-2 text-on-surface-variant">BIN/POLY</div>
+<div class="col-span-2 text-right flex items-center justify-end gap-2">
+<div class="w-16 h-1 bg-border-muted relative"><div class="absolute left-0 top-0 h-full bg-status-signal" style="width: 62%;"></div></div>
+                            62%
+                        </div>
+<div class="col-span-2 text-right text-status-signal">1.4%</div>
+<div class="col-span-3 text-right"><button class="border border-white px-2 py-1 text-[10px] hover:bg-primary-container hover:border-primary-container transition-colors uppercase">EXECUTE LONG</button></div>
+</div>
+<div class="grid grid-cols-12 gap-0 border-b border-border-muted px-4 py-3 font-data-mono-md text-data-mono-md items-center hover:bg-surface-container transition-colors">
+<div class="col-span-3 truncate pr-4 text-on-surface">Fed Rate Cut Nov</div>
+<div class="col-span-2 text-on-surface-variant">RATES</div>
+<div class="col-span-2 text-right flex items-center justify-end gap-2">
+<div class="w-16 h-1 bg-border-muted relative"><div class="absolute left-0 top-0 h-full bg-on-surface-variant" style="width: 88%;"></div></div>
+                            88%
+                        </div>
+<div class="col-span-2 text-right text-on-surface-variant">0.2%</div>
+<div class="col-span-3 text-right"><button class="border border-border-muted text-on-surface-variant px-2 py-1 text-[10px] cursor-not-allowed uppercase">MONITOR</button></div>
+</div>
+<!-- Expanded Risk Block Example -->
+<div class="border-b border-border-muted border-t-status-signal border-t-[1px] bg-surface-container-low p-4 flex flex-col gap-4">
+<div class="grid grid-cols-12 gap-0 font-data-mono-md text-data-mono-md items-center">
+<div class="col-span-3 truncate pr-4 text-on-surface">ETH ETF Approval Timeline</div>
+<div class="col-span-2 text-on-surface-variant">CRYPTO/REG</div>
+<div class="col-span-2 text-right flex items-center justify-end gap-2">
+<div class="w-16 h-1 bg-border-muted relative"><div class="absolute left-0 top-0 h-full bg-status-signal" style="width: 45%;"></div></div>
+                                45%
+                            </div>
+<div class="col-span-2 text-right text-status-signal">8.5%</div>
+<div class="col-span-3 text-right"><button class="border border-status-signal text-status-signal px-2 py-1 text-[10px] hover:bg-status-signal hover:text-white transition-colors uppercase">OBSERVE ANOMALY</button></div>
+</div>
+<div class="grid grid-cols-12 gap-4">
+<div class="col-span-12 md:col-span-6 border border-border-muted p-3 bg-surface text-on-surface-variant font-label-mono-sm text-label-mono-sm">
+<span class="block mb-2 text-white">NORMALIZATION VECTOR</span>
+                                Volatility cluster detected across 3 oracle feeds. Spread diverging from historical mean by 2.4σ. Model suggests temporary liquidity vacuum rather than fundamental shift.
+                            </div>
+<div class="col-span-12 md:col-span-6 border border-border-muted p-3 bg-surface text-on-surface-variant font-label-mono-sm text-label-mono-sm relative hatch-pattern">
+<span class="block mb-2 text-white">GOVERNANCE LOCK</span>
+                                 Execution suspended pending secondary qualitative review. Allocation size exceeds auto-routing threshold.
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Research / Strategy Backlog -->
+<div class="lg:w-1/3 flex flex-col bg-surface-dim">
+<div class="p-4 border-b border-border-muted flex justify-between items-center">
+<h2 class="font-label-mono-sm text-label-mono-sm uppercase text-on-surface tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">science</span> RESEARCH BACKLOG
+                    </h2>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<!-- Research Card -->
+<div class="border border-border-muted bg-surface p-4 flex flex-col gap-3 group hover:border-status-signal transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-mono-sm text-label-mono-sm uppercase text-status-signal">ALPHA DRAFT</span>
+<div class="w-2 h-2 border border-white"></div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold leading-tight">Cross-Chain Yield Arbitrage on Layer 2 Bridges</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Evaluating systemic latency between optimistic rollups and mainnet state resolution. Preliminary data indicates a 15-second exploitable window during high-congestion epochs.</p>
+<div class="mt-2 pt-2 border-t border-border-muted flex justify-between font-label-mono-sm text-label-mono-sm text-on-surface-variant">
+<span>EST. CAPACITY: $5M</span>
+<span>STATUS: INGESTING</span>
+</div>
+</div>
+<!-- Research Card Locked -->
+<div class="border border-border-muted bg-surface p-4 flex flex-col gap-3 opacity-60">
+<div class="flex justify-between items-start">
+<span class="font-label-mono-sm text-label-mono-sm uppercase text-on-surface-variant">DEPRECATED</span>
+<div class="w-2 h-2 border border-border-muted bg-transparent"></div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold leading-tight line-through">Fiat-Backed Stablecoin Depeg Vectors</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Model invalidated post-Q2 regulatory framework updates.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-margin-md px-margin-lg flex flex-col md:flex-row justify-between items-center gap-unit bg-surface-container-lowest border-t border-border-muted dark:border-border-muted flat no shadows mt-auto transition-all duration-300 ease-in-out">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">ULTRAMAR.CAPITAL</div>
+<div class="font-body-md text-body-md text-on-surface-variant">©2024 ULTRAMAR CAPITAL GROUP. ALL RIGHTS RESERVED. REGULATED ENTITY.</div>
+<nav class="flex gap-4 font-label-mono-sm text-label-mono-sm text-on-surface-variant">
+<a class="hover:text-status-signal dark:hover:text-status-signal underline transition-colors" href="#">COMPLIANCE</a>
+<a class="hover:text-status-signal dark:hover:text-status-signal underline transition-colors" href="#">LEGAL</a>
+<a class="hover:text-status-signal dark:hover:text-status-signal underline transition-colors" href="#">SITEMAP</a>
+<a class="hover:text-status-signal dark:hover:text-status-signal underline transition-colors" href="#">API</a>
+<a class="hover:text-status-signal dark:hover:text-status-signal underline transition-colors" href="#">SYSTEM STATUS</a>
+</nav>
+</footer>
+</body></html>

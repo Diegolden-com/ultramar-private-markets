@@ -1,9 +1,4 @@
 import { JsonLd } from "@/components/json-ld";
-import { MetricCard } from "@/components/metric-card";
-import { ProductCrosslink } from "@/components/product-crosslink";
-import { SectionHeader } from "@/components/section-header";
-import { deals, formatCurrency } from "@/lib/deals";
-import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -13,12 +8,11 @@ import {
   webPageJsonLd,
 } from "@/lib/seo";
 import { productBySlug } from "@ultramar/product-model";
-import { ArrowRight, Building2, DatabaseZap, FileCheck2, LineChart, WalletCards } from "lucide-react";
+import { ArrowRight, Check, Square } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const product = productBySlug["private-equities"];
-const featuredDeal = deals[0];
 const description =
   "Private-market and tokenized real-world asset workflows for issuers, eligible investors, oracle proofs, markets, and portfolios.";
 
@@ -40,32 +34,20 @@ const privateEquitiesFaqs = [
   },
 ];
 
-const workflowItems = [
-  {
-    icon: Building2,
-    title: "Assets",
-    body: "Browse primary and secondary private-market opportunities with standardized metrics.",
-    href: "/private-equities/assets",
-  },
-  {
-    icon: FileCheck2,
-    title: "Deals",
-    body: "Understand issuer rounds, minimum tickets, offering mechanics, and required diligence.",
-    href: "/private-equities/deals",
-  },
-  {
-    icon: DatabaseZap,
-    title: "Oracle",
-    body: "Connect operating data to solvency and liquidity signals used by the asset rail.",
-    href: "/private-equities/oracle",
-  },
-  {
-    icon: WalletCards,
-    title: "Portfolio",
-    body: "Track holdings, exposure, performance, and realized gains inside Ultramar.capital.",
-    href: "/private-equities/portfolio",
-  },
-];
+const tabs = [
+  { label: "Assets", href: "/private-equities/assets", active: false },
+  { label: "Deals", href: "/private-equities", active: true },
+  { label: "Oracle", href: "/private-equities/oracle", active: false },
+  { label: "Market", href: "/private-equities/market", active: false },
+  { label: "Portfolio", href: "/private-equities/portfolio", active: false },
+  { label: "Legal", href: "/private-equities/legal", active: false },
+] as const;
+
+const dataRoomItems = [
+  ["FINANCIALS_AUDITED.PDF", "ready"],
+  ["LEGAL_RESTRUCTURE.PDF", "ready"],
+  ["ENV_IMPACT_REPORT.PDF", "pending"],
+] as const;
 
 export const metadata = createSeoMetadata({
   title: "Private Equities, uncompromised",
@@ -77,7 +59,7 @@ export const metadata = createSeoMetadata({
 
 export default function PrivateEquitiesPage() {
   return (
-    <main>
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
       <JsonLd
         id="private-equities-json-ld"
         data={[
@@ -91,207 +73,219 @@ export default function PrivateEquitiesPage() {
         ]}
       />
 
-      <section className="relative isolate overflow-hidden bg-foreground text-background">
-        <div className="blackwork-hatch absolute inset-0 opacity-[0.08]" />
-        <div className="relative mx-auto grid min-h-[76vh] max-w-7xl gap-0 px-4 py-10 sm:px-6 lg:grid-cols-[1.02fr_0.98fr]">
-          <div className="flex flex-col justify-between border-x border-background/15 px-5 py-8 sm:px-8 lg:py-12 lg:pr-12">
+      <section className="relative overflow-hidden border border-border-muted bg-surface p-6 md:p-8">
+        <div className="hatch-pattern absolute inset-0 opacity-30" />
+        <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
+          <div className="md:col-span-8">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Secure Enclave / T-0 Settlement
+            </p>
+            <h1 className="mt-4 font-serif text-4xl font-bold uppercase leading-[1.1] text-on-surface md:text-5xl">
+              Controlled RWA Rail
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
+              Gated execution environment for tokenized real-world assets. Institutional-grade
+              compliance verification embedded at the protocol level.
+            </p>
+          </div>
+          <dl className="border-border-muted md:col-span-4 md:border-l md:pl-8">
+            <TerminalFact label="Network Status" value="Online" signal />
+            <TerminalFact label="24H Volume" value="$1.24B" />
+            <TerminalFact label="Active Nodes" value="42/42" last />
+          </dl>
+        </div>
+      </section>
+
+      <nav className="flex overflow-x-auto border border-border-muted bg-surface">
+        {tabs.map((tab) => (
+          <Link
+            key={tab.label}
+            href={tab.href}
+            className={`border-r border-border-muted px-6 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 ${
+              tab.active
+                ? "border-b-2 border-b-status-signal bg-surface-container text-status-signal"
+                : "text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+            }`}
+          >
+            {tab.label}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="grid grid-cols-1 gap-1 md:grid-cols-12">
+        <section className="flex flex-col bg-surface-paper text-surface-ink md:col-span-8">
+          <header className="flex items-start justify-between gap-4 border-b border-border-muted p-6">
             <div>
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.32em] text-background/60">
-                Ultramar.capital / {product.eyebrow}
+              <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-surface-variant">
+                Offering Memorandum / Confidential
               </p>
-              <h1 className="mt-8 max-w-4xl break-words font-serif text-4xl font-bold leading-[0.9] [overflow-wrap:anywhere] sm:text-7xl lg:text-8xl">
-                Private Equities, uncompromised.
-              </h1>
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-background/75">
-                A controlled private-market rail for issuer onboarding, eligible
-                investor access, oracle-backed operating data, markets, and
-                portfolio state. No public-exchange cosplay.
+              <h2 className="font-serif text-3xl font-bold leading-tight">Lavanderias CX</h2>
+              <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+                Series B / Latam Commercial Real Estate & Operations
               </p>
             </div>
+            <Image
+              src="/stitch-industrial-facility.png"
+              alt="Grayscale industrial commercial facility"
+              width={96}
+              height={96}
+              className="hidden border border-border-muted object-cover grayscale sm:block"
+              priority
+            />
+          </header>
 
-            <div className="mt-12 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/private-equities/assets"
-                className="group inline-flex h-12 items-center justify-center gap-3 rounded border border-background bg-background px-5 font-mono text-xs font-bold uppercase tracking-widest text-foreground transition hover:bg-transparent hover:text-background"
-              >
-                Explore Assets
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </Link>
-              <Link
-                href="/private-equities/oracle"
-                className="group inline-flex h-12 items-center justify-center gap-3 rounded border border-background/30 px-5 font-mono text-xs font-bold uppercase tracking-widest text-background transition hover:border-background hover:bg-background hover:text-foreground"
-              >
-                View Oracle
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
+          <div className="flex flex-1 flex-col gap-6 bg-white p-6 md:p-8">
+            <p className="text-lg leading-relaxed">
+              Lavanderias CX operates a highly automated, sovereign-grade commercial laundry network
+              across major LATAM urban centers. This raise aims to finance the acquisition of 14 key
+              logistic nodes and integrate proprietary energy-arbitrage hardware to reduce
+              operational OPEX by a projected 42% over the next fiscal cycle.
+            </p>
 
-          <aside className="grid border-x border-b border-background/15 lg:border-l-0 lg:border-y">
-            <div className="relative min-h-[360px] overflow-hidden sm:min-h-[420px]">
-              <Image
-                src={featuredDeal.image}
-                alt={featuredDeal.name}
-                fill
-                priority
-                sizes="(min-width: 1024px) 47vw, 100vw"
-                className="image-blackwork object-cover opacity-85"
-              />
-              <div className="absolute inset-0 bg-foreground/40" />
-              <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                <span className="bg-background px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
-                  {featuredDeal.ticker}
-                </span>
-                <span className="border border-background/50 bg-foreground/55 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background backdrop-blur">
-                  {featuredDeal.type}
-                </span>
-              </div>
-              <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-background/20 bg-foreground/80 backdrop-blur-sm">
+            <section className="border-t border-border-muted pt-6">
+              <h3 className="mb-4 font-serif text-2xl font-medium">Use of Funds</h3>
+              <ul className="space-y-4">
                 {[
-                  ["Valuation", formatCurrency(featuredDeal.valuation)],
-                  [
-                    featuredDeal.capitalRaise ? "Raise" : "Target",
-                    featuredDeal.capitalRaise
-                      ? formatCurrency(featuredDeal.capitalRaise.targetRaise)
-                      : `${featuredDeal.apy}%`,
-                  ],
-                  ["Compliance", `${featuredDeal.complianceScore}`],
-                ].map(([label, value]) => (
-                  <div key={label} className="border-r border-background/20 p-4 last:border-r-0">
-                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-background/50">
-                      {label}
-                    </p>
-                    <p className="mt-2 font-mono text-lg font-semibold text-background">{value}</p>
-                  </div>
+                  ["55%", "Asset Acquisition", "Real estate purchase of identified tier-1 logistic hubs in SP, CDMX, and BOG."],
+                  ["30%", "Capex (Automation)", "Deployment of localized micro-grid hardware and automated processing lines."],
+                  ["15%", "Working Capital", "Buffer for regulatory clearance delays and initial integration phases."],
+                ].map(([percent, label, body]) => (
+                  <li key={label} className="flex items-start gap-4">
+                    <span className="w-16 pt-1 font-mono text-sm font-medium">{percent}</span>
+                    <div>
+                      <span className="block font-mono text-[11px] font-bold uppercase tracking-[0.08em]">
+                        {label}
+                      </span>
+                      <span className="text-sm leading-normal text-surface-variant">{body}</span>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <aside className="flex flex-col gap-1 md:col-span-4">
+          <section className="border border-border-muted border-t-status-signal bg-surface p-6">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              Target Raise
+            </p>
+            <p className="mt-4 font-mono text-4xl font-semibold text-on-surface">$45,000,000</p>
+            <div className="mt-6 h-1 w-full bg-surface-variant">
+              <div className="h-full w-[60%] bg-status-signal" />
             </div>
-          </aside>
-        </div>
-      </section>
+            <div className="mt-3 flex justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+              <span className="text-on-surface-variant">Committed: $27M</span>
+              <span className="text-status-signal">60%</span>
+            </div>
+          </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="grid gap-4 md:grid-cols-3">
-          <MetricCard
-            label="Deal rail"
-            value="Primary"
-            detail="Issuer-led rounds with structured investor context."
-            icon={Building2}
-          />
-          <MetricCard
-            label="Market rail"
-            value="Secondary"
-            detail="Transfer workflow for eligible tokenized positions."
-            icon={LineChart}
-          />
-          <MetricCard
-            label="Oracle"
-            value="Solvency"
-            detail="Accounting data condensed into signed operating proofs."
-            icon={DatabaseZap}
-          />
-        </div>
-      </section>
-
-      <section className="border-y border-border bg-foreground text-background">
-        <div className="mx-auto grid max-w-7xl gap-px bg-background/20 px-4 py-16 sm:px-6 lg:grid-cols-3">
-          {[
-            ["01", "Issuer room", "Documents, terms, economics, and verification enter the same private-market path."],
-            ["02", "Oracle proof", "Operating data is converted into solvency and liquidity context investors can read."],
-            ["03", "Eligible transfer", "Market and portfolio surfaces stay tied to compliance boundaries and legal review."],
-          ].map(([label, title, body]) => (
-            <div key={label} className="bg-foreground p-6">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.28em] text-background/50">
-                {label}
+          <section className="border border-border-muted bg-surface p-6">
+            <div className="flex items-center justify-between border-b border-border-muted pb-4">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                Data Room
               </p>
-              <h2 className="mt-8 font-serif text-3xl font-bold leading-tight">{title}</h2>
-              <p className="mt-4 text-sm leading-6 text-background/65">{body}</p>
+              <span className="flex items-center gap-2 border border-status-signal px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                <span className="h-2 w-2 bg-status-signal" />
+                Ready
+              </span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader
-            eyebrow="Workflow"
-            title="A private-market rail, not a token bazaar"
-            description="This page is the route into assets, deals, oracle data, market views, and portfolio state."
-          />
-          <div className="grid gap-px bg-border sm:grid-cols-2">
-            {workflowItems.map((item) => (
-              <Link
-                href={item.href}
-                key={item.title}
-                className="group bg-card p-5 transition hover:bg-foreground hover:text-background"
-              >
-                <item.icon className="h-5 w-5 text-accent group-hover:text-background" />
-                <h3 className="mt-10 text-lg font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground group-hover:text-background/65">
-                  {item.body}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-card/40">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <SectionHeader
-            eyebrow="Research"
-            title="Private-market memos built for citation"
-            description="These pages support outreach around tokenized private equity, issuer data, and RWA operating infrastructure while linking back into the product workflow."
-          />
-          <div className="grid gap-px bg-border sm:grid-cols-2">
-            {researchArticles
-              .filter((article) => article.cluster === "Private markets")
-              .map((article) => (
-                <Link
-                  key={article.slug}
-                  href={`/research/${article.slug}`}
-                  className="group bg-background p-5 transition hover:bg-foreground hover:text-background"
-                >
-                  <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-accent group-hover:text-background">
-                    {article.eyebrow}
-                  </p>
-                  <h3 className="mt-3 font-serif text-2xl font-bold leading-tight">
-                    {article.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground group-hover:text-background/65">
-                    {article.description}
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-accent group-hover:text-background">
-                    Read memo
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+            <div className="mt-4 flex flex-col gap-3">
+              {dataRoomItems.map(([label, status]) => (
+                <div key={label} className="flex items-center justify-between">
+                  <span
+                    className={`font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
+                      status === "ready" ? "text-on-surface" : "text-on-surface-variant"
+                    }`}
+                  >
+                    {label}
                   </span>
-                </Link>
+                  {status === "ready" ? (
+                    <Check className="h-4 w-4 text-status-signal" />
+                  ) : (
+                    <span className="h-4 w-4 border border-on-surface-variant hatch-pattern" />
+                  )}
+                </div>
               ))}
-          </div>
-        </div>
-      </section>
+            </div>
+            <Link
+              href="/private-equities/assets/lcx"
+              className="mt-6 flex w-full items-center justify-between border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-white"
+            >
+              Access Room
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </section>
 
-      <section className="border-t border-border bg-background">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <SectionHeader
-            eyebrow="Private-market SEO"
-            title="What the product means in practice"
-            description="These answers keep the page aligned with tokenized private equity, RWA investing, issuer data, and compliance-aware market access without keyword stuffing."
-          />
-          <div className="grid gap-4">
-            {privateEquitiesFaqs.map((item) => (
-              <details key={item.question} className="rounded border border-border/70 bg-card/70 p-5">
-                <summary className="cursor-pointer list-none font-serif text-2xl font-bold">
-                  {item.question}
-                </summary>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+          <section className="flex flex-1 flex-col border border-border-muted bg-surface p-6">
+            <p className="border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              Diligence Path
+            </p>
+            <div className="relative ml-2 mt-5 flex-1 space-y-6 border-l border-border-muted py-2">
+              {[
+                ["Phase 1: Initial Review", "Completed", true, true],
+                ["Phase 2: Deep Dive", "Completed", true, true],
+                ["Phase 3: Legal Clearance", "In Progress", false, false],
+              ].map(([phase, state, filled]) => (
+                <div key={phase as string} className="relative pl-6">
+                  <span
+                    className={`absolute left-[-5px] top-1 h-2 w-2 ${
+                      filled ? "bg-status-signal" : "border border-status-signal bg-surface-ink"
+                    }`}
+                  />
+                  <span
+                    className={`block font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
+                      filled ? "text-status-signal" : "text-on-surface"
+                    }`}
+                  >
+                    {phase}
+                  </span>
+                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                    {state}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
 
-      <ProductCrosslink current="private-equities" />
+          <section className="border border-border-muted bg-surface p-6">
+            <div className="flex items-start gap-3">
+              <Square className="mt-1 h-3 w-3 text-status-signal" />
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                Investor packet remains gated until counsel approves the final offering path.
+              </p>
+            </div>
+          </section>
+        </aside>
+      </div>
     </main>
+  );
+}
+
+function TerminalFact({
+  label,
+  value,
+  signal,
+  last,
+}: {
+  label: string;
+  value: string;
+  signal?: boolean;
+  last?: boolean;
+}) {
+  return (
+    <div className={`flex items-center justify-between py-2 ${last ? "" : "border-b border-border-muted"}`}>
+      <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+        {label}
+      </dt>
+      <dd
+        className={`font-mono text-sm font-medium uppercase ${
+          signal ? "flex items-center gap-2 text-status-signal" : "text-on-surface"
+        }`}
+      >
+        {signal ? <span className="h-2 w-2 bg-status-signal" /> : null}
+        {value}
+      </dd>
+    </div>
   );
 }

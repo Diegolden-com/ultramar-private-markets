@@ -1,7 +1,4 @@
 import { JsonLd } from "@/components/json-ld";
-import { ProductCrosslink } from "@/components/product-crosslink";
-import { SectionHeader } from "@/components/section-header";
-import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -10,8 +7,7 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import { AlertTriangle, ArrowRight, Gauge, Shield, SlidersHorizontal } from "lucide-react";
-import Link from "next/link";
+import { AlertTriangle, Lock, ShieldCheck } from "lucide-react";
 
 const riskPath = "/arbitrage-hedge-fund/risk";
 const description =
@@ -19,25 +15,21 @@ const description =
 
 const riskControlItems = [
   {
-    icon: SlidersHorizontal,
     title: "Sizing policy",
     body: "Signal sizing is capped by confidence, market liquidity, maximum drawdown tolerance, and venue concentration.",
     href: `${riskPath}#sizing-policy`,
   },
   {
-    icon: Gauge,
     title: "Exposure monitoring",
     body: "The dashboard tracks notional exposure, spread persistence, active positions, and stale signal risk.",
     href: `${riskPath}#exposure-monitoring`,
   },
   {
-    icon: Shield,
     title: "Hedge discipline",
     body: "Derivatives data informs probabilities and hedges but is not marketed as a separate active product in v1.",
     href: `${riskPath}#hedge-discipline`,
   },
   {
-    icon: AlertTriangle,
     title: "Failure modes",
     body: "Controls must account for oracle delay, market resolution ambiguity, venue liquidity, and model drift.",
     href: `${riskPath}#failure-modes`,
@@ -62,9 +54,39 @@ const riskFaqs = [
   },
 ];
 
-const relatedResearch = researchArticles.filter((article) =>
-  ["event-market-risk-controls", "polymarket-arbitrage-explainer"].includes(article.slug),
-);
+const parameterGroups = [
+  {
+    id: "sizing-policy",
+    title: "Sizing Parameters",
+    signal: true,
+    active: false,
+    rows: [
+      ["Max Gross Exposure", "350%"],
+      ["Max Net Exposure", "+/-15%"],
+      ["Single Position Limit", "2.5% NAV"],
+    ],
+  },
+  {
+    id: "exposure-monitoring",
+    title: "Liquidity Thresholds",
+    signal: false,
+    active: false,
+    rows: [
+      ["Days to Liquidate (90%)", "< 3 Days"],
+      ["ADV Participation Cap", "15%"],
+    ],
+  },
+  {
+    id: "hedge-discipline",
+    title: "Hedge Policy",
+    signal: false,
+    active: true,
+    rows: [
+      ["Beta Correlation Target", "+/-0.05"],
+      ["Factor Neutrality Deviation", "< 2 sigma"],
+    ],
+  },
+] as const;
 
 export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Risk",
@@ -82,7 +104,7 @@ export const metadata = createSeoMetadata({
 
 export default function RiskPage() {
   return (
-    <main>
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col bg-surface-ink px-4 py-8 text-on-surface md:px-12">
       <JsonLd
         id="arbitrage-risk-json-ld"
         data={[
@@ -110,102 +132,149 @@ export default function RiskPage() {
           ]),
         ]}
       />
-      <section className="financial-grid border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-          <SectionHeader
-            eyebrow="Arbitrage Hedge Fund"
-            title="Risk controls"
-            description={description}
-          />
-        </div>
-      </section>
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="grid gap-5 md:grid-cols-2">
-          {riskControlItems.map((item) => (
-            <div
-              key={item.title}
-              id={item.href.split("#")[1]}
-              className="rounded-lg border border-border bg-card p-5"
-            >
-              <item.icon className="h-5 w-5 text-accent" />
-              <h2 className="mt-4 text-lg font-semibold">{item.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
+
+      <header className="mb-12 border-b border-border-muted pb-8">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              Module // Risk_Ctrl_01
+            </p>
+            <h1 className="font-serif text-4xl font-bold leading-[1.1] text-on-surface md:text-5xl">
+              Arbitrage Risk Controls
+            </h1>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center gap-2 border border-border-muted bg-surface px-3 py-1">
+              <span className="h-2 w-2 bg-status-signal" />
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                System Active
+              </span>
             </div>
-          ))}
-        </div>
-      </section>
-      <section className="border-y border-border bg-muted/30">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <SectionHeader
-            eyebrow="Allocator review"
-            title="Risk policy explains when a spread is investable"
-            description="This route makes the control system indexable beside the signals and dashboard routes, so search traffic for event-market arbitrage risk lands on the policy layer."
-          />
-          <div className="grid gap-4 md:grid-cols-2">
-            <Link
-              href="/arbitrage-hedge-fund/signals"
-              className="rounded-lg border border-border bg-background p-5 transition hover:border-accent"
-            >
-              <h2 className="text-lg font-semibold">Signal source</h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Review the live board where monitored Polymarket dislocations are compared
-                with model probabilities before sizing.
-              </p>
-            </Link>
-            <Link
-              href="/arbitrage-hedge-fund/dashboard"
-              className="rounded-lg border border-border bg-background p-5 transition hover:border-accent"
-            >
-              <h2 className="text-lg font-semibold">Exposure view</h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Inspect how active signals connect to notional exposure, position summaries,
-                and guardrail status.
-              </p>
-            </Link>
+            <div className="flex items-center gap-2 border border-border-muted bg-surface px-3 py-1">
+              <Lock className="h-4 w-4 text-on-surface-variant" />
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                Secure Env
+              </span>
+            </div>
           </div>
         </div>
-      </section>
-      <section className="border-b border-border bg-card/40">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader
-            eyebrow="Research context"
-            title="The risk page is the commercial boundary"
-            description="Research explains the opportunity; the risk route explains the constraints that make it reviewable."
-          />
-          <div className="grid gap-4 md:grid-cols-2">
-            {relatedResearch.map((article) => (
-              <Link
-                key={article.slug}
-                href={`/research/${article.slug}`}
-                className="group rounded-lg border border-border bg-background p-5 transition hover:border-accent"
-              >
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-accent">
-                  {article.eyebrow}
-                </p>
-                <h2 className="mt-3 text-lg font-semibold leading-tight">{article.title}</h2>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  {article.description}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-foreground group-hover:text-accent">
-                  Read memo
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+      </header>
+
+      <div className="grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-12">
+        <aside className="flex flex-col gap-1 md:col-span-4">
+          {parameterGroups.map((group) => (
+            <section
+              key={group.title}
+              id={group.id}
+              className={`flex h-full flex-col bg-surface p-6 ${
+                group.signal ? "border-t border-status-signal" : ""
+              }`}
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                  {group.title}
+                </h2>
+                {group.signal ? (
+                  <AlertTriangle className="h-5 w-5 text-status-signal" />
+                ) : group.active ? (
+                  <span className="h-2 w-2 bg-status-signal" />
+                ) : (
+                  <span className="h-2 w-2 border border-surface-paper" />
+                )}
+              </div>
+              <div className="space-y-4">
+                {group.rows.map(([label, value]) => (
+                  <div key={label} className="flex justify-between gap-4 border-b border-border-muted pb-2">
+                    <span className="text-sm leading-normal text-on-surface-variant">{label}</span>
+                    <span className="font-mono text-sm font-medium text-on-surface">{value}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </aside>
+
+        <section className="flex flex-col gap-1 md:col-span-8">
+          <article
+            id="failure-modes"
+            className="flex h-full flex-col justify-center border-l border-border-muted bg-surface p-8 md:p-12"
+          >
+            <h2 className="mb-6 font-serif text-3xl font-semibold leading-tight text-on-surface">
+              Resolution Risk & Failure Modes
+            </h2>
+            <div className="space-y-6 text-lg leading-relaxed text-on-surface-variant">
+              <p>
+                In arbitrage strategies, primary risk stems not from directional market movement,
+                but from resolution delays and structural failure modes. The assumption of
+                convergence relies on specific catalytic events and functional clearing mechanisms.
+              </p>
+              <p>
+                We classify resolution risk into three distinct vectors: Regulatory Intervention,
+                Counterparty Default, and Model Drift. A failure in any vector can transform a
+                perceived risk-free arbitrage into a directional exposure with asymmetric downside.
+              </p>
+            </div>
+            <div className="mt-8 border-t border-border-muted pt-6">
+              <div className="flex items-center gap-4">
+                <div className="grid h-10 w-10 place-items-center border border-border-muted bg-surface-dim">
+                  <ShieldCheck className="h-5 w-5 text-on-surface" />
+                </div>
+                <div>
+                  <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                    Mandatory Audit Trail
+                  </h3>
+                  <p className="text-sm leading-normal text-on-surface-variant">
+                    All risk parameter adjustments logged with cryptographic hashes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div className="grid min-h-64 grid-cols-1 gap-1 md:grid-cols-2">
+            <section className="relative overflow-hidden border border-border-muted bg-surface p-4">
+              <div className="relative z-10 flex justify-between">
+                <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                  Model Drift Deviation
                 </span>
-              </Link>
-            ))}
+                <span className="font-mono text-sm font-medium text-status-signal">+1.2 sigma</span>
+              </div>
+              <div className="absolute inset-0 top-10 flex items-end p-4">
+                <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 50">
+                  <path d="M0,40 Q10,35 20,45 T40,25 T60,30 T80,10 T100,20" fill="none" stroke="#1F2937" strokeWidth="1" />
+                  <path d="M0,42 Q10,38 20,42 T40,28 T60,32 T80,15 T100,25" fill="none" stroke="#0055FF" strokeWidth="2" />
+                  <line stroke="#434656" strokeDasharray="2,2" strokeWidth="1" x1="0" x2="100" y1="25" y2="25" />
+                </svg>
+              </div>
+            </section>
+
+            <section className="border border-border-muted bg-surface p-4">
+              <div className="flex justify-between">
+                <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                  Data Latency / Staleness
+                </span>
+                <span className="font-mono text-sm font-medium text-on-surface-variant">14ms Avg</span>
+              </div>
+              <div className="mt-8 space-y-3">
+                {[
+                  ["FIX 1", "15%"],
+                  ["FIX 2", "25%"],
+                  ["WSS 1", "5%"],
+                ].map(([label, width]) => (
+                  <div key={label} className="flex h-4 w-full items-center">
+                    <span className="w-12 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                      {label}
+                    </span>
+                    <div className="ml-2 h-2 flex-1 border border-border-muted bg-surface-dim">
+                      <div className="h-full bg-status-signal" style={{ width }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
-        </div>
-      </section>
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="grid gap-4 md:grid-cols-3">
-          {riskFaqs.map((item) => (
-            <div key={item.question} className="rounded-lg border border-border bg-card p-5">
-              <h2 className="text-base font-semibold leading-6">{item.question}</h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-      <ProductCrosslink current="arbitrage-hedge-fund" />
+        </section>
+      </div>
     </main>
   );
 }

@@ -1,135 +1,156 @@
 "use client";
 
-import { ThemeToggle } from "@/components/theme-toggle";
-import { primaryNav, products } from "@ultramar/product-model";
 import { Menu, X } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+
+const navItems = [
+  { label: "Equities", href: "/private-equities" },
+  { label: "Arbitrage", href: "/arbitrage-hedge-fund" },
+  { label: "Data Room", href: "/private-equities/assets/lcx" },
+  { label: "Governance", href: "/arbitrage-hedge-fund/risk" },
+] as const;
+
+const footerLinks = [
+  { label: "Compliance", href: "/private-equities/legal" },
+  { label: "Legal", href: "/private-equities/legal" },
+  { label: "Sitemap", href: "/sitemap.xml" },
+  { label: "API", href: "/api/arbitrage/signals" },
+  { label: "System Status", href: "/arbitrage-hedge-fund/signals" },
+] as const;
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border/70 bg-background/88 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex min-w-0 items-center gap-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded border border-border bg-card">
-              <Image src="/logo-icon.png" alt="" width={40} height={40} className="h-full w-full object-cover" />
-            </span>
-            <span className="truncate font-serif text-lg font-semibold">
-              Ultramar<span className="text-muted-foreground/70 italic">.capital</span>
-            </span>
-          </Link>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            {primaryNav.map((item) => {
-              const active =
-                item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-              return (
-                <Link
+    <div className="min-h-screen bg-surface-ink text-on-surface">
+      <header className="sticky top-0 z-50 border-b border-border-muted bg-surface">
+        <div className="flex h-12 items-center justify-between px-4 md:px-12">
+          <div className="flex min-w-0 items-center gap-6 md:gap-8">
+            <Link
+              href="/"
+              className="truncate font-serif text-xl font-bold leading-none text-on-surface"
+              onClick={() => setOpen(false)}
+            >
+              ULTRAMAR.CAPITAL
+            </Link>
+            <nav className="hidden items-center gap-6 md:flex">
+              {navItems.map((item) => (
+                <TerminalNavLink
                   key={item.href}
                   href={item.href}
-                  className={`rounded px-3 py-2 font-mono text-xs font-semibold uppercase tracking-widest transition ${
-                    active
-                      ? "bg-foreground text-background"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
+                  label={item.label}
+                  active={isActiveNav(pathname, item.label)}
+                />
+              ))}
+            </nav>
+          </div>
 
-          <div className="hidden items-center gap-3 md:flex">
-            <ThemeToggle />
-            <Link
-              href="/auth/login"
-              className="rounded px-3 py-2 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              Sign in
-            </Link>
+          <div className="hidden items-center gap-4 md:flex">
             <Link
               href="/private-equities/assets"
-              className="rounded bg-foreground px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-background hover:bg-foreground/90"
+              className="border border-on-surface bg-surface-ink px-4 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-white"
             >
-              Explore
+              Terminal Access
+            </Link>
+            <Link
+              href="/auth/login"
+              className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-primary"
+            >
+              Auth
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
-            <ThemeToggle compact />
-            <button
-              className="grid h-10 w-10 place-items-center rounded border border-border bg-card"
-              onClick={() => setOpen((value) => !value)}
-              aria-label="Toggle navigation"
-              type="button"
-            >
-              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
+          <button
+            className="grid h-9 w-9 place-items-center border border-border-muted bg-surface-ink text-on-surface md:hidden"
+            onClick={() => setOpen((value) => !value)}
+            aria-label="Toggle navigation"
+            type="button"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
 
         {open ? (
-          <div className="border-t border-border bg-background px-4 py-3 md:hidden">
-            <div className="grid gap-2">
-              {primaryNav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="rounded px-3 py-2 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground hover:bg-muted hover:text-foreground"
-                  onClick={() => setOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
+          <nav className="grid border-t border-border-muted bg-surface md:hidden">
+            {navItems.map((item) => (
               <Link
-                href="/auth/login"
-                className="rounded px-3 py-2 font-mono text-xs font-semibold uppercase tracking-widest text-muted-foreground hover:bg-muted hover:text-foreground"
+                key={item.href}
+                href={item.href}
+                className="border-b border-border-muted px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant last:border-b-0"
                 onClick={() => setOpen(false)}
               >
-                Sign in
+                {item.label}
               </Link>
-            </div>
-          </div>
+            ))}
+            <Link
+              href="/auth/login"
+              className="border-t border-border-muted px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface"
+              onClick={() => setOpen(false)}
+            >
+              Auth
+            </Link>
+          </nav>
         ) : null}
       </header>
 
       {children}
 
-      <footer className="border-t border-border bg-footer text-footer-foreground">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
+      <footer className="border-t border-border-muted bg-surface-container-lowest px-4 py-8 md:px-12">
+        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="font-serif text-2xl font-semibold">Ultramar.capital</p>
-            <p className="mt-3 max-w-md text-sm leading-6 text-footer-foreground/70">
-              One capital platform, two product lines: private-market access and
-              Polymarket-first arbitrage fund infrastructure.
+            <p className="font-serif text-xl font-bold text-on-surface">ULTRAMAR.CAPITAL</p>
+            <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              (c)2024 Ultramar Capital Group. All rights reserved. Regulated entity.
             </p>
           </div>
-          {products.map((product) => (
-            <div key={product.slug}>
-              <Link href={product.href} className="font-semibold hover:text-accent">
-                {product.name}
+          <nav className="flex flex-wrap gap-x-6 gap-y-3">
+            {footerLinks.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant underline transition-colors hover:text-status-signal"
+              >
+                {item.label}
               </Link>
-              <p className="mt-2 text-sm leading-6 text-footer-foreground/65">
-                {product.shortDescription}
-              </p>
-            </div>
-          ))}
-          <div>
-            <Link href="/research" className="font-semibold hover:text-accent">
-              Research
-            </Link>
-            <p className="mt-2 text-sm leading-6 text-footer-foreground/65">
-              Memos built for private-market, RWA, and Polymarket arbitrage citations.
-            </p>
-          </div>
+            ))}
+          </nav>
         </div>
       </footer>
     </div>
+  );
+}
+
+function isActiveNav(pathname: string, label: (typeof navItems)[number]["label"]) {
+  if (label === "Data Room") return pathname.startsWith("/private-equities/assets");
+  if (label === "Governance") return pathname.startsWith("/arbitrage-hedge-fund/risk");
+  if (label === "Equities") {
+    return pathname.startsWith("/private-equities") && !pathname.startsWith("/private-equities/assets");
+  }
+  return pathname.startsWith("/arbitrage-hedge-fund") && !pathname.startsWith("/arbitrage-hedge-fund/risk");
+}
+
+function TerminalNavLink({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`border-b-2 pb-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+        active
+          ? "border-status-signal text-status-signal"
+          : "border-transparent text-on-surface-variant hover:text-primary"
+      }`}
+    >
+      {label}
+    </Link>
   );
 }
