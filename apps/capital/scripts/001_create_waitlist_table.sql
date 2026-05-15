@@ -1,5 +1,5 @@
 -- Create waitlist table
-CREATE TABLE IF NOT EXISTS waitlist (
+CREATE TABLE IF NOT EXISTS public.waitlist (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email TEXT NOT NULL UNIQUE,
   name TEXT,
@@ -8,18 +8,21 @@ CREATE TABLE IF NOT EXISTS waitlist (
 );
 
 -- Enable Row Level Security
-ALTER TABLE waitlist ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.waitlist ENABLE ROW LEVEL SECURITY;
 
 -- Allow anyone to insert into waitlist (public signup)
-CREATE POLICY "Allow anyone to join waitlist" 
-ON waitlist FOR INSERT 
-WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow anyone to join waitlist" ON public.waitlist;
+DROP POLICY IF EXISTS "Allow public to view waitlist status" ON public.waitlist;
+DROP POLICY IF EXISTS "Public can join waitlist" ON public.waitlist;
+CREATE POLICY "Public can join waitlist"
+ON public.waitlist FOR INSERT
+TO anon, authenticated
+WITH CHECK (status = 'pending');
 
--- Allow anyone to read waitlist entries (adjust if you want to restrict this)
-CREATE POLICY "Allow public to view waitlist status" 
-ON waitlist FOR SELECT 
-USING (true);
+REVOKE ALL ON public.waitlist FROM PUBLIC, anon, authenticated;
+GRANT INSERT ON public.waitlist TO anon, authenticated;
+GRANT ALL ON public.waitlist TO service_role;
 
 -- Create index on email for faster lookups
-CREATE INDEX IF NOT EXISTS idx_waitlist_email ON waitlist(email);
-CREATE INDEX IF NOT EXISTS idx_waitlist_created_at ON waitlist(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_waitlist_email ON public.waitlist(email);
+CREATE INDEX IF NOT EXISTS idx_waitlist_created_at ON public.waitlist(created_at DESC);

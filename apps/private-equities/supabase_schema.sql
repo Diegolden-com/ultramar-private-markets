@@ -1,5 +1,5 @@
 -- Create a table to store QuickBooks OAuth tokens
-create table quickbooks_tokens (
+create table if not exists public.quickbooks_tokens (
   user_id text primary key,
   access_token text not null,
   refresh_token text not null,
@@ -9,11 +9,19 @@ create table quickbooks_tokens (
 );
 
 -- Enable Row Level Security (RLS)
-alter table quickbooks_tokens enable row level security;
+alter table public.quickbooks_tokens enable row level security;
+
+-- Tokens are backend-only. The service role performs OAuth storage and lookup;
+-- anon/authenticated clients should never be able to query or mutate this table.
+revoke all on public.quickbooks_tokens from public, anon, authenticated;
+grant all on public.quickbooks_tokens to service_role;
 
 -- Create a policy to allow the service role (backend) to do everything
 -- Note: verification is handled by the backend logic, so simplified policy for service role is sufficient
+drop policy if exists "Enable full access for service role" on public.quickbooks_tokens;
 create policy "Enable full access for service role"
-  on quickbooks_tokens
+  on public.quickbooks_tokens
   for all
-  using ( auth.role() = 'service_role' );
+  to service_role
+  using (true)
+  with check (true);
