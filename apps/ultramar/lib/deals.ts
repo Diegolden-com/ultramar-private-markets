@@ -1,6 +1,7 @@
 export type Deal = {
   id: string;
   name: string;
+  legalName?: string;
   ticker: string;
   description: string;
   sector: string;
@@ -14,15 +15,59 @@ export type Deal = {
   status: "active" | "closing_soon" | "funded";
   tags: string[];
   type: "primary" | "secondary";
+  capitalRaise?: CapitalRaise;
+};
+
+export type CapitalRaise = {
+  roundTitle: string;
+  roundStatus: string;
+  targetRaise: number;
+  closingWindow: string;
+  instrument: string;
+  investorProfile: string;
+  diligenceStatus: string;
+  summary: string;
+  useOfFunds: UseOfFundsItem[];
+  proofPoints: string[];
+  milestones: Milestone[];
+  dataRoom: DataRoomItem[];
+  investorProcess: InvestorProcessStep[];
+  crmStages: string[];
+  risks: string[];
+  missingBeforeClose: string[];
+};
+
+export type UseOfFundsItem = {
+  label: string;
+  percent: number;
+  body: string;
+};
+
+export type Milestone = {
+  label: string;
+  timing: string;
+  body: string;
+};
+
+export type DataRoomItem = {
+  label: string;
+  status: "ready" | "in_review" | "missing" | "gated";
+  body: string;
+};
+
+export type InvestorProcessStep = {
+  label: string;
+  body: string;
 };
 
 export const deals: Deal[] = [
   {
     id: "1",
-    name: "CX Laundry",
+    name: "Lavanderias CX",
+    legalName: "Issuer vehicle pending counsel review",
     ticker: "lcx",
     description:
-      "Automated laundromat chain expanding across Mexico City with audited recurring revenue and operational unit economics.",
+      "Automated laundromat chain preparing a counsel-gated expansion round across Mexico City with recurring revenue, unit economics, and operating data moving into investor diligence.",
     sector: "Consumer Services",
     location: "Mexico City, MX",
     image: "/solarpunk-laundromat.png",
@@ -32,8 +77,158 @@ export const deals: Deal[] = [
     apy: 18.4,
     complianceScore: 98,
     status: "active",
-    tags: ["Cash flow positive", "Brick and mortar", "Family owned"],
+    tags: ["Expansion round", "Brick and mortar", "Oracle-ready"],
     type: "primary",
+    capitalRaise: {
+      roundTitle: "Mexico City unit expansion round",
+      roundStatus: "Data room buildout",
+      targetRaise: 560000,
+      closingWindow: "Counsel-gated before commitments",
+      instrument: "Preferred equity or revenue-share note, pending counsel",
+      investorProfile:
+        "Eligible private-market investors after KYC/KYB, suitability, and jurisdiction review.",
+      diligenceStatus: "Operating proof pack in progress",
+      summary:
+        "Lavanderias CX needs a capital-ready package before Ultramar can route serious investors into the opportunity. The current public surface should create confidence, but actual subscriptions remain gated until counsel approves the offering path, documents, eligibility rules, and transfer controls.",
+      useOfFunds: [
+        {
+          label: "New-store capex",
+          percent: 48,
+          body: "Buildout, lease deposits, utility work, and opening inventory for additional laundromat units.",
+        },
+        {
+          label: "Equipment and maintenance",
+          percent: 22,
+          body: "Commercial washers, dryers, payment systems, spares, and preventive maintenance reserves.",
+        },
+        {
+          label: "Working capital",
+          percent: 16,
+          body: "Payroll, detergents, water, electricity, marketing ramp, and early operating float.",
+        },
+        {
+          label: "Compliance and data room",
+          percent: 8,
+          body: "Legal review, investor materials, eligibility workflow, and issuer reporting controls.",
+        },
+        {
+          label: "Contingency reserve",
+          percent: 6,
+          body: "Buffer for construction delays, equipment downtime, and supplier price movement.",
+        },
+      ],
+      proofPoints: [
+        "Brick-and-mortar service with tangible equipment and local demand drivers.",
+        "Round economics can be tied to store-level deployment milestones instead of vague platform growth.",
+        "Issuer oracle path can convert accounting exports into investor-facing solvency and liquidity context.",
+        "Minimum-ticket workflow can remain private and gated while public pages explain the asset clearly.",
+      ],
+      milestones: [
+        {
+          label: "Data room lock",
+          timing: "T-30",
+          body: "Complete legal entity, cap table, financial, lease, tax, insurance, and permit folders.",
+        },
+        {
+          label: "Counsel approval",
+          timing: "T-21",
+          body: "Select exemption or registration path, finalize offering documents, and approve public language.",
+        },
+        {
+          label: "Investor access",
+          timing: "T-14",
+          body: "Open gated diligence access only for verified investors and track Q&A centrally.",
+        },
+        {
+          label: "Closing readiness",
+          timing: "T-0",
+          body: "Subscription package, funds flow, allocation table, transfer restrictions, and first update calendar are ready.",
+        },
+      ],
+      dataRoom: [
+        {
+          label: "Issuer formation and authority",
+          status: "missing",
+          body: "Final legal issuer, board approvals, signing authority, and beneficial ownership record.",
+        },
+        {
+          label: "Historical financials",
+          status: "in_review",
+          body: "Monthly P&L, balance sheet, cash movement, and bank reconciliation for at least 24 months where available.",
+        },
+        {
+          label: "Store-level operating metrics",
+          status: "in_review",
+          body: "Revenue by site, machine utilization, tickets, water/electricity cost, maintenance, churn, and seasonality.",
+        },
+        {
+          label: "Leases, permits, and insurance",
+          status: "missing",
+          body: "Lease terms, renewal dates, operating permits, utility contracts, insurance certificates, and compliance gaps.",
+        },
+        {
+          label: "Cap table and current debt",
+          status: "missing",
+          body: "Current ownership, related-party balances, loans, liens, guarantees, and any investor rights already granted.",
+        },
+        {
+          label: "Offering documents",
+          status: "gated",
+          body: "Term sheet, subscription agreement, risk factors, investor eligibility memo, and transfer restriction language.",
+        },
+        {
+          label: "Oracle data connector",
+          status: "in_review",
+          body: "Accounting export, mapping rules, data freshness, signature policy, and exception review before investor display.",
+        },
+        {
+          label: "Investor communications",
+          status: "missing",
+          body: "Monthly update template, KPI definitions, capital call or distribution notices, and adverse-event protocol.",
+        },
+      ],
+      investorProcess: [
+        {
+          label: "Request access",
+          body: "Investor submits interest through Ultramar; no money or binding commitment is accepted on the public site.",
+        },
+        {
+          label: "Eligibility screen",
+          body: "KYC/KYB, investor category, jurisdiction, suitability, and transfer-control checks are completed before diligence access.",
+        },
+        {
+          label: "Data room review",
+          body: "Verified investors receive issuer materials, Q&A, oracle context, and round economics inside a tracked workflow.",
+        },
+        {
+          label: "Subscription",
+          body: "Only after counsel approval, investors receive final documents, allocation, funds-flow instructions, and closing conditions.",
+        },
+      ],
+      crmStages: [
+        "Interest",
+        "Eligibility",
+        "NDA",
+        "Diligence",
+        "Allocation",
+        "Subscription",
+        "Closed",
+      ],
+      risks: [
+        "Offering path risk: marketing, eligibility, and acceptance of funds must match the selected securities framework.",
+        "Execution risk: new-store buildout can slip because of leases, permits, utilities, or equipment lead times.",
+        "Concentration risk: early performance may depend on a small number of operating sites and neighborhoods.",
+        "Cash reconciliation risk: store-level revenue, expenses, and bank activity must reconcile cleanly before investor reporting.",
+        "Currency risk: USD investor materials and MXN operating cash flows need an explicit FX policy.",
+      ],
+      missingBeforeClose: [
+        "Approved legal offering path and counsel-reviewed public/private investor copy.",
+        "Final issuer entity, cap table, board approvals, and authorized signers.",
+        "Clean 24-month financial package or a clearly explained shorter operating history.",
+        "Store-level KPI export with repeatable oracle mapping and exception handling.",
+        "Investor eligibility workflow, subscription package, funds-flow memo, and post-close reporting calendar.",
+      ],
+    },
   },
   {
     id: "2",

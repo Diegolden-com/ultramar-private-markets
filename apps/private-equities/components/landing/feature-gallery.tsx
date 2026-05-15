@@ -13,7 +13,7 @@ export function FeatureGallery() {
     const features = [
         {
             title: lcxDeal?.ticker?.toUpperCase() ?? "LCX",
-            subtitle: lcxDeal?.name ?? "CX Laundry",
+            subtitle: lcxDeal?.name ?? "Lavanderias CX",
             image: lcxDeal?.image ?? "/solarpunk-laundromat.png",
             description: lcxDeal?.description ?? "",
             className: "md:col-span-2 md:row-span-2 h-[500px] md:h-[600px]",

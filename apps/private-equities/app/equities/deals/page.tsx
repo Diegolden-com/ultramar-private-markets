@@ -2,15 +2,8 @@
 
 import { useState } from 'react';
 import { usePrivy, useWallets } from '@privy-io/react-auth';
-import { createWalletClient, custom, publicActions, formatUnits, parseUnits } from 'viem';
-import { mantleSepoliaTestnet } from 'viem/chains';
-import { CONTRACTS } from '@/lib/contracts';
+import { formatUnits, parseUnits } from 'viem';
 import { Loader2, AlertCircle } from 'lucide-react';
-
-const getErrorMessage = (error: unknown): string => {
-    if (error instanceof Error) return error.message;
-    return String(error);
-};
 
 export default function DealsPage() {
     const { ready, authenticated, login } = usePrivy();
@@ -23,7 +16,7 @@ export default function DealsPage() {
     const [investAmount, setInvestAmount] = useState('');
 
     // Mock Data (since contracts aren't deployed)
-    const [dealStats, setDealStats] = useState({
+    const [dealStats] = useState({
         raised: BigInt(0),
         hardCap: parseUnits('1000000', 18),
         softCap: parseUnits('500000', 18),
@@ -32,67 +25,26 @@ export default function DealsPage() {
     });
 
     const wallet = wallets[0];
-    const getProvider = async () => {
-        if (!wallet) return null;
-        const provider = await wallet.getEthereumProvider();
-        return createWalletClient({
-            chain: mantleSepoliaTestnet,
-            transport: custom(provider),
-        }).extend(publicActions);
-    };
 
     const handleInvest = async () => {
-        if (!investAmount) return;
         setLoading(true);
-        setStatus('Approving USDC...');
-        try {
-            if (!(await getProvider())) throw new Error("No provider");
-
-            // 1. Approve USDC (Mock if placeholder)
-            // client.writeContract(...) 
-
-            setStatus('Depositing...');
-            // 2. Contribute
-            // client.writeContract(...)
-
-            // Mock Success
-            await new Promise(r => setTimeout(r, 2000));
-            setStatus('Success! Investment recorded.');
-            setDealStats(prev => ({ ...prev, raised: prev.raised + parseUnits(investAmount, 18) }));
-        } catch (e: unknown) {
-            console.error(e);
-            setStatus(`Error: ${getErrorMessage(e)}`);
-        } finally {
-            setLoading(false);
-        }
+        await new Promise(r => setTimeout(r, 500));
+        setStatus('Public subscriptions are disabled. Interest remains non-binding until counsel approves the offering path, eligibility workflow, documents, and funds flow.');
+        setLoading(false);
     };
 
     const handleClaimTokens = async () => {
         setLoading(true);
-        setStatus('Claiming Tokens...');
-        try {
-            await getProvider();
-            await new Promise(r => setTimeout(r, 1500));
-            setStatus('Tokens Claimed Successfully!');
-        } catch (e: unknown) {
-            setStatus(`Error: ${getErrorMessage(e)}`);
-        } finally {
-            setLoading(false);
-        }
+        await new Promise(r => setTimeout(r, 500));
+        setStatus('Token claims are disabled in the public demo until transfer controls and investor eligibility are approved.');
+        setLoading(false);
     };
 
     const handleClaimDividends = async () => {
         setLoading(true);
-        setStatus('Claiming Dividends...');
-        try {
-            await getProvider();
-            await new Promise(r => setTimeout(r, 1500));
-            setStatus('Dividends Claimed: 50.00 USDC');
-        } catch (e: unknown) {
-            setStatus(`Error: ${getErrorMessage(e)}`);
-        } finally {
-            setLoading(false);
-        }
+        await new Promise(r => setTimeout(r, 500));
+        setStatus('Dividend claims are disabled in the public demo until post-close reporting and custody controls are live.');
+        setLoading(false);
     };
 
     if (!ready) return <div className="flex h-screen items-center justify-center bg-black text-white"><Loader2 className="animate-spin" /></div>;
@@ -101,8 +53,8 @@ export default function DealsPage() {
         <div className="min-h-screen bg-black text-white p-8 font-sans">
             <header className="mb-12 flex items-center justify-between border-b border-white/10 pb-6">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Deals Access</h1>
-                    <p className="text-white/60">Ultramar Private Equity Onchain Portal</p>
+                    <h1 className="text-3xl font-bold tracking-tight">Diligence Access</h1>
+                    <p className="text-white/60">Ultramar Private Equity counsel-gated portal</p>
                 </div>
                 {!authenticated ? (
                     <button
@@ -130,41 +82,42 @@ export default function DealsPage() {
                             <p className="text-zinc-400">Class A Hospitality Asset • Tulum, Mexico</p>
                         </div>
                         <div className="rounded-full bg-emerald-500/10 px-4 py-1 text-sm font-medium text-emerald-400 border border-emerald-500/20">
-                            Live • Fundraising
+                            Counsel-gated
                         </div>
                     </div>
 
                     <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-4">
                         <div className="rounded-2xl bg-black/40 p-4">
-                            <p className="text-xs text-zinc-500">Total Raised</p>
-                            <p className="mt-1 text-xl font-medium">${formatUnits(dealStats.raised, 18)}</p>
-                            <p className="text-xs text-zinc-600">of ${formatUnits(dealStats.hardCap, 18)}</p>
+                            <p className="text-xs text-zinc-500">Target Raise</p>
+                            <p className="mt-1 text-xl font-medium">${formatUnits(dealStats.hardCap, 18)}</p>
+                            <p className="text-xs text-zinc-600">internal working frame</p>
                         </div>
                         <div className="rounded-2xl bg-black/40 p-4">
                             <p className="text-xs text-zinc-500">Min Ticket</p>
                             <p className="mt-1 text-xl font-medium">${formatUnits(dealStats.minContribution, 18)}</p>
                         </div>
                         <div className="rounded-2xl bg-black/40 p-4">
-                            <p className="text-xs text-zinc-500">Target Dividend</p>
+                            <p className="text-xs text-zinc-500">Illustrative Return</p>
                             <p className="mt-1 text-xl font-medium text-emerald-400">12-15%</p>
                         </div>
                         <div className="rounded-2xl bg-black/40 p-4">
-                            <p className="text-xs text-zinc-500">Ends In</p>
-                            <p className="mt-1 text-xl font-medium">6d 14h</p>
+                            <p className="text-xs text-zinc-500">Review Window</p>
+                            <p className="mt-1 text-xl font-medium">Counsel TBD</p>
                         </div>
                     </div>
 
-                    {/* Progress Bar */}
-                    <div className="mb-8">
-                        <div className="mb-2 flex justify-between text-xs text-zinc-400">
-                            <span>Progress</span>
-                            <span>{Number(dealStats.raised * BigInt(100) / dealStats.hardCap)}%</span>
-                        </div>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
-                            <div
-                                className="h-full bg-white transition-all duration-500"
-                                style={{ width: `${Number(dealStats.raised * BigInt(100) / dealStats.hardCap)}%` }}
-                            />
+                    {/* Access Status */}
+                    <div className="mb-8 rounded-2xl border border-amber-500/20 bg-amber-500/10 p-4">
+                        <div className="flex items-start gap-3">
+                            <AlertCircle className="mt-0.5 h-4 w-4 flex-none text-amber-300" />
+                            <div>
+                                <p className="text-sm font-medium text-amber-100">Public subscriptions disabled</p>
+                                <p className="mt-1 text-xs leading-5 text-amber-100/70">
+                                    This portal records non-binding interest only. Eligibility, documents,
+                                    transfer controls, and funds flow require counsel approval before any
+                                    transaction path is exposed.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -188,7 +141,7 @@ export default function DealsPage() {
                     <div className="min-h-[200px]">
                         {activeTab === 'invest' && (
                             <div className="max-w-md">
-                                <label className="mb-2 block text-xs text-zinc-400">Investment Amount (USDC)</label>
+                                <label className="mb-2 block text-xs text-zinc-400">Indicative Interest (USDC, non-binding)</label>
                                 <div className="flex gap-4">
                                     <input
                                         type="number"
@@ -202,12 +155,12 @@ export default function DealsPage() {
                                         disabled={loading || !authenticated}
                                         className="whitespace-nowrap rounded-xl bg-white px-8 font-medium text-black hover:bg-neutral-200 disabled:opacity-50"
                                     >
-                                        {loading ? <Loader2 className="animate-spin" /> : 'Invest Now'}
+                                        {loading ? <Loader2 className="animate-spin" /> : 'Request Review'}
                                     </button>
                                 </div>
                                 <p className="mt-4 text-xs text-zinc-500">
-                                    * This is a POC. Contracts are on Mantle Sepolia but currently using mocks for UI demo.
-                                    <br />Target Address: {CONTRACTS.mantleSepolia.dealManager.address}
+                                    No public funds, wire instructions, binding commitments, or
+                                    subscription orders are accepted from this page.
                                 </p>
                             </div>
                         )}
@@ -220,10 +173,10 @@ export default function DealsPage() {
                                     <div className="flex gap-2">
                                         <button
                                             onClick={handleClaimTokens}
-                                            disabled={loading || !authenticated}
+                                            disabled
                                             className="w-full rounded-lg border border-white/20 py-2 text-sm hover:bg-white/10"
                                         >
-                                            {loading ? <Loader2 className="animate-spin w-4 h-4 mx-auto" /> : 'Claim Tokens'}
+                                            Claim Disabled
                                         </button>
                                         <button disabled className="w-full rounded-lg border border-white/5 py-2 text-sm text-zinc-600">
                                             Transfer
@@ -236,10 +189,10 @@ export default function DealsPage() {
                                     <div className="mb-4 text-3xl font-light text-emerald-400">$50.00 <span className="text-sm text-zinc-500">USDC</span></div>
                                     <button
                                         onClick={handleClaimDividends}
-                                        disabled={loading || !authenticated}
+                                        disabled
                                         className="w-full rounded-lg bg-white py-2 text-sm font-medium text-black hover:bg-gray-200"
                                     >
-                                        {loading ? <Loader2 className="animate-spin w-4 h-4 mx-auto" /> : 'Claim to Wallet'}
+                                        Claim Disabled
                                     </button>
                                     <p className="mt-2 text-xs text-zinc-500">Dividends accrue automatically to token holders.</p>
                                 </div>

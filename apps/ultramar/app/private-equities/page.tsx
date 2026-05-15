@@ -2,7 +2,7 @@ import { JsonLd } from "@/components/json-ld";
 import { MetricCard } from "@/components/metric-card";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { SectionHeader } from "@/components/section-header";
-import { deals } from "@/lib/deals";
+import { deals, formatCurrency } from "@/lib/deals";
 import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
@@ -148,9 +148,14 @@ export default function PrivateEquitiesPage() {
               </div>
               <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-background/20 bg-foreground/80 backdrop-blur-sm">
                 {[
-                  ["Valuation", "$4.5M"],
-                  ["Compliance", "98"],
-                  ["Min ticket", "$500"],
+                  ["Valuation", formatCurrency(featuredDeal.valuation)],
+                  [
+                    featuredDeal.capitalRaise ? "Raise" : "Target",
+                    featuredDeal.capitalRaise
+                      ? formatCurrency(featuredDeal.capitalRaise.targetRaise)
+                      : `${featuredDeal.apy}%`,
+                  ],
+                  ["Compliance", `${featuredDeal.complianceScore}`],
                 ].map(([label, value]) => (
                   <div key={label} className="border-r border-background/20 p-4 last:border-r-0">
                     <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-background/50">

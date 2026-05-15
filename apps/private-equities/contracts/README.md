@@ -15,6 +15,12 @@ The contracts model a permissioned market where issuer solvency can be published
 | `test/*.t.sol` | Contract tests | Proof, trading, and POC test coverage. |
 | `script/DeployRegistry.s.sol` | Deployment script | Deploys the solvency registry. |
 
+## Uniswap v4 Direction
+
+`SimpleAMM` is now treated as a local test harness for transfer restrictions and secondary-liquidity concepts. The high-level production direction is a counsel-approved Uniswap v4 pool with a restrictive compliance Hook, documented in `../../../docs/UNISWAP_V4_PERMISSIONED_LIQUIDITY_ARCHITECTURE.md`.
+
+Do not deploy public production liquidity from this workspace until the issuer path, investor eligibility rules, transfer controls, custody, audits, and pool chain are approved.
+
 ## Current Demo Deployment
 
 Mantle Sepolia:

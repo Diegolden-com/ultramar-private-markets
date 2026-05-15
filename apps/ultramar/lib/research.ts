@@ -200,7 +200,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         heading: "How Ultramar uses the idea",
         body: [
-          "Ultramar connects the oracle concept to asset pages and portfolio state. A listed company like CX Laundry should not be evaluated only by ticker and image; it should have an operating-data path that can mature into investor-facing proof.",
+          "Ultramar connects the oracle concept to asset pages and portfolio state. A listed company like Lavanderias CX should not be evaluated only by ticker and image; it should have an operating-data path that can mature into investor-facing proof.",
           "That is why the issuer oracle is a ranking asset and a product asset: it gives RWA readers a concrete reason to understand Ultramar beyond the tokenization narrative.",
         ],
       },
@@ -212,7 +212,7 @@ export const researchArticles: ResearchArticle[] = [
         description: "The issuer accounting oracle and solvency proof workflow.",
       },
       {
-        label: "CX Laundry",
+        label: "Lavanderias CX",
         href: "/private-equities/assets/lcx",
         description: "A representative private-market operating asset.",
       },

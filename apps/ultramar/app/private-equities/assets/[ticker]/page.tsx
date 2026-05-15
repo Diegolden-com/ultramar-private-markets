@@ -335,6 +335,11 @@ function AssetMetric({
 function CapitalRaiseMemo({ dealName, raise }: { dealName: string; raise: CapitalRaise }) {
   const raiseFacts = [
     {
+      icon: CircleDashed,
+      label: "Round status",
+      value: raise.roundStatus,
+    },
+    {
       icon: BadgeDollarSign,
       label: "Target raise",
       value: formatCurrency(raise.targetRaise),
@@ -370,12 +375,72 @@ function CapitalRaiseMemo({ dealName, raise }: { dealName: string; raise: Capita
             <p className="mt-5 max-w-xl text-sm leading-6 text-muted-foreground">
               {raise.summary}
             </p>
+            <div className="mt-6 border border-destructive/25 bg-destructive/5 p-5">
+              <div className="flex items-start gap-3">
+                <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
+                <div>
+                  <h3 className="font-serif text-2xl font-bold leading-tight">
+                    Informational context only.
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    This public page does not collect money, publish wire
+                    instructions, accept binding commitments, or open
+                    subscription orders. Those steps stay inside a
+                    counsel-approved, investor-gated workflow.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="grid gap-px bg-border sm:grid-cols-2">
             {raiseFacts.map((fact) => (
               <RaiseFact key={fact.label} {...fact} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border bg-background">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
+          <div>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
+              Proof and gating
+            </p>
+            <h2 className="mt-4 font-serif text-4xl font-bold leading-none sm:text-6xl">
+              What makes the round diligence-ready.
+            </h2>
+          </div>
+          <div className="grid gap-px bg-border lg:grid-cols-2">
+            <div className="bg-background p-5">
+              <ShieldCheck className="h-5 w-5 text-accent" />
+              <h3 className="mt-8 font-serif text-3xl font-bold leading-tight">
+                Investor proof points
+              </h3>
+              <div className="mt-5 grid gap-3">
+                {raise.proofPoints.map((item) => (
+                  <p key={item} className="border-t border-border pt-3 text-sm leading-6 text-muted-foreground">
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <div className="bg-background p-5">
+              <FileCheck2 className="h-5 w-5 text-accent" />
+              <h3 className="mt-8 font-serif text-3xl font-bold leading-tight">
+                CRM stage labels
+              </h3>
+              <div className="mt-5 grid gap-px bg-border">
+                {raise.crmStages.map((stage, index) => (
+                  <div key={stage} className="grid grid-cols-[52px_1fr] bg-background">
+                    <p className="border-r border-border px-3 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <p className="px-3 py-3 text-sm font-semibold">{stage}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

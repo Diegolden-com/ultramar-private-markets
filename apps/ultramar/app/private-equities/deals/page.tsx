@@ -1,7 +1,7 @@
 import { SectionHeader } from "@/components/section-header";
 import { deals, formatCurrency } from "@/lib/deals";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
-import { ArrowRight, Clock, FileCheck2 } from "lucide-react";
+import { ArrowRight, BadgeDollarSign, Clock, FileCheck2 } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = createSeoMetadata({
@@ -40,14 +40,31 @@ export default function DealsPage() {
                       Closing soon
                     </span>
                   ) : null}
+                  {deal.capitalRaise ? (
+                    <span className="inline-flex items-center gap-1 rounded-md bg-accent/10 px-2 py-1 text-xs font-semibold text-accent">
+                      <BadgeDollarSign className="h-3 w-3" />
+                      {deal.capitalRaise.roundStatus}
+                    </span>
+                  ) : null}
                 </div>
                 <h2 className="mt-4 text-2xl font-semibold">{deal.name}</h2>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
                   {deal.description}
                 </p>
+                {deal.capitalRaise ? (
+                  <p className="mt-4 max-w-3xl text-xs leading-5 text-muted-foreground">
+                    {deal.capitalRaise.instrument}. {deal.capitalRaise.closingWindow}.
+                  </p>
+                ) : null}
               </div>
               <div className="grid min-w-64 gap-3 border-t border-border pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-0">
                 <DealStat label="Valuation" value={formatCurrency(deal.valuation)} />
+                {deal.capitalRaise ? (
+                  <DealStat
+                    label="Target raise"
+                    value={formatCurrency(deal.capitalRaise.targetRaise)}
+                  />
+                ) : null}
                 <DealStat label="Minimum" value={formatCurrency(deal.minInvestment)} />
                 <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent">
                   View round
@@ -62,7 +79,8 @@ export default function DealsPage() {
         <p className="mt-3 text-sm leading-6 text-muted-foreground">
           Production participation requires legal review, KYC/KYB, accreditation or
           suitability checks where applicable, custody setup, and issuer-specific
-          offering documents.
+          offering documents. The public deal page should not accept funds or binding
+          commitments until the selected offering path is approved.
         </p>
       </div>
     </main>

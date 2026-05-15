@@ -8,7 +8,7 @@ export function GET() {
     assets: [
       {
         ticker: "lcx",
-        name: "CX Laundry",
+        name: "Lavanderias CX",
         type: "Primary",
         balance: 12500,
         price: 1.08,

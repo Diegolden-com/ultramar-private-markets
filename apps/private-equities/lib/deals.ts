@@ -20,9 +20,9 @@ export type Deal = {
 export const DEALS: Deal[] = [
     {
         id: "1",
-        name: "CX Laundry",
+        name: "Lavanderias CX",
         ticker: "lcx",
-        description: "Chain of automated laundromats expanding to high-growth sectors. Proven recurring revenue model.",
+        description: "Automated laundromat chain preparing a counsel-gated expansion round across Mexico City with operating data moving into investor diligence.",
         sector: "Consumer Services",
         location: "Mexico City, MX",
         image: "/solarpunk-laundromat.png",
@@ -32,7 +32,7 @@ export const DEALS: Deal[] = [
         apy: 18.4,
         complianceScore: 98,
         status: "active",
-        tags: ["Cash Flow Positive", "Brick & Mortar", "Family owned"],
+        tags: ["Expansion Round", "Brick & Mortar", "Data Room Buildout"],
         type: "primary"
     },
     {

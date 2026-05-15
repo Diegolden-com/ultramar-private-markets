@@ -178,7 +178,14 @@ export function AssetExplorer() {
 
               <div className="mt-auto grid grid-cols-2 border-y border-border group-hover:border-background/20 sm:grid-cols-4">
                 <AssetStat label="Valuation" value={formatCurrency(deal.valuation)} />
-                <AssetStat label="Target" value={`${deal.apy}%`} />
+                <AssetStat
+                  label={deal.capitalRaise ? "Raise" : "Target"}
+                  value={
+                    deal.capitalRaise
+                      ? formatCurrency(deal.capitalRaise.targetRaise)
+                      : `${deal.apy}%`
+                  }
+                />
                 <AssetStat label="Score" value={`${deal.complianceScore}`} />
                 <AssetStat label="Minimum" value={formatCurrency(deal.minInvestment)} />
               </div>
@@ -187,7 +194,7 @@ export function AssetExplorer() {
                 <span>{deal.location}</span>
                 <span className="inline-flex items-center gap-2 font-mono uppercase tracking-[0.16em] text-accent group-hover:text-background">
                   <ShieldCheck className="h-4 w-4" />
-                  Reviewed
+                  {deal.capitalRaise?.roundStatus ?? "Reviewed"}
                 </span>
               </div>
             </div>

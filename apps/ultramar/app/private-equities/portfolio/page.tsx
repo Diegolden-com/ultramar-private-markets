@@ -12,7 +12,7 @@ export const metadata = createSeoMetadata({
 });
 
 const holdings = [
-  { ticker: "lcx", name: "CX Laundry", units: 12500, price: 1.08, value: 13500, change: 4.6 },
+  { ticker: "lcx", name: "Lavanderias CX", units: 12500, price: 1.08, value: 13500, change: 4.6 },
   { ticker: "VRX.RE", name: "Vertex Realty Core", units: 8200, price: 1.02, value: 8364, change: 1.3 },
   { ticker: "AGR.YLD", name: "AgroFuture Yield", units: 5400, price: 0.97, value: 5238, change: -2.1 },
 ];

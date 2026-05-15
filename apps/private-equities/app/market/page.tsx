@@ -10,7 +10,7 @@ export default function MarketPage() {
         <main className="container mx-auto px-4 py-8 sm:py-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <RouteHeader
                 title="THE MARKET"
-                subtitle="High-velocity, permissioned liquidity for private assets."
+                subtitle="Permissioned liquidity concepts for private assets, gated before any production transfer."
             />
 
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 mb-20">
@@ -18,12 +18,12 @@ export default function MarketPage() {
                 <div className="space-y-8">
                     <div className="space-y-4">
                         <h2 className="text-3xl font-bold font-mono">
-                            INSTANT <span className="text-accent">LIQUIDITY.</span>
+                            CONTROLLED <span className="text-accent">LIQUIDITY.</span>
                         </h2>
                         <p className="text-muted-foreground font-mono text-lg leading-relaxed">
-                            Private equity is historically illiquid. You buy, you wait 10 years, you pray.
+                            Private equity is historically illiquid and transfer-restricted.
                             <br /><br />
-                            Ultramar changes this. By pairing every Asset Token with USDC in a permissioned Liquidity Pool, we enable 24/7 trading.
+                            Ultramar models how a permissioned market could work only after issuer restrictions, investor eligibility, custody, and transfer controls are approved.
                         </p>
                     </div>
 
@@ -48,7 +48,7 @@ export default function MarketPage() {
                         </div>
                         <div className="text-center mt-4">
                             <p className="text-xs font-mono text-muted-foreground">
-                                * Interactive Demo. Try swapping to see price impact.
+                                * Read-only demo. No public swap or subscription action is available.
                             </p>
                         </div>
                     </div>
@@ -61,14 +61,14 @@ export default function MarketPage() {
                     <Zap className="w-8 h-8 text-accent" />
                     <h3 className="font-bold font-mono text-lg">ALGORITHMIC PRICING</h3>
                     <p className="text-sm text-muted-foreground">
-                        No order books. No matching. Price is determined deterministically by the ratio of assets in the pool.
+                        Pricing models remain illustrative until a counsel-approved transfer workflow exists.
                     </p>
                 </div>
                 <div className="space-y-3">
                     <TrendingUp className="w-8 h-8 text-accent" />
                     <h3 className="font-bold font-mono text-lg">PROTOCOL FEE</h3>
                     <p className="text-sm text-muted-foreground">
-                        A flat 0.3% fee on trades goes to Liquidity Providers (LPs), incentivizing deep market depth.
+                        Fee logic belongs in final documents and production contracts, not public marketing copy.
                     </p>
                 </div>
                 <div className="space-y-3">

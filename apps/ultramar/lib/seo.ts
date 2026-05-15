@@ -21,22 +21,22 @@ export type ItemListEntry = {
 
 export const seoImages = {
   platform: {
-    url: "/tarot-market.png",
+    url: "/og-ultramar-capital.png",
     width: 1200,
     height: 630,
-    alt: "Ultramar.capital mysterious market system",
+    alt: "Ultramar.capital institutional capital interface",
   },
   privateEquities: {
-    url: "/solarpunk-laundromat.png",
+    url: "/og-private-equities.png",
     width: 1200,
     height: 630,
-    alt: "Ultramar Private Equities operating asset",
+    alt: "Ultramar Private Equities institutional rail",
   },
   arbitrage: {
-    url: "/tarot-market.png",
+    url: "/og-arbitrage-hedge-fund.png",
     width: 1200,
     height: 630,
-    alt: "Ultramar Arbitrage Hedge Fund market signal card",
+    alt: "Ultramar Arbitrage Hedge Fund signal discipline",
   },
 } satisfies Record<string, SeoImage>;
 

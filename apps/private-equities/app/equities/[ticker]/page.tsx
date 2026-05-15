@@ -101,10 +101,10 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
                         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
                             <div className="bg-background p-6 border-2 border-foreground">
                                 <div className="flex items-center gap-2 mb-2 text-muted-foreground text-xs uppercase font-bold tracking-wider">
-                                    <Activity className="w-4 h-4" /> Target APY
+                                    <Activity className="w-4 h-4" /> Illustrative Target
                                 </div>
                                 <div className="text-3xl font-bold font-mono">{deal.apy}%</div>
-                                <div className="text-xs text-green-500 mt-1">+2.4% vs Sector Avg</div>
+                                <div className="text-xs text-muted-foreground mt-1">Subject to final documents</div>
                             </div>
                             <div className="bg-background p-6 border-2 border-foreground">
                                 <div className="flex items-center gap-2 mb-2 text-muted-foreground text-xs uppercase font-bold tracking-wider">
@@ -137,9 +137,9 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
                                                 <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400" />
                                             </div>
                                             <div>
-                                                <h3 className="font-bold text-sm mb-1 uppercase">Presale</h3>
+                                                <h3 className="font-bold text-sm mb-1 uppercase">Public Boundary</h3>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Register before <span className="text-accent font-bold">06/01/2026</span> — Send email to <a href="mailto:presale@cleanx.mx" className="text-accent hover:underline">presale@cleanx.mx</a> to join the whitelist
+                                                    No funds, wire instructions, binding commitments, or subscription orders are accepted on this public page.
                                                 </p>
                                             </div>
                                         </div>
@@ -170,9 +170,9 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
                                                 <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400" />
                                             </div>
                                             <div>
-                                                <h3 className="font-bold text-sm mb-1 uppercase">The Offering</h3>
+                                                <h3 className="font-bold text-sm mb-1 uppercase">Round Status</h3>
                                                 <p className="text-sm text-muted-foreground">
-                                                    6 Week Round
+                                                    Data room buildout; counsel-gated before commitments.
                                                 </p>
                                             </div>
                                         </div>
@@ -230,7 +230,7 @@ export default async function DealPage(props: { params: Promise<{ ticker: string
                                             <div>
                                                 <h3 className="font-bold text-sm mb-1 uppercase">Legal Wrapper</h3>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Token ownership represents legal claim to equity via SPV structure based in Delaware.
+                                                    Final issuer, instrument, transfer restrictions, and investor eligibility remain pending counsel review.
                                                 </p>
                                             </div>
                                         </div>

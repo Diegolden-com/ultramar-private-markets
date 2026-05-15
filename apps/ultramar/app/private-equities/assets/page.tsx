@@ -180,7 +180,14 @@ export default function AssetsPage() {
                     label="Valuation"
                     value={formatCurrency(featuredDeal.valuation)}
                   />
-                  <AssetHeroStat label="Target" value={`${featuredDeal.apy}%`} />
+                  <AssetHeroStat
+                    label={featuredDeal.capitalRaise ? "Raise" : "Target"}
+                    value={
+                      featuredDeal.capitalRaise
+                        ? formatCurrency(featuredDeal.capitalRaise.targetRaise)
+                        : `${featuredDeal.apy}%`
+                    }
+                  />
                   <AssetHeroStat
                     label="Minimum"
                     value={formatCurrency(featuredDeal.minInvestment)}

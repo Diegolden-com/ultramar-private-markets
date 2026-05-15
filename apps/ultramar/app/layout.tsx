@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/app-shell";
 import { JsonLd } from "@/components/json-ld";
-import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { organizationJsonLd, seoImages, websiteJsonLd } from "@/lib/seo";
 import { canonicalDomain, platform } from "@ultramar/product-model";
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google";
@@ -41,20 +41,13 @@ export const metadata: Metadata = {
     url: canonicalDomain,
     siteName: "Ultramar.capital",
     type: "website",
-    images: [
-      {
-        url: "/tarot-market.png",
-        width: 1200,
-        height: 630,
-        alt: "Ultramar.capital mysterious market system",
-      },
-    ],
+    images: [seoImages.platform],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ultramar.capital",
     description: platform.description,
-    images: ["/tarot-market.png"],
+    images: [seoImages.platform.url],
   },
   icons: {
     icon: "/icon-192.jpg",
