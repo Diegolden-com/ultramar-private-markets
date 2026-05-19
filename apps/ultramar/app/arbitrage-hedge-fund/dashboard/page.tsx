@@ -1,5 +1,6 @@
 import { JsonLd } from "@/components/json-ld";
 import { ProductCrosslink } from "@/components/product-crosslink";
+import { ProductTabs } from "@/components/product-tabs";
 import { SignalDashboard } from "@/components/signal-dashboard";
 import { SectionHeader } from "@/components/section-header";
 import { researchArticles } from "@/lib/research";
@@ -83,7 +84,7 @@ export const metadata = createSeoMetadata({
 
 export default function DashboardPage() {
   return (
-    <main>
+    <main className="mx-auto flex w-full max-w-[1800px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
       <JsonLd
         id="arbitrage-dashboard-json-ld"
         data={[
@@ -111,72 +112,73 @@ export default function DashboardPage() {
           ]),
         ]}
       />
-      <section className="financial-grid border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-          <SectionHeader
-            eyebrow="Arbitrage Hedge Fund"
-            title="Dashboard"
-            description={description}
-          />
-        </div>
+      <section className="border border-border-muted bg-surface p-6 md:p-8">
+        <SectionHeader
+          eyebrow="Arbitrage Hedge Fund / Allocator Surface"
+          title="Dashboard"
+          description={description}
+        />
       </section>
-      <section className="border-b border-border bg-muted/30">
-        <div className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 md:grid-cols-2 lg:grid-cols-4">
-          {dashboardModules.map((item) => (
-            <div
-              key={item.title}
-              id={item.href.split("#")[1]}
-              className="rounded-lg border border-border bg-card p-5"
-            >
-              <item.icon className="h-5 w-5 text-accent" />
-              <h2 className="mt-4 text-lg font-semibold">{item.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
-            </div>
-          ))}
-        </div>
+      <ProductTabs product="arbitrage-hedge-fund" active="dashboard" />
+      <section className="grid gap-1 bg-border-muted md:grid-cols-2 lg:grid-cols-4">
+        {dashboardModules.map((item) => (
+          <div
+            key={item.title}
+            id={item.href.split("#")[1]}
+            className="border border-border-muted bg-surface p-5"
+          >
+            <item.icon className="h-5 w-5 text-status-signal" />
+            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
+              {item.title}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.body}</p>
+          </div>
+        ))}
       </section>
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <section className="border border-border-muted bg-surface p-4 md:p-6">
         <SignalDashboard />
       </section>
-      <section className="border-t border-border bg-card/40">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.8fr_1.2fr]">
+      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="bg-surface p-6 md:p-8">
           <SectionHeader
             eyebrow="Research context"
             title="Dashboard metrics need a risk memo behind them"
             description="The route connects fund-dashboard intent to the research that explains spread quality, exposure, and strategy graduation rules."
           />
-          <div className="grid gap-4 md:grid-cols-2">
+        </div>
+        <div className="grid gap-1 bg-border-muted md:grid-cols-2">
             {relatedResearch.map((article) => (
               <Link
                 key={article.slug}
                 href={`/research/${article.slug}`}
-                className="group rounded-lg border border-border bg-background p-5 transition hover:border-accent"
+                className="group border border-border-muted bg-surface p-5 transition hover:border-status-signal"
               >
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                   {article.eyebrow}
                 </p>
-                <h2 className="mt-3 text-lg font-semibold leading-tight">{article.title}</h2>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
+                  {article.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-on-surface-variant">
                   {article.description}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-foreground group-hover:text-accent">
+                <span className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant group-hover:text-status-signal">
                   Read memo
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </span>
               </Link>
             ))}
-          </div>
         </div>
       </section>
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-1 bg-border-muted md:grid-cols-3">
           {dashboardFaqs.map((item) => (
-            <div key={item.question} className="rounded-lg border border-border bg-card p-5">
-              <h2 className="text-base font-semibold leading-6">{item.question}</h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.answer}</p>
+            <div key={item.question} className="border border-border-muted bg-surface p-5">
+              <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
+                {item.question}
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.answer}</p>
             </div>
           ))}
-        </div>
       </section>
       <ProductCrosslink current="arbitrage-hedge-fund" />
     </main>

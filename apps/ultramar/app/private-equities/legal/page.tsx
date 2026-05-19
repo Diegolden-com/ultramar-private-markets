@@ -1,3 +1,4 @@
+import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { BadgeCheck, ClipboardCheck, FileWarning, LockKeyhole, Scale, UserCheck } from "lucide-react";
@@ -12,13 +13,16 @@ export const metadata = createSeoMetadata({
 
 export default function LegalPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <SectionHeader
-        eyebrow="Private Equities"
-        title="Legal and compliance boundaries"
-        description="The public product explains the intended operating model without implying unrestricted securities availability."
-      />
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <section className="border border-border-muted bg-surface p-6 md:p-8">
+        <SectionHeader
+          eyebrow="Private Equities / Counsel Gate"
+          title="Legal and compliance boundaries"
+          description="The public product explains the intended operating model without implying unrestricted securities availability."
+        />
+      </section>
+      <ProductTabs product="private-equities" active="legal" />
+      <div className="grid gap-1 bg-border-muted md:grid-cols-2">
         {[
           {
             icon: Scale,
@@ -51,17 +55,21 @@ export default function LegalPage() {
             body: "Investor materials should move behind access controls once they include issuer-specific financials, non-public data, or subscription instructions.",
           },
         ].map((item) => (
-          <div key={item.title} className="rounded-lg border border-border bg-card p-5">
-            <item.icon className="h-5 w-5 text-accent" />
-            <h2 className="mt-4 text-lg font-semibold">{item.title}</h2>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
+          <div key={item.title} className="border border-border-muted bg-surface p-5">
+            <item.icon className="h-5 w-5 text-status-signal" />
+            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
+              {item.title}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.body}</p>
           </div>
         ))}
       </div>
-      <div className="mt-10 border border-destructive/30 bg-destructive/5 p-5">
+      <div className="border border-border-muted border-t-destructive bg-surface p-5">
         <FileWarning className="h-5 w-5 text-destructive" />
-        <h2 className="mt-4 text-lg font-semibold">Capital acceptance boundary</h2>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
+          Capital acceptance boundary
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-on-surface-variant">
           Ultramar public pages should not collect funds, publish subscription
           instructions, or treat expressions of interest as binding commitments.
           Those steps belong in a counsel-approved, investor-gated workflow.

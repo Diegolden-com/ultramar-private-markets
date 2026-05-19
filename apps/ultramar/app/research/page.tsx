@@ -30,7 +30,7 @@ export const metadata = createSeoMetadata({
 
 export default function ResearchPage() {
   return (
-    <main>
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
       <JsonLd
         id="research-json-ld"
         data={[
@@ -52,70 +52,69 @@ export default function ResearchPage() {
         ]}
       />
 
-      <section className="financial-grid border-b border-border">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
+      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="bg-surface p-6 md:p-8">
           <SectionHeader
             eyebrow="Research library"
             title="Linkable assets for private markets and Polymarket arbitrage"
             description="These memos are built for investors, issuers, analysts, and editors who need a concrete page to cite instead of a generic homepage."
           />
-          <div className="rounded border border-border/70 bg-card/80 p-6">
-            <BookOpenText className="h-5 w-5 text-accent" />
-            <p className="mt-4 text-sm leading-6 text-muted-foreground">
+        </div>
+        <div className="border border-border-muted bg-surface p-6 md:p-8">
+            <BookOpenText className="h-5 w-5 text-status-signal" />
+            <p className="mt-4 text-sm leading-6 text-on-surface-variant">
               The library implements the SEO growth plan with editorial assets
               that point back into the product surfaces: assets, oracle, legal,
               signals, dashboard, and risk.
             </p>
-          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <div className="grid gap-6 md:grid-cols-2">
+      <section className="grid gap-1 bg-border-muted md:grid-cols-2">
           {researchArticles.map((article) => (
             <Link
               key={article.slug}
               href={`/research/${article.slug}`}
-              className="group overflow-hidden rounded border border-border/70 bg-card transition hover:-translate-y-0.5 hover:border-accent hover:shadow-xl"
+              className="group overflow-hidden border border-border-muted bg-surface transition hover:border-status-signal"
             >
-              <div className="relative aspect-[16/9] border-b border-border/70">
+              <div className="relative aspect-[16/9] border-b border-border-muted">
                 <Image
                   src={article.image}
                   alt={article.title}
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover transition duration-500 group-hover:scale-105"
+                  className="image-blackwork object-cover transition duration-500 group-hover:scale-105"
                 />
-                <div className="absolute left-4 top-4 bg-background/95 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
+                <div className="absolute inset-0 bg-surface-ink/35" />
+                <div className="absolute left-4 top-4 border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                   {article.cluster}
                 </div>
               </div>
               <div className="p-6">
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-accent">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                   {article.eyebrow}
                 </p>
-                <h2 className="mt-3 font-serif text-3xl font-bold leading-tight">
+                <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
                   {article.title}
                 </h2>
-                <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                <p className="mt-4 text-sm leading-6 text-on-surface-variant">
                   {article.description}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <span className="rounded border border-border px-2 py-1 font-mono text-xs text-muted-foreground">
+                  <span className="border border-border-muted px-2 py-1 font-mono text-[11px] text-on-surface-variant">
                     {article.readingTime}
                   </span>
-                  <span className="rounded border border-border px-2 py-1 font-mono text-xs text-muted-foreground">
+                  <span className="border border-border-muted px-2 py-1 font-mono text-[11px] text-on-surface-variant">
                     {article.audience}
                   </span>
                 </div>
-                <span className="mt-6 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-accent">
+                <span className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                   Read memo
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </span>
               </div>
             </Link>
           ))}
-        </div>
       </section>
     </main>
   );

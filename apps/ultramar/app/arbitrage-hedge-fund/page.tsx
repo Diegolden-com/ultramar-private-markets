@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { ProductTabs } from "@/components/product-tabs";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -123,6 +124,8 @@ export default function ArbitrageHedgeFundPage() {
         ))}
       </section>
 
+      <ProductTabs product="arbitrage-hedge-fund" active="overview" />
+
       <div className="flex flex-1 flex-col lg:flex-row">
         <section className="flex flex-col border-border-muted lg:w-2/3 lg:border-r">
           <div className="flex items-center justify-between border-b border-border-muted bg-surface p-4">
@@ -188,7 +191,7 @@ export default function ArbitrageHedgeFundPage() {
                 <div className="col-span-3 text-right">
                   <Link
                     href="/arbitrage-hedge-fund/risk"
-                    className="border border-status-signal px-2 py-1 text-[10px] uppercase text-status-signal transition-colors hover:bg-status-signal hover:text-white"
+                    className="border border-status-signal px-2 py-1 text-[10px] uppercase text-status-signal transition-colors hover:bg-status-signal hover:text-surface-ink"
                   >
                     Observe Anomaly
                   </Link>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
+import { footerLinks } from "@/lib/footer-routes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -10,14 +11,6 @@ const navItems = [
   { label: "Arbitrage", href: "/arbitrage-hedge-fund" },
   { label: "Data Room", href: "/private-equities/assets/lcx" },
   { label: "Governance", href: "/arbitrage-hedge-fund/risk" },
-] as const;
-
-const footerLinks = [
-  { label: "Compliance", href: "/private-equities/legal" },
-  { label: "Legal", href: "/private-equities/legal" },
-  { label: "Sitemap", href: "/sitemap.xml" },
-  { label: "API", href: "/api/arbitrage/signals" },
-  { label: "System Status", href: "/arbitrage-hedge-fund/signals" },
 ] as const;
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -51,13 +44,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="hidden items-center gap-4 md:flex">
             <Link
               href="/private-equities/assets"
-              className="border border-on-surface bg-surface-ink px-4 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-white"
+              className="border border-on-surface bg-surface-ink px-4 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
             >
               Terminal Access
             </Link>
             <Link
               href="/auth/login"
-              className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-primary"
+              className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-status-signal"
             >
               Auth
             </Link>
@@ -103,7 +96,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div>
             <p className="font-serif text-xl font-bold text-on-surface">ULTRAMAR.CAPITAL</p>
             <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              (c)2024 Ultramar Capital Group. All rights reserved. Regulated entity.
+              (c)2024 Ultramar Capital Group. All rights reserved. Disclosures and controls.
             </p>
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-3">
@@ -147,7 +140,7 @@ function TerminalNavLink({
       className={`border-b-2 pb-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
         active
           ? "border-status-signal text-status-signal"
-          : "border-transparent text-on-surface-variant hover:text-primary"
+          : "border-transparent text-on-surface-variant hover:text-status-signal"
       }`}
     >
       {label}

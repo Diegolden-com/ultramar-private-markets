@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { ProductTabs } from "@/components/product-tabs";
 import { deals, findDeal, formatCurrency } from "@/lib/deals";
 import { breadcrumbJsonLd, createSeoMetadata, webPageJsonLd } from "@/lib/seo";
 import { AlertTriangle, ArrowLeft, Lock } from "lucide-react";
@@ -63,7 +64,7 @@ export default async function AssetDetailPage({
   const offeringTerms = getOfferingTerms(deal);
 
   return (
-    <main className="grid grid-cols-1 gap-1 bg-border-muted px-4 py-8 text-on-surface md:grid-cols-12 md:px-12">
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
       <JsonLd
         id={`${deal.ticker.toLowerCase()}-asset-json-ld`}
         data={[
@@ -81,6 +82,9 @@ export default async function AssetDetailPage({
         ]}
       />
 
+      <ProductTabs product="private-equities" active="assets" />
+
+      <div className="grid grid-cols-1 gap-1 bg-border-muted md:grid-cols-12">
       <div className="flex flex-col gap-1 bg-surface-ink md:col-span-8 lg:col-span-9">
         <Link
           href="/private-equities/assets"
@@ -91,8 +95,8 @@ export default async function AssetDetailPage({
         </Link>
 
         <section className="border border-border-muted bg-surface p-6 md:p-8">
-          <div className="mb-8 flex items-start justify-between gap-4">
-            <div>
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
               <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 Asset Identifier
               </p>
@@ -100,11 +104,11 @@ export default async function AssetDetailPage({
                 {deal.name}
               </h1>
             </div>
-            <div className="text-right">
+            <div className="min-w-0 sm:text-right">
               <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 Classification
               </p>
-              <span className="border border-border-muted bg-surface-dim px-2 py-1 font-mono text-sm font-medium uppercase text-on-surface">
+              <span className="inline-block max-w-full break-words border border-border-muted bg-surface-dim px-2 py-1 font-mono text-sm font-medium uppercase text-on-surface">
                 {deal.sector}
               </span>
             </div>
@@ -285,6 +289,7 @@ export default async function AssetDetailPage({
           </p>
         </section>
       </aside>
+      </div>
     </main>
   );
 }

@@ -57,7 +57,7 @@ export default async function ResearchArticlePage({
   };
 
   return (
-    <main>
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
       <JsonLd
         id={`${article.slug}-json-ld`}
         data={[
@@ -79,11 +79,11 @@ export default async function ResearchArticlePage({
         ]}
       />
 
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6">
+      <section className="border border-border-muted bg-surface">
+        <div className="px-4 py-4">
           <Link
             href="/research"
-            className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-accent"
+            className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
           >
             <ArrowLeft className="h-4 w-4" />
             Research library
@@ -92,14 +92,14 @@ export default async function ResearchArticlePage({
       </section>
 
       <article>
-        <header className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.35em] text-accent">
+        <header className="border border-border-muted bg-surface p-6 md:p-8">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
             {article.eyebrow}
           </p>
-          <h1 className="mt-5 font-serif text-4xl font-bold leading-tight sm:text-6xl">
+          <h1 className="mt-5 max-w-5xl font-serif text-4xl font-bold leading-[1.1] md:text-5xl">
             {article.title}
           </h1>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-on-surface-variant">
             {article.description}
           </p>
           <div className="mt-8 flex flex-wrap gap-2">
@@ -107,7 +107,7 @@ export default async function ResearchArticlePage({
               (item) => (
                 <span
                   key={item}
-                  className="rounded border border-border bg-card px-3 py-1.5 font-mono text-xs text-muted-foreground"
+                  className="border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] text-on-surface-variant"
                 >
                   {item}
                 </span>
@@ -116,52 +116,52 @@ export default async function ResearchArticlePage({
           </div>
         </header>
 
-        <section className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="relative aspect-[16/8] overflow-hidden rounded border border-border">
+        <section className="border border-border-muted bg-surface">
+          <div className="relative aspect-[16/8] overflow-hidden">
             <Image
               src={article.image}
               alt={article.title}
               fill
               priority
               sizes="(min-width: 1024px) 900px, 100vw"
-              className="object-cover"
+              className="image-blackwork object-cover"
             />
-            <div className="absolute inset-0 bg-black/12" />
+            <div className="absolute inset-0 bg-surface-ink/25" />
           </div>
         </section>
 
-        <section className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-          <aside className="space-y-5">
-            <div className="rounded border border-border bg-card p-5">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-accent">
+        <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.75fr_1.25fr]">
+          <aside className="space-y-1">
+            <div className="border border-border-muted bg-surface p-5">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                 Angle
               </p>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{article.angle}</p>
+              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{article.angle}</p>
             </div>
-            <div className="rounded border border-border bg-card p-5">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-accent">
+            <div className="border border-border-muted bg-surface p-5">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                 Key takeaways
               </p>
               <div className="mt-4 grid gap-4">
                 {article.takeaways.map((takeaway) => (
                   <div key={takeaway} className="flex gap-3">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    <p className="text-sm leading-6 text-muted-foreground">{takeaway}</p>
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-status-signal" />
+                    <p className="text-sm leading-6 text-on-surface-variant">{takeaway}</p>
                   </div>
                 ))}
               </div>
             </div>
           </aside>
 
-          <div className="space-y-10">
+          <div className="space-y-1">
             {article.sections.map((section) => (
-              <section key={section.heading}>
-                <h2 className="font-serif text-3xl font-bold leading-tight">
+              <section key={section.heading} className="border border-border-muted bg-surface p-6 md:p-8">
+                <h2 className="font-serif text-3xl font-semibold leading-tight text-on-surface">
                   {section.heading}
                 </h2>
                 <div className="mt-4 space-y-4">
                   {section.body.map((paragraph) => (
-                    <p key={paragraph} className="text-base leading-8 text-muted-foreground">
+                    <p key={paragraph} className="text-base leading-8 text-on-surface-variant">
                       {paragraph}
                     </p>
                   ))}
@@ -169,8 +169,8 @@ export default async function ResearchArticlePage({
               </section>
             ))}
 
-            <section className="rounded border border-border bg-card p-6">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-accent">
+            <section className="border border-border-muted bg-surface p-6">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                 Product paths cited by this memo
               </p>
               <div className="mt-5 grid gap-4">
@@ -178,21 +178,23 @@ export default async function ResearchArticlePage({
                   <Link
                     key={target.href}
                     href={target.href}
-                    className="group flex flex-col gap-2 rounded border border-border bg-background p-4 transition hover:border-accent sm:flex-row sm:items-center sm:justify-between"
+                    className="group flex flex-col gap-2 border border-border-muted bg-surface-ink p-4 transition hover:border-status-signal sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div>
-                      <h3 className="font-semibold">{target.label}</h3>
-                      <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                      <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                        {target.label}
+                      </h3>
+                      <p className="mt-1 text-sm leading-6 text-on-surface-variant">
                         {target.description}
                       </p>
                     </div>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-accent transition group-hover:translate-x-1" />
+                    <ArrowRight className="h-4 w-4 shrink-0 text-status-signal transition group-hover:translate-x-1" />
                   </Link>
                 ))}
               </div>
             </section>
 
-            <p className="border-t border-border pt-6 text-xs leading-6 text-muted-foreground">
+            <p className="border border-border-muted bg-surface p-5 font-mono text-[11px] uppercase leading-6 tracking-[0.08em] text-on-surface-variant">
               This memo is informational and describes product architecture,
               market structure, and operating controls. It is not investment,
               legal, tax, or financial advice.

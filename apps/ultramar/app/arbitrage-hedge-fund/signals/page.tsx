@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { ProductTabs } from "@/components/product-tabs";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -153,6 +154,8 @@ export default async function SignalsPage() {
           </div>
         </div>
       </header>
+
+      <ProductTabs product="arbitrage-hedge-fund" active="signals" />
 
       <section className="grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-4">
         {exposureMetrics.map(([label, value, tone]) => (

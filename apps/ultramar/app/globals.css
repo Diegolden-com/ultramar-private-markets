@@ -16,15 +16,15 @@
   --secondary-foreground: #2e3132;
   --muted: #1b1c1e;
   --muted-foreground: #c3c5d9;
-  --accent: #0055ff;
-  --accent-foreground: #ffffff;
+  --accent: #f59e0b;
+  --accent-foreground: #07080a;
   --destructive: #ffb4ab;
   --destructive-foreground: #690005;
   --border: #1f2937;
   --input: var(--border);
   --ring: var(--accent);
   --chart-1: #e3e2e5;
-  --chart-2: #0055ff;
+  --chart-2: #00c982;
   --chart-3: #b6c4ff;
   --chart-4: #8d90a2;
   --chart-5: #ffb4ab;
@@ -44,7 +44,8 @@
   --on-surface-variant: #c3c5d9;
   --outline: #8d90a2;
   --outline-variant: #434656;
-  --status-signal: #0055ff;
+  --status-signal: #00c982;
+  --status-warning: #f59e0b;
   --border-muted: #1f2937;
   --radius: 0rem;
 }
@@ -98,6 +99,7 @@
   --color-outline: var(--outline);
   --color-outline-variant: var(--outline-variant);
   --color-status-signal: var(--status-signal);
+  --color-status-warning: var(--status-warning);
   --color-border-muted: var(--border-muted);
   --radius-sm: 0rem;
   --radius-md: 0rem;

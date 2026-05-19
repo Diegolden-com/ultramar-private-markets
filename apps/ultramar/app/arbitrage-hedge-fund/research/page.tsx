@@ -1,3 +1,4 @@
+import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { BookOpenText, FlaskConical, Lock, Radar } from "lucide-react";
@@ -12,13 +13,16 @@ export const metadata = createSeoMetadata({
 
 export default function ResearchPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <SectionHeader
-        eyebrow="Arbitrage Hedge Fund"
-        title="Research, not product"
-        description="This route preserves strategy context without presenting lending markets or derivative arbitrage as active commercial products."
-      />
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <section className="border border-border-muted bg-surface p-6 md:p-8">
+        <SectionHeader
+          eyebrow="Arbitrage Hedge Fund / Research Gate"
+          title="Research, not product"
+          description="This route preserves strategy context without presenting lending markets or derivative arbitrage as active commercial products."
+        />
+      </section>
+      <ProductTabs product="arbitrage-hedge-fund" active="research" />
+      <div className="grid gap-1 bg-border-muted md:grid-cols-2">
         {[
           {
             icon: Radar,
@@ -45,15 +49,17 @@ export default function ResearchPage() {
             status: "Governance",
           },
         ].map((item) => (
-          <div key={item.title} className="rounded-lg border border-border bg-card p-5">
+          <div key={item.title} className="border border-border-muted bg-surface p-5">
             <div className="flex items-start justify-between gap-4">
-              <item.icon className="h-5 w-5 text-accent" />
-              <span className="rounded-md bg-muted px-2 py-1 text-xs font-semibold text-muted-foreground">
+              <item.icon className="h-5 w-5 text-status-signal" />
+              <span className="border border-border-muted bg-surface-ink px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {item.status}
               </span>
             </div>
-            <h2 className="mt-4 text-lg font-semibold">{item.title}</h2>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
+            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
+              {item.title}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.body}</p>
           </div>
         ))}
       </div>

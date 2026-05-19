@@ -188,7 +188,7 @@ export default function HomePage() {
 
               <Link
                 href={module.href}
-                className="mt-12 flex w-full items-center justify-between border border-on-surface bg-surface-ink px-4 py-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-white"
+                className="mt-12 flex w-full items-center justify-between border border-on-surface bg-surface-ink px-4 py-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
               >
                 <span>{module.cta}</span>
                 <ArrowRight className="h-4 w-4" />

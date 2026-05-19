@@ -1,3 +1,4 @@
+import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
 import { deals, formatCurrency } from "@/lib/deals";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
@@ -14,50 +15,55 @@ export const metadata = createSeoMetadata({
 
 export default function DealsPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <SectionHeader
-        eyebrow="Private Equities"
-        title="Issuer rounds and deal mechanics"
-        description="Deals make the issuer round understandable before an investor reaches the transaction workflow."
-      />
-      <div className="mt-10 grid gap-5">
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <section className="border border-border-muted bg-surface p-6 md:p-8">
+        <SectionHeader
+          eyebrow="Private Equities / Deal Rail"
+          title="Issuer rounds and deal mechanics"
+          description="Deals make the issuer round understandable before an investor reaches the transaction workflow."
+        />
+      </section>
+      <ProductTabs product="private-equities" active="deals" />
+      <div className="grid gap-1 bg-border-muted">
         {deals
           .filter((deal) => deal.type === "primary")
           .map((deal) => (
             <Link
               key={deal.id}
               href={`/private-equities/assets/${deal.ticker}`}
-              className="grid gap-5 rounded-lg border border-border bg-card p-5 transition hover:border-accent hover:shadow-md md:grid-cols-[1fr_auto]"
+              className="grid gap-5 border border-border-muted bg-surface p-5 transition hover:border-status-signal md:grid-cols-[1fr_auto]"
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-md bg-foreground px-2 py-1 font-mono text-xs font-semibold text-background">
+                  <span className="border border-border-muted bg-surface-ink px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                     {deal.ticker}
                   </span>
                   {deal.status === "closing_soon" ? (
-                    <span className="inline-flex items-center gap-1 rounded-md bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive">
+                    <span className="inline-flex items-center gap-1 border border-status-warning px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-warning">
                       <Clock className="h-3 w-3" />
                       Closing soon
                     </span>
                   ) : null}
                   {deal.capitalRaise ? (
-                    <span className="inline-flex items-center gap-1 rounded-md bg-accent/10 px-2 py-1 text-xs font-semibold text-accent">
+                    <span className="inline-flex items-center gap-1 border border-status-signal px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                       <BadgeDollarSign className="h-3 w-3" />
                       {deal.capitalRaise.roundStatus}
                     </span>
                   ) : null}
                 </div>
-                <h2 className="mt-4 text-2xl font-semibold">{deal.name}</h2>
-                <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+                <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">
+                  {deal.name}
+                </h2>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-on-surface-variant">
                   {deal.description}
                 </p>
                 {deal.capitalRaise ? (
-                  <p className="mt-4 max-w-3xl text-xs leading-5 text-muted-foreground">
+                  <p className="mt-4 max-w-3xl font-mono text-[11px] uppercase tracking-[0.08em] text-on-surface-variant">
                     {deal.capitalRaise.instrument}. {deal.capitalRaise.closingWindow}.
                   </p>
                 ) : null}
               </div>
-              <div className="grid min-w-64 gap-3 border-t border-border pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-0">
+              <div className="grid min-w-64 gap-3 border-t border-border-muted pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-0">
                 <DealStat label="Valuation" value={formatCurrency(deal.valuation)} />
                 {deal.capitalRaise ? (
                   <DealStat
@@ -66,7 +72,7 @@ export default function DealsPage() {
                   />
                 ) : null}
                 <DealStat label="Minimum" value={formatCurrency(deal.minInvestment)} />
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent">
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                   View round
                   <ArrowRight className="h-4 w-4" />
                 </span>
@@ -74,9 +80,9 @@ export default function DealsPage() {
             </Link>
           ))}
       </div>
-      <div className="mt-10 rounded-lg border border-border bg-muted/35 p-5">
-        <FileCheck2 className="h-5 w-5 text-accent" />
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+      <div className="border border-border-muted border-t-status-warning bg-surface p-5">
+        <FileCheck2 className="h-5 w-5 text-status-warning" />
+        <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           Production participation requires legal review, KYC/KYB, accreditation or
           suitability checks where applicable, custody setup, and issuer-specific
           offering documents. The public deal page should not accept funds or binding
@@ -90,10 +96,10 @@ export default function DealsPage() {
 function DealStat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
         {label}
       </p>
-      <p className="mt-1 font-mono text-sm font-semibold">{value}</p>
+      <p className="mt-1 font-mono text-sm font-semibold text-on-surface">{value}</p>
     </div>
   );
 }

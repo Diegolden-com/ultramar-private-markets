@@ -1,3 +1,4 @@
+import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
 import { deals, formatCurrency } from "@/lib/deals";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
@@ -14,41 +15,46 @@ export const metadata = createSeoMetadata({
 
 export default function MarketPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <SectionHeader
-        eyebrow="Private Equities"
-        title="Secondary market"
-        description="The market route separates eligible transfer activity from primary issuer rounds."
-      />
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <section className="border border-border-muted bg-surface p-6 md:p-8">
+        <SectionHeader
+          eyebrow="Private Equities / Secondary Rail"
+          title="Secondary market"
+          description="The market route separates eligible transfer activity from primary issuer rounds."
+        />
+      </section>
+      <ProductTabs product="private-equities" active="market" />
+      <div className="grid gap-1 bg-border-muted md:grid-cols-2">
         {deals
           .filter((deal) => deal.type === "secondary")
           .map((deal) => (
             <Link
               key={deal.id}
               href={`/private-equities/assets/${deal.ticker}`}
-              className="rounded-lg border border-border bg-card p-5 transition hover:border-accent hover:shadow-md"
+              className="border border-border-muted bg-surface p-5 transition hover:border-status-signal"
             >
-              <Repeat2 className="h-5 w-5 text-accent" />
-              <h2 className="mt-4 text-2xl font-semibold">{deal.name}</h2>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              <Repeat2 className="h-5 w-5 text-status-signal" />
+              <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">
+                {deal.name}
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-on-surface-variant">
                 {deal.description}
               </p>
-              <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border pt-4">
+              <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border-muted pt-4">
                 <MarketStat label="Ticker" value={deal.ticker} />
                 <MarketStat label="Valuation" value={formatCurrency(deal.valuation)} />
                 <MarketStat label="Yield" value={`${deal.apy}%`} />
               </div>
-              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent">
+              <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                 View asset
                 <ArrowRight className="h-4 w-4" />
               </span>
             </Link>
           ))}
       </div>
-      <div className="mt-8 rounded-lg border border-border bg-muted/35 p-5">
-        <LineChart className="h-5 w-5 text-accent" />
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+      <div className="border border-border-muted border-t-status-warning bg-surface p-5">
+        <LineChart className="h-5 w-5 text-status-warning" />
+        <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           Secondary transfer availability depends on eligibility, lockups, issuer
           restrictions, and jurisdiction-specific compliance controls.
         </p>
@@ -60,10 +66,10 @@ export default function MarketPage() {
 function MarketStat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
         {label}
       </p>
-      <p className="mt-1 truncate font-mono text-sm font-semibold">{value}</p>
+      <p className="mt-1 truncate font-mono text-sm font-semibold text-on-surface">{value}</p>
     </div>
   );
 }

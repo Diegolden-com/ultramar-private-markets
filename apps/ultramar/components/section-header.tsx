@@ -8,15 +8,15 @@ export function SectionHeader({
   description?: string;
 }) {
   return (
-    <div className="max-w-2xl">
-      <p className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-accent">
+    <div className="max-w-3xl">
+      <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
         {eyebrow}
       </p>
-      <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-foreground sm:text-5xl">
+      <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
         {title}
       </h2>
       {description ? (
-        <p className="mt-3 text-base leading-7 text-muted-foreground">{description}</p>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">{description}</p>
       ) : null}
     </div>
   );

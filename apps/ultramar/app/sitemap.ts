@@ -1,5 +1,6 @@
 import { canonicalDomain, products } from "@ultramar/product-model";
 import { deals } from "@/lib/deals";
+import { footerSitemapRoutes } from "@/lib/footer-routes";
 import { researchArticles } from "@/lib/research";
 import type { MetadataRoute } from "next";
 
@@ -40,7 +41,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
     priority: 0.78,
   }));
-  const routes = [...staticRoutes, ...productRoutes, ...assetRoutes, ...researchRoutes];
+  const routes = [
+    ...staticRoutes,
+    ...footerSitemapRoutes,
+    ...productRoutes,
+    ...assetRoutes,
+    ...researchRoutes,
+  ];
 
   return routes.map((route) => ({
     url: `${canonicalDomain}${route.path}`,

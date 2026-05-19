@@ -1,4 +1,5 @@
 import { OracleConsole } from "@/components/oracle-console";
+import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
 
@@ -12,17 +13,16 @@ export const metadata = createSeoMetadata({
 
 export default function OraclePage() {
   return (
-    <main>
-      <section className="financial-grid border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-          <SectionHeader
-            eyebrow="Private Equities"
-            title="Oracle"
-            description="A bridge between issuer operating data and investor-facing private-market confidence."
-          />
-        </div>
+    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <section className="border border-border-muted bg-surface p-6 md:p-8">
+        <SectionHeader
+          eyebrow="Private Equities / Issuer Oracle"
+          title="Oracle"
+          description="A bridge between issuer operating data and investor-facing private-market confidence."
+        />
       </section>
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <ProductTabs product="private-equities" active="oracle" />
+      <section>
         <OracleConsole />
       </section>
     </main>

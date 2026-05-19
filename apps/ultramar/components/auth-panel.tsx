@@ -46,48 +46,45 @@ export function AuthPanel({
   const showEmail = mode !== "message";
 
   return (
-    <main className="relative isolate overflow-hidden bg-foreground text-background">
-      <div className="blackwork-hatch absolute inset-0 opacity-[0.08]" />
-      <div className="financial-grid absolute inset-0 opacity-[0.07]" />
-
-      <section className="relative mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-7xl px-4 py-8 sm:px-6 xl:grid-cols-[0.96fr_1.04fr] xl:py-10">
-        <div className="flex min-w-0 flex-col justify-between border-x border-background/15 px-5 py-8 sm:px-8 xl:py-12 xl:pr-12">
+    <main className="terminal-grid mx-4 flex min-h-[calc(100vh-48px)] flex-col border-x border-border-muted bg-surface-ink text-on-surface md:mx-12">
+      <section className="grid flex-1 grid-cols-1 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="flex min-w-0 flex-col justify-between border-b border-border-muted p-6 md:p-8 lg:border-b-0 lg:border-r">
           <div>
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.32em] text-background/60">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
               Ultramar.capital / {modeEyebrows[mode]}
             </p>
-            <h1 className="mt-8 max-w-3xl break-words font-serif text-4xl font-bold leading-[0.92] [overflow-wrap:anywhere] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 max-w-3xl break-words font-serif text-4xl font-bold leading-[1.1] md:text-5xl">
               {title}
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-background/72 sm:text-lg sm:leading-8">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant md:text-base md:leading-7">
               {description}
             </p>
           </div>
 
-          <div className="mt-12 grid gap-px bg-background/20 sm:grid-cols-2">
+          <div className="mt-10 grid gap-1 bg-border-muted sm:grid-cols-2">
             {accessRails.map((rail) => {
               const Icon = rail.icon;
 
               return (
-                <div key={rail.label} className="bg-foreground p-5">
+                <div key={rail.label} className="bg-surface p-4">
                   <div className="flex items-start justify-between gap-4">
-                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-background/50">
+                    <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                       {rail.label}
                     </p>
-                    <Icon className="h-5 w-5 shrink-0 text-accent" />
+                    <Icon className="h-5 w-5 shrink-0 text-status-signal" />
                   </div>
-                  <h2 className="mt-8 font-serif text-2xl font-bold leading-tight">
+                  <h2 className="mt-6 font-serif text-2xl font-semibold leading-tight text-on-surface">
                     {rail.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-6 text-background/65">{rail.body}</p>
+                  <p className="mt-3 text-sm leading-6 text-on-surface-variant">{rail.body}</p>
                 </div>
               );
             })}
           </div>
         </div>
 
-        <aside className="grid min-w-0 border-x border-b border-background/15 bg-background text-foreground xl:border-l-0 xl:border-y">
-          <div className="relative min-h-[220px] overflow-hidden border-b border-border sm:min-h-[280px]">
+        <aside className="grid min-w-0 bg-surface text-on-surface">
+          <div className="relative min-h-[220px] overflow-hidden border-b border-border-muted sm:min-h-[280px]">
             <Image
               src="/abstract-financial-growth-chart-geometric-shapes.jpg"
               alt="Institutional market geometry"
@@ -96,42 +93,44 @@ export function AuthPanel({
               sizes="(min-width: 1024px) 52vw, 100vw"
               className="image-blackwork object-cover opacity-85"
             />
-            <div className="absolute inset-0 bg-foreground/45" />
+            <div className="absolute inset-0 bg-surface-ink/55" />
             <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-              <span className="bg-background px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
+              <span className="border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                 Shared account
               </span>
-              <span className="border border-background/50 bg-foreground/55 px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-background backdrop-blur">
+              <span className="border border-status-signal bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                 Capital rail
               </span>
             </div>
-            <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-background/20 bg-foreground/80 text-background backdrop-blur-sm">
+            <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-border-muted bg-surface-ink/90 text-on-surface">
               {["Issuer", "Signal", "Risk"].map((label) => (
-                <div key={label} className="border-r border-background/20 p-4 last:border-r-0">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-background/50">
+                <div key={label} className="border-r border-border-muted p-4 last:border-r-0">
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                     Access
                   </p>
-                  <p className="mt-2 text-sm font-semibold">{label}</p>
+                  <p className="mt-2 font-mono text-sm font-semibold uppercase text-on-surface">
+                    {label}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="flex min-h-[420px] flex-col justify-center p-5 sm:p-8 lg:p-10">
-            <div className="mb-8 flex items-start justify-between gap-4 border-b border-border pb-6">
+            <div className="mb-8 flex items-start justify-between gap-4 border-b border-border-muted pb-6">
               <div className="min-w-0">
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.26em] text-accent">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                   Secure workflow
                 </p>
-                <h2 className="mt-3 break-words font-serif text-3xl font-bold leading-tight">
+                <h2 className="mt-3 break-words font-serif text-3xl font-semibold leading-tight">
                   Ultramar access
                 </h2>
               </div>
-              <span className="hidden h-11 w-11 shrink-0 place-items-center rounded border border-border bg-card sm:grid">
+              <span className="hidden h-11 w-11 shrink-0 place-items-center border border-border-muted bg-surface-ink sm:grid">
                 {mode === "message" ? (
-                  <CheckCircle2 className="h-5 w-5 text-accent" />
+                  <CheckCircle2 className="h-5 w-5 text-status-signal" />
                 ) : (
-                  <LockKeyhole className="h-5 w-5 text-accent" />
+                  <LockKeyhole className="h-5 w-5 text-status-signal" />
                 )}
               </span>
             </div>
@@ -139,7 +138,7 @@ export function AuthPanel({
             {mode === "message" ? (
               <Link
                 href="/"
-                className="group inline-flex h-12 items-center justify-center gap-3 rounded border border-foreground bg-foreground px-5 font-mono text-xs font-bold uppercase tracking-widest text-background transition hover:bg-background hover:text-foreground"
+                className="group inline-flex h-12 items-center justify-center gap-3 border border-on-surface bg-surface-ink px-5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
               >
                 Return Home
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -148,31 +147,31 @@ export function AuthPanel({
               <form className="grid gap-5">
                 {showEmail ? (
                   <label className="block">
-                    <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                       Email
                     </span>
                     <input
                       type="email"
-                      className="mt-3 h-12 w-full rounded border border-border bg-background px-4 text-sm outline-none transition placeholder:text-muted-foreground/70 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/20"
+                      className="mt-3 h-12 w-full border-0 border-b border-border-muted bg-transparent px-0 text-sm text-on-surface outline-none transition placeholder:text-on-surface-variant/60 focus-visible:border-status-signal"
                       placeholder="investor@example.com"
                     />
                   </label>
                 ) : null}
                 {showPassword ? (
                   <label className="block">
-                    <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                       {mode === "update" ? "New password" : "Password"}
                     </span>
                     <input
                       type="password"
-                      className="mt-3 h-12 w-full rounded border border-border bg-background px-4 text-sm outline-none transition placeholder:text-muted-foreground/70 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/20"
+                      className="mt-3 h-12 w-full border-0 border-b border-border-muted bg-transparent px-0 text-sm text-on-surface outline-none transition placeholder:text-on-surface-variant/60 focus-visible:border-status-signal"
                       placeholder="********"
                     />
                   </label>
                 ) : null}
                 <button
                   type="button"
-                  className="group mt-1 inline-flex h-12 w-full items-center justify-center gap-3 rounded border border-foreground bg-foreground px-5 font-mono text-xs font-bold uppercase tracking-widest text-background transition hover:bg-background hover:text-foreground"
+                  className="group mt-1 inline-flex h-12 w-full items-center justify-center gap-3 border border-on-surface bg-surface-ink px-5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
                 >
                   Continue
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -181,16 +180,16 @@ export function AuthPanel({
             )}
 
             {mode === "login" ? (
-              <div className="mt-6 grid gap-3 border-t border-border pt-5 text-sm sm:grid-cols-2">
+              <div className="mt-6 grid gap-3 border-t border-border-muted pt-5 text-sm sm:grid-cols-2">
                 <Link
                   href="/auth/sign-up"
-                  className="font-mono text-xs font-bold uppercase tracking-widest text-accent transition hover:text-foreground"
+                  className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal transition hover:text-on-surface"
                 >
                   Create account
                 </Link>
                 <Link
                   href="/auth/forgot-password"
-                  className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground transition hover:text-foreground"
+                  className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition hover:text-on-surface"
                 >
                   Forgot password
                 </Link>

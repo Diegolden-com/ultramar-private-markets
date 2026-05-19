@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { ProductTabs } from "@/components/product-tabs";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -133,7 +134,7 @@ export default function RiskPage() {
         ]}
       />
 
-      <header className="mb-12 border-b border-border-muted pb-8">
+      <header className="mb-1 border-b border-border-muted pb-8">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
@@ -160,7 +161,9 @@ export default function RiskPage() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-12">
+      <ProductTabs product="arbitrage-hedge-fund" active="risk" />
+
+      <div className="mt-1 grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-12">
         <aside className="flex flex-col gap-1 md:col-span-4">
           {parameterGroups.map((group) => (
             <section
@@ -242,7 +245,7 @@ export default function RiskPage() {
               <div className="absolute inset-0 top-10 flex items-end p-4">
                 <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 50">
                   <path d="M0,40 Q10,35 20,45 T40,25 T60,30 T80,10 T100,20" fill="none" stroke="#1F2937" strokeWidth="1" />
-                  <path d="M0,42 Q10,38 20,42 T40,28 T60,32 T80,15 T100,25" fill="none" stroke="#0055FF" strokeWidth="2" />
+                  <path d="M0,42 Q10,38 20,42 T40,28 T60,32 T80,15 T100,25" fill="none" stroke="var(--status-signal)" strokeWidth="2" />
                   <line stroke="#434656" strokeDasharray="2,2" strokeWidth="1" x1="0" x2="100" y1="25" y2="25" />
                 </svg>
               </div>

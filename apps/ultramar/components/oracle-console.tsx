@@ -35,10 +35,15 @@ export function OracleConsole() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-      <div className="rounded-lg border border-border bg-card p-6">
-        <h2 className="text-2xl font-semibold">Issuer Solvency Oracle</h2>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+    <div className="grid gap-1 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="border border-border-muted bg-surface p-6">
+        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+          Issuer telemetry
+        </p>
+        <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
+          Issuer Solvency Oracle
+        </h2>
+        <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           The oracle reads accounting data, computes solvency and liquidity ratios,
           and produces a signed proof that can be referenced by the asset workflow.
         </p>
@@ -46,45 +51,45 @@ export function OracleConsole() {
           type="button"
           onClick={pingOracle}
           disabled={loading}
-          className="mt-6 inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground disabled:opacity-60"
+          className="mt-6 inline-flex items-center gap-2 border border-on-surface bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition hover:border-status-signal hover:bg-status-signal hover:text-surface-ink disabled:opacity-60"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
           {loading ? "Syncing" : "Ping Oracle"}
         </button>
       </div>
 
-      <div className="rounded-lg border border-foreground bg-foreground p-6 text-background">
+      <div className="border border-border-muted bg-surface p-6 text-on-surface">
         {data ? (
           <div>
-            <div className="flex items-center justify-between gap-4 border-b border-background/15 pb-4">
-              <span className="text-xs font-semibold uppercase tracking-[0.16em] text-background/60">
+            <div className="flex items-center justify-between gap-4 border-b border-border-muted pb-4">
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {data.source}
               </span>
-              <span className="text-xs text-background/60">
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {new Date(data.metrics.timestamp).toLocaleTimeString()}
               </span>
             </div>
             <div className="py-8 text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/60">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 Solvency Ratio
               </p>
-              <p className="mt-3 font-mono text-5xl font-semibold text-emerald-300">
+              <p className="mt-3 font-mono text-5xl font-semibold text-status-signal">
                 {(data.metrics.solvencyRatio * 100).toFixed(1)}%
               </p>
-              <p className="mt-2 text-sm text-background/70">Solvent and liquid</p>
+              <p className="mt-2 text-sm text-on-surface-variant">Solvent and liquid</p>
             </div>
-            <div className="grid grid-cols-3 gap-3 border-y border-background/15 py-4 text-center">
+            <div className="grid grid-cols-3 gap-1 border-y border-border-muted bg-border-muted text-center">
               <OracleMetric label="Assets" value={formatCompact(data.metrics.assets)} />
               <OracleMetric label="Liabilities" value={formatCompact(data.metrics.liabilities)} />
               <OracleMetric label="Equity" value={formatCompact(data.metrics.equity)} />
             </div>
-            <div className="mt-5 rounded-md border border-background/15 p-4 text-xs">
-              <div className="mb-2 flex items-center gap-2 text-background/80">
-                <ShieldCheck className="h-4 w-4 text-emerald-300" />
+            <div className="mt-5 border border-border-muted bg-surface-ink p-4 text-xs">
+              <div className="mb-2 flex items-center gap-2 text-on-surface">
+                <ShieldCheck className="h-4 w-4 text-status-signal" />
                 Signed proof
               </div>
-              <p className="truncate text-background/60">Signer: {data.proof.signer}</p>
-              <p className="mt-1 truncate text-background/60">
+              <p className="truncate text-on-surface-variant">Signer: {data.proof.signer}</p>
+              <p className="mt-1 truncate text-on-surface-variant">
                 Signature: {data.proof.signature}
               </p>
             </div>
@@ -92,8 +97,8 @@ export function OracleConsole() {
         ) : (
           <div className="grid min-h-80 place-items-center text-center">
             <div>
-              <ShieldCheck className="mx-auto h-12 w-12 text-background/35" />
-              <p className="mt-4 text-sm text-background/60">
+              <ShieldCheck className="mx-auto h-12 w-12 text-on-surface-variant" />
+              <p className="mt-4 text-sm text-on-surface-variant">
                 Awaiting oracle sync from the issuer data layer.
               </p>
             </div>
@@ -106,9 +111,11 @@ export function OracleConsole() {
 
 function OracleMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="text-[10px] uppercase tracking-[0.14em] text-background/50">{label}</p>
-      <p className="mt-1 font-mono text-sm font-semibold">{value}</p>
+    <div className="bg-surface p-4">
+      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+        {label}
+      </p>
+      <p className="mt-1 font-mono text-sm font-semibold text-on-surface">{value}</p>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { ProductTabs } from "@/components/product-tabs";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -33,15 +34,6 @@ const privateEquitiesFaqs = [
       "The issuer oracle turns operating data into investor-facing solvency and liquidity context so private-market assets can be evaluated with more consistent information.",
   },
 ];
-
-const tabs = [
-  { label: "Assets", href: "/private-equities/assets", active: false },
-  { label: "Deals", href: "/private-equities", active: true },
-  { label: "Oracle", href: "/private-equities/oracle", active: false },
-  { label: "Market", href: "/private-equities/market", active: false },
-  { label: "Portfolio", href: "/private-equities/portfolio", active: false },
-  { label: "Legal", href: "/private-equities/legal", active: false },
-] as const;
 
 const dataRoomItems = [
   ["FINANCIALS_AUDITED.PDF", "ready"],
@@ -96,21 +88,7 @@ export default function PrivateEquitiesPage() {
         </div>
       </section>
 
-      <nav className="flex overflow-x-auto border border-border-muted bg-surface">
-        {tabs.map((tab) => (
-          <Link
-            key={tab.label}
-            href={tab.href}
-            className={`border-r border-border-muted px-6 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 ${
-              tab.active
-                ? "border-b-2 border-b-status-signal bg-surface-container text-status-signal"
-                : "text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
-            }`}
-          >
-            {tab.label}
-          </Link>
-        ))}
-      </nav>
+      <ProductTabs product="private-equities" active="overview" />
 
       <div className="grid grid-cols-1 gap-1 md:grid-cols-12">
         <section className="flex flex-col bg-surface-paper text-surface-ink md:col-span-8">
@@ -210,7 +188,7 @@ export default function PrivateEquitiesPage() {
             </div>
             <Link
               href="/private-equities/assets/lcx"
-              className="mt-6 flex w-full items-center justify-between border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-white"
+              className="mt-6 flex w-full items-center justify-between border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
             >
               Access Room
               <ArrowRight className="h-4 w-4" />
