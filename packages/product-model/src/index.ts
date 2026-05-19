@@ -64,8 +64,6 @@ export const primaryNav = [
   { label: "Private Equities", href: "/private-equities" },
   { label: "Arbitrage Hedge Fund", href: "/arbitrage-hedge-fund" },
   { label: "Research", href: "/research" },
-  { label: "Signals", href: "/arbitrage-hedge-fund/signals" },
-  { label: "Assets", href: "/private-equities/assets" },
 ];
 
 export const productBySlug = Object.fromEntries(

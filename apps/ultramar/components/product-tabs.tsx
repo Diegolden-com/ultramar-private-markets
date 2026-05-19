@@ -1,37 +1,17 @@
+import { productRouteGroups, type ProductTabKey } from "@/lib/site-navigation";
+import type { ProductSlug } from "@ultramar/product-model";
 import Link from "next/link";
 
-const productTabs = {
-  "private-equities": [
-    { key: "overview", label: "Overview", href: "/private-equities" },
-    { key: "assets", label: "Assets", href: "/private-equities/assets" },
-    { key: "deals", label: "Deals", href: "/private-equities/deals" },
-    { key: "oracle", label: "Oracle", href: "/private-equities/oracle" },
-    { key: "market", label: "Market", href: "/private-equities/market" },
-    { key: "portfolio", label: "Portfolio", href: "/private-equities/portfolio" },
-    { key: "legal", label: "Legal", href: "/private-equities/legal" },
-  ],
-  "arbitrage-hedge-fund": [
-    { key: "overview", label: "Overview", href: "/arbitrage-hedge-fund" },
-    { key: "dashboard", label: "Dashboard", href: "/arbitrage-hedge-fund/dashboard" },
-    { key: "signals", label: "Signals", href: "/arbitrage-hedge-fund/signals" },
-    { key: "risk", label: "Risk", href: "/arbitrage-hedge-fund/risk" },
-    { key: "research", label: "Research", href: "/arbitrage-hedge-fund/research" },
-  ],
-} as const;
-
-type ProductTabMap = typeof productTabs;
-type ProductKey = keyof ProductTabMap;
-
-export function ProductTabs<TProduct extends ProductKey>({
+export function ProductTabs<TProduct extends ProductSlug>({
   product,
   active,
 }: {
   product: TProduct;
-  active: ProductTabMap[TProduct][number]["key"];
+  active: ProductTabKey<TProduct>;
 }) {
   return (
     <nav className="tabs tabs-border tabs-sm flex-nowrap overflow-x-auto border border-border-muted bg-surface">
-      {productTabs[product].map((tab) => {
+      {productRouteGroups[product].links.map((tab) => {
         const isActive = tab.key === active;
 
         return (

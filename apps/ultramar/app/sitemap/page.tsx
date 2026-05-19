@@ -1,7 +1,6 @@
 import { JsonLd } from "@/components/json-ld";
 import { SectionHeader } from "@/components/section-header";
 import { deals } from "@/lib/deals";
-import { footerLinks } from "@/lib/footer-routes";
 import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
@@ -10,7 +9,12 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import { products } from "@ultramar/product-model";
+import {
+  platformRouteGroup,
+  productOverviewRouteGroup,
+  productRouteGroups,
+  type SiteRouteGroup,
+} from "@/lib/site-navigation";
 import { ArrowUpRight, Map } from "lucide-react";
 import Link from "next/link";
 
@@ -18,56 +22,39 @@ const sitemapPath = "/sitemap";
 const description =
   "Human-readable sitemap for Ultramar.capital product, disclosure, research, private equities, and arbitrage hedge fund routes.";
 
-const routeGroups = [
+const routeGroups: SiteRouteGroup[] = [
+  platformRouteGroup,
+  productOverviewRouteGroup,
   {
-    title: "Platform",
+    title: productRouteGroups["private-equities"].title,
     links: [
-      { label: "Home", href: "/" },
-      { label: "Research", href: "/research" },
-      ...footerLinks,
-    ],
-  },
-  {
-    title: "Products",
-    links: products.map((product) => ({
-      label: product.name,
-      href: product.href,
-    })),
-  },
-  {
-    title: "Private Equities",
-    links: [
-      { label: "Overview", href: "/private-equities" },
-      { label: "Assets", href: "/private-equities/assets" },
-      { label: "Deals", href: "/private-equities/deals" },
-      { label: "Oracle", href: "/private-equities/oracle" },
-      { label: "Market", href: "/private-equities/market" },
-      { label: "Portfolio", href: "/private-equities/portfolio" },
-      { label: "Legal Gate", href: "/private-equities/legal" },
+      ...productRouteGroups["private-equities"].links,
       ...deals.map((deal) => ({
+        key: `asset-${deal.ticker}`,
         label: `${deal.name} (${deal.ticker})`,
         href: `/private-equities/assets/${deal.ticker}`,
+        description: `Private-market asset route for ${deal.name}.`,
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
       })),
     ],
   },
   {
-    title: "Arbitrage Hedge Fund",
-    links: [
-      { label: "Overview", href: "/arbitrage-hedge-fund" },
-      { label: "Dashboard", href: "/arbitrage-hedge-fund/dashboard" },
-      { label: "Signals", href: "/arbitrage-hedge-fund/signals" },
-      { label: "Risk", href: "/arbitrage-hedge-fund/risk" },
-      { label: "Research", href: "/arbitrage-hedge-fund/research" },
-    ],
+    title: productRouteGroups["arbitrage-hedge-fund"].title,
+    links: [...productRouteGroups["arbitrage-hedge-fund"].links],
   },
   {
     title: "Research Memos",
     links: researchArticles.map((article) => ({
+      key: `research-${article.slug}`,
       label: article.title,
       href: `/research/${article.slug}`,
+      description: article.description,
+      changeFrequency: "monthly" as const,
+      priority: 0.78,
     })),
   },
-] as const;
+];
 
 const allLinks = routeGroups.flatMap((group) =>
   group.links.map((link) => ({
