@@ -96,19 +96,19 @@ export default function ArbitrageHedgeFundPage() {
             Polymarket-first quantitative fund surface.
           </h1>
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            <span className="border border-border-muted bg-surface-container px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            <span className="badge badge-outline bg-surface-container px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
               System Status: Active
             </span>
-            <span className="block h-2 w-2 bg-status-signal" />
+            <span className="status status-success" />
           </div>
         </div>
       </section>
 
-      <section className="grid grid-cols-1 border-b border-border-muted md:grid-cols-4">
+      <section className="stats stats-vertical grid grid-cols-1 border-b border-border-muted md:stats-horizontal md:grid-cols-4">
         {metrics.map(([label, value, signal], index) => (
           <div
             key={label}
-            className={`flex flex-col gap-2 border-border-muted p-4 ${
+            className={`stat flex flex-col gap-2 border-border-muted p-4 ${
               index === metrics.length - 1 ? "" : "md:border-r"
             } ${signal ? "bg-surface-container-low" : ""}`}
           >
@@ -163,10 +163,10 @@ export default function ArbitrageHedgeFundPage() {
                 <div className="col-span-3 text-right">
                   <Link
                     href="/arbitrage-hedge-fund/signals"
-                    className={`border px-2 py-1 text-[10px] uppercase transition-colors ${
+                    className={`btn btn-xs font-mono text-[10px] uppercase transition-colors ${
                       action === "Monitor"
-                        ? "cursor-not-allowed border-border-muted text-on-surface-variant"
-                        : "border-white text-on-surface hover:border-status-signal hover:bg-status-signal"
+                        ? "btn-disabled cursor-not-allowed border-border-muted text-on-surface-variant"
+                        : "btn-outline btn-success"
                     }`}
                   >
                     {action}
@@ -191,7 +191,7 @@ export default function ArbitrageHedgeFundPage() {
                 <div className="col-span-3 text-right">
                   <Link
                     href="/arbitrage-hedge-fund/risk"
-                    className="border border-status-signal px-2 py-1 text-[10px] uppercase text-status-signal transition-colors hover:bg-status-signal hover:text-surface-ink"
+                    className="btn btn-outline btn-success btn-xs font-mono text-[10px] uppercase"
                   >
                     Observe Anomaly
                   </Link>
@@ -225,7 +225,7 @@ export default function ArbitrageHedgeFundPage() {
               <Link
                 key={card.title}
                 href="/arbitrage-hedge-fund/research"
-                className={`border border-border-muted bg-surface p-4 transition-colors ${
+                className={`card card-border bg-surface p-4 transition-colors ${
                   card.active
                     ? "hover:border-status-signal"
                     : "opacity-60"

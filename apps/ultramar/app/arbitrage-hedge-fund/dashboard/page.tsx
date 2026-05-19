@@ -125,7 +125,7 @@ export default function DashboardPage() {
           <div
             key={item.title}
             id={item.href.split("#")[1]}
-            className="border border-border-muted bg-surface p-5"
+            className="card card-border bg-surface p-5"
           >
             <item.icon className="h-5 w-5 text-status-signal" />
             <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
@@ -135,7 +135,7 @@ export default function DashboardPage() {
           </div>
         ))}
       </section>
-      <section className="border border-border-muted bg-surface p-4 md:p-6">
+      <section className="card card-border bg-surface p-4 md:p-6">
         <SignalDashboard />
       </section>
       <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.8fr_1.2fr]">
@@ -151,7 +151,7 @@ export default function DashboardPage() {
               <Link
                 key={article.slug}
                 href={`/research/${article.slug}`}
-                className="group border border-border-muted bg-surface p-5 transition hover:border-status-signal"
+                className="card card-border group bg-surface p-5 transition hover:border-status-signal"
               >
                 <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                   {article.eyebrow}
@@ -172,11 +172,12 @@ export default function DashboardPage() {
       </section>
       <section className="grid gap-1 bg-border-muted md:grid-cols-3">
           {dashboardFaqs.map((item) => (
-            <div key={item.question} className="border border-border-muted bg-surface p-5">
-              <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
+            <div key={item.question} className="collapse collapse-arrow border border-border-muted bg-surface p-5">
+              <input type="checkbox" aria-label={item.question} />
+              <h2 className="collapse-title p-0 font-serif text-2xl font-semibold leading-tight text-on-surface">
                 {item.question}
               </h2>
-              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.answer}</p>
+              <p className="collapse-content mt-3 p-0 text-sm leading-6 text-on-surface-variant">{item.answer}</p>
             </div>
           ))}
       </section>

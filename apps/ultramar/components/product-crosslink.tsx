@@ -24,7 +24,7 @@ export function ProductCrosslink({ current }: { current: ProductSlug }) {
         </div>
         <Link
           href={target.href}
-          className="inline-flex w-fit items-center gap-2 border border-on-surface bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+          className="btn btn-outline btn-success w-fit font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
         >
           View Product
           <ArrowUpRight className="h-4 w-4" />

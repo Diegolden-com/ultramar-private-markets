@@ -69,7 +69,7 @@ export default function PrivateEquitiesPage() {
         <div className="hatch-pattern absolute inset-0 opacity-30" />
         <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
           <div className="md:col-span-8">
-            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
               Secure Enclave / T-0 Settlement
             </p>
             <h1 className="mt-4 font-serif text-4xl font-bold uppercase leading-[1.1] text-on-surface md:text-5xl">
@@ -149,9 +149,7 @@ export default function PrivateEquitiesPage() {
               Target Raise
             </p>
             <p className="mt-4 font-mono text-4xl font-semibold text-on-surface">$45,000,000</p>
-            <div className="mt-6 h-1 w-full bg-surface-variant">
-              <div className="h-full w-[60%] bg-status-signal" />
-            </div>
+            <progress className="progress progress-success mt-6 h-1 w-full bg-surface-variant" value={60} max={100} />
             <div className="mt-3 flex justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
               <span className="text-on-surface-variant">Committed: $27M</span>
               <span className="text-status-signal">60%</span>
@@ -163,8 +161,8 @@ export default function PrivateEquitiesPage() {
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 Data Room
               </p>
-              <span className="flex items-center gap-2 border border-status-signal px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                <span className="h-2 w-2 bg-status-signal" />
+              <span className="badge badge-outline badge-success gap-2 px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+                <span className="status status-success" />
                 Ready
               </span>
             </div>
@@ -188,7 +186,7 @@ export default function PrivateEquitiesPage() {
             </div>
             <Link
               href="/private-equities/assets/lcx"
-              className="mt-6 flex w-full items-center justify-between border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+              className="btn btn-outline btn-success mt-6 flex w-full justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             >
               Access Room
               <ArrowRight className="h-4 w-4" />

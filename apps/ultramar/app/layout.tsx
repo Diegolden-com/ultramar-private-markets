@@ -65,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" data-theme="ultramar">
       <body
         className={`${inter.variable} ${jetBrainsMono.variable} ${playfair.variable} font-sans antialiased`}
       >

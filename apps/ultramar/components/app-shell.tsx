@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { LogIn, Menu, Monitor, X } from "lucide-react";
 import { footerLinks } from "@/lib/footer-routes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,11 +16,12 @@ const navItems = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const authActive = pathname.startsWith("/auth");
 
   return (
     <div className="min-h-screen bg-surface-ink text-on-surface">
       <header className="sticky top-0 z-50 border-b border-border-muted bg-surface">
-        <div className="flex h-12 items-center justify-between px-4 md:px-12">
+        <div className="navbar min-h-12 justify-between px-4 py-0 md:px-12">
           <div className="flex min-w-0 items-center gap-6 md:gap-8">
             <Link
               href="/"
@@ -44,20 +45,27 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="hidden items-center gap-4 md:flex">
             <Link
               href="/private-equities/assets"
-              className="border border-on-surface bg-surface-ink px-4 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+              className="btn btn-outline btn-success btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             >
-              Terminal Access
+              <Monitor className="h-4 w-4" aria-hidden="true" />
+              Terminal
             </Link>
             <Link
               href="/auth/login"
-              className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-status-signal"
+              aria-current={authActive ? "page" : undefined}
+              className={`btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
+                authActive
+                  ? "btn-success"
+                  : "btn-ghost text-on-surface-variant hover:text-status-signal"
+              }`}
             >
-              Auth
+              <LogIn className="h-4 w-4" aria-hidden="true" />
+              Sign in
             </Link>
           </div>
 
           <button
-            className="grid h-9 w-9 place-items-center border border-border-muted bg-surface-ink text-on-surface md:hidden"
+            className="btn btn-square btn-ghost btn-sm border border-border-muted bg-surface-ink text-on-surface md:hidden"
             onClick={() => setOpen((value) => !value)}
             aria-label="Toggle navigation"
             type="button"
@@ -67,32 +75,39 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
 
         {open ? (
-          <nav className="grid border-t border-border-muted bg-surface md:hidden">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="border-b border-border-muted px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant last:border-b-0"
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link
-              href="/auth/login"
-              className="border-t border-border-muted px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface"
-              onClick={() => setOpen(false)}
-            >
-              Auth
-            </Link>
+          <nav className="border-t border-border-muted bg-surface md:hidden" aria-label="Mobile navigation">
+            <ul className="menu grid p-0">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={mobileNavClass(isActiveNav(pathname, item.label))}
+                    aria-current={isActiveNav(pathname, item.label) ? "page" : undefined}
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/auth/login"
+                  className={mobileNavClass(authActive)}
+                  aria-current={authActive ? "page" : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  Sign in
+                </Link>
+              </li>
+            </ul>
           </nav>
         ) : null}
       </header>
 
       {children}
 
-      <footer className="border-t border-border-muted bg-surface-container-lowest px-4 py-8 md:px-12">
-        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+      <footer className="footer border-t border-border-muted bg-surface-container-lowest px-4 py-8 md:px-12">
+        <div className="flex w-full flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-serif text-xl font-bold text-on-surface">ULTRAMAR.CAPITAL</p>
             <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
@@ -114,6 +129,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </footer>
     </div>
   );
+}
+
+function mobileNavClass(active: boolean) {
+  return `rounded-none border-b border-border-muted px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] last:border-b-0 ${
+    active
+      ? "active !bg-status-signal !text-surface-ink"
+      : "text-on-surface-variant hover:text-status-signal"
+  }`;
 }
 
 function isActiveNav(pathname: string, label: (typeof navItems)[number]["label"]) {

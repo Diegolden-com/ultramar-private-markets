@@ -49,10 +49,10 @@ export default function ResearchPage() {
             status: "Governance",
           },
         ].map((item) => (
-          <div key={item.title} className="border border-border-muted bg-surface p-5">
+          <div key={item.title} className="card card-border bg-surface p-5">
             <div className="flex items-start justify-between gap-4">
               <item.icon className="h-5 w-5 text-status-signal" />
-              <span className="border border-border-muted bg-surface-ink px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              <span className="badge badge-outline bg-surface-ink px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {item.status}
               </span>
             </div>

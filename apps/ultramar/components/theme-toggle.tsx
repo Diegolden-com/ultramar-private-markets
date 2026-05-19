@@ -42,7 +42,7 @@ export function ThemeToggle({ compact = false }: { compact?: boolean }) {
         window.localStorage.setItem(storageKey, nextTheme);
         applyTheme(nextTheme);
       }}
-      className={`inline-grid place-items-center border border-border-muted bg-surface-ink text-on-surface transition hover:border-status-signal hover:text-status-signal ${
+      className={`btn btn-square btn-ghost border border-border-muted bg-surface-ink text-on-surface hover:border-status-signal hover:text-status-signal ${
         compact ? "h-10 w-10" : "h-9 w-9"
       }`}
     >

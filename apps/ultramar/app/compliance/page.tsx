@@ -96,11 +96,11 @@ export default function CompliancePage() {
         </div>
         <div className="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2">
           {metrics.map(([label, value]) => (
-            <div key={label} className="border border-border-muted bg-surface p-5">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            <div key={label} className="stat card card-border bg-surface p-5">
+              <p className="stat-title font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {label}
               </p>
-              <p className="mt-4 font-mono text-lg font-semibold uppercase text-status-signal">
+              <p className="stat-value mt-4 font-mono text-lg font-semibold uppercase text-status-signal">
                 {value}
               </p>
             </div>
@@ -110,7 +110,7 @@ export default function CompliancePage() {
 
       <section className="grid gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-3">
         {controls.map((control) => (
-          <article key={control.title} className="border border-border-muted bg-surface p-5">
+          <article key={control.title} className="card card-border bg-surface p-5">
             <control.icon className="h-5 w-5 text-status-signal" />
             <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
               {control.title}
@@ -137,7 +137,7 @@ export default function CompliancePage() {
           </p>
           <Link
             href="/private-equities/legal"
-            className="mt-6 inline-flex items-center border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+            className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
           >
             View private-equities legal gate
           </Link>

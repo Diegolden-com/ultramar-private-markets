@@ -31,21 +31,21 @@ export default function DealsPage() {
             <Link
               key={deal.id}
               href={`/private-equities/assets/${deal.ticker}`}
-              className="grid gap-5 border border-border-muted bg-surface p-5 transition hover:border-status-signal md:grid-cols-[1fr_auto]"
+              className="card card-border grid gap-5 bg-surface p-5 transition hover:border-status-signal md:grid-cols-[1fr_auto]"
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="border border-border-muted bg-surface-ink px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                  <span className="badge badge-outline bg-surface-ink px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                     {deal.ticker}
                   </span>
                   {deal.status === "closing_soon" ? (
-                    <span className="inline-flex items-center gap-1 border border-status-warning px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-warning">
+                    <span className="badge badge-outline badge-warning gap-1 px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                       <Clock className="h-3 w-3" />
                       Closing soon
                     </span>
                   ) : null}
                   {deal.capitalRaise ? (
-                    <span className="inline-flex items-center gap-1 border border-status-signal px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                    <span className="badge badge-outline badge-success gap-1 px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                       <BadgeDollarSign className="h-3 w-3" />
                       {deal.capitalRaise.roundStatus}
                     </span>

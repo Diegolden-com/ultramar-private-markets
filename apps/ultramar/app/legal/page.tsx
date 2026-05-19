@@ -89,7 +89,7 @@ export default function LegalPage() {
 
       <section className="grid gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-3">
         {disclosures.map((disclosure) => (
-          <article key={disclosure.title} className="border border-border-muted bg-surface p-5">
+          <article key={disclosure.title} className="card card-border bg-surface p-5">
             <disclosure.icon className="h-5 w-5 text-status-signal" />
             <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
               {disclosure.title}
@@ -117,13 +117,13 @@ export default function LegalPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/compliance"
-              className="border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+              className="btn btn-outline btn-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             >
               Compliance controls
             </Link>
             <Link
               href="/private-equities/legal"
-              className="border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+              className="btn btn-outline btn-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             >
               Product legal gate
             </Link>

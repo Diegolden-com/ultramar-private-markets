@@ -83,7 +83,7 @@ export default async function ResearchArticlePage({
         <div className="px-4 py-4">
           <Link
             href="/research"
-            className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
+            className="btn btn-ghost btn-sm font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
           >
             <ArrowLeft className="h-4 w-4" />
             Research library
@@ -107,7 +107,7 @@ export default async function ResearchArticlePage({
               (item) => (
                 <span
                   key={item}
-                  className="border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] text-on-surface-variant"
+                  className="badge badge-outline bg-surface-ink px-3 py-1.5 font-mono text-[11px] text-on-surface-variant"
                 >
                   {item}
                 </span>
@@ -132,14 +132,14 @@ export default async function ResearchArticlePage({
 
         <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.75fr_1.25fr]">
           <aside className="space-y-1">
-            <div className="border border-border-muted bg-surface p-5">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            <div className="card card-border bg-surface p-5">
+              <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                 Angle
               </p>
               <p className="mt-3 text-sm leading-6 text-on-surface-variant">{article.angle}</p>
             </div>
-            <div className="border border-border-muted bg-surface p-5">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            <div className="card card-border bg-surface p-5">
+              <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                 Key takeaways
               </p>
               <div className="mt-4 grid gap-4">
@@ -155,7 +155,7 @@ export default async function ResearchArticlePage({
 
           <div className="space-y-1">
             {article.sections.map((section) => (
-              <section key={section.heading} className="border border-border-muted bg-surface p-6 md:p-8">
+              <section key={section.heading} className="card card-border bg-surface p-6 md:p-8">
                 <h2 className="font-serif text-3xl font-semibold leading-tight text-on-surface">
                   {section.heading}
                 </h2>
@@ -169,8 +169,8 @@ export default async function ResearchArticlePage({
               </section>
             ))}
 
-            <section className="border border-border-muted bg-surface p-6">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            <section className="card card-border bg-surface p-6">
+              <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                 Product paths cited by this memo
               </p>
               <div className="mt-5 grid gap-4">
@@ -178,7 +178,7 @@ export default async function ResearchArticlePage({
                   <Link
                     key={target.href}
                     href={target.href}
-                    className="group flex flex-col gap-2 border border-border-muted bg-surface-ink p-4 transition hover:border-status-signal sm:flex-row sm:items-center sm:justify-between"
+                    className="card card-border group flex flex-col gap-2 bg-surface-ink p-4 transition hover:border-status-signal sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div>
                       <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">

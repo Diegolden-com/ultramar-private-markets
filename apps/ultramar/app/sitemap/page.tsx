@@ -113,7 +113,7 @@ export default function SitemapPage() {
             description="A compact index of public product surfaces, disclosure routes, research assets, and machine-readable feeds."
           />
         </div>
-        <div className="border border-border-muted bg-surface p-6 md:p-8">
+        <div className="card card-border bg-surface p-6 md:p-8">
           <Map className="h-5 w-5 text-status-signal" />
           <p className="mt-4 text-sm leading-6 text-on-surface-variant">
             Search crawlers should use the XML feed. Operators and reviewers can use this page to inspect
@@ -121,7 +121,7 @@ export default function SitemapPage() {
           </p>
           <Link
             href="/sitemap.xml"
-            className="mt-6 inline-flex items-center gap-2 border border-border-muted bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition-colors hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+            className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
           >
             Open sitemap.xml
             <ArrowUpRight className="h-4 w-4" />
@@ -131,7 +131,7 @@ export default function SitemapPage() {
 
       <section className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-2">
         {routeGroups.map((group) => (
-          <article key={group.title} className="min-w-0 border border-border-muted bg-surface p-5">
+          <article key={group.title} className="card card-border min-w-0 bg-surface p-5">
             <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
               {group.title}
             </h2>
@@ -140,7 +140,7 @@ export default function SitemapPage() {
                 <Link
                   key={`${group.title}-${link.href}`}
                   href={link.href}
-                  className="flex min-w-0 flex-col gap-1 bg-surface px-4 py-3 transition-colors hover:bg-surface-container sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                  className="btn btn-ghost flex h-auto min-w-0 flex-col items-start gap-1 bg-surface px-4 py-3 text-left transition-colors hover:bg-surface-container sm:flex-row sm:items-center sm:justify-between sm:gap-4"
                 >
                   <span className="min-w-0 text-sm leading-5 text-on-surface">{link.label}</span>
                   <span className="min-w-0 break-all font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant sm:text-right">

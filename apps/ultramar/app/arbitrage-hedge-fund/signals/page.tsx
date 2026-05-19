@@ -141,8 +141,8 @@ export default async function SignalsPage() {
             <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
               Market Status
             </span>
-            <span className="flex items-center gap-1 font-mono text-sm font-medium text-status-signal">
-              <span className="inline-block h-2 w-2 bg-status-signal" />
+            <span className="badge badge-outline badge-success gap-1 font-mono text-sm font-medium">
+              <span className="status status-success" />
               Open
             </span>
           </div>
@@ -157,11 +157,11 @@ export default async function SignalsPage() {
 
       <ProductTabs product="arbitrage-hedge-fund" active="signals" />
 
-      <section className="grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-4">
+      <section className="stats stats-vertical grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:stats-horizontal md:grid-cols-4">
         {exposureMetrics.map(([label, value, tone]) => (
           <div
             key={label}
-            className={`min-h-[100px] bg-surface p-4 ${tone === "signal" ? "border-t border-status-signal" : ""}`}
+            className={`stat min-h-[100px] bg-surface p-4 ${tone === "signal" ? "border-t border-status-signal" : ""}`}
           >
             <div className="flex items-start justify-between">
               <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
@@ -179,7 +179,7 @@ export default async function SignalsPage() {
         ))}
       </section>
 
-      <section className="overflow-x-auto border border-border-muted bg-border-muted">
+      <section className="card card-border overflow-x-auto bg-border-muted">
         <div className="min-w-[980px]">
           <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_1fr_1fr] gap-1 bg-surface-container">
             {["Asset / Event", "Type", "Impl Prob", "Model Prob", "Spread vs Impl", "Confidence", "Status"].map(
@@ -229,14 +229,13 @@ export default async function SignalsPage() {
                   <span className={row.spread.startsWith("-") ? "text-destructive" : "text-status-signal"}>
                     {row.spread}
                   </span>
-                  <div className="relative h-[2px] w-full bg-surface-variant">
-                    <div
-                      className={`absolute top-0 h-full ${
-                        row.spread.startsWith("-") ? "right-0 bg-destructive opacity-50" : "left-0 bg-status-signal"
-                      }`}
-                      style={{ width: row.width }}
-                    />
-                  </div>
+                  <progress
+                    className={`progress h-[2px] w-full bg-surface-variant ${
+                      row.spread.startsWith("-") ? "progress-error opacity-50" : "progress-success"
+                    }`}
+                    value={Number.parseFloat(row.width)}
+                    max={100}
+                  />
                 </div>
                 <div className="flex items-center bg-surface p-3 font-mono text-sm font-medium text-on-surface">
                   {row.confidence}
@@ -251,7 +250,7 @@ export default async function SignalsPage() {
                           : "border border-on-surface bg-transparent"
                     }`}
                   />
-                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                  <span className="badge badge-outline badge-sm font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                     {row.status}
                   </span>
                 </div>

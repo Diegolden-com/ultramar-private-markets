@@ -99,7 +99,7 @@ export default function ApiPage() {
             description="The public API index makes machine routes discoverable without sending footer traffic directly into raw JSON."
           />
         </div>
-        <div className="border border-border-muted bg-surface p-6 md:p-8">
+        <div className="card card-border bg-surface p-6 md:p-8">
           <Database className="h-5 w-5 text-status-signal" />
           <p className="mt-4 text-sm leading-6 text-on-surface-variant">
             These endpoints are public product samples. Production integrations should expect authentication,
@@ -113,10 +113,10 @@ export default function ApiPage() {
           <Link
             key={endpoint.path}
             href={endpoint.path}
-            className="grid gap-4 bg-surface p-5 transition-colors hover:bg-surface-container md:grid-cols-[160px_1fr_auto] md:items-center"
+            className="card card-border grid gap-4 bg-surface p-5 transition-colors hover:bg-surface-container md:grid-cols-[160px_1fr_auto] md:items-center"
           >
             <div>
-              <span className="border border-status-signal px-2 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-status-signal">
+              <span className="badge badge-outline badge-success px-2 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
                 {endpoint.method}
               </span>
             </div>
@@ -135,7 +135,7 @@ export default function ApiPage() {
 
       <section className="grid gap-1 bg-border-muted md:grid-cols-3">
         {principles.map((principle) => (
-          <article key={principle.title} className="border border-border-muted bg-surface p-5">
+          <article key={principle.title} className="card card-border bg-surface p-5">
             <principle.icon className="h-5 w-5 text-status-signal" />
             <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
               {principle.title}

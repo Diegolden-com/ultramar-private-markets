@@ -32,7 +32,7 @@ export function AssetExplorer() {
 
   return (
     <div className="grid gap-1 lg:grid-cols-[300px_1fr]">
-      <aside className="border border-border-muted bg-surface p-4">
+      <aside className="card card-border bg-surface p-4">
         <div className="grid gap-5 lg:sticky lg:top-24">
           <div>
             <div className="flex items-center gap-2 text-status-signal">
@@ -59,7 +59,7 @@ export function AssetExplorer() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Ticker, asset, sector"
-              className="h-12 w-full border border-border-muted bg-surface-ink pl-10 pr-3 text-sm text-on-surface outline-none transition placeholder:text-on-surface-variant/60 focus:border-status-signal"
+              className="input input-success h-12 w-full bg-surface-ink pl-10 pr-3 text-sm text-on-surface placeholder:text-on-surface-variant/60"
             />
           </label>
 
@@ -71,7 +71,7 @@ export function AssetExplorer() {
             <select
               value={sector}
               onChange={(event) => setSector(event.target.value)}
-              className="h-12 w-full appearance-none border border-border-muted bg-surface-ink pl-10 pr-8 text-sm text-on-surface outline-none transition focus:border-status-signal"
+              className="select select-success h-12 w-full bg-surface-ink pl-10 pr-8 text-sm text-on-surface"
             >
               {sectors.map((item) => (
                 <option key={item} value={item}>
@@ -85,16 +85,16 @@ export function AssetExplorer() {
             <p className="mb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
               Market rail
             </p>
-            <div className="grid h-12 grid-cols-3 border border-border-muted bg-surface-ink text-[10px] font-medium uppercase tracking-[0.08em]">
+            <div className="join grid h-12 grid-cols-3 bg-surface-ink text-[10px] font-medium uppercase tracking-[0.08em]">
               {marketOptions.map((item) => (
                 <button
                   key={item.value}
                   type="button"
                   onClick={() => setMarket(item.value)}
-                  className={`border-r border-border-muted px-2 transition last:border-r-0 ${
+                  className={`btn join-item h-12 min-h-0 border-border-muted px-2 font-mono text-[10px] font-medium uppercase tracking-[0.08em] ${
                     market === item.value
-                      ? "bg-status-signal text-surface-ink"
-                      : "text-on-surface-variant hover:text-on-surface"
+                      ? "btn-success text-surface-ink"
+                      : "btn-ghost text-on-surface-variant hover:text-on-surface"
                   }`}
                 >
                   {item.label}
@@ -110,7 +110,7 @@ export function AssetExplorer() {
               setSector("All");
               setMarket("all");
             }}
-            className="inline-flex h-11 items-center justify-center border border-border-muted px-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+            className="btn btn-outline btn-success h-11 min-h-0 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
           >
             Clear filters
           </button>
@@ -122,7 +122,7 @@ export function AssetExplorer() {
           <Link
             key={deal.id}
             href={`/private-equities/assets/${deal.ticker}`}
-            className={`group grid min-w-0 overflow-hidden bg-surface transition hover:bg-surface-container ${
+            className={`card card-border group grid min-w-0 overflow-hidden bg-surface transition hover:bg-surface-container ${
               index === 0 ? "lg:grid-cols-[1.05fr_0.95fr]" : "md:grid-cols-[260px_1fr]"
             }`}
           >
@@ -140,10 +140,10 @@ export function AssetExplorer() {
               />
               <div className="absolute inset-0 bg-surface-ink/35 transition group-hover:bg-surface-ink/50" />
               <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                <span className="border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                <span className="badge badge-outline bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                   {deal.ticker}
                 </span>
-                <span className="border border-status-signal bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                <span className="badge badge-outline badge-success bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                   {deal.type}
                 </span>
               </div>
@@ -169,14 +169,14 @@ export function AssetExplorer() {
                 {deal.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="border border-border-muted px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant"
+                    className="badge badge-outline badge-sm px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <div className="mt-auto grid grid-cols-2 border-y border-border-muted sm:grid-cols-4">
+              <div className="stats stats-vertical mt-auto grid grid-cols-2 border-y border-border-muted bg-transparent sm:stats-horizontal sm:grid-cols-4">
                 <AssetStat label="Valuation" value={formatCurrency(deal.valuation)} />
                 <AssetStat
                   label={deal.capitalRaise ? "Raise" : "Target"}
@@ -202,7 +202,7 @@ export function AssetExplorer() {
         ))}
 
         {filteredDeals.length === 0 ? (
-          <div className="bg-surface p-8">
+          <div className="card card-border bg-surface p-8">
             <p className="font-serif text-3xl font-semibold text-on-surface">No assets match this view.</p>
             <p className="mt-3 max-w-xl text-sm leading-6 text-on-surface-variant">
               Clear the filters or broaden the search to return to the full
@@ -217,11 +217,11 @@ export function AssetExplorer() {
 
 function AssetStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border-b border-r border-border-muted px-3 py-4 even:border-r-0 last:border-r-0 sm:border-b-0 sm:even:border-r sm:last:border-r-0">
-      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+    <div className="stat border-b border-r border-border-muted px-3 py-4 even:border-r-0 last:border-r-0 sm:border-b-0 sm:even:border-r sm:last:border-r-0">
+      <p className="stat-title font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
         {label}
       </p>
-      <p className="mt-2 truncate font-mono text-sm font-semibold text-on-surface">{value}</p>
+      <p className="stat-value mt-2 truncate font-mono text-sm font-semibold text-on-surface">{value}</p>
     </div>
   );
 }

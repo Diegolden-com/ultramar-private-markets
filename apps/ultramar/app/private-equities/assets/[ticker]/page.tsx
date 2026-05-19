@@ -88,7 +88,7 @@ export default async function AssetDetailPage({
       <div className="flex flex-col gap-1 bg-surface-ink md:col-span-8 lg:col-span-9">
         <Link
           href="/private-equities/assets"
-          className="inline-flex w-fit items-center gap-2 bg-surface-ink py-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
+          className="btn btn-ghost btn-sm w-fit bg-surface-ink font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to assets
@@ -108,7 +108,7 @@ export default async function AssetDetailPage({
               <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 Classification
               </p>
-              <span className="inline-block max-w-full break-words border border-border-muted bg-surface-dim px-2 py-1 font-mono text-sm font-medium uppercase text-on-surface">
+              <span className="badge badge-outline max-w-full break-words bg-surface-dim px-2 py-1 font-mono text-sm font-medium uppercase text-on-surface">
                 {deal.sector}
               </span>
             </div>
@@ -123,12 +123,11 @@ export default async function AssetDetailPage({
                 {fundingProgress}%
               </span>
             </div>
-            <div className="relative h-2 w-full border border-border-muted bg-surface-dim">
-              <div
-                className="absolute left-0 top-0 h-full bg-status-signal"
-                style={{ width: `${fundingProgress}%` }}
-              />
-            </div>
+            <progress
+              className="progress progress-success h-2 w-full bg-surface-dim"
+              value={fundingProgress}
+              max={100}
+            />
             <div className="mt-3 flex justify-between">
               <div>
                 <p className="block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
@@ -170,7 +169,8 @@ export default async function AssetDetailPage({
           </div>
 
           <h3 className="mb-4 mt-8 font-serif text-2xl font-medium">Offering Terms</h3>
-          <div className="mb-8 border border-border-muted">
+          <div className="mb-8 overflow-x-auto border border-border-muted">
+            <div className="table table-sm min-w-full">
             <div className="grid grid-cols-2 border-b border-border-muted bg-surface-dim">
               <div className="p-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 Parameter
@@ -188,6 +188,7 @@ export default async function AssetDetailPage({
                 <div className="p-3 font-mono text-sm font-medium uppercase text-on-surface">{value}</div>
               </div>
             ))}
+            </div>
           </div>
 
           <section className="border border-border-muted border-t-status-signal bg-surface-dim p-6">
@@ -256,7 +257,7 @@ export default async function AssetDetailPage({
             </span>
           </div>
           <button
-            className="w-full border border-border-muted bg-surface-ink py-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:border-status-signal hover:text-status-signal"
+            className="btn btn-outline btn-success w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             type="button"
           >
             Request Unlock
@@ -279,7 +280,7 @@ export default async function AssetDetailPage({
 
         <section className="mt-auto border border-border-muted bg-surface p-6">
           <button
-            className="w-full border border-surface-paper bg-surface-ink py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-surface-paper transition-colors hover:border-status-signal hover:bg-status-signal"
+            className="btn btn-success w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             type="button"
           >
             Initiate Allocation

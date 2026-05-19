@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 type AuthMode = "login" | "signup" | "reset" | "update" | "message";
+type AuthAction = { href: string; label: string };
 
 const accessRails = [
   {
@@ -33,17 +34,50 @@ const modeEyebrows: Record<AuthMode, string> = {
   message: "Access status",
 };
 
+const modeForms: Record<
+  Exclude<AuthMode, "message">,
+  { heading: string; submitLabel: string; links: AuthAction[] }
+> = {
+  login: {
+    heading: "Sign in to Ultramar",
+    submitLabel: "Sign in",
+    links: [
+      { href: "/auth/sign-up", label: "Create account" },
+      { href: "/auth/forgot-password", label: "Reset password" },
+    ],
+  },
+  signup: {
+    heading: "Request shared access",
+    submitLabel: "Request access",
+    links: [{ href: "/auth/login", label: "Already have access? Sign in" }],
+  },
+  reset: {
+    heading: "Reset account password",
+    submitLabel: "Send reset link",
+    links: [{ href: "/auth/login", label: "Back to sign in" }],
+  },
+  update: {
+    heading: "Set a new password",
+    submitLabel: "Update password",
+    links: [{ href: "/auth/login", label: "Back to sign in" }],
+  },
+};
+
 export function AuthPanel({
   title,
   description,
   mode,
+  primaryAction,
 }: {
   title: string;
   description: string;
   mode: AuthMode;
+  primaryAction?: AuthAction;
 }) {
   const showPassword = mode === "login" || mode === "signup" || mode === "update";
   const showEmail = mode !== "message";
+  const formDetails = mode === "message" ? null : modeForms[mode];
+  const messageAction = primaryAction ?? { href: "/", label: "Return home" };
 
   return (
     <main className="terminal-grid mx-4 flex min-h-[calc(100vh-48px)] flex-col border-x border-border-muted bg-surface-ink text-on-surface md:mx-12">
@@ -66,7 +100,7 @@ export function AuthPanel({
               const Icon = rail.icon;
 
               return (
-                <div key={rail.label} className="bg-surface p-4">
+                <div key={rail.label} className="card card-border bg-surface p-4">
                   <div className="flex items-start justify-between gap-4">
                     <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                       {rail.label}
@@ -95,10 +129,10 @@ export function AuthPanel({
             />
             <div className="absolute inset-0 bg-surface-ink/55" />
             <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-              <span className="border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+              <span className="badge badge-outline bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                 Shared account
               </span>
-              <span className="border border-status-signal bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              <span className="badge badge-outline badge-success bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                 Capital rail
               </span>
             </div>
@@ -120,13 +154,16 @@ export function AuthPanel({
             <div className="mb-8 flex items-start justify-between gap-4 border-b border-border-muted pb-6">
               <div className="min-w-0">
                 <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                  Secure workflow
+                  {modeEyebrows[mode]}
                 </p>
                 <h2 className="mt-3 break-words font-serif text-3xl font-semibold leading-tight">
-                  Ultramar access
+                  {formDetails?.heading ?? title}
                 </h2>
               </div>
-              <span className="hidden h-11 w-11 shrink-0 place-items-center border border-border-muted bg-surface-ink sm:grid">
+              <span
+                className="btn btn-square btn-ghost hidden h-11 w-11 shrink-0 border border-border-muted bg-surface-ink sm:grid"
+                aria-hidden="true"
+              >
                 {mode === "message" ? (
                   <CheckCircle2 className="h-5 w-5 text-status-signal" />
                 ) : (
@@ -137,62 +174,69 @@ export function AuthPanel({
 
             {mode === "message" ? (
               <Link
-                href="/"
-                className="group inline-flex h-12 items-center justify-center gap-3 border border-on-surface bg-surface-ink px-5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+                href={messageAction.href}
+                className="btn btn-outline btn-success group h-12 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
               >
-                Return Home
+                {messageAction.label}
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </Link>
             ) : (
               <form className="grid gap-5">
                 {showEmail ? (
-                  <label className="block">
-                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                      Email
+                  <label className="grid gap-3" htmlFor={`${mode}-email`}>
+                    <span className="label p-0">
+                      <span className="label-text font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                        Email address
+                      </span>
                     </span>
                     <input
+                      id={`${mode}-email`}
+                      name="email"
                       type="email"
-                      className="mt-3 h-12 w-full border-0 border-b border-border-muted bg-transparent px-0 text-sm text-on-surface outline-none transition placeholder:text-on-surface-variant/60 focus-visible:border-status-signal"
+                      autoComplete="email"
+                      className="input input-success h-12 w-full bg-surface-ink text-sm text-on-surface placeholder:text-on-surface-variant/60"
                       placeholder="investor@example.com"
                     />
                   </label>
                 ) : null}
                 {showPassword ? (
-                  <label className="block">
-                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                      {mode === "update" ? "New password" : "Password"}
+                  <label className="grid gap-3" htmlFor={`${mode}-password`}>
+                    <span className="label p-0">
+                      <span className="label-text font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                        {mode === "update" ? "New password" : "Password"}
+                      </span>
                     </span>
                     <input
+                      id={`${mode}-password`}
+                      name="password"
                       type="password"
-                      className="mt-3 h-12 w-full border-0 border-b border-border-muted bg-transparent px-0 text-sm text-on-surface outline-none transition placeholder:text-on-surface-variant/60 focus-visible:border-status-signal"
+                      autoComplete={mode === "login" ? "current-password" : "new-password"}
+                      className="input input-success h-12 w-full bg-surface-ink text-sm text-on-surface placeholder:text-on-surface-variant/60"
                       placeholder="********"
                     />
                   </label>
                 ) : null}
                 <button
                   type="button"
-                  className="group mt-1 inline-flex h-12 w-full items-center justify-center gap-3 border border-on-surface bg-surface-ink px-5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition hover:border-status-signal hover:bg-status-signal hover:text-surface-ink"
+                  className="btn btn-success group mt-1 h-12 w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
                 >
-                  Continue
+                  {formDetails?.submitLabel}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </button>
               </form>
             )}
 
-            {mode === "login" ? (
+            {formDetails ? (
               <div className="mt-6 grid gap-3 border-t border-border-muted pt-5 text-sm sm:grid-cols-2">
-                <Link
-                  href="/auth/sign-up"
-                  className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal transition hover:text-on-surface"
-                >
-                  Create account
-                </Link>
-                <Link
-                  href="/auth/forgot-password"
-                  className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition hover:text-on-surface"
-                >
-                  Forgot password
-                </Link>
+                {formDetails.links.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="link link-hover font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
             ) : null}
           </div>

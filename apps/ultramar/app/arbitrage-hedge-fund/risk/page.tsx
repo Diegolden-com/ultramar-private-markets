@@ -145,13 +145,13 @@ export default function RiskPage() {
             </h1>
           </div>
           <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-2 border border-border-muted bg-surface px-3 py-1">
-              <span className="h-2 w-2 bg-status-signal" />
+            <div className="badge badge-outline badge-success flex items-center gap-2 bg-surface px-3 py-1">
+              <span className="status status-success" />
               <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                 System Active
               </span>
             </div>
-            <div className="flex items-center gap-2 border border-border-muted bg-surface px-3 py-1">
+            <div className="badge badge-outline flex items-center gap-2 bg-surface px-3 py-1">
               <Lock className="h-4 w-4 text-on-surface-variant" />
               <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                 Secure Env
@@ -169,7 +169,7 @@ export default function RiskPage() {
             <section
               key={group.title}
               id={group.id}
-              className={`flex h-full flex-col bg-surface p-6 ${
+              className={`card card-border flex h-full flex-col bg-surface p-6 ${
                 group.signal ? "border-t border-status-signal" : ""
               }`}
             >
@@ -200,7 +200,7 @@ export default function RiskPage() {
         <section className="flex flex-col gap-1 md:col-span-8">
           <article
             id="failure-modes"
-            className="flex h-full flex-col justify-center border-l border-border-muted bg-surface p-8 md:p-12"
+            className="card card-border flex h-full flex-col justify-center border-l border-border-muted bg-surface p-8 md:p-12"
           >
             <h2 className="mb-6 font-serif text-3xl font-semibold leading-tight text-on-surface">
               Resolution Risk & Failure Modes
@@ -235,7 +235,7 @@ export default function RiskPage() {
           </article>
 
           <div className="grid min-h-64 grid-cols-1 gap-1 md:grid-cols-2">
-            <section className="relative overflow-hidden border border-border-muted bg-surface p-4">
+            <section className="card card-border relative overflow-hidden bg-surface p-4">
               <div className="relative z-10 flex justify-between">
                 <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                   Model Drift Deviation
@@ -251,7 +251,7 @@ export default function RiskPage() {
               </div>
             </section>
 
-            <section className="border border-border-muted bg-surface p-4">
+            <section className="card card-border bg-surface p-4">
               <div className="flex justify-between">
                 <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                   Data Latency / Staleness
@@ -268,9 +268,7 @@ export default function RiskPage() {
                     <span className="w-12 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                       {label}
                     </span>
-                    <div className="ml-2 h-2 flex-1 border border-border-muted bg-surface-dim">
-                      <div className="h-full bg-status-signal" style={{ width }} />
-                    </div>
+                    <progress className="progress progress-success ml-2 h-2 flex-1 bg-surface-dim" value={Number.parseFloat(width)} max={100} />
                   </div>
                 ))}
               </div>

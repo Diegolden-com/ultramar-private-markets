@@ -60,7 +60,7 @@ export default function ResearchPage() {
             description="These memos are built for investors, issuers, analysts, and editors who need a concrete page to cite instead of a generic homepage."
           />
         </div>
-        <div className="border border-border-muted bg-surface p-6 md:p-8">
+        <div className="card card-border bg-surface p-6 md:p-8">
             <BookOpenText className="h-5 w-5 text-status-signal" />
             <p className="mt-4 text-sm leading-6 text-on-surface-variant">
               The library implements the SEO growth plan with editorial assets
@@ -75,7 +75,7 @@ export default function ResearchPage() {
             <Link
               key={article.slug}
               href={`/research/${article.slug}`}
-              className="group overflow-hidden border border-border-muted bg-surface transition hover:border-status-signal"
+              className="card card-border group overflow-hidden bg-surface transition hover:border-status-signal"
             >
               <div className="relative aspect-[16/9] border-b border-border-muted">
                 <Image
@@ -86,7 +86,7 @@ export default function ResearchPage() {
                   className="image-blackwork object-cover transition duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-surface-ink/35" />
-                <div className="absolute left-4 top-4 border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                <div className="badge badge-outline absolute left-4 top-4 bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                   {article.cluster}
                 </div>
               </div>
@@ -101,10 +101,10 @@ export default function ResearchPage() {
                   {article.description}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <span className="border border-border-muted px-2 py-1 font-mono text-[11px] text-on-surface-variant">
+                  <span className="badge badge-outline badge-sm px-2 py-1 font-mono text-[11px] text-on-surface-variant">
                     {article.readingTime}
                   </span>
-                  <span className="border border-border-muted px-2 py-1 font-mono text-[11px] text-on-surface-variant">
+                  <span className="badge badge-outline badge-sm px-2 py-1 font-mono text-[11px] text-on-surface-variant">
                     {article.audience}
                   </span>
                 </div>

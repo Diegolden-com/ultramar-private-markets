@@ -63,7 +63,7 @@ export async function SignalDashboard() {
       </div>
 
       <div className="grid gap-1 xl:grid-cols-[minmax(0,1fr)_320px]">
-        <section className="min-w-0 border border-border-muted bg-surface">
+        <section className="card card-border min-w-0 bg-surface">
           <div className="border-b border-border-muted p-4">
             <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
               Signal Board
@@ -73,7 +73,7 @@ export async function SignalDashboard() {
             </p>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-left font-mono text-sm">
+            <table className="table table-sm w-full min-w-[720px] text-left font-mono text-sm">
               <thead className="border-b border-border-muted bg-surface-container-low text-[11px] uppercase tracking-[0.08em] text-on-surface-variant">
                 <tr>
                   <th className="px-4 py-3 font-medium">Market</th>
@@ -107,7 +107,7 @@ export async function SignalDashboard() {
                     </td>
                     <td className="px-4 py-3 text-on-surface">{signal.confidence}</td>
                     <td className="px-4 py-3">
-                      <span className="border border-border-muted bg-surface-ink px-2 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                      <span className="badge badge-outline badge-sm bg-surface-ink px-2 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                         {signal.status}
                       </span>
                     </td>
@@ -118,13 +118,13 @@ export async function SignalDashboard() {
           </div>
         </section>
 
-        <section className="min-w-0 border border-border-muted bg-surface p-4">
+        <section className="card card-border min-w-0 bg-surface p-4">
           <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
             Position Summary
           </h2>
           <div className="mt-5 space-y-4">
             {positions.map((position) => (
-              <div key={position.id} className="border border-border-muted bg-surface-ink p-4">
+              <div key={position.id} className="card card-border bg-surface-ink p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-sm font-medium text-on-surface">{position.market}</p>

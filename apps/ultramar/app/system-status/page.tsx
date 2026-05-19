@@ -100,11 +100,11 @@ export default function SystemStatusPage() {
         </div>
         <div className="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2">
           {incidents.map(([label, value]) => (
-            <div key={label} className="border border-border-muted bg-surface p-5">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            <div key={label} className="card card-border bg-surface p-5">
+              <p className="stat-title font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {label}
               </p>
-              <p className="mt-4 font-mono text-lg font-semibold uppercase text-status-signal">
+              <p className="stat-value mt-4 font-mono text-lg font-semibold uppercase text-status-signal">
                 {value}
               </p>
             </div>
@@ -117,7 +117,7 @@ export default function SystemStatusPage() {
           <Link
             key={item.name}
             href={item.href}
-            className="grid gap-4 bg-surface p-5 transition-colors hover:bg-surface-container md:grid-cols-[48px_1fr_auto] md:items-center"
+            className="card card-border grid gap-4 bg-surface p-5 transition-colors hover:bg-surface-container md:grid-cols-[48px_1fr_auto] md:items-center"
           >
             <item.icon className="h-5 w-5 text-status-signal" />
             <div>
@@ -126,8 +126,8 @@ export default function SystemStatusPage() {
               </h2>
               <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.detail}</p>
             </div>
-            <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-status-signal">
-              <span className="h-2 w-2 bg-status-signal" />
+            <span className="badge badge-outline badge-success gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+              <span className="status status-success" />
               {item.status}
             </span>
           </Link>

@@ -55,7 +55,7 @@ export default function LegalPage() {
             body: "Investor materials should move behind access controls once they include issuer-specific financials, non-public data, or subscription instructions.",
           },
         ].map((item) => (
-          <div key={item.title} className="border border-border-muted bg-surface p-5">
+          <div key={item.title} className="card card-border bg-surface p-5">
             <item.icon className="h-5 w-5 text-status-signal" />
             <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
               {item.title}

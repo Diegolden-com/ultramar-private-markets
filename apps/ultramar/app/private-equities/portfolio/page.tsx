@@ -53,7 +53,7 @@ export default function PortfolioPage() {
         />
       </div>
 
-      <section className="border border-border-muted bg-surface">
+      <section className="card card-border bg-surface">
         <div className="flex flex-col gap-4 border-b border-border-muted p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
@@ -65,14 +65,14 @@ export default function PortfolioPage() {
           </div>
           <button
             type="button"
-            className="inline-flex w-fit items-center gap-2 border border-border-muted px-3 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:border-status-signal hover:text-status-signal"
+            className="btn btn-outline btn-success btn-sm w-fit font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
           >
             <Download className="h-4 w-4" />
             Export CSV
           </button>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[680px] text-left font-mono text-sm">
+          <table className="table table-sm w-full min-w-[680px] text-left font-mono text-sm">
             <thead className="border-b border-border-muted bg-surface-container-low text-[11px] uppercase tracking-[0.08em] text-on-surface-variant">
               <tr>
                 <th className="px-5 py-4 font-medium">Asset</th>

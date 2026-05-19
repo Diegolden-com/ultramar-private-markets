@@ -2,8 +2,8 @@ import { AuthPanel } from "@/components/auth-panel";
 import { createSeoMetadata } from "@/lib/seo";
 
 export const metadata = createSeoMetadata({
-  title: "Authentication Error",
-  description: "Authentication error page for Ultramar.capital account access.",
+  title: "Sign-in Error",
+  description: "Sign-in error page for Ultramar.capital account access.",
   path: "/auth/error",
   noIndex: true,
 });
@@ -11,9 +11,10 @@ export const metadata = createSeoMetadata({
 export default function AuthErrorPage() {
   return (
     <AuthPanel
-      title="Authentication issue"
-      description="The authentication link could not be completed. Return home or try signing in again."
+      title="Sign-in issue"
+      description="The account link could not be completed. Return to the sign-in page and request a new link."
       mode="message"
+      primaryAction={{ href: "/auth/login", label: "Back to sign in" }}
     />
   );
 }

@@ -30,7 +30,7 @@ export function ProductTabs<TProduct extends ProductKey>({
   active: ProductTabMap[TProduct][number]["key"];
 }) {
   return (
-    <nav className="flex overflow-x-auto border border-border-muted bg-surface">
+    <nav className="tabs tabs-border tabs-sm flex-nowrap overflow-x-auto border border-border-muted bg-surface">
       {productTabs[product].map((tab) => {
         const isActive = tab.key === active;
 
@@ -39,9 +39,9 @@ export function ProductTabs<TProduct extends ProductKey>({
             key={tab.href}
             href={tab.href}
             aria-current={isActive ? "page" : undefined}
-            className={`whitespace-nowrap border-r border-border-muted px-5 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 ${
+            className={`tab h-auto whitespace-nowrap border-r border-border-muted px-5 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 ${
               isActive
-                ? "border-b-2 border-b-status-signal bg-surface-container text-status-signal"
+                ? "tab-active border-b-2 border-b-status-signal bg-surface-container text-status-signal"
                 : "text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
             }`}
           >

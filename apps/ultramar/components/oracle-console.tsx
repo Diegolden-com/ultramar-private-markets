@@ -36,7 +36,7 @@ export function OracleConsole() {
 
   return (
     <div className="grid gap-1 lg:grid-cols-[0.9fr_1.1fr]">
-      <div className="border border-border-muted bg-surface p-6">
+      <div className="card card-border bg-surface p-6">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
           Issuer telemetry
         </p>
@@ -51,21 +51,25 @@ export function OracleConsole() {
           type="button"
           onClick={pingOracle}
           disabled={loading}
-          className="mt-6 inline-flex items-center gap-2 border border-on-surface bg-surface-ink px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface transition hover:border-status-signal hover:bg-status-signal hover:text-surface-ink disabled:opacity-60"
+          className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
         >
-          <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+          {loading ? (
+            <span className="loading loading-spinner loading-xs" />
+          ) : (
+            <RefreshCw className="h-4 w-4" />
+          )}
           {loading ? "Syncing" : "Ping Oracle"}
         </button>
       </div>
 
-      <div className="border border-border-muted bg-surface p-6 text-on-surface">
+      <div className="card card-border bg-surface p-6 text-on-surface">
         {data ? (
           <div>
             <div className="flex items-center justify-between gap-4 border-b border-border-muted pb-4">
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              <span className="badge badge-outline font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {data.source}
               </span>
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              <span className="badge badge-outline font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {new Date(data.metrics.timestamp).toLocaleTimeString()}
               </span>
             </div>
@@ -78,7 +82,7 @@ export function OracleConsole() {
               </p>
               <p className="mt-2 text-sm text-on-surface-variant">Solvent and liquid</p>
             </div>
-            <div className="grid grid-cols-3 gap-1 border-y border-border-muted bg-border-muted text-center">
+            <div className="stats grid grid-cols-3 gap-1 border-y border-border-muted bg-border-muted text-center">
               <OracleMetric label="Assets" value={formatCompact(data.metrics.assets)} />
               <OracleMetric label="Liabilities" value={formatCompact(data.metrics.liabilities)} />
               <OracleMetric label="Equity" value={formatCompact(data.metrics.equity)} />
@@ -111,11 +115,11 @@ export function OracleConsole() {
 
 function OracleMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-surface p-4">
-      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+    <div className="stat bg-surface p-4">
+      <p className="stat-title font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
         {label}
       </p>
-      <p className="mt-1 font-mono text-sm font-semibold text-on-surface">{value}</p>
+      <p className="stat-value mt-1 font-mono text-sm font-semibold text-on-surface">{value}</p>
     </div>
   );
 }

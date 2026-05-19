@@ -31,7 +31,7 @@ export default function MarketPage() {
             <Link
               key={deal.id}
               href={`/private-equities/assets/${deal.ticker}`}
-              className="border border-border-muted bg-surface p-5 transition hover:border-status-signal"
+              className="card card-border bg-surface p-5 transition hover:border-status-signal"
             >
               <Repeat2 className="h-5 w-5 text-status-signal" />
               <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">

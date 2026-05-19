@@ -203,7 +203,7 @@ export default function AssetsPage() {
 
       <section className="grid gap-1 bg-border-muted md:grid-cols-3">
         {marketplaceContext.map((item, index) => (
-          <div key={item.title} className="bg-surface p-5">
+          <div key={item.title} className="card card-border bg-surface p-5">
             <div className="flex items-start justify-between gap-4">
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {String(index + 1).padStart(2, "0")}
@@ -230,7 +230,7 @@ export default function AssetsPage() {
           </div>
           <Link
             href="/private-equities/deals"
-            className="group inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition hover:text-status-signal"
+            className="btn btn-ghost btn-sm group font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
           >
             Review deal terms
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -259,7 +259,7 @@ export default function AssetsPage() {
               <Link
                 key={article.slug}
                 href={`/research/${article.slug}`}
-                className="group bg-surface p-5 transition hover:bg-surface-container"
+                className="card card-border group bg-surface p-5 transition hover:bg-surface-container"
               >
                 <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                   {article.eyebrow}
@@ -289,9 +289,14 @@ export default function AssetsPage() {
         </div>
         <div className="grid gap-1 bg-border-muted">
             {assetFaqs.map((item) => (
-              <div key={item.question} className="bg-surface p-5">
-                <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">{item.question}</h2>
-                <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.answer}</p>
+              <div key={item.question} className="collapse collapse-arrow bg-surface p-5">
+                <input type="checkbox" aria-label={item.question} />
+                <h2 className="collapse-title p-0 font-serif text-2xl font-semibold leading-tight text-on-surface">
+                  {item.question}
+                </h2>
+                <p className="collapse-content mt-3 p-0 text-sm leading-6 text-on-surface-variant">
+                  {item.answer}
+                </p>
               </div>
             ))}
         </div>
