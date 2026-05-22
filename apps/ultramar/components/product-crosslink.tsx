@@ -1,3 +1,4 @@
+import { BrandName } from "@/components/brand-name";
 import { productBySlug, type ProductSlug } from "@ultramar/product-model";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +14,7 @@ export function ProductCrosslink({ current }: { current: ProductSlug }) {
       <div className="mx-auto flex max-w-[1600px] flex-col gap-5 px-4 py-8 md:flex-row md:items-center md:justify-between md:px-12">
         <div>
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-            Also on Ultramar.capital
+            Also on <BrandName />
           </p>
           <h2 className="mt-2 font-serif text-3xl font-semibold leading-tight text-on-surface">
             {target.name}

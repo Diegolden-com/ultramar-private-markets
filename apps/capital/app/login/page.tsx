@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { BrandName } from "@/components/brand-name"
 import { OakLeafLogo } from "@/components/oak-leaf-logo"
 
 export default function LoginPage() {
@@ -73,7 +74,9 @@ export default function LoginPage() {
       <div className="border-t-2 border-foreground py-4 px-4">
         <div className="flex items-center justify-center gap-2">
           <OakLeafLogo className="w-6 h-6" />
-          <span className="font-mono text-sm font-bold">ULTRAMAR CAPITAL</span>
+          <span className="font-mono text-sm font-bold">
+            <BrandName />
+          </span>
         </div>
       </div>
     </div>

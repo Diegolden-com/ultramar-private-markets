@@ -23,9 +23,9 @@ The old Capital strategy ideas map as follows:
 | Lending Markets | Research-only, not an active product. |
 | Derivative Arbitrage | Research-only, used as model/hedge context where relevant. |
 
-## Legacy Routes
+## Historical Route Mapping
 
-Legacy public routes on `capital.ultramar.capital` should redirect through the mega app:
+`capital.ultramar.capital` is a prelaunch host and should not be aliased in production. If old links need to be interpreted for support or analytics, map them to the canonical app as follows:
 
 - `/` -> `https://ultramar.capital/`
 - `/app` -> `/arbitrage-hedge-fund`
@@ -33,8 +33,6 @@ Legacy public routes on `capital.ultramar.capital` should redirect through the m
 - `/app/strategy/private-equities` -> `/private-equities`
 - `/info/polymarket-arbitrage` -> `/arbitrage-hedge-fund`
 - `/info/private-markets` -> `/private-equities`
-
-The redirect implementation lives in `apps/ultramar/next.config.ts`.
 
 ## Local Commands
 

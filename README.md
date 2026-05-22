@@ -13,9 +13,9 @@ The public brand is **Ultramar.capital**. “Capital” is the platform layer, n
 | --- | --- | --- |
 | `apps/ultramar` | Mega app for the canonical public product experience. | `ultramar.capital` |
 | `packages/product-model` | Shared product names, routes, descriptions, CTAs, and navigation metadata. | Internal package |
-| `apps/polymarket` | Historical frontend plus active Python backend/runbooks for the Polymarket arbitrage engine. | Redirected into canonical app |
-| `apps/private-equities` | Historical frontend plus QuickBooks/oracle/contracts implementation reference. | Redirected into canonical app |
-| `apps/capital` | Historical allocator app and strategy documentation. | Redirected into canonical app |
+| `apps/polymarket` | Historical frontend plus active Python backend/runbooks for the Polymarket arbitrage engine. | No public domain |
+| `apps/private-equities` | Historical frontend plus QuickBooks/oracle/contracts implementation reference. | No public domain |
+| `apps/capital` | Historical allocator app and strategy documentation. | No public domain |
 
 ## Product Taxonomy
 
@@ -28,16 +28,16 @@ Arbitrage Hedge Fund v1 is intentionally **Polymarket-only**. Lending-market and
 
 ## Public Routing
 
-`ultramar.capital` is canonical. Legacy subdomains are compatibility and SEO redirects:
+`ultramar.capital` is canonical and serves the public app directly. The only public redirect is `www` to the apex domain:
 
-| Legacy host | Redirect target |
+| Host | Behavior |
 | --- | --- |
-| `www.ultramar.capital/*` | `https://ultramar.capital/*` |
-| `capital.ultramar.capital/*` | Canonical home, product, or strategy route |
-| `polymarket.ultramar.capital/*` | `/arbitrage-hedge-fund/*` or shared `/auth/*` |
-| `private-equities.ultramar.capital/*` | `/private-equities/*` |
+| `ultramar.capital/*` | Canonical app |
+| `www.ultramar.capital/*` | 308 to `https://ultramar.capital/*` |
 
-The redirect map lives in `apps/ultramar/next.config.ts`.
+Prelaunch subdomains such as `capital.ultramar.capital`, `polymarket.ultramar.capital`, and `private-equities.ultramar.capital` should not be aliased in production.
+
+The redirect source of truth lives in `apps/ultramar/next.config.ts`.
 
 ## Repository Layout
 
@@ -93,7 +93,7 @@ vercel build --prod --yes
 vercel deploy --prebuilt --prod --yes
 ```
 
-The app-specific Vercel config files now also build `@ultramar/ultramar` so old project links can be used as redirect shells during the transition.
+The app-specific Vercel config files still build `@ultramar/ultramar` for historical project-level deployments, but public production routing should expose only `ultramar.capital` and `www.ultramar.capital`.
 
 ## Definition of Done
 
@@ -102,4 +102,4 @@ The app-specific Vercel config files now also build `@ultramar/ultramar` so old 
 - `corepack yarn typecheck` succeeds.
 - `corepack yarn build` succeeds.
 - Local smoke tests cover `/`, `/private-equities`, `/private-equities/assets`, `/private-equities/assets/lcx`, `/arbitrage-hedge-fund`, and `/arbitrage-hedge-fund/dashboard`.
-- Legacy redirects return 308/301 and land on canonical `ultramar.capital` paths.
+- `ultramar.capital` returns 200, `www.ultramar.capital` returns one 308 to apex, and prelaunch subdomains are not aliased.

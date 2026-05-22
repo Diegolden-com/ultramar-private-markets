@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { BrandName, BrandText } from "@/components/brand-name"
 import { ArrowRight, BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -29,7 +30,7 @@ export function Hero() {
                     transition={{ delay: 0.2, duration: 0.6 }}
                     className="mb-6 font-mono text-xs tracking-[0.4em] text-accent uppercase"
                 >
-                    Ultramar.capital / Private markets
+                    <BrandName /> / Private markets
                 </motion.p>
 
                 <h1 className="mb-10 font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-foreground leading-[0.98]">
@@ -42,9 +43,11 @@ export function Hero() {
                     transition={{ delay: 0.4, duration: 0.6 }}
                     className="mx-auto mb-14 max-w-2xl font-sans text-lg sm:text-xl md:text-2xl text-muted-foreground/80 leading-relaxed"
                 >
-                    The private-market rail for Ultramar.capital. Tokenized
-                    company exposure, issuer data, solvency proofs, and
-                    permissioned secondary-market experiments.
+                    <BrandText>
+                        {
+                            "The private-market rail for Ultramar.capital. Tokenized company exposure, issuer data, solvency proofs, and permissioned secondary-market experiments."
+                        }
+                    </BrandText>
                 </motion.p>
                 
                 <motion.div 

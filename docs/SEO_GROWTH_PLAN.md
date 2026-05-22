@@ -13,7 +13,7 @@ Core topical clusters:
 ## Technical SEO Baseline
 
 - Keep only canonical `ultramar.capital` URLs in the sitemap.
-- Preserve 301/308 redirects from legacy subdomains into canonical product paths.
+- Keep only the `www.ultramar.capital` to `ultramar.capital` redirect; do not publish prelaunch subdomain aliases.
 - Keep auth pages `noindex`.
 - Keep API routes out of crawlable discovery surfaces.
 - Keep JSON-LD aligned with visible page content: Organization, WebSite, WebPage, Service, BreadcrumbList, ItemList, and FAQPage where the FAQ is visible.

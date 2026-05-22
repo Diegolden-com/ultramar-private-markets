@@ -1,3 +1,4 @@
+import { BrandText } from "@/components/brand-name";
 import { MetricCard } from "@/components/metric-card";
 import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
@@ -112,9 +113,11 @@ export default function PortfolioPage() {
       <div className="border border-border-muted border-t-status-signal bg-surface p-5">
         <Activity className="h-5 w-5 text-status-signal" />
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-          This page is the investor-facing portfolio destination inside the unified
-          Ultramar.capital app. It replaces the standalone private-equities
-          subdomain portfolio route.
+          <BrandText>
+            {
+              "This page is the investor-facing portfolio destination inside the unified Ultramar.capital app. It replaces the standalone private-equities subdomain portfolio route."
+            }
+          </BrandText>
         </p>
       </div>
     </main>

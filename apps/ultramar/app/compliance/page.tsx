@@ -1,3 +1,4 @@
+import { BrandText } from "@/components/brand-name";
 import { JsonLd } from "@/components/json-ld";
 import { SectionHeader } from "@/components/section-header";
 import {
@@ -131,9 +132,11 @@ export default function CompliancePage() {
         </div>
         <div className="bg-surface p-6">
           <p className="text-sm leading-6 text-on-surface-variant">
-            Ultramar.capital separates public education from transaction mechanics. Any issuer-specific
-            offer, investor allocation, closing instruction, subscription package, or transfer event
-            belongs in a controlled workflow with legal review and access checks.
+            <BrandText>
+              {
+                "Ultramar.capital separates public education from transaction mechanics. Any issuer-specific offer, investor allocation, closing instruction, subscription package, or transfer event belongs in a controlled workflow with legal review and access checks."
+              }
+            </BrandText>
           </p>
           <Link
             href="/private-equities/legal"

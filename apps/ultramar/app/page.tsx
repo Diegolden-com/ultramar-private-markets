@@ -1,3 +1,4 @@
+import { BrandName } from "@/components/brand-name";
 import { JsonLd } from "@/components/json-ld";
 import {
   createSeoMetadata,
@@ -123,7 +124,7 @@ export default function HomePage() {
               System initialization active
             </div>
             <h1 className="mt-4 max-w-4xl font-serif text-5xl font-bold leading-[1.05] text-on-surface md:text-6xl">
-              Ultramar.capital
+              <BrandName />
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
               Institutional control surface for private-market rails and Polymarket-first

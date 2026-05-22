@@ -1,13 +1,13 @@
 export const ultramarDomains = {
   capital:
     process.env.NEXT_PUBLIC_ULTRAMAR_CAPITAL_URL ??
-    "https://capital.ultramar.capital",
+    "https://ultramar.capital",
   polymarket:
     process.env.NEXT_PUBLIC_ULTRAMAR_POLYMARKET_URL ??
-    "https://polymarket.ultramar.capital",
+    "https://ultramar.capital/arbitrage-hedge-fund",
   privateEquities:
     process.env.NEXT_PUBLIC_ULTRAMAR_PRIVATE_EQUITIES_URL ??
-    "https://private-equities.ultramar.capital",
+    "https://ultramar.capital/private-equities",
 } as const
 
 export const ultramarCurrentApp = "capital"

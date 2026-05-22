@@ -40,9 +40,9 @@ Current Mantle Sepolia registry deployment:
 - `SolvencyRegistry`: `0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21`
 - Explorer: `https://explorer.sepolia.mantle.xyz/address/0xe97194B91148a4ED3642139c20e8B1DA8CCeaE21`
 
-## Legacy Routes
+## Historical Route Mapping
 
-Public paths on `private-equities.ultramar.capital` should redirect into the canonical mega app:
+`private-equities.ultramar.capital` is a prelaunch host and should not be aliased in production. If old links need to be interpreted for support or analytics, map them to the canonical app as follows:
 
 - `/` -> `/private-equities`
 - `/equities` -> `/private-equities/assets`
@@ -51,8 +51,6 @@ Public paths on `private-equities.ultramar.capital` should redirect into the can
 - `/market` -> `/private-equities/market`
 - `/oracle` -> `/private-equities/oracle`
 - `/law` -> `/private-equities/legal`
-
-The redirect implementation lives in `apps/ultramar/next.config.ts`.
 
 ## Local Commands
 

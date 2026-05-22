@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
+import { BrandName, BrandText } from "@/components/brand-name"
 import { ArrowRight } from 'lucide-react'
 import { WaitlistForm } from "@/components/waitlist-form"
 import { UltramarFacets } from "@/components/ultramar-facets"
@@ -13,15 +14,17 @@ export default function LandingPage() {
         <section className="container mx-auto grid gap-12 px-4 py-20 lg:grid-cols-[1fr_360px] lg:items-end">
           <div className="max-w-4xl">
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.35em] text-accent">
-              Ultramar.capital / Allocator
+              <BrandName /> / Allocator
             </p>
             <h1 className="mb-8 font-serif text-5xl font-semibold leading-tight sm:text-6xl md:text-7xl">
-              Ultramar Capital
+              <BrandName />
             </h1>
             <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              The allocator layer for Ultramar.capital. Compare DeFi yield,
-              derivatives, event-market signals, and tokenized private-market
-              exposure from one portfolio context.
+              <BrandText>
+                {
+                  "The allocator layer for Ultramar.capital. Compare DeFi yield, derivatives, event-market signals, and tokenized private-market exposure from one portfolio context."
+                }
+              </BrandText>
             </p>
             <p className="mb-10 mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">
               Transparent strategy metadata, non-custodial architecture, and
@@ -129,7 +132,7 @@ export default function LandingPage() {
 
       <footer className="border-t border-border mt-32 py-8">
         <div className="container mx-auto px-4 text-center text-sm font-mono tracking-wider text-muted-foreground">
-          ULTRAMAR CAPITAL © PAN.TECH — ALL RIGHTS RESERVED © 2025
+          <BrandName /> © PAN.TECH — ALL RIGHTS RESERVED © 2025
         </div>
       </footer>
     </div>

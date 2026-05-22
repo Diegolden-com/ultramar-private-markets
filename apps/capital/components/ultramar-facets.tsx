@@ -1,4 +1,5 @@
 import { ArrowRight, BarChart3, Building2, Landmark } from "lucide-react"
+import { BrandName } from "@/components/brand-name"
 import {
   ultramarCurrentApp,
   ultramarProductFacets,
@@ -16,7 +17,7 @@ export function UltramarFacets() {
       <div className="container mx-auto px-4 py-20">
         <div className="mb-12 max-w-3xl">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.35em] text-accent">
-            Ultramar.capital ecosystem
+            <BrandName /> ecosystem
           </p>
           <h2 className="font-serif text-4xl font-semibold sm:text-5xl">
             One investment platform, three operating surfaces.

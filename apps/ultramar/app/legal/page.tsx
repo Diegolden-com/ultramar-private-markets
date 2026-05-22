@@ -1,3 +1,4 @@
+import { BrandText } from "@/components/brand-name";
 import { JsonLd } from "@/components/json-ld";
 import { SectionHeader } from "@/components/section-header";
 import {
@@ -94,7 +95,9 @@ export default function LegalPage() {
             <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
               {disclosure.title}
             </h2>
-            <p className="mt-3 text-sm leading-6 text-on-surface-variant">{disclosure.body}</p>
+            <p className="mt-3 text-sm leading-6 text-on-surface-variant">
+              <BrandText>{disclosure.body}</BrandText>
+            </p>
           </article>
         ))}
       </section>

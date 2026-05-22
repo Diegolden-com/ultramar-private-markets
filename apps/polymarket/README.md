@@ -30,15 +30,13 @@ Arbitrage Hedge Fund v1 is Polymarket-first. The active strategy compares:
 
 Lending markets and derivative arbitrage are research-only in the consolidated public taxonomy.
 
-## Legacy Routes
+## Historical Route Mapping
 
-Public paths on `polymarket.ultramar.capital` should redirect into the canonical mega app:
+`polymarket.ultramar.capital` is a prelaunch host and should not be aliased in production. If old links need to be interpreted for support or analytics, map them to the canonical app as follows:
 
 - `/` -> `/arbitrage-hedge-fund`
 - `/dashboard` -> `/arbitrage-hedge-fund/dashboard`
 - `/auth/*` -> `/auth/*`
-
-The redirect implementation lives in `apps/ultramar/next.config.ts`.
 
 ## Local Commands
 

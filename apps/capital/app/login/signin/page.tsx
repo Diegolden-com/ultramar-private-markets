@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowLeft } from 'lucide-react'
+import { BrandName } from "@/components/brand-name"
 import { OakLeafLogo } from "@/components/oak-leaf-logo"
 
 export default function SignInPage() {
@@ -23,7 +24,9 @@ export default function SignInPage() {
           {/* Title */}
           <div className="text-center space-y-2">
             <h1 className="text-3xl sm:text-4xl font-bold font-mono">SIGN IN</h1>
-            <p className="text-muted-foreground">Welcome back to ULTRAMAR CAPITAL</p>
+            <p className="text-muted-foreground">
+              Welcome back to <BrandName />
+            </p>
           </div>
 
           {/* Form */}

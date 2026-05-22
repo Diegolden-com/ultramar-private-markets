@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from 'next/navigation'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from "./theme-provider"
+import { BrandName } from "./brand-name"
 import { OakLeafLogo } from "./oak-leaf-logo"
 import { ultramarSuiteLinks } from "@/lib/ultramar-apps"
 
@@ -21,7 +22,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-3 group">
             <OakLeafLogo className="w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:scale-105" />
             <span className="text-xl md:text-2xl font-serif font-semibold tracking-wide">
-              ULTRAMAR CAPITAL
+              <BrandName />
             </span>
           </Link>
           {/* </CHANGE> */}

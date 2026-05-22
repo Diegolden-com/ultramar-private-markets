@@ -1,3 +1,4 @@
+import { BrandName, BrandText } from "@/components/brand-name";
 import { Button } from "@/components/ui/button";
 import { Hero } from "@/components/hero";
 import {
@@ -140,15 +141,17 @@ export default function Home() {
                 </span>
               </div>
               <p className="animate-fade-in-up delay-2 text-xs font-medium uppercase tracking-[0.3em] text-primary">
-                Ultramar.capital / Signals
+                <BrandName /> / Signals
               </p>
               <h1 className="animate-fade-in-up delay-3 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
                 Ultramar Polymarket
               </h1>
               <p className="animate-fade-in-up delay-4 max-w-lg text-base leading-relaxed text-muted-foreground lg:text-lg">
-                The signal layer for Ultramar.capital. It compares Polymarket
-                prices with derivatives-implied probabilities, then turns those
-                dislocations into monitored trading signals.
+                <BrandText>
+                  {
+                    "The signal layer for Ultramar.capital. It compares Polymarket prices with derivatives-implied probabilities, then turns those dislocations into monitored trading signals."
+                  }
+                </BrandText>
               </p>
               <div className="animate-fade-in-up delay-5 flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
                 <Button size="lg" className="w-full sm:w-auto" asChild>

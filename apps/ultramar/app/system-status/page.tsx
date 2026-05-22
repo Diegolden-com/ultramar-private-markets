@@ -1,3 +1,4 @@
+import { BrandText } from "@/components/brand-name";
 import { JsonLd } from "@/components/json-ld";
 import { SectionHeader } from "@/components/section-header";
 import { averageAbsoluteSpread, samplePositions, sampleSignals, totalExposure } from "@/lib/arbitrage";
@@ -140,9 +141,11 @@ export default function SystemStatusPage() {
           Status scope
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-on-surface-variant">
-          This page reports the availability of public app routes and read-only sample telemetry in
-          the current Ultramar.capital app. It is not a broker-dealer, custodian, bank, exchange, or
-          production incident-management portal.
+          <BrandText>
+            {
+              "This page reports the availability of public app routes and read-only sample telemetry in the current Ultramar.capital app. It is not a broker-dealer, custodian, bank, exchange, or production incident-management portal."
+            }
+          </BrandText>
         </p>
       </section>
     </main>

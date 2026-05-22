@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandName, BrandText } from "@/components/brand-name";
 import { footerLinks } from "@/lib/footer-routes";
 import { headerNavItems, headerUtilityLinks } from "@/lib/site-navigation";
 import { ChevronDown, LogIn, Menu, Monitor, X } from "lucide-react";
@@ -67,7 +68,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               className="truncate font-serif text-xl font-bold leading-none text-on-surface"
               onClick={closeMenus}
             >
-              ULTRAMAR.CAPITAL
+              <BrandName />
             </Link>
             <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
               {headerNavItems.map((item) =>
@@ -193,9 +194,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <footer className="footer border-t border-border-muted bg-surface-container-lowest px-4 py-8 md:px-12">
         <div className="flex w-full flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="font-serif text-xl font-bold text-on-surface">ULTRAMAR.CAPITAL</p>
+            <BrandName as="p" className="font-serif text-xl font-bold text-on-surface" />
             <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              (c)2024 Ultramar Capital Group. All rights reserved. Disclosures and controls.
+              (c)2024 Ultramar <span className="italic">Capital</span> Group. All rights reserved.
+              Disclosures and controls.
             </p>
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-3">
@@ -313,7 +315,9 @@ function DesktopNavMenu({
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
             {item.label}
           </p>
-          <p className="mt-2 text-sm leading-5 text-on-surface-variant">{item.description}</p>
+          <p className="mt-2 text-sm leading-5 text-on-surface-variant">
+            <BrandText>{item.description}</BrandText>
+          </p>
         </div>
         <div className="grid">
           {item.links.map((link) => (
@@ -352,7 +356,9 @@ function DesktopMenuLink({
         {link.label}
       </span>
       {link.description ? (
-        <span className="mt-1 block text-sm leading-5 text-on-surface-variant">{link.description}</span>
+        <span className="mt-1 block text-sm leading-5 text-on-surface-variant">
+          <BrandText>{link.description}</BrandText>
+        </span>
       ) : null}
     </Link>
   );

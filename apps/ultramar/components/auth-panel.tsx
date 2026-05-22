@@ -1,3 +1,4 @@
+import { BrandName, BrandText } from "@/components/brand-name";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -85,13 +86,13 @@ export function AuthPanel({
         <div className="flex min-w-0 flex-col justify-between border-b border-border-muted p-6 md:p-8 lg:border-b-0 lg:border-r">
           <div>
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-              Ultramar.capital / {modeEyebrows[mode]}
+              <BrandName /> / {modeEyebrows[mode]}
             </p>
             <h1 className="mt-5 max-w-3xl break-words font-serif text-4xl font-bold leading-[1.1] md:text-5xl">
               {title}
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant md:text-base md:leading-7">
-              {description}
+              <BrandText>{description}</BrandText>
             </p>
           </div>
 

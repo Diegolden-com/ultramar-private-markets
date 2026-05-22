@@ -1,3 +1,4 @@
+import { BrandName } from "@/components/brand-name";
 import { AssetExplorer } from "@/components/asset-explorer";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCrosslink } from "@/components/product-crosslink";
@@ -119,7 +120,7 @@ export default function AssetsPage() {
           <div className="flex flex-col justify-between">
             <div>
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                Ultramar.capital / Private Equities
+                <BrandName /> / Private Equities
               </p>
               <h1 className="mt-4 max-w-4xl break-words font-serif text-4xl font-bold leading-[1.1] md:text-5xl">
                 Asset index for controlled private-market access.

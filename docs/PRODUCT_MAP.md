@@ -4,7 +4,7 @@ This is the canonical taxonomy for the monorepo and public product experience.
 
 ## Platform
 
-**Ultramar.capital** is the platform brand and the only canonical public domain. It owns the shared home, product navigation, auth entry points, investor context, SEO, and redirect strategy.
+**Ultramar.capital** is the platform brand and the only canonical public domain. It owns the shared home, product navigation, auth entry points, investor context, SEO, and routing policy.
 
 “Capital” should not be presented as a third product. It is the umbrella layer that helps users understand and navigate the two product lines.
 
@@ -54,16 +54,15 @@ Lending markets and derivative arbitrage are not active public products in this 
 | --- | --- |
 | `apps/ultramar` | Canonical mega app. |
 | `packages/product-model` | Shared taxonomy and route metadata. |
-| `apps/capital` | Historical allocator implementation and docs. Legacy public paths redirect to the mega app. |
-| `apps/polymarket` | Historical frontend plus active Python backend and runbooks for the hedge-fund engine. Legacy public paths redirect to `/arbitrage-hedge-fund`. |
-| `apps/private-equities` | Historical frontend plus QuickBooks/oracle/contracts implementation reference. Legacy public paths redirect to `/private-equities`. |
+| `apps/capital` | Historical allocator implementation and docs. No public production domain. |
+| `apps/polymarket` | Historical frontend plus active Python backend and runbooks for the hedge-fund engine. No public production domain. |
+| `apps/private-equities` | Historical frontend plus QuickBooks/oracle/contracts implementation reference. No public production domain. |
 
-## Redirect Rules
+## Routing Rules
 
+- `ultramar.capital/*` serves the canonical app directly.
 - `www.ultramar.capital/*` redirects to `https://ultramar.capital/*`.
-- `capital.ultramar.capital/*` redirects to the canonical home, fund, or private-equities route depending on the old path.
-- `polymarket.ultramar.capital/*` redirects to `/arbitrage-hedge-fund/*`, while `/auth/*` redirects to shared auth.
-- `private-equities.ultramar.capital/*` redirects to `/private-equities/*`.
+- Prelaunch subdomains such as `capital.ultramar.capital`, `polymarket.ultramar.capital`, and `private-equities.ultramar.capital` should not be aliased in production.
 
 The implementation source of truth is `apps/ultramar/next.config.ts`.
 
