@@ -61,16 +61,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           }
         }}
       >
-        <div className="navbar min-h-12 justify-between px-4 py-0 md:px-12">
+        <div className="mx-auto flex min-h-12 w-full max-w-[1600px] items-center justify-between px-4 py-0 md:px-12">
           <div className="flex min-w-0 items-center gap-6 md:gap-8">
             <Link
               href="/"
-              className="truncate font-serif text-xl font-bold leading-none text-on-surface"
+              className="flex h-12 shrink-0 items-center truncate font-serif text-xl font-bold leading-none text-on-surface"
               onClick={closeMenus}
             >
               <BrandName />
             </Link>
-            <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
+            <nav className="hidden h-12 items-stretch gap-1 lg:flex" aria-label="Primary navigation">
               {headerNavItems.map((item) =>
                 item.links.length > 0 ? (
                   <DesktopNavMenu
@@ -100,7 +100,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               aria-current={terminalActive ? "page" : undefined}
               onClick={closeMenus}
               className={`btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
-                terminalActive ? "btn-success" : "btn-outline btn-success"
+                terminalActive ? "btn-info" : "btn-outline btn-info"
               }`}
             >
               <Monitor className="h-4 w-4" aria-hidden="true" />
@@ -112,8 +112,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               onClick={closeMenus}
               className={`btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
                 authActive
-                  ? "btn-success"
-                  : "btn-ghost text-on-surface-variant hover:text-status-signal"
+                  ? "btn-info"
+                  : "btn-ghost text-on-surface-variant hover:text-primary"
               }`}
             >
               <LogIn className="h-4 w-4" aria-hidden="true" />
@@ -204,7 +204,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.label}
                 href={item.href}
-                className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant underline transition-colors hover:text-status-signal"
+                className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant underline transition-colors hover:text-primary"
               >
                 {item.label}
               </Link>
@@ -219,16 +219,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 function mobileNavClass(active: boolean) {
   return `rounded-none px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
     active
-      ? "active !bg-status-signal !text-surface-ink"
-      : "text-on-surface-variant hover:text-status-signal"
+      ? "active !bg-primary !text-primary-foreground"
+      : "text-on-surface-variant hover:text-primary"
   }`;
 }
 
 function mobileSubNavClass(active: boolean) {
   return `border-t border-border-muted px-8 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] ${
     active
-      ? "bg-surface-container text-status-signal"
-      : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+      ? "bg-surface-container text-primary"
+      : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
   }`;
 }
 
@@ -257,10 +257,10 @@ function TerminalNavLink({
       href={href}
       aria-current={active ? "page" : undefined}
       onClick={onClick}
-      className={`border-b-2 px-2 pb-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+      className={`flex h-12 items-center border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
         active
-          ? "border-status-signal text-status-signal"
-          : "border-transparent text-on-surface-variant hover:text-status-signal"
+          ? "border-primary text-primary"
+          : "border-transparent text-on-surface-variant hover:text-primary"
       }`}
     >
       {label}
@@ -285,17 +285,17 @@ function DesktopNavMenu({
   const menuId = `${item.key}-menu`;
 
   return (
-    <div className="group relative flex h-12 items-center">
+    <div className="group relative flex h-12 items-stretch">
       <button
         type="button"
         aria-current={active ? "page" : undefined}
         aria-controls={menuId}
         aria-expanded={open}
         onClick={onToggle}
-        className={`flex h-full items-center gap-1 border-b-2 px-2 pt-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+        className={`flex h-full items-center gap-1 border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
           active || open
-            ? "border-status-signal text-status-signal"
-            : "border-transparent text-on-surface-variant hover:text-status-signal"
+            ? "border-primary text-primary"
+            : "border-transparent text-on-surface-variant hover:text-primary"
         }`}
       >
         {item.label}
@@ -311,7 +311,7 @@ function DesktopNavMenu({
         }`}
       >
         <div className="border-b border-border-muted bg-surface-container-low p-4">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-primary">
             {item.label}
           </p>
           <p className="mt-2 text-sm leading-5 text-on-surface-variant">
@@ -348,7 +348,7 @@ function DesktopMenuLink({
       aria-current={active ? "page" : undefined}
       onClick={onClick}
       className={`border-b border-border-muted px-4 py-3 transition-colors last:border-b-0 ${
-        active ? "bg-surface-container text-status-signal" : "hover:bg-surface-container"
+        active ? "bg-surface-container text-primary" : "hover:bg-surface-container"
       }`}
     >
       <span className="block font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
