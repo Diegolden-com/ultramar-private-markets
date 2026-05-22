@@ -1,5 +1,7 @@
 import { BrandName } from "@/components/brand-name";
+import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
+import { indexableSitemapRoutes } from "@/lib/discoverability";
 import {
   createSeoMetadata,
   faqJsonLd,
@@ -77,8 +79,8 @@ const modules = [
 ] as const;
 
 const platformStats = [
-  ["Products", "02", "Private assets and event markets"],
-  ["Routes", "42", "Indexed app surfaces"],
+  ["Products", products.length.toString().padStart(2, "0"), "Private assets and event markets"],
+  ["Indexable Routes", indexableSitemapRoutes.length.toString(), "Canonical public pages"],
   ["Mode", "Live", "Institutional terminal"],
 ] as const;
 
@@ -232,6 +234,13 @@ export default function HomePage() {
           </article>
         ))}
       </section>
+
+      <FaqSection
+        eyebrow="Platform FAQ"
+        title="How to read the public platform"
+        description="These answers match the structured FAQ data for crawlers and keep product scope explicit on the page."
+        items={homeFaqs}
+      />
     </main>
   );
 }

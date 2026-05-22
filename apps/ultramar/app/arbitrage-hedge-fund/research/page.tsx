@@ -1,12 +1,48 @@
+import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
-import { createSeoMetadata, seoImages } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  createSeoMetadata,
+  itemListJsonLd,
+  seoImages,
+  webPageJsonLd,
+} from "@/lib/seo";
 import { BookOpenText, FlaskConical, Lock, Radar } from "lucide-react";
+
+const researchPath = "/arbitrage-hedge-fund/research";
+const description = "Research backlog for future arbitrage strategies at Ultramar.capital.";
+const strategyItems = [
+  {
+    icon: Radar,
+    title: "Polymarket arbitrage",
+    body: "Active v1 scope. Signal research supports live probability dislocation monitoring.",
+    status: "Active product",
+  },
+  {
+    icon: FlaskConical,
+    title: "Lending markets",
+    body: "Research-only in this release. Useful as a future yield and capital efficiency module.",
+    status: "Research only",
+  },
+  {
+    icon: BookOpenText,
+    title: "Derivative arbitrage",
+    body: "Research-only in this release. Derivatives inform probability models and hedging assumptions.",
+    status: "Research only",
+  },
+  {
+    icon: Lock,
+    title: "Graduation rule",
+    body: "A strategy only becomes product surface after data quality, risk limits, and allocator language are complete.",
+    status: "Governance",
+  },
+] as const;
 
 export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Research",
-  description: "Research backlog for future arbitrage strategies at Ultramar.capital.",
-  path: "/arbitrage-hedge-fund/research",
+  description,
+  path: researchPath,
   image: seoImages.arbitrage,
   keywords: ["arbitrage research", "Polymarket research", "derivative arbitrage research"],
 });
@@ -14,6 +50,32 @@ export const metadata = createSeoMetadata({
 export default function ResearchPage() {
   return (
     <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <JsonLd
+        id="arbitrage-research-json-ld"
+        data={[
+          webPageJsonLd({
+            path: researchPath,
+            name: "Ultramar Arbitrage Hedge Fund Research",
+            description,
+          }),
+          itemListJsonLd({
+            path: researchPath,
+            name: "Arbitrage strategy research backlog",
+            description,
+            items: strategyItems.map((item) => ({
+              name: item.title,
+              url: researchPath,
+              description: item.body,
+            })),
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Arbitrage Hedge Fund", path: "/arbitrage-hedge-fund" },
+            { name: "Research", path: researchPath },
+          ]),
+        ]}
+      />
+
       <section className="border border-border-muted bg-surface p-6 md:p-8">
         <SectionHeader
           eyebrow="Arbitrage Hedge Fund / Research Gate"
@@ -23,32 +85,7 @@ export default function ResearchPage() {
       </section>
       <ProductTabs product="arbitrage-hedge-fund" active="research" />
       <div className="grid gap-1 bg-border-muted md:grid-cols-2">
-        {[
-          {
-            icon: Radar,
-            title: "Polymarket arbitrage",
-            body: "Active v1 scope. Signal research supports live probability dislocation monitoring.",
-            status: "Active product",
-          },
-          {
-            icon: FlaskConical,
-            title: "Lending markets",
-            body: "Research-only in this release. Useful as a future yield and capital efficiency module.",
-            status: "Research only",
-          },
-          {
-            icon: BookOpenText,
-            title: "Derivative arbitrage",
-            body: "Research-only in this release. Derivatives inform probability models and hedging assumptions.",
-            status: "Research only",
-          },
-          {
-            icon: Lock,
-            title: "Graduation rule",
-            body: "A strategy only becomes product surface after data quality, risk limits, and allocator language are complete.",
-            status: "Governance",
-          },
-        ].map((item) => (
+        {strategyItems.map((item) => (
           <div key={item.title} className="card card-border bg-surface p-5">
             <div className="flex items-start justify-between gap-4">
               <item.icon className="h-5 w-5 text-status-signal" />

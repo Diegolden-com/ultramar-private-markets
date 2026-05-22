@@ -1,12 +1,54 @@
+import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
-import { createSeoMetadata, seoImages } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  createSeoMetadata,
+  itemListJsonLd,
+  seoImages,
+  webPageJsonLd,
+} from "@/lib/seo";
 import { BadgeCheck, ClipboardCheck, FileWarning, LockKeyhole, Scale, UserCheck } from "lucide-react";
+
+const legalPath = "/private-equities/legal";
+const description = "Legal and compliance overview for Ultramar Private Equities.";
+const legalControls = [
+  {
+    icon: Scale,
+    title: "Regulated offering wrappers",
+    body: "Production offerings require issuer-specific documents, appropriate exemptions or registrations, and legal review.",
+  },
+  {
+    icon: BadgeCheck,
+    title: "Investor eligibility",
+    body: "Investor participation must be gated by KYC, accreditation or suitability, and jurisdictional transfer rules.",
+  },
+  {
+    icon: LockKeyhole,
+    title: "Transfer controls",
+    body: "Private-market tokens need permissioning, lockups, whitelists, and custody controls before secondary trading.",
+  },
+  {
+    icon: FileWarning,
+    title: "No public solicitation shortcut",
+    body: "Marketing copy must describe the platform and product workflow without making unmanaged return promises.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Closing readiness",
+    body: "Before a real closing, each issuer needs a final data room, approved term sheet, subscription package, funds-flow memo, and reporting calendar.",
+  },
+  {
+    icon: UserCheck,
+    title: "Gated diligence",
+    body: "Investor materials should move behind access controls once they include issuer-specific financials, non-public data, or subscription instructions.",
+  },
+] as const;
 
 export const metadata = createSeoMetadata({
   title: "Private Equities Legal",
-  description: "Legal and compliance overview for Ultramar Private Equities.",
-  path: "/private-equities/legal",
+  description,
+  path: legalPath,
   image: seoImages.privateEquities,
   keywords: ["private equity compliance", "RWA legal", "investor eligibility"],
 });
@@ -14,6 +56,28 @@ export const metadata = createSeoMetadata({
 export default function LegalPage() {
   return (
     <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <JsonLd
+        id="private-equities-legal-json-ld"
+        data={[
+          webPageJsonLd({ path: legalPath, name: "Ultramar Private Equities Legal", description }),
+          itemListJsonLd({
+            path: legalPath,
+            name: "Ultramar Private Equities legal controls",
+            description,
+            items: legalControls.map((control) => ({
+              name: control.title,
+              url: legalPath,
+              description: control.body,
+            })),
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Private Equities", path: "/private-equities" },
+            { name: "Legal", path: legalPath },
+          ]),
+        ]}
+      />
+
       <section className="border border-border-muted bg-surface p-6 md:p-8">
         <SectionHeader
           eyebrow="Private Equities / Counsel Gate"
@@ -23,38 +87,7 @@ export default function LegalPage() {
       </section>
       <ProductTabs product="private-equities" active="legal" />
       <div className="grid gap-1 bg-border-muted md:grid-cols-2">
-        {[
-          {
-            icon: Scale,
-            title: "Regulated offering wrappers",
-            body: "Production offerings require issuer-specific documents, appropriate exemptions or registrations, and legal review.",
-          },
-          {
-            icon: BadgeCheck,
-            title: "Investor eligibility",
-            body: "Investor participation must be gated by KYC, accreditation or suitability, and jurisdictional transfer rules.",
-          },
-          {
-            icon: LockKeyhole,
-            title: "Transfer controls",
-            body: "Private-market tokens need permissioning, lockups, whitelists, and custody controls before secondary trading.",
-          },
-          {
-            icon: FileWarning,
-            title: "No public solicitation shortcut",
-            body: "Marketing copy must describe the platform and product workflow without making unmanaged return promises.",
-          },
-          {
-            icon: ClipboardCheck,
-            title: "Closing readiness",
-            body: "Before a real closing, each issuer needs a final data room, approved term sheet, subscription package, funds-flow memo, and reporting calendar.",
-          },
-          {
-            icon: UserCheck,
-            title: "Gated diligence",
-            body: "Investor materials should move behind access controls once they include issuer-specific financials, non-public data, or subscription instructions.",
-          },
-        ].map((item) => (
+        {legalControls.map((item) => (
           <div key={item.title} className="card card-border bg-surface p-5">
             <item.icon className="h-5 w-5 text-status-signal" />
             <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">

@@ -1,9 +1,9 @@
 import { BrandName } from "@/components/brand-name";
 import { AssetExplorer } from "@/components/asset-explorer";
+import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { ProductTabs } from "@/components/product-tabs";
-import { SectionHeader } from "@/components/section-header";
 import { deals, formatCurrency } from "@/lib/deals";
 import { researchArticles } from "@/lib/research";
 import {
@@ -280,28 +280,12 @@ export default function AssetsPage() {
         </div>
       </section>
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.75fr_1.25fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <SectionHeader
-            eyebrow="Asset FAQ"
-            title="How investors should read the index"
-            description="Public pages explain the workflow; production access remains gated by eligibility, documents, and jurisdiction-specific review."
-          />
-        </div>
-        <div className="grid gap-1 bg-border-muted">
-            {assetFaqs.map((item) => (
-              <div key={item.question} className="collapse collapse-arrow bg-surface p-5">
-                <input type="checkbox" aria-label={item.question} />
-                <h2 className="collapse-title p-0 font-serif text-2xl font-semibold leading-tight text-on-surface">
-                  {item.question}
-                </h2>
-                <p className="collapse-content mt-3 p-0 text-sm leading-6 text-on-surface-variant">
-                  {item.answer}
-                </p>
-              </div>
-            ))}
-        </div>
-      </section>
+      <FaqSection
+        eyebrow="Asset FAQ"
+        title="How investors should read the index"
+        description="Public pages explain the workflow; production access remains gated by eligibility, documents, and jurisdiction-specific review."
+        items={assetFaqs}
+      />
 
       <ProductCrosslink current="private-equities" />
     </main>

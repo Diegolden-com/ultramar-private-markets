@@ -62,9 +62,18 @@ Lending markets and derivative arbitrage are not active public products in this 
 
 - `ultramar.capital/*` serves the canonical app directly.
 - `www.ultramar.capital/*` redirects to `https://ultramar.capital/*`.
-- Prelaunch subdomains such as `capital.ultramar.capital`, `polymarket.ultramar.capital`, and `private-equities.ultramar.capital` should not be aliased in production.
+- Prelaunch subdomains such as `capital.ultramar.capital`, `polymarket.ultramar.capital`, and `private-equities.ultramar.capital` should not be aliased or redirected in production.
 
 The implementation source of truth is `apps/ultramar/next.config.ts`.
+
+## Discoverability Rules
+
+- `apps/ultramar/lib/discoverability.ts` owns the indexable route list used by XML sitemap generation and the human-readable sitemap page.
+- The sitemap should include canonical public product, disclosure, asset, and research routes only.
+- Auth routes, API JSON endpoints, `/api`, `/system-status`, `/private-equities/portfolio`, private data-room actions, allocation actions, and legacy routes are intentionally excluded from sitemap promotion.
+- `robots.txt` should allow the canonical public app, disallow raw API JSON endpoint paths under `/api/`, and point to `https://ultramar.capital/sitemap.xml`.
+- Auth pages and controlled portfolio pages should remain crawlable enough for crawlers to observe their `noindex` metadata, but should stay out of sitemap and global public navigation promotion.
+- `/llms.txt` and `/llms-full.txt` are root-level public files for LLM crawlers. They summarize canonical URLs, product scope, research pages, compliance boundaries, and non-offer disclaimers without expanding public routing beyond the canonical apex app.
 
 ## Shared Rules
 

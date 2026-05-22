@@ -1,7 +1,6 @@
 import { JsonLd } from "@/components/json-ld";
 import { SectionHeader } from "@/components/section-header";
-import { deals } from "@/lib/deals";
-import { researchArticles } from "@/lib/research";
+import { indexableRouteGroups } from "@/lib/discoverability";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -9,12 +8,6 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import {
-  platformRouteGroup,
-  productOverviewRouteGroup,
-  productRouteGroups,
-  type SiteRouteGroup,
-} from "@/lib/site-navigation";
 import { ArrowUpRight, Map } from "lucide-react";
 import Link from "next/link";
 
@@ -22,41 +15,7 @@ const sitemapPath = "/sitemap";
 const description =
   "Human-readable sitemap for Ultramar.capital product, disclosure, research, private equities, and arbitrage hedge fund routes.";
 
-const routeGroups: SiteRouteGroup[] = [
-  platformRouteGroup,
-  productOverviewRouteGroup,
-  {
-    title: productRouteGroups["private-equities"].title,
-    links: [
-      ...productRouteGroups["private-equities"].links,
-      ...deals.map((deal) => ({
-        key: `asset-${deal.ticker}`,
-        label: `${deal.name} (${deal.ticker})`,
-        href: `/private-equities/assets/${deal.ticker}`,
-        description: `Private-market asset route for ${deal.name}.`,
-        changeFrequency: "weekly" as const,
-        priority: 0.7,
-      })),
-    ],
-  },
-  {
-    title: productRouteGroups["arbitrage-hedge-fund"].title,
-    links: [...productRouteGroups["arbitrage-hedge-fund"].links],
-  },
-  {
-    title: "Research Memos",
-    links: researchArticles.map((article) => ({
-      key: `research-${article.slug}`,
-      label: article.title,
-      href: `/research/${article.slug}`,
-      description: article.description,
-      changeFrequency: "monthly" as const,
-      priority: 0.78,
-    })),
-  },
-];
-
-const allLinks = routeGroups.flatMap((group) =>
+const allLinks = indexableRouteGroups.flatMap((group) =>
   group.links.map((link) => ({
     name: `${group.title}: ${link.label}`,
     url: link.href,
@@ -117,7 +76,7 @@ export default function SitemapPage() {
       </section>
 
       <section className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-2">
-        {routeGroups.map((group) => (
+        {indexableRouteGroups.map((group) => (
           <article key={group.title} className="card card-border min-w-0 bg-surface p-5">
             <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
               {group.title}

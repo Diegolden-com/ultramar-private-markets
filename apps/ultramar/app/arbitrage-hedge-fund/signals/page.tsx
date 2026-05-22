@@ -1,3 +1,4 @@
+import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import {
@@ -259,6 +260,13 @@ export default async function SignalsPage() {
           })}
         </div>
       </section>
+
+      <FaqSection
+        eyebrow="Signal FAQ"
+        title="How the signal board should be interpreted"
+        description="These answers match the FAQPage structured data and keep signal observation separate from trade execution."
+        items={signalFaqs}
+      />
     </main>
   );
 }

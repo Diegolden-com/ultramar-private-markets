@@ -1,6 +1,5 @@
 import { BrandText } from "@/components/brand-name";
 import { MetricCard } from "@/components/metric-card";
-import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { Activity, Download, PieChart, TrendingUp, Wallet } from "lucide-react";
@@ -11,6 +10,7 @@ export const metadata = createSeoMetadata({
   path: "/private-equities/portfolio",
   image: seoImages.privateEquities,
   keywords: ["private equity portfolio", "tokenized holdings", "investor portfolio"],
+  noIndex: true,
 });
 
 const holdings = [
@@ -31,7 +31,6 @@ export default function PortfolioPage() {
           description="A consolidated investor view for private-market exposure, daily changes, and holding-level performance."
         />
       </section>
-      <ProductTabs product="private-equities" active="portfolio" />
 
       <div className="grid gap-1 md:grid-cols-3">
         <MetricCard
@@ -115,7 +114,7 @@ export default function PortfolioPage() {
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           <BrandText>
             {
-              "This page is the investor-facing portfolio destination inside the unified Ultramar.capital app. It replaces the standalone private-equities subdomain portfolio route."
+              "This page is the investor-facing portfolio destination inside the unified Ultramar.capital app. It replaces the older standalone portfolio surface."
             }
           </BrandText>
         </p>

@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { FaqSection } from "@/components/faq-section";
 import { ProductCrosslink } from "@/components/product-crosslink";
 import { ProductTabs } from "@/components/product-tabs";
 import { SignalDashboard } from "@/components/signal-dashboard";
@@ -170,17 +171,12 @@ export default function DashboardPage() {
             ))}
         </div>
       </section>
-      <section className="grid gap-1 bg-border-muted md:grid-cols-3">
-          {dashboardFaqs.map((item) => (
-            <div key={item.question} className="collapse collapse-arrow border border-border-muted bg-surface p-5">
-              <input type="checkbox" aria-label={item.question} />
-              <h2 className="collapse-title p-0 font-serif text-2xl font-semibold leading-tight text-on-surface">
-                {item.question}
-              </h2>
-              <p className="collapse-content mt-3 p-0 text-sm leading-6 text-on-surface-variant">{item.answer}</p>
-            </div>
-          ))}
-      </section>
+      <FaqSection
+        eyebrow="Dashboard FAQ"
+        title="How allocators should read the dashboard"
+        description="These answers match the FAQPage structured data and keep dashboard telemetry aligned with the page copy."
+        items={dashboardFaqs}
+      />
       <ProductCrosslink current="arbitrage-hedge-fund" />
     </main>
   );

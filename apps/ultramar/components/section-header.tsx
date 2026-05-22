@@ -1,3 +1,5 @@
+import { BrandText } from "@/components/brand-name";
+
 export function SectionHeader({
   eyebrow,
   title,
@@ -13,10 +15,12 @@ export function SectionHeader({
         {eyebrow}
       </p>
       <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
-        {title}
+        <BrandText>{title}</BrandText>
       </h2>
       {description ? (
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">{description}</p>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">
+          <BrandText>{description}</BrandText>
+        </p>
       ) : null}
     </div>
   );

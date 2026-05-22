@@ -55,7 +55,7 @@ const statusItems = [
 const incidents = [
   ["Open Incidents", "0"],
   ["Public APIs", "4"],
-  ["Footer Routes", "5/5"],
+  ["Footer Links", "3"],
   ["Status Mode", "Read-only"],
 ] as const;
 
@@ -65,6 +65,7 @@ export const metadata = createSeoMetadata({
   path: statusPath,
   image: seoImages.platform,
   keywords: ["Ultramar system status", "capital platform uptime", "API status"],
+  noIndex: true,
 });
 
 export default function SystemStatusPage() {

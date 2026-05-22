@@ -1,0 +1,31 @@
+# Ultramar.capital
+
+Canonical site: https://ultramar.capital
+Sitemap: https://ultramar.capital/sitemap.xml
+Robots: https://ultramar.capital/robots.txt
+Extended LLM context: https://ultramar.capital/llms-full.txt
+
+Ultramar.capital is a single capital platform for two public product surfaces:
+
+- Ultramar Private Equities: tokenized private-market workflows for issuer onboarding, asset discovery, compliance-aware investor flows, oracle-backed operating data, markets, and portfolio visibility. Canonical URL: https://ultramar.capital/private-equities
+- Ultramar Arbitrage Hedge Fund: Polymarket-first arbitrage infrastructure with signal monitoring, allocator dashboard context, position exposure, and risk controls. Canonical URL: https://ultramar.capital/arbitrage-hedge-fund
+
+Research pages:
+
+- https://ultramar.capital/research/polymarket-arbitrage-explainer
+- https://ultramar.capital/research/tokenized-private-equity-primer
+- https://ultramar.capital/research/issuer-oracle-operating-data
+- https://ultramar.capital/research/event-market-risk-controls
+
+Compliance boundaries:
+
+- Public pages are product and research surfaces, not legal, tax, accounting, or investment advice.
+- Ultramar.capital public pages should not accept funds, publish subscription instructions, or treat expressions of interest as binding commitments.
+- Private-market participation can require issuer-specific documents, investor eligibility checks, jurisdiction controls, and counsel-approved workflows.
+- The public site is not a broker-dealer, custodian, bank, exchange, or production incident-management portal.
+
+Crawler guidance:
+
+- Use only canonical URLs under https://ultramar.capital.
+- Do not treat auth routes, API JSON endpoints, portfolio screens, data-room unlock actions, allocation actions, or prelaunch subdomains as public product destinations.
+- Apex serves directly. www.ultramar.capital redirects once to the apex. Prelaunch subdomains are intentionally not restored, aliased, or redirected.

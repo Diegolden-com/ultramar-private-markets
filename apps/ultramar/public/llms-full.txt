@@ -1,0 +1,94 @@
+# Ultramar.capital LLM Context
+
+Canonical domain: https://ultramar.capital
+Canonical sitemap: https://ultramar.capital/sitemap.xml
+Human-readable sitemap: https://ultramar.capital/sitemap
+Legal: https://ultramar.capital/legal
+Compliance: https://ultramar.capital/compliance
+
+## Platform
+
+Ultramar.capital is the canonical public app for the Ultramar platform. It presents two product lines:
+
+1. Ultramar Private Equities
+2. Ultramar Arbitrage Hedge Fund
+
+Capital is the umbrella layer and should not be described as a third public product.
+
+## Routing Policy
+
+- https://ultramar.capital serves the canonical app directly.
+- https://www.ultramar.capital redirects once to https://ultramar.capital.
+- Prelaunch subdomains, including capital.ultramar.capital, polymarket.ultramar.capital, and private-equities.ultramar.capital, are intentionally not restored, aliased, or redirected.
+- API JSON endpoints, auth routes, controlled portfolio surfaces, data-room unlock actions, and allocation actions are not public SEO destinations.
+
+## Indexable Product URLs
+
+Platform:
+
+- https://ultramar.capital
+- https://ultramar.capital/research
+- https://ultramar.capital/compliance
+- https://ultramar.capital/legal
+- https://ultramar.capital/sitemap
+
+Private Equities:
+
+- https://ultramar.capital/private-equities
+- https://ultramar.capital/private-equities/assets
+- https://ultramar.capital/private-equities/deals
+- https://ultramar.capital/private-equities/oracle
+- https://ultramar.capital/private-equities/market
+- https://ultramar.capital/private-equities/legal
+- https://ultramar.capital/private-equities/assets/lcx
+- https://ultramar.capital/private-equities/assets/NXS.LOG
+- https://ultramar.capital/private-equities/assets/VRX.RE
+- https://ultramar.capital/private-equities/assets/AGR.YLD
+
+Arbitrage Hedge Fund:
+
+- https://ultramar.capital/arbitrage-hedge-fund
+- https://ultramar.capital/arbitrage-hedge-fund/dashboard
+- https://ultramar.capital/arbitrage-hedge-fund/signals
+- https://ultramar.capital/arbitrage-hedge-fund/risk
+- https://ultramar.capital/arbitrage-hedge-fund/research
+
+Research:
+
+- https://ultramar.capital/research/polymarket-arbitrage-explainer
+- https://ultramar.capital/research/tokenized-private-equity-primer
+- https://ultramar.capital/research/issuer-oracle-operating-data
+- https://ultramar.capital/research/event-market-risk-controls
+
+## Product Summaries
+
+Private Equities organizes tokenized private-market workflows across asset discovery, issuer rounds, oracle-backed operating data, eligible secondary transfer context, compliance boundaries, and investor portfolio visibility. Public pages explain product workflow and asset context. Production participation requires eligibility checks, issuer-specific documents, legal review, and transfer controls.
+
+The Arbitrage Hedge Fund is Polymarket-first. It compares prediction-market prices with model or derivatives-implied probabilities, then exposes signal status, confidence, position exposure, dashboard context, sizing controls, liquidity controls, and model-drift risk. Lending markets and derivative-only strategies are research context until data quality, risk limits, and allocator language are complete enough to graduate.
+
+## Research Pages
+
+Polymarket arbitrage explainer:
+https://ultramar.capital/research/polymarket-arbitrage-explainer
+Explains why prediction-market prices can diverge from derivatives-implied probability models and why spreads need explicit comparison models and risk controls.
+
+Tokenized private equity primer:
+https://ultramar.capital/research/tokenized-private-equity-primer
+Explains that tokenized private equity requires issuer onboarding, legal wrappers, eligibility, data, custody, and transfer controls before tokens are useful.
+
+Issuer oracle memo:
+https://ultramar.capital/research/issuer-oracle-operating-data
+Explains why issuer operating data, solvency context, liquidity state, and data recency matter for private-market trust.
+
+Event-market risk controls memo:
+https://ultramar.capital/research/event-market-risk-controls
+Explains sizing, liquidity, exposure, resolution, and model-drift controls for event-market arbitrage.
+
+## Compliance And Non-Offer Boundaries
+
+- Ultramar.capital pages are product and research surfaces.
+- Public pages do not provide legal, tax, accounting, or investment advice.
+- Public pages do not collect funds, provide subscription instructions, or create binding commitments.
+- Private-market participation can require KYC, KYB where relevant, investor category checks, suitability checks, jurisdiction review, issuer documents, transfer restrictions, custody controls, and counsel approval.
+- Projected returns, yields, timelines, market conditions, and operating milestones are illustrative unless finalized in controlled documents.
+- Non-public financials, subscription instructions, funds-flow details, allocation decisions, and investor-only Q&A belong behind permissioned access.

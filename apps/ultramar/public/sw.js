@@ -1,7 +1,9 @@
-const CACHE_NAME = 'ultramar-private-equities-v1';
+const CACHE_NAME = 'ultramar-capital-v2';
 const urlsToCache = [
     '/',
-    '/dashboard',
+    '/private-equities',
+    '/arbitrage-hedge-fund',
+    '/research',
 ];
 
 self.addEventListener('install', (event) => {

@@ -1,14 +1,25 @@
+import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import { SectionHeader } from "@/components/section-header";
 import { deals, formatCurrency } from "@/lib/deals";
-import { createSeoMetadata, seoImages } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  createSeoMetadata,
+  itemListJsonLd,
+  seoImages,
+  webPageJsonLd,
+} from "@/lib/seo";
 import { ArrowRight, LineChart, Repeat2 } from "lucide-react";
 import Link from "next/link";
 
+const marketPath = "/private-equities/market";
+const description = "Secondary market view for eligible private-equity tokens.";
+const secondaryDeals = deals.filter((deal) => deal.type === "secondary");
+
 export const metadata = createSeoMetadata({
   title: "Private Equities Market",
-  description: "Secondary market view for eligible private-equity tokens.",
-  path: "/private-equities/market",
+  description,
+  path: marketPath,
   image: seoImages.privateEquities,
   keywords: ["private equity secondary market", "eligible transfers", "tokenized equity market"],
 });
@@ -16,6 +27,28 @@ export const metadata = createSeoMetadata({
 export default function MarketPage() {
   return (
     <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+      <JsonLd
+        id="private-equities-market-json-ld"
+        data={[
+          webPageJsonLd({ path: marketPath, name: "Ultramar Private Equities Market", description }),
+          itemListJsonLd({
+            path: marketPath,
+            name: "Eligible secondary private-equity transfer views",
+            description,
+            items: secondaryDeals.map((deal) => ({
+              name: `${deal.name} (${deal.ticker})`,
+              url: `/private-equities/assets/${deal.ticker}`,
+              description: deal.description,
+            })),
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Private Equities", path: "/private-equities" },
+            { name: "Market", path: marketPath },
+          ]),
+        ]}
+      />
+
       <section className="border border-border-muted bg-surface p-6 md:p-8">
         <SectionHeader
           eyebrow="Private Equities / Secondary Rail"
@@ -25,32 +58,28 @@ export default function MarketPage() {
       </section>
       <ProductTabs product="private-equities" active="market" />
       <div className="grid gap-1 bg-border-muted md:grid-cols-2">
-        {deals
-          .filter((deal) => deal.type === "secondary")
-          .map((deal) => (
-            <Link
-              key={deal.id}
-              href={`/private-equities/assets/${deal.ticker}`}
-              className="card card-border bg-surface p-5 transition hover:border-status-signal"
-            >
-              <Repeat2 className="h-5 w-5 text-status-signal" />
-              <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">
-                {deal.name}
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-on-surface-variant">
-                {deal.description}
-              </p>
-              <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border-muted pt-4">
-                <MarketStat label="Ticker" value={deal.ticker} />
-                <MarketStat label="Valuation" value={formatCurrency(deal.valuation)} />
-                <MarketStat label="Yield" value={`${deal.apy}%`} />
-              </div>
-              <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                View asset
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </Link>
-          ))}
+        {secondaryDeals.map((deal) => (
+          <Link
+            key={deal.id}
+            href={`/private-equities/assets/${deal.ticker}`}
+            className="card card-border bg-surface p-5 transition hover:border-status-signal"
+          >
+            <Repeat2 className="h-5 w-5 text-status-signal" />
+            <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">
+              {deal.name}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-on-surface-variant">{deal.description}</p>
+            <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border-muted pt-4">
+              <MarketStat label="Ticker" value={deal.ticker} />
+              <MarketStat label="Valuation" value={formatCurrency(deal.valuation)} />
+              <MarketStat label="Yield" value={`${deal.apy}%`} />
+            </div>
+            <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              View asset
+              <ArrowRight className="h-4 w-4" />
+            </span>
+          </Link>
+        ))}
       </div>
       <div className="border border-border-muted border-t-status-warning bg-surface p-5">
         <LineChart className="h-5 w-5 text-status-warning" />

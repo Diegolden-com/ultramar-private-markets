@@ -1,3 +1,4 @@
+import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import {
@@ -276,6 +277,13 @@ export default function RiskPage() {
           </div>
         </section>
       </div>
+
+      <FaqSection
+        eyebrow="Risk FAQ"
+        title="How risk controls constrain product scope"
+        description="These visible answers match the FAQPage structured data for this route."
+        items={riskFaqs}
+      />
     </main>
   );
 }

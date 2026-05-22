@@ -65,6 +65,7 @@ export const metadata = createSeoMetadata({
   path: apiPath,
   image: seoImages.platform,
   keywords: ["Ultramar API", "capital platform API", "Polymarket signals API", "issuer oracle API"],
+  noIndex: true,
 });
 
 export default function ApiPage() {

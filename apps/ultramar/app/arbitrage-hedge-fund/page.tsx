@@ -1,3 +1,4 @@
+import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import {
@@ -277,6 +278,13 @@ export default function ArbitrageHedgeFundPage() {
           </div>
         </aside>
       </div>
+
+      <FaqSection
+        eyebrow="Arbitrage FAQ"
+        title="Product scope for the fund surface"
+        description="The answers below match the FAQPage structured data and keep research-only strategies separate from active product scope."
+        items={arbitrageFaqs}
+      />
     </main>
   );
 }

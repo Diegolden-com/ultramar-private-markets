@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { FaqSection } from "@/components/faq-section";
 import { ProductTabs } from "@/components/product-tabs";
 import {
   breadcrumbJsonLd,
@@ -234,6 +235,13 @@ export default function PrivateEquitiesPage() {
           </section>
         </aside>
       </div>
+
+      <FaqSection
+        eyebrow="Private Equities FAQ"
+        title="Boundaries for tokenized private-market workflows"
+        description="The FAQ content is visible on-page and matches the FAQPage structured data."
+        items={privateEquitiesFaqs}
+      />
     </main>
   );
 }

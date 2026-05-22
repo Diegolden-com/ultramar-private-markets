@@ -98,14 +98,6 @@ export const productRouteGroups = {
         priority: 0.75,
       },
       {
-        key: "portfolio",
-        label: "Portfolio",
-        href: "/private-equities/portfolio",
-        description: "Portfolio visibility for private-market positions.",
-        changeFrequency: "monthly",
-        priority: 0.55,
-      },
-      {
         key: "legal",
         label: "Legal Gate",
         href: "/private-equities/legal",
@@ -218,17 +210,3 @@ export const headerUtilityLinks = [
 export type ProductRouteGroups = typeof productRouteGroups;
 export type ProductTabKey<TProduct extends keyof ProductRouteGroups> =
   ProductRouteGroups[TProduct]["links"][number]["key"];
-
-export const staticSitemapRoutes = [
-  ...platformRouteGroup.links,
-  ...productRouteGroups["private-equities"].links,
-  ...productRouteGroups["arbitrage-hedge-fund"].links,
-];
-
-export function toSitemapRoute(route: SiteNavLink) {
-  return {
-    path: route.href === "/" ? "" : route.href,
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-  };
-}

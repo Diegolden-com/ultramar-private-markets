@@ -196,8 +196,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div>
             <BrandName as="p" className="font-serif text-xl font-bold text-on-surface" />
             <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              (c)2024 Ultramar <span className="italic">Capital</span> Group. All rights reserved.
-              Disclosures and controls.
+              (c)2024 <BrandName /> Group. All rights reserved. Disclosures and controls.
             </p>
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-3">
