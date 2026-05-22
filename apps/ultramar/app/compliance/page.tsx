@@ -1,6 +1,13 @@
 import { BrandText } from "@/components/brand-name";
 import { JsonLd } from "@/components/json-ld";
-import { SectionHeader } from "@/components/section-header";
+import {
+  FeatureCard,
+  PageHeader,
+  PageShell,
+  SplitPanel,
+  StatTile,
+  SurfaceGrid,
+} from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -65,7 +72,7 @@ export const metadata = createSeoMetadata({
 
 export default function CompliancePage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <PageShell>
       <JsonLd
         id="compliance-json-ld"
         data={[
@@ -87,65 +94,60 @@ export default function CompliancePage() {
         ]}
       />
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <SectionHeader
-            eyebrow="Compliance registry"
-            title="Control surface for gated capital workflows"
-            description="The public interface is intentionally constrained. Product pages can explain readiness, but regulated steps stay behind eligibility, counsel, and document controls."
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2">
-          {metrics.map(([label, value]) => (
-            <div key={label} className="stat card card-border bg-surface p-5">
-              <p className="stat-title font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                {label}
-              </p>
-              <p className="stat-value mt-4 font-mono text-lg font-semibold uppercase text-status-signal">
-                {value}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="grid gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-3">
-        {controls.map((control) => (
-          <article key={control.title} className="card card-border bg-surface p-5">
-            <control.icon className="h-5 w-5 text-status-signal" />
-            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
-              {control.title}
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-on-surface-variant">{control.body}</p>
-          </article>
+      <PageHeader
+        eyebrow="Compliance registry"
+        title="Control surface for gated capital workflows"
+        description="The public interface is intentionally constrained. Product pages can explain readiness, but regulated steps stay behind eligibility, counsel, and document controls."
+        asidePadded={false}
+        asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
+      >
+        {metrics.map(([label, value]) => (
+          <StatTile key={label} label={label} value={value} tone="signal" />
         ))}
-      </section>
+      </PageHeader>
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="bg-surface p-6">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Product boundary
-          </p>
-          <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-            Compliance is a workflow constraint, not a marketing claim.
-          </h2>
-        </div>
-        <div className="bg-surface p-6">
-          <p className="text-sm leading-6 text-on-surface-variant">
-            <BrandText>
-              {
-                "Ultramar.capital separates public education from transaction mechanics. Any issuer-specific offer, investor allocation, closing instruction, subscription package, or transfer event belongs in a controlled workflow with legal review and access checks."
-              }
-            </BrandText>
-          </p>
-          <Link
-            href="/private-equities/legal"
-            className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
-          >
-            View private-equities legal gate
-          </Link>
-        </div>
-      </section>
-    </main>
+      <SurfaceGrid columns="md:grid-cols-2 xl:grid-cols-3">
+        {controls.map((control) => (
+          <FeatureCard
+            key={control.title}
+            icon={control.icon}
+            title={control.title}
+            body={control.body}
+          />
+        ))}
+      </SurfaceGrid>
+
+      <SplitPanel
+        columns="lg:grid-cols-[0.9fr_1.1fr]"
+        contentPadded={false}
+        asidePadded={false}
+        contentClassName="p-6"
+        asideClassName="p-6"
+        aside={
+          <>
+            <p className="text-sm leading-6 text-on-surface-variant">
+              <BrandText>
+                {
+                  "Ultramar.capital separates public education from transaction mechanics. Any issuer-specific offer, investor allocation, closing instruction, subscription package, or transfer event belongs in a controlled workflow with legal review and access checks."
+                }
+              </BrandText>
+            </p>
+            <Link
+              href="/private-equities/legal"
+              className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+            >
+              View private-equities legal gate
+            </Link>
+          </>
+        }
+      >
+        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+          Product boundary
+        </p>
+        <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
+          Compliance is a workflow constraint, not a marketing claim.
+        </h2>
+      </SplitPanel>
+    </PageShell>
   );
 }

@@ -1,7 +1,6 @@
 import { JsonLd } from "@/components/json-ld";
 import { OracleConsole } from "@/components/oracle-console";
-import { ProductTabs } from "@/components/product-tabs";
-import { SectionHeader } from "@/components/section-header";
+import { ProductRouteHeader } from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -22,7 +21,7 @@ export const metadata = createSeoMetadata({
 
 export default function OraclePage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="private-equities-oracle-json-ld"
         data={[
@@ -35,17 +34,16 @@ export default function OraclePage() {
         ]}
       />
 
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
-        <SectionHeader
-          eyebrow="Private Equities / Issuer Oracle"
-          title="Oracle"
-          description="A bridge between issuer operating data and investor-facing private-market confidence."
-        />
-      </section>
-      <ProductTabs product="private-equities" active="oracle" />
+      <ProductRouteHeader
+        product="private-equities"
+        active="oracle"
+        eyebrow="Private Equities / Issuer Oracle"
+        title="Oracle"
+        description="A bridge between issuer operating data and investor-facing private-market confidence."
+      />
       <section>
         <OracleConsole />
       </section>
-    </main>
+    </>
   );
 }

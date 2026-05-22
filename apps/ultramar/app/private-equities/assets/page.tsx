@@ -85,7 +85,7 @@ export default function AssetsPage() {
   )}`;
 
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="private-equities-assets-json-ld"
         data={[
@@ -288,7 +288,7 @@ export default function AssetsPage() {
       />
 
       <ProductCrosslink current="private-equities" />
-    </main>
+    </>
   );
 }
 

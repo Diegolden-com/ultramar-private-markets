@@ -1,6 +1,6 @@
 import { BrandText } from "@/components/brand-name";
 import { MetricCard } from "@/components/metric-card";
-import { SectionHeader } from "@/components/section-header";
+import { PageHeader, SurfacePanel } from "@/components/page-layout";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { Activity, Download, PieChart, TrendingUp, Wallet } from "lucide-react";
 
@@ -23,14 +23,12 @@ export default function PortfolioPage() {
   const totalValue = holdings.reduce((sum, holding) => sum + holding.value, 0);
 
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
-        <SectionHeader
-          eyebrow="Private Equities / Portfolio State"
-          title="Portfolio"
-          description="A consolidated investor view for private-market exposure, daily changes, and holding-level performance."
-        />
-      </section>
+    <>
+      <PageHeader
+        eyebrow="Private Equities / Portfolio State"
+        title="Portfolio"
+        description="A consolidated investor view for private-market exposure, daily changes, and holding-level performance."
+      />
 
       <div className="grid gap-1 md:grid-cols-3">
         <MetricCard
@@ -109,7 +107,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <div className="border border-border-muted border-t-status-signal bg-surface p-5">
+      <SurfacePanel padded={false} className="border-t-status-signal p-5">
         <Activity className="h-5 w-5 text-status-signal" />
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           <BrandText>
@@ -118,7 +116,7 @@ export default function PortfolioPage() {
             }
           </BrandText>
         </p>
-      </div>
-    </main>
+      </SurfacePanel>
+    </>
   );
 }

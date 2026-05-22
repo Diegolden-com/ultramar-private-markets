@@ -1,6 +1,6 @@
 import { BrandText } from "@/components/brand-name";
 import { JsonLd } from "@/components/json-ld";
-import { SectionHeader } from "@/components/section-header";
+import { PageHeader, PageShell, StatTile, SurfaceGrid, SurfacePanel } from "@/components/page-layout";
 import { averageAbsoluteSpread, samplePositions, sampleSignals, totalExposure } from "@/lib/arbitrage";
 import {
   breadcrumbJsonLd,
@@ -70,7 +70,7 @@ export const metadata = createSeoMetadata({
 
 export default function SystemStatusPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <PageShell>
       <JsonLd
         id="system-status-json-ld"
         data={[
@@ -92,29 +92,19 @@ export default function SystemStatusPage() {
         ]}
       />
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <SectionHeader
-            eyebrow="System monitor"
-            title="Public route and telemetry status"
-            description="A compact operating surface for checking whether the public routes and read-only API surfaces are wired and discoverable."
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2">
-          {incidents.map(([label, value]) => (
-            <div key={label} className="card card-border bg-surface p-5">
-              <p className="stat-title font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                {label}
-              </p>
-              <p className="stat-value mt-4 font-mono text-lg font-semibold uppercase text-status-signal">
-                {value}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="System monitor"
+        title="Public route and telemetry status"
+        description="A compact operating surface for checking whether the public routes and read-only API surfaces are wired and discoverable."
+        asidePadded={false}
+        asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
+      >
+        {incidents.map(([label, value]) => (
+          <StatTile key={label} label={label} value={value} tone="signal" />
+        ))}
+      </PageHeader>
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted">
+      <SurfaceGrid bordered>
         {statusItems.map((item) => (
           <Link
             key={item.name}
@@ -134,9 +124,9 @@ export default function SystemStatusPage() {
             </span>
           </Link>
         ))}
-      </section>
+      </SurfaceGrid>
 
-      <section className="border border-border-muted bg-surface p-6">
+      <SurfacePanel padded={false} className="p-6">
         <CircuitBoard className="h-5 w-5 text-status-signal" />
         <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
           Status scope
@@ -148,7 +138,7 @@ export default function SystemStatusPage() {
             }
           </BrandText>
         </p>
-      </section>
-    </main>
+      </SurfacePanel>
+    </PageShell>
   );
 }

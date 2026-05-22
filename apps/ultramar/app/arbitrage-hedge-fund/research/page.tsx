@@ -1,6 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
-import { ProductTabs } from "@/components/product-tabs";
-import { SectionHeader } from "@/components/section-header";
+import { FeatureCard, ProductRouteHeader, SurfaceGrid } from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -49,7 +48,7 @@ export const metadata = createSeoMetadata({
 
 export default function ResearchPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="arbitrage-research-json-ld"
         data={[
@@ -76,30 +75,31 @@ export default function ResearchPage() {
         ]}
       />
 
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
-        <SectionHeader
-          eyebrow="Arbitrage Hedge Fund / Research Gate"
-          title="Research, not product"
-          description="This route preserves strategy context without presenting lending markets or derivative arbitrage as active commercial products."
-        />
-      </section>
-      <ProductTabs product="arbitrage-hedge-fund" active="research" />
-      <div className="grid gap-1 bg-border-muted md:grid-cols-2">
+      <ProductRouteHeader
+        product="arbitrage-hedge-fund"
+        active="research"
+        eyebrow="Arbitrage Hedge Fund / Research Gate"
+        title="Research, not product"
+        description="This route preserves strategy context without presenting lending markets or derivative arbitrage as active commercial products."
+      />
+      <SurfaceGrid columns="md:grid-cols-2">
         {strategyItems.map((item) => (
-          <div key={item.title} className="card card-border bg-surface p-5">
-            <div className="flex items-start justify-between gap-4">
+          <FeatureCard
+            key={item.title}
+            title={item.title}
+            body={item.body}
+            className="flex flex-col"
+            titleClassName="mt-4"
+          >
+            <div className="-order-1 flex items-start justify-between gap-4">
               <item.icon className="h-5 w-5 text-status-signal" />
               <span className="badge badge-outline bg-surface-ink px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 {item.status}
               </span>
             </div>
-            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
-              {item.title}
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.body}</p>
-          </div>
+          </FeatureCard>
         ))}
-      </div>
-    </main>
+      </SurfaceGrid>
+    </>
   );
 }

@@ -1,6 +1,12 @@
 import { BrandText } from "@/components/brand-name";
 import { JsonLd } from "@/components/json-ld";
-import { SectionHeader } from "@/components/section-header";
+import {
+  FeatureCard,
+  PageHeader,
+  PageShell,
+  SplitPanel,
+  SurfaceGrid,
+} from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -58,7 +64,7 @@ export const metadata = createSeoMetadata({
 
 export default function LegalPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <PageShell>
       <JsonLd
         id="legal-json-ld"
         data={[
@@ -80,59 +86,60 @@ export default function LegalPage() {
         ]}
       />
 
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
-        <SectionHeader
-          eyebrow="Legal register"
-          title="Public disclosures and transaction boundaries"
-          description="This page keeps general platform disclosures separate from product-specific counsel gates and investor-only documents."
-        />
-      </section>
+      <PageHeader
+        eyebrow="Legal register"
+        title="Public disclosures and transaction boundaries"
+        description="This page keeps general platform disclosures separate from product-specific counsel gates and investor-only documents."
+      />
 
-      <section className="grid gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-3">
+      <SurfaceGrid columns="md:grid-cols-2 xl:grid-cols-3">
         {disclosures.map((disclosure) => (
-          <article key={disclosure.title} className="card card-border bg-surface p-5">
-            <disclosure.icon className="h-5 w-5 text-status-signal" />
-            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
-              {disclosure.title}
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-              <BrandText>{disclosure.body}</BrandText>
-            </p>
-          </article>
+          <FeatureCard
+            key={disclosure.title}
+            icon={disclosure.icon}
+            title={disclosure.title}
+            body={<BrandText>{disclosure.body}</BrandText>}
+          />
         ))}
-      </section>
+      </SurfaceGrid>
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-3">
-        <div className="bg-surface p-6">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Counsel path
-          </p>
-          <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-            Product copy does not replace offering documents.
-          </h2>
-        </div>
-        <div className="bg-surface p-6 lg:col-span-2">
-          <p className="text-sm leading-6 text-on-surface-variant">
-            If a route describes an issuer, market, signal, model, or operating workflow, that route is still
-            only a public product surface. Binding transaction terms require approved documents,
-            eligibility checks, and a controlled closing process.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/compliance"
-              className="btn btn-outline btn-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
-            >
-              Compliance controls
-            </Link>
-            <Link
-              href="/private-equities/legal"
-              className="btn btn-outline btn-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
-            >
-              Product legal gate
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+      <SplitPanel
+        columns="lg:grid-cols-3"
+        contentPadded={false}
+        asidePadded={false}
+        contentClassName="p-6"
+        asideClassName="p-6 lg:col-span-2"
+        aside={
+          <>
+            <p className="text-sm leading-6 text-on-surface-variant">
+              If a route describes an issuer, market, signal, model, or operating workflow, that route is still
+              only a public product surface. Binding transaction terms require approved documents,
+              eligibility checks, and a controlled closing process.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/compliance"
+                className="btn btn-outline btn-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+              >
+                Compliance controls
+              </Link>
+              <Link
+                href="/private-equities/legal"
+                className="btn btn-outline btn-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+              >
+                Product legal gate
+              </Link>
+            </div>
+          </>
+        }
+      >
+        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+          Counsel path
+        </p>
+        <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
+          Product copy does not replace offering documents.
+        </h2>
+      </SplitPanel>
+    </PageShell>
   );
 }

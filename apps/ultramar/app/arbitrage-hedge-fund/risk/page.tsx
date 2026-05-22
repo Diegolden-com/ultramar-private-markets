@@ -1,6 +1,6 @@
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
-import { ProductTabs } from "@/components/product-tabs";
+import { ProductRouteHeader } from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -106,7 +106,7 @@ export const metadata = createSeoMetadata({
 
 export default function RiskPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="arbitrage-risk-json-ld"
         data={[
@@ -135,36 +135,30 @@ export default function RiskPage() {
         ]}
       />
 
-      <header className="mb-1 border-b border-border-muted pb-8">
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div>
-            <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              Module // Risk_Ctrl_01
-            </p>
-            <h1 className="font-serif text-4xl font-bold leading-[1.1] text-on-surface md:text-5xl">
-              Arbitrage Risk Controls
-            </h1>
+      <ProductRouteHeader
+        product="arbitrage-hedge-fund"
+        active="risk"
+        eyebrow="Module // Risk_Ctrl_01"
+        title="Arbitrage Risk Controls"
+        description={description}
+      >
+        <div className="flex flex-wrap gap-4">
+          <div className="badge badge-outline badge-success flex items-center gap-2 bg-surface px-3 py-1">
+            <span className="status status-success" />
+            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+              System Active
+            </span>
           </div>
-          <div className="flex flex-wrap gap-4">
-            <div className="badge badge-outline badge-success flex items-center gap-2 bg-surface px-3 py-1">
-              <span className="status status-success" />
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-                System Active
-              </span>
-            </div>
-            <div className="badge badge-outline flex items-center gap-2 bg-surface px-3 py-1">
-              <Lock className="h-4 w-4 text-on-surface-variant" />
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-                Secure Env
-              </span>
-            </div>
+          <div className="badge badge-outline flex items-center gap-2 bg-surface px-3 py-1">
+            <Lock className="h-4 w-4 text-on-surface-variant" />
+            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+              Secure Env
+            </span>
           </div>
         </div>
-      </header>
+      </ProductRouteHeader>
 
-      <ProductTabs product="arbitrage-hedge-fund" active="risk" />
-
-      <div className="mt-1 grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-12">
+      <div className="grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-12">
         <aside className="flex flex-col gap-1 md:col-span-4">
           {parameterGroups.map((group) => (
             <section
@@ -284,6 +278,6 @@ export default function RiskPage() {
         description="These visible answers match the FAQPage structured data for this route."
         items={riskFaqs}
       />
-    </main>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
-import { SectionHeader } from "@/components/section-header";
+import { PageHeader, PageShell, SurfaceGrid } from "@/components/page-layout";
 import { indexableRouteGroups } from "@/lib/discoverability";
 import {
   breadcrumbJsonLd,
@@ -33,7 +33,7 @@ export const metadata = createSeoMetadata({
 
 export default function SitemapPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <PageShell>
       <JsonLd
         id="sitemap-json-ld"
         data={[
@@ -51,31 +51,26 @@ export default function SitemapPage() {
         ]}
       />
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <SectionHeader
-            eyebrow="Route index"
-            title="Human-readable sitemap"
-            description="A compact index of public product surfaces, disclosure routes, research assets, and machine-readable feeds."
-          />
-        </div>
-        <div className="card card-border bg-surface p-6 md:p-8">
-          <Map className="h-5 w-5 text-status-signal" />
-          <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-            Search crawlers should use the XML feed. Operators and reviewers can use this page to inspect
-            the visible route map without opening raw metadata.
-          </p>
-          <Link
-            href="/sitemap.xml"
-            className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
-          >
-            Open sitemap.xml
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Route index"
+        title="Human-readable sitemap"
+        description="A compact index of public product surfaces, disclosure routes, research assets, and machine-readable feeds."
+      >
+        <Map className="h-5 w-5 text-status-signal" />
+        <p className="mt-4 text-sm leading-6 text-on-surface-variant">
+          Search crawlers should use the XML feed. Operators and reviewers can use this page to inspect
+          the visible route map without opening raw metadata.
+        </p>
+        <Link
+          href="/sitemap.xml"
+          className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+        >
+          Open sitemap.xml
+          <ArrowUpRight className="h-4 w-4" />
+        </Link>
+      </PageHeader>
 
-      <section className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-2">
+      <SurfaceGrid columns="lg:grid-cols-2" className="min-w-0">
         {indexableRouteGroups.map((group) => (
           <article key={group.title} className="card card-border min-w-0 bg-surface p-5">
             <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
@@ -97,7 +92,7 @@ export default function SitemapPage() {
             </div>
           </article>
         ))}
-      </section>
-    </main>
+      </SurfaceGrid>
+    </PageShell>
   );
 }

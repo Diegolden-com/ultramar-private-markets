@@ -1,8 +1,8 @@
 import { JsonLd } from "@/components/json-ld";
 import { FaqSection } from "@/components/faq-section";
 import { ProductCrosslink } from "@/components/product-crosslink";
-import { ProductTabs } from "@/components/product-tabs";
 import { SignalDashboard } from "@/components/signal-dashboard";
+import { FeatureCard, ProductRouteHeader, SplitPanel, SurfaceGrid } from "@/components/page-layout";
 import { SectionHeader } from "@/components/section-header";
 import { researchArticles } from "@/lib/research";
 import {
@@ -85,7 +85,7 @@ export const metadata = createSeoMetadata({
 
 export default function DashboardPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1800px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="arbitrage-dashboard-json-ld"
         data={[
@@ -113,41 +113,32 @@ export default function DashboardPage() {
           ]),
         ]}
       />
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
-        <SectionHeader
-          eyebrow="Arbitrage Hedge Fund / Allocator Surface"
-          title="Dashboard"
-          description={description}
-        />
-      </section>
-      <ProductTabs product="arbitrage-hedge-fund" active="dashboard" />
-      <section className="grid gap-1 bg-border-muted md:grid-cols-2 lg:grid-cols-4">
+      <ProductRouteHeader
+        product="arbitrage-hedge-fund"
+        active="dashboard"
+        eyebrow="Arbitrage Hedge Fund / Allocator Surface"
+        title="Dashboard"
+        description={description}
+      />
+      <SurfaceGrid columns="md:grid-cols-2 lg:grid-cols-4">
         {dashboardModules.map((item) => (
-          <div
+          <FeatureCard
             key={item.title}
             id={item.href.split("#")[1]}
-            className="card card-border bg-surface p-5"
-          >
-            <item.icon className="h-5 w-5 text-status-signal" />
-            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
-              {item.title}
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.body}</p>
-          </div>
+            icon={item.icon}
+            title={item.title}
+            body={item.body}
+          />
         ))}
-      </section>
+      </SurfaceGrid>
       <section className="card card-border bg-surface p-4 md:p-6">
         <SignalDashboard />
       </section>
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <SectionHeader
-            eyebrow="Research context"
-            title="Dashboard metrics need a risk memo behind them"
-            description="The route connects fund-dashboard intent to the research that explains spread quality, exposure, and strategy graduation rules."
-          />
-        </div>
-        <div className="grid gap-1 bg-border-muted md:grid-cols-2">
+      <SplitPanel
+        columns="lg:grid-cols-[0.8fr_1.2fr]"
+        asidePadded={false}
+        aside={
+          <div className="grid gap-1 bg-border-muted md:grid-cols-2">
             {relatedResearch.map((article) => (
               <Link
                 key={article.slug}
@@ -169,8 +160,15 @@ export default function DashboardPage() {
                 </span>
               </Link>
             ))}
-        </div>
-      </section>
+          </div>
+        }
+      >
+        <SectionHeader
+          eyebrow="Research context"
+          title="Dashboard metrics need a risk memo behind them"
+          description="The route connects fund-dashboard intent to the research that explains spread quality, exposure, and strategy graduation rules."
+        />
+      </SplitPanel>
       <FaqSection
         eyebrow="Dashboard FAQ"
         title="How allocators should read the dashboard"
@@ -178,6 +176,6 @@ export default function DashboardPage() {
         items={dashboardFaqs}
       />
       <ProductCrosslink current="arbitrage-hedge-fund" />
-    </main>
+    </>
   );
 }

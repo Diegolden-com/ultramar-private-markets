@@ -1,32 +1,54 @@
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
+import { ProductCrosslink } from "@/components/product-crosslink";
 import { ProductTabs } from "@/components/product-tabs";
+import {
+  averageAbsoluteSpread,
+  samplePositions,
+  sampleSignals,
+  totalExposure,
+} from "@/lib/arbitrage";
+import { productRouteGroups } from "@/lib/site-navigation";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
   faqJsonLd,
+  itemListJsonLd,
   seoImages,
   serviceJsonLd,
   webPageJsonLd,
 } from "@/lib/seo";
 import { productBySlug } from "@ultramar/product-model";
-import { ArrowRight, FlaskConical, Gauge, LineChart, Shield } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  CircleSlash,
+  ClipboardCheck,
+  FlaskConical,
+  Gauge,
+  LineChart,
+  Radar,
+  Shield,
+  Timer,
+  WalletCards,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const product = productBySlug["arbitrage-hedge-fund"];
 const description =
-  "Polymarket-first arbitrage hedge fund infrastructure with signal monitoring, position exposure, and risk controls.";
+  "A Polymarket-first arbitrage fund overview that explains signal discovery, probability comparison, position exposure, sizing controls, and research boundaries.";
 
 const arbitrageFaqs = [
   {
-    question: "What makes the Ultramar Arbitrage Hedge Fund Polymarket-first?",
+    question: "What is the Arbitrage Hedge Fund overview for?",
     answer:
-      "The v1 product focuses on Polymarket event-market dislocations, comparing market prices with derivatives-implied probabilities before turning persistent spreads into monitored signals.",
+      "The overview explains the product workflow and routes allocators to the dashboard, signal board, risk controls, and research backlog before they evaluate deeper pages.",
   },
   {
-    question: "Does the fund product include risk controls?",
+    question: "What makes the product Polymarket-first?",
     answer:
-      "Yes. The product surface exposes signal confidence, sizing, concentration, exposure, hedge policy, and failure modes so allocators can evaluate the control system next to the opportunity.",
+      "The active v1 product focuses on Polymarket event-market dislocations, comparing market prices with model or derivatives-informed probabilities before turning persistent spreads into monitored signals.",
   },
   {
     question: "Are lending markets and derivative arbitrage active products?",
@@ -35,39 +57,83 @@ const arbitrageFaqs = [
   },
 ];
 
-const metrics = [
-  ["Total AUM (USD)", "142,500,000.00"],
-  ["Avg Spread Yield", "+4.2%", true],
-  ["Signal Confidence (mu)", "0.892"],
-  ["Active Markets", "124"],
-] as const;
+const routeCards = productRouteGroups["arbitrage-hedge-fund"].links.filter(
+  (route) => route.key !== "overview",
+);
 
-const signals = [
-  ["2024 US Election Winner", "BIN/POLY", "62%", "1.4%", "Execute Long", "62"],
-  ["Fed Rate Cut Nov", "RATES", "88%", "0.2%", "Monitor", "88"],
-] as const;
-
-const researchCards = [
+const workflowItems = [
   {
-    status: "Alpha Draft",
-    title: "Cross-Chain Yield Arbitrage on Layer 2 Bridges",
-    body: "Evaluating systemic latency between optimistic rollups and mainnet state resolution. Preliminary data indicates a 15-second exploitable window during high-congestion epochs.",
-    footer: "EST. CAPACITY: $5M",
-    secondary: "STATUS: INGESTING",
-    active: true,
+    icon: Radar,
+    title: "Observe Polymarket events",
+    body: "The signal board keeps market, venue, update timing, status, and spread visibility together so event-market dislocations can be reviewed.",
+    href: "/arbitrage-hedge-fund/signals",
+    cta: "Open signals",
   },
   {
-    status: "Deprecated",
-    title: "Fiat-Backed Stablecoin Depeg Vectors",
-    body: "Model invalidated post-Q2 regulatory framework updates.",
-    footer: "",
-    secondary: "",
-    active: false,
+    icon: LineChart,
+    title: "Compare probabilities",
+    body: "Event prices are compared with repeatable probability models so the product can separate durable dislocations from raw market interest.",
+    href: "/arbitrage-hedge-fund/signals",
+    cta: "Review comparison",
   },
+  {
+    icon: WalletCards,
+    title: "Connect signals to exposure",
+    body: "The dashboard connects observed opportunities to position sizing, notional exposure, stale-signal awareness, and allocator-facing review.",
+    href: "/arbitrage-hedge-fund/dashboard",
+    cta: "Open dashboard",
+  },
+  {
+    icon: Shield,
+    title: "Constrain with risk controls",
+    body: "Sizing, liquidity, hedge discipline, venue concentration, resolution ambiguity, and model drift determine whether a signal can graduate.",
+    href: "/arbitrage-hedge-fund/risk",
+    cta: "Review risk",
+  },
+] as const;
+
+const scopeItems = [
+  {
+    icon: Radar,
+    title: "Polymarket arbitrage",
+    status: "Active product",
+    body: "Current product surface for event-market probability dislocations, monitored signals, exposure, and controls.",
+  },
+  {
+    icon: FlaskConical,
+    title: "Lending markets",
+    status: "Research only",
+    body: "Potential future yield and capital-efficiency module, not marketed as an active fund product in this release.",
+  },
+  {
+    icon: BarChart3,
+    title: "Derivative arbitrage",
+    status: "Research only",
+    body: "Derivatives can inform probability models and hedging assumptions, but derivative-only strategies stay outside v1 product scope.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Graduation rule",
+    status: "Governance",
+    body: "A strategy only becomes product surface after data quality, risk limits, and allocator language are complete enough for review.",
+  },
+] as const;
+
+const avgSpread = averageAbsoluteSpread(sampleSignals);
+const exposure = totalExposure(samplePositions);
+const overviewStats = [
+  ["Sample Signals", sampleSignals.length.toString(), "Fallback signal board observations"],
+  ["Avg Spread", `${(avgSpread * 100).toFixed(1)}%`, "Average absolute observed spread"],
+  [
+    "Sample Exposure",
+    `$${exposure.toLocaleString("en-US", { maximumFractionDigits: 0 })}`,
+    "Fallback position exposure shown in product demos",
+  ],
+  ["Product Boundary", "V1", "Polymarket-first, research-gated expansion"],
 ] as const;
 
 export const metadata = createSeoMetadata({
-  title: "Arbitrage Hedge Fund",
+  title: "Arbitrage Hedge Fund Overview",
   description,
   path: product.href,
   image: seoImages.arbitrage,
@@ -76,12 +142,22 @@ export const metadata = createSeoMetadata({
 
 export default function ArbitrageHedgeFundPage() {
   return (
-    <main className="terminal-grid mx-4 flex min-h-[calc(100vh-48px)] flex-col border-x border-border-muted bg-surface-ink text-on-surface md:mx-12">
+    <>
       <JsonLd
         id="arbitrage-hedge-fund-json-ld"
         data={[
           webPageJsonLd({ path: product.href, name: "Ultramar Arbitrage Hedge Fund", description }),
           serviceJsonLd({ product, serviceType: "Polymarket-first arbitrage fund" }),
+          itemListJsonLd({
+            path: product.href,
+            name: "Ultramar Arbitrage Hedge Fund route map",
+            description: "The public routes that explain the fund workflow.",
+            items: routeCards.map((route) => ({
+              name: route.label,
+              url: route.href,
+              description: route.description ?? "",
+            })),
+          }),
           faqJsonLd(arbitrageFaqs),
           breadcrumbJsonLd([
             { name: "Home", path: "/" },
@@ -90,201 +166,218 @@ export default function ArbitrageHedgeFundPage() {
         ]}
       />
 
-      <section className="relative border-b border-border-muted p-6 md:p-8">
-        <div className="hatch-pattern absolute inset-0 -z-0 opacity-20" />
-        <div className="relative z-10">
-          <h1 className="max-w-4xl font-serif text-4xl font-bold leading-[1.1] text-on-surface md:text-5xl">
-            Polymarket-first quantitative fund surface.
-          </h1>
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <span className="badge badge-outline bg-surface-container px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              System Status: Active
-            </span>
-            <span className="status status-success" />
-          </div>
-        </div>
-      </section>
+      <section className="relative overflow-hidden border border-border-muted bg-surface">
+        <div className="hatch-pattern absolute inset-0 opacity-20" />
+        <div className="relative z-10 grid gap-8 p-6 md:p-8 lg:grid-cols-[1fr_420px]">
+          <div className="flex flex-col justify-between">
+            <div>
+              <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+                {product.eyebrow} / Overview
+              </p>
+              <h1 className="mt-4 max-w-4xl break-words font-serif text-4xl font-bold leading-[1.1] text-on-surface [overflow-wrap:anywhere] md:text-5xl">
+                A Polymarket-first fund workflow for signals, exposure, and controls.
+              </h1>
+              <p className="mt-5 max-w-3xl text-lg leading-relaxed text-on-surface-variant">
+                The product compares event-market prices with probability models, watches durable
+                spreads, connects them to position exposure, and keeps sizing constrained by risk.
+              </p>
+            </div>
 
-      <section className="stats stats-vertical grid grid-cols-1 border-b border-border-muted md:stats-horizontal md:grid-cols-4">
-        {metrics.map(([label, value, signal], index) => (
-          <div
-            key={label}
-            className={`stat flex flex-col gap-2 border-border-muted p-4 ${
-              index === metrics.length - 1 ? "" : "md:border-r"
-            } ${signal ? "bg-surface-container-low" : ""}`}
-          >
-            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              {label}
-            </span>
-            <span
-              className={`font-mono text-xl font-semibold ${signal ? "text-status-signal" : "text-on-surface"}`}
-            >
-              {value}
-            </span>
+            <div className="mt-10 grid gap-1 bg-border-muted md:grid-cols-4">
+              {overviewStats.map(([label, value, body]) => (
+                <OverviewStat key={label} label={label} value={value} body={body} />
+              ))}
+            </div>
           </div>
-        ))}
+
+          <aside className="relative min-h-[360px] overflow-hidden border border-border-muted bg-surface-ink">
+            <Image
+              src="/tarot-market.png"
+              alt="Event-market signal visualization"
+              fill
+              priority
+              sizes="(min-width: 1024px) 420px, 100vw"
+              className="image-blackwork object-cover opacity-80"
+            />
+            <div className="absolute inset-0 bg-surface-ink/35" />
+            <div className="absolute inset-x-0 bottom-0 border-t border-border-muted bg-surface-ink/90 p-5">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                Active commercial scope
+              </p>
+              <h2 className="mt-2 font-serif text-3xl font-semibold leading-tight text-on-surface">
+                Polymarket dislocation monitoring
+              </h2>
+              <p className="mt-3 text-sm leading-5 text-on-surface-variant">
+                Research can inform the model, but the v1 product surface stays centered on
+                Polymarket signals and allocator-visible controls.
+              </p>
+            </div>
+          </aside>
+        </div>
       </section>
 
       <ProductTabs product="arbitrage-hedge-fund" active="overview" />
 
-      <div className="flex flex-1 flex-col lg:flex-row">
-        <section className="flex flex-col border-border-muted lg:w-2/3 lg:border-r">
-          <div className="flex items-center justify-between border-b border-border-muted bg-surface p-4">
-            <h2 className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-              <LineChart className="h-4 w-4" />
-              Live Signals
-            </h2>
-            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-              Real-time
-            </span>
-          </div>
+      <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="bg-surface p-6 md:p-8">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            Product job
+          </p>
+          <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
+            Turn market dislocations into reviewable fund signals.
+          </h2>
+          <p className="mt-4 text-sm leading-6 text-on-surface-variant">
+            The overview is the allocator orientation layer. It explains what the fund observes, how
+            probability comparisons become signals, where exposure is reviewed, and why risk
+            controls sit beside the opportunity.
+          </p>
+        </div>
 
-          <div className="flex-1">
-            <div className="grid grid-cols-12 border-b border-border-muted bg-surface-container-low px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              <div className="col-span-4 md:col-span-3">Asset/Event</div>
-              <div className="hidden md:col-span-2 md:block">Type</div>
-              <div className="col-span-3 text-right md:col-span-2">Probability</div>
-              <div className="col-span-2 text-right">Spread</div>
-              <div className="col-span-3 text-right">Action</div>
-            </div>
-            {signals.map(([event, type, probability, spread, action, width]) => (
-              <div
-                key={event}
-                className="grid grid-cols-12 items-center border-b border-border-muted px-4 py-3 font-mono text-sm font-medium transition-colors hover:bg-surface-container"
-              >
-                <div className="col-span-4 truncate pr-4 text-on-surface md:col-span-3">{event}</div>
-                <div className="hidden text-on-surface-variant md:col-span-2 md:block">{type}</div>
-                <div className="col-span-3 flex items-center justify-end gap-2 text-right md:col-span-2">
-                  <div className="relative hidden h-1 w-16 bg-border-muted sm:block">
-                    <div className="absolute left-0 top-0 h-full bg-status-signal" style={{ width: `${width}%` }} />
-                  </div>
-                  {probability}
-                </div>
-                <div className="col-span-2 text-right text-status-signal">{spread}</div>
-                <div className="col-span-3 text-right">
-                  <Link
-                    href="/arbitrage-hedge-fund/signals"
-                    className={`btn btn-xs font-mono text-[10px] uppercase transition-colors ${
-                      action === "Monitor"
-                        ? "btn-disabled cursor-not-allowed border-border-muted text-on-surface-variant"
-                        : "btn-outline btn-success"
-                    }`}
-                  >
-                    {action}
-                  </Link>
-                </div>
+        <div className="grid gap-1 bg-border-muted md:grid-cols-2">
+          {workflowItems.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="group bg-surface p-5 transition-colors hover:bg-surface-container"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <item.icon className="h-5 w-5 text-status-signal" />
+                <ArrowRight className="h-4 w-4 text-on-surface-variant transition group-hover:translate-x-1 group-hover:text-status-signal" />
               </div>
-            ))}
+              <h3 className="mt-5 font-serif text-2xl font-semibold leading-tight text-on-surface">
+                {item.title}
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.body}</p>
+              <span className="mt-5 inline-flex font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                {item.cta}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-            <div className="border-b border-t border-t-status-signal border-b-border-muted bg-surface-container-low p-4">
-              <div className="grid grid-cols-12 items-center font-mono text-sm font-medium">
-                <div className="col-span-4 truncate pr-4 text-on-surface md:col-span-3">
-                  ETH ETF Approval Timeline
-                </div>
-                <div className="hidden text-on-surface-variant md:col-span-2 md:block">CRYPTO/REG</div>
-                <div className="col-span-3 flex items-center justify-end gap-2 md:col-span-2">
-                  <div className="relative hidden h-1 w-16 bg-border-muted sm:block">
-                    <div className="absolute left-0 top-0 h-full w-[45%] bg-status-signal" />
-                  </div>
-                  45%
-                </div>
-                <div className="col-span-2 text-right text-status-signal">8.5%</div>
-                <div className="col-span-3 text-right">
-                  <Link
-                    href="/arbitrage-hedge-fund/risk"
-                    className="btn btn-outline btn-success btn-xs font-mono text-[10px] uppercase"
-                  >
-                    Observe Anomaly
-                  </Link>
-                </div>
-              </div>
-              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="border border-border-muted bg-surface p-3 font-mono text-[11px] font-medium leading-normal uppercase tracking-[0.08em] text-on-surface-variant">
-                  <span className="mb-2 block text-on-surface">Normalization Vector</span>
-                  Volatility cluster detected across 3 oracle feeds. Spread diverging from
-                  historical mean by 2.4 sigma. Model suggests temporary liquidity vacuum.
-                </div>
-                <div className="hatch-pattern border border-border-muted bg-surface p-3 font-mono text-[11px] font-medium leading-normal uppercase tracking-[0.08em] text-on-surface-variant">
-                  <span className="mb-2 block text-on-surface">Governance Lock</span>
-                  Execution suspended pending secondary qualitative review. Allocation size exceeds
-                  auto-routing threshold.
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <aside className="flex flex-col bg-surface-dim lg:w-1/3">
-          <div className="flex items-center justify-between border-b border-border-muted p-4">
-            <h2 className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-              <FlaskConical className="h-4 w-4" />
-              Research Backlog
+      <section className="grid gap-1 bg-border-muted lg:grid-cols-[1fr_1fr]">
+        <div className="bg-surface">
+          <div className="border-b border-border-muted p-6">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Route map
+            </p>
+            <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
+              What each fund page is for.
             </h2>
           </div>
-          <div className="flex flex-col gap-4 p-4">
-            {researchCards.map((card) => (
+          <div className="grid">
+            {routeCards.map((route) => (
               <Link
-                key={card.title}
-                href="/arbitrage-hedge-fund/research"
-                className={`card card-border bg-surface p-4 transition-colors ${
-                  card.active
-                    ? "hover:border-status-signal"
-                    : "opacity-60"
-                }`}
+                key={route.href}
+                href={route.href}
+                className="group grid gap-3 border-b border-border-muted p-4 transition-colors last:border-b-0 hover:bg-surface-container md:grid-cols-[120px_1fr_auto]"
               >
-                <div className="flex items-start justify-between">
-                  <span
-                    className={`font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
-                      card.active ? "text-status-signal" : "text-on-surface-variant"
-                    }`}
-                  >
-                    {card.status}
-                  </span>
-                  <span className={`h-2 w-2 border ${card.active ? "border-white" : "border-border-muted"}`} />
-                </div>
-                <h3
-                  className={`mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface ${
-                    card.active ? "" : "line-through"
-                  }`}
-                >
-                  {card.title}
-                </h3>
-                <p className="mt-3 text-sm leading-normal text-on-surface-variant">{card.body}</p>
-                {card.footer ? (
-                  <div className="mt-4 flex justify-between border-t border-border-muted pt-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                    <span>{card.footer}</span>
-                    <span>{card.secondary}</span>
-                  </div>
-                ) : null}
+                <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                  {route.label}
+                </span>
+                <span className="text-sm leading-5 text-on-surface-variant">
+                  {route.description}
+                </span>
+                <ArrowRight className="h-4 w-4 text-on-surface-variant transition group-hover:translate-x-1 group-hover:text-status-signal" />
               </Link>
             ))}
           </div>
-          <div className="mt-auto grid grid-cols-2 border-t border-border-muted">
-            <Link
-              href="/arbitrage-hedge-fund/signals"
-              className="flex items-center gap-2 border-r border-border-muted p-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
-            >
-              <Gauge className="h-4 w-4" />
-              Signals
-            </Link>
-            <Link
-              href="/arbitrage-hedge-fund/risk"
-              className="flex items-center gap-2 p-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
-            >
-              <Shield className="h-4 w-4" />
-              Risk
-              <ArrowRight className="ml-auto h-4 w-4" />
-            </Link>
+        </div>
+
+        <div className="bg-surface">
+          <div className="border-b border-border-muted p-6">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Scope boundary
+            </p>
+            <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
+              Research context is not the same as product scope.
+            </h2>
           </div>
-        </aside>
-      </div>
+          <div className="grid">
+            {scopeItems.map((item) => (
+              <div
+                key={item.title}
+                className="grid gap-4 border-b border-border-muted p-4 last:border-b-0 md:grid-cols-[auto_1fr_auto]"
+              >
+                <item.icon className="h-5 w-5 text-status-signal" />
+                <div>
+                  <h3 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.body}</p>
+                </div>
+                <span className="h-fit border border-border-muted bg-surface-ink px-2 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                  {item.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="bg-surface p-6 md:p-8">
+          <Gauge className="h-5 w-5 text-status-warning" />
+          <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">
+            Sizing is a governance decision, not a button.
+          </h2>
+          <p className="mt-4 text-sm leading-6 text-on-surface-variant">
+            A visible spread can remain in monitoring until liquidity, persistence, hedge context,
+            concentration, and event-resolution language are strong enough for review.
+          </p>
+        </div>
+        <div className="grid gap-1 bg-border-muted md:grid-cols-3">
+          {[
+            ["Signal confidence", "Spread quality and model confidence determine whether a market stays monitored or progresses to sizing."],
+            ["Exposure controls", "Notional exposure, venue concentration, and stale-signal risk stay visible beside the opportunity."],
+            ["Failure modes", "Oracle delay, ambiguous resolution, liquidity gaps, and model drift are treated as product risks."],
+          ].map(([title, body]) => (
+            <div key={title} className="bg-surface p-5">
+              {title === "Failure modes" ? (
+                <CircleSlash className="h-5 w-5 text-status-warning" />
+              ) : title === "Exposure controls" ? (
+                <WalletCards className="h-5 w-5 text-status-warning" />
+              ) : (
+                <Timer className="h-5 w-5 text-status-warning" />
+              )}
+              <h3 className="mt-5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                {title}
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <FaqSection
         eyebrow="Arbitrage FAQ"
-        title="Product scope for the fund surface"
+        title="How to read the fund overview"
         description="The answers below match the FAQPage structured data and keep research-only strategies separate from active product scope."
         items={arbitrageFaqs}
       />
-    </main>
+
+      <ProductCrosslink current="arbitrage-hedge-fund" />
+    </>
+  );
+}
+
+function OverviewStat({
+  label,
+  value,
+  body,
+}: {
+  label: string;
+  value: string;
+  body: string;
+}) {
+  return (
+    <div className="bg-surface p-4">
+      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+        {label}
+      </p>
+      <p className="mt-2 font-mono text-xl font-semibold text-on-surface">{value}</p>
+      <p className="mt-2 text-xs leading-5 text-on-surface-variant">{body}</p>
+    </div>
   );
 }

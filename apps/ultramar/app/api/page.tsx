@@ -1,5 +1,10 @@
 import { JsonLd } from "@/components/json-ld";
-import { SectionHeader } from "@/components/section-header";
+import {
+  FeatureCard,
+  PageHeader,
+  PageShell,
+  SurfaceGrid,
+} from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -70,7 +75,7 @@ export const metadata = createSeoMetadata({
 
 export default function ApiPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <PageShell>
       <JsonLd
         id="api-json-ld"
         data={[
@@ -92,24 +97,19 @@ export default function ApiPage() {
         ]}
       />
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <SectionHeader
-            eyebrow="API directory"
-            title="Read-only product telemetry"
-            description="The public API index makes machine routes discoverable without sending footer traffic directly into raw JSON."
-          />
-        </div>
-        <div className="card card-border bg-surface p-6 md:p-8">
-          <Database className="h-5 w-5 text-status-signal" />
-          <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-            These endpoints are public product samples. Production integrations should expect authentication,
-            rate limits, contractual terms, and product-specific permissions.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="API directory"
+        title="Read-only product telemetry"
+        description="The public API index makes machine routes discoverable without sending footer traffic directly into raw JSON."
+      >
+        <Database className="h-5 w-5 text-status-signal" />
+        <p className="mt-4 text-sm leading-6 text-on-surface-variant">
+          These endpoints are public product samples. Production integrations should expect authentication,
+          rate limits, contractual terms, and product-specific permissions.
+        </p>
+      </PageHeader>
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted">
+      <SurfaceGrid bordered>
         {endpoints.map((endpoint) => (
           <Link
             key={endpoint.path}
@@ -132,19 +132,18 @@ export default function ApiPage() {
             </code>
           </Link>
         ))}
-      </section>
+      </SurfaceGrid>
 
-      <section className="grid gap-1 bg-border-muted md:grid-cols-3">
+      <SurfaceGrid columns="md:grid-cols-3">
         {principles.map((principle) => (
-          <article key={principle.title} className="card card-border bg-surface p-5">
-            <principle.icon className="h-5 w-5 text-status-signal" />
-            <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
-              {principle.title}
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-on-surface-variant">{principle.body}</p>
-          </article>
+          <FeatureCard
+            key={principle.title}
+            icon={principle.icon}
+            title={principle.title}
+            body={principle.body}
+          />
         ))}
-      </section>
-    </main>
+      </SurfaceGrid>
+    </PageShell>
   );
 }

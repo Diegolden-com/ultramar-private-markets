@@ -2,6 +2,7 @@ import { BrandName } from "@/components/brand-name";
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { indexableSitemapRoutes } from "@/lib/discoverability";
+import { productRouteGroups } from "@/lib/site-navigation";
 import {
   createSeoMetadata,
   faqJsonLd,
@@ -10,12 +11,20 @@ import {
   webPageJsonLd,
 } from "@/lib/seo";
 import { products } from "@ultramar/product-model";
-import { ArrowRight, Landmark, LineChart } from "lucide-react";
+import {
+  ArrowRight,
+  DatabaseZap,
+  Landmark,
+  LineChart,
+  LockKeyhole,
+  Route,
+  ShieldCheck,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const homeDescription =
-  "Ultramar.capital is the institutional surface for Private Equities and a Polymarket-first Arbitrage Hedge Fund.";
+  "Ultramar.capital explains and routes two institutional capital products: Private Equities for controlled private-market access and an Arbitrage Hedge Fund for Polymarket-first event-market signals.";
 
 export const metadata = createSeoMetadata({
   title: "Ultramar.capital | Private Equities and Arbitrage Hedge Fund",
@@ -29,59 +38,64 @@ const homeFaqs = [
   {
     question: "What is Ultramar.capital?",
     answer:
-      "Ultramar.capital is the canonical platform brand for two capital products: Ultramar Private Equities and the Ultramar Arbitrage Hedge Fund.",
+      "Ultramar.capital is the public product map for two capital products: Ultramar Private Equities and the Ultramar Arbitrage Hedge Fund.",
   },
   {
-    question: "What does Ultramar Private Equities do?",
+    question: "Which product should I open first?",
     answer:
-      "Ultramar Private Equities organizes tokenized private-market workflows for issuer onboarding, asset discovery, compliance-aware investor flows, oracle-backed operating data, markets, and portfolio visibility.",
+      "Open Private Equities if you are evaluating issuer rounds, tokenized private-market assets, oracle-backed diligence, or eligible secondary transfers. Open the Arbitrage Hedge Fund if you are evaluating Polymarket-first signals, exposure, sizing, and risk controls.",
   },
   {
-    question: "What is the Ultramar Arbitrage Hedge Fund?",
+    question: "Does the public site accept investments or execute trades?",
     answer:
-      "The Ultramar Arbitrage Hedge Fund is a Polymarket-first arbitrage product that compares prediction-market prices with derivatives-implied probabilities and turns durable spreads into monitored signals.",
+      "No. The public site explains product scope, routes, and workflow boundaries. Private-market participation and fund allocation require eligibility checks, documents, and product-specific review.",
   },
 ];
 
-const modules = [
+const platformPrinciples = [
   {
-    module: "Module 01",
-    title: "Private Equities",
-    subtitle: "RWA Rail System",
-    audience: "Issuers / Operators",
-    problem:
-      "Digitization and governance of real-world asset lifecycles, requiring strict regulatory compliance and auditable cap tables.",
-    href: "/private-equities",
-    cta: "Initialize Equities Rail",
-    icon: Landmark,
-    sequence: [
-      { label: "01", title: "Asset Tokenization", active: true },
-      { label: "02", title: "Cap Table Deployment", active: false },
-      { label: "03", title: "Secondary Liquidity", active: false },
-    ],
+    icon: Route,
+    title: "Two products, separate jobs",
+    body: "Private Equities handles issuer and investor workflows for private assets. The Arbitrage Hedge Fund handles event-market signal and risk workflows.",
   },
   {
-    module: "Module 02",
-    title: "Arbitrage Fund",
-    subtitle: "Quant Signal Protocol",
-    audience: "Allocators / Quants",
-    problem:
-      "High-frequency signal extraction, algorithmic deployment, and automated execution across fragmented liquidity pools.",
-    href: "/arbitrage-hedge-fund",
-    cta: "Initialize Quant Protocol",
-    icon: LineChart,
-    sequence: [
-      { label: "01", title: "Signal Extraction", active: true },
-      { label: "02", title: "Algorithmic Deployment", active: true },
-      { label: "03", title: "Automated Execution", active: false },
-    ],
+    icon: DatabaseZap,
+    title: "Overview before terminal",
+    body: "Each product overview now explains the workflow, the deeper routes, and the decision points before sending users into assets, signals, or risk pages.",
+  },
+  {
+    icon: LockKeyhole,
+    title: "Public explanation, gated action",
+    body: "The site can describe the products clearly without implying public exchange access, binding commitments, or automatic trade execution.",
   },
 ] as const;
 
+const productNarratives = {
+  "private-equities": {
+    icon: Landmark,
+    label: "Private-market rail",
+    headline: "For issuers and eligible investors evaluating private assets.",
+    routes: ["Assets", "Deals", "Oracle", "Market", "Legal Gate"],
+    nextStep: "Start with the overview, then inspect assets and issuer diligence.",
+  },
+  "arbitrage-hedge-fund": {
+    icon: LineChart,
+    label: "Polymarket-first fund",
+    headline: "For allocators evaluating event-market signals and controls.",
+    routes: ["Dashboard", "Signals", "Risk", "Research"],
+    nextStep: "Start with the overview, then inspect live signals and risk controls.",
+  },
+} as const;
+
+const productRouteCount = Object.values(productRouteGroups).reduce(
+  (count, group) => count + group.links.length,
+  0,
+);
+
 const platformStats = [
   ["Products", products.length.toString().padStart(2, "0"), "Private assets and event markets"],
-  ["Indexable Routes", indexableSitemapRoutes.length.toString(), "Canonical public pages"],
-  ["Mode", "Live", "Institutional terminal"],
+  ["Product Routes", productRouteCount.toString(), "Overview, asset, signal, risk, and research surfaces"],
+  ["Indexable Pages", indexableSitemapRoutes.length.toString(), "Canonical public pages"],
 ] as const;
 
 export default function HomePage() {
@@ -109,7 +123,7 @@ export default function HomePage() {
         ]}
       />
 
-      <header className="hero relative min-h-[420px] overflow-hidden border-b border-border-muted bg-surface px-4 py-10 md:px-12">
+      <header className="hero relative min-h-[560px] overflow-hidden border-b border-border-muted bg-surface px-4 py-10 md:px-12">
         <Image
           src="/abstract-financial-growth-chart-geometric-shapes.jpg"
           alt=""
@@ -119,120 +133,178 @@ export default function HomePage() {
           sizes="100vw"
         />
         <div className="hero-overlay bg-surface-ink/75" />
-        <div className="hero-content relative z-10 grid w-full max-w-none grid-cols-1 items-end gap-8 p-0 lg:grid-cols-[1fr_420px]">
-          <div>
+        <div className="hero-content relative z-10 flex w-full max-w-[1600px] flex-col items-start gap-10 p-0">
+          <div className="max-w-5xl">
             <div className="badge badge-outline badge-success gap-2 bg-surface-ink/80 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
               <span className="status status-success" />
-              System initialization active
+              Product map active
             </div>
-            <h1 className="mt-4 max-w-4xl font-serif text-5xl font-bold leading-[1.05] text-on-surface md:text-6xl">
-              <BrandName />
+            <h1 className="mt-4 max-w-5xl break-words font-serif text-3xl font-bold leading-[1.05] text-on-surface [overflow-wrap:anywhere] md:text-6xl">
+              <BrandName /> is the home for two capital products.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
-              Institutional control surface for private-market rails and Polymarket-first
-              arbitrage. Select the operating environment for the workflow you need.
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-on-surface-variant md:text-xl">
+              Private Equities explains controlled private-market access. The Arbitrage Hedge
+              Fund explains Polymarket-first signal, exposure, and risk workflows.
             </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/private-equities"
+                className="btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-64"
+              >
+                Private Equities
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/arbitrage-hedge-fund"
+                className="btn btn-outline btn-info justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-64"
+              >
+                Arbitrage Hedge Fund
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
 
-          <div className="stats stats-vertical border border-border-muted bg-surface/90 text-on-surface shadow-none sm:stats-horizontal lg:stats-vertical">
+          <div className="grid w-full gap-1 bg-border-muted md:grid-cols-3">
             {platformStats.map(([label, value, detail]) => (
-              <div key={label} className="stat border-border-muted">
-                <p className="stat-title font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+              <div key={label} className="bg-surface/95 p-5">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                   {label}
                 </p>
-                <p className="stat-value mt-2 font-mono text-2xl font-semibold text-on-surface">
-                  {value}
-                </p>
-                <p className="stat-desc mt-2 text-xs text-on-surface-variant">{detail}</p>
+                <p className="mt-3 font-mono text-3xl font-semibold text-on-surface">{value}</p>
+                <p className="mt-2 text-sm leading-5 text-on-surface-variant">{detail}</p>
               </div>
             ))}
           </div>
         </div>
       </header>
 
-      <section className="grid flex-1 grid-cols-1 md:grid-cols-2">
-        {modules.map((module, index) => (
-          <article
-            key={module.title}
-            className={`card group relative flex flex-col border-border-muted ${
-              index === 0 ? "border-b md:border-b-0 md:border-r" : ""
-            }`}
-          >
-            <div className="absolute inset-0 bg-surface-container opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-            <div className="relative z-10 flex h-full flex-col p-6 md:p-12">
-              <div className="mb-8 flex items-center justify-between">
-                <span className="badge badge-outline px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                  {module.module}
-                </span>
-                <module.icon className="h-5 w-5 text-border-muted transition-colors duration-300 group-hover:text-status-signal" />
+      <section className="grid gap-1 border-b border-border-muted bg-border-muted md:grid-cols-3">
+        {platformPrinciples.map((item) => (
+          <div key={item.title} className="bg-surface p-6 md:p-8">
+            <item.icon className="h-5 w-5 text-status-signal" />
+            <h2 className="mt-6 font-serif text-2xl font-semibold leading-tight text-on-surface">
+              {item.title}
+            </h2>
+            <p className="mt-4 text-sm leading-6 text-on-surface-variant">{item.body}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="grid gap-1 border-b border-border-muted bg-border-muted lg:grid-cols-2">
+        {products.map((product) => {
+          const narrative = productNarratives[product.slug];
+          const Icon = narrative.icon;
+
+          return (
+            <article key={product.slug} className="flex min-h-full flex-col bg-surface p-6 md:p-10">
+              <div className="flex items-start justify-between gap-6">
+                <div>
+                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                    {narrative.label}
+                  </p>
+                  <h2 className="mt-3 font-serif text-4xl font-semibold leading-tight text-on-surface">
+                    {product.name}
+                  </h2>
+                </div>
+                <Icon className="h-6 w-6 shrink-0 text-on-surface-variant" />
               </div>
 
-              <h2 className="font-serif text-3xl font-semibold leading-tight text-on-surface">
-                {module.title}
-              </h2>
-              <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                {module.subtitle}
+              <p className="mt-6 max-w-2xl text-lg leading-7 text-on-surface">
+                {narrative.headline}
+              </p>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">
+                {product.description}
               </p>
 
-              <dl className="mt-8 space-y-1">
-                <div className="grid gap-3 border-b border-border-muted py-2 sm:grid-cols-[120px_1fr]">
-                  <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                    Audience
-                  </dt>
-                  <dd className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-                    {module.audience}
-                  </dd>
-                </div>
-                <div className="grid gap-3 border-b border-border-muted py-2 sm:grid-cols-[120px_1fr]">
-                  <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                    Problem
-                  </dt>
-                  <dd className="text-sm leading-normal text-on-surface">{module.problem}</dd>
-                </div>
+              <dl className="mt-8 grid gap-1 border-y border-border-muted py-1">
+                <ProductFact label="Audience" value={product.audience} />
+                <ProductFact label="Problem" value={product.problem} />
+                <ProductFact label="Next step" value={narrative.nextStep} />
               </dl>
 
-              <div className="mt-8 flex-1">
-                <h3 className="mb-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                  Workflow sequence
-                </h3>
-                <div className="steps steps-vertical w-full border border-border-muted bg-surface">
-                  {module.sequence.map((step, stepIndex) => (
-                    <div
-                      key={step.label}
-                      className={`step justify-start gap-4 px-4 py-3 ${
-                        stepIndex === module.sequence.length - 1 ? "" : "border-b border-border-muted"
-                      } ${step.active ? "step-success" : "hatch-pattern"}`}
+              <div className="mt-8">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                  Route sequence
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {narrative.routes.map((route) => (
+                    <span
+                      key={route}
+                      className="border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant"
                     >
-                      <span
-                        className={`font-mono text-sm font-medium ${
-                          step.active ? "text-status-signal" : "text-border-muted"
-                        }`}
-                      >
-                        {step.label}
-                      </span>
-                      <span
-                        className={`font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
-                          step.active ? "text-on-surface" : "text-on-surface-variant"
-                        }`}
-                      >
-                        {step.title}
-                        {step.active ? "" : " (Locked)"}
-                      </span>
-                    </div>
+                      {route}
+                    </span>
                   ))}
                 </div>
               </div>
 
-              <Link
-                href={module.href}
-                className="btn btn-outline btn-success mt-12 flex w-full justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
-              >
-                <span>{module.cta}</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="mt-auto grid gap-3 pt-10 sm:grid-cols-2">
+                <Link
+                  href={product.href}
+                  className="btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+                >
+                  Product overview
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href={product.primaryHref}
+                  className="btn btn-ghost justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-primary"
+                >
+                  {product.primaryCta}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </article>
+          );
+        })}
+      </section>
+
+      <section className="border-b border-border-muted bg-surface-ink px-4 py-10 md:px-12">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="mb-6 flex items-end justify-between gap-6">
+            <div>
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                Site organization
+              </p>
+              <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
+                Every page has a specific job.
+              </h2>
             </div>
-          </article>
-        ))}
+            <ShieldCheck className="hidden h-6 w-6 text-status-signal md:block" />
+          </div>
+
+          <div className="grid gap-1 bg-border-muted lg:grid-cols-2">
+            {products.map((product) => (
+              <div key={product.slug} className="bg-surface">
+                <div className="border-b border-border-muted p-5">
+                  <h3 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
+                    {product.name}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-on-surface-variant">
+                    {productRouteGroups[product.slug].description}
+                  </p>
+                </div>
+                <div className="grid">
+                  {productRouteGroups[product.slug].links.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="group grid gap-3 border-b border-border-muted p-4 transition-colors last:border-b-0 hover:bg-surface-container md:grid-cols-[140px_1fr_auto]"
+                    >
+                      <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                        {link.label}
+                      </span>
+                      <span className="text-sm leading-5 text-on-surface-variant">
+                        {link.description}
+                      </span>
+                      <ArrowRight className="h-4 w-4 text-on-surface-variant transition group-hover:translate-x-1 group-hover:text-status-signal" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       <FaqSection
@@ -242,5 +314,16 @@ export default function HomePage() {
         items={homeFaqs}
       />
     </main>
+  );
+}
+
+function ProductFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="grid gap-2 border-b border-border-muted py-3 last:border-b-0 sm:grid-cols-[120px_1fr]">
+      <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+        {label}
+      </dt>
+      <dd className="text-sm leading-6 text-on-surface">{value}</dd>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
-import { ProductTabs } from "@/components/product-tabs";
+import { ProductRouteHeader, StatTile, SurfaceGrid } from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -99,7 +99,7 @@ export default async function SignalsPage() {
   ] as const;
 
   return (
-    <main className="mx-auto flex w-full max-w-[1800px] flex-col gap-6 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="arbitrage-signals-json-ld"
         data={[
@@ -128,15 +128,13 @@ export default async function SignalsPage() {
         ]}
       />
 
-      <header className="mt-4 flex flex-col justify-between gap-6 border-b border-border-muted pb-4 md:flex-row md:items-end">
-        <div>
-          <h1 className="font-serif text-3xl font-semibold leading-tight text-on-surface">
-            Arbitrage Operations
-          </h1>
-          <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-            Live Risk & Signal Feed // System V4.2
-          </p>
-        </div>
+      <ProductRouteHeader
+        product="arbitrage-hedge-fund"
+        active="signals"
+        eyebrow="Live Risk & Signal Feed // System V4.2"
+        title="Arbitrage Operations"
+        description={description}
+      >
         <div className="flex gap-4">
           <div className="flex flex-col items-start md:items-end">
             <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
@@ -154,31 +152,19 @@ export default async function SignalsPage() {
             <span className="block font-mono text-sm font-medium text-on-surface">14:02:44 UTC</span>
           </div>
         </div>
-      </header>
+      </ProductRouteHeader>
 
-      <ProductTabs product="arbitrage-hedge-fund" active="signals" />
-
-      <section className="stats stats-vertical grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:stats-horizontal md:grid-cols-4">
+      <SurfaceGrid bordered columns="grid-cols-1 md:grid-cols-4">
         {exposureMetrics.map(([label, value, tone]) => (
-          <div
+          <StatTile
             key={label}
-            className={`stat min-h-[100px] bg-surface p-4 ${tone === "signal" ? "border-t border-status-signal" : ""}`}
-          >
-            <div className="flex items-start justify-between">
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                {label}
-              </span>
-            </div>
-            <div
-              className={`mt-4 font-mono text-xl font-semibold ${
-                tone === "signal" ? "text-status-signal" : "text-on-surface"
-              }`}
-            >
-              {value}
-            </div>
-          </div>
+            label={label}
+            value={value}
+            tone={tone === "signal" ? "signal" : "default"}
+            className="min-h-[100px]"
+          />
         ))}
-      </section>
+      </SurfaceGrid>
 
       <section className="card card-border overflow-x-auto bg-border-muted">
         <div className="min-w-[980px]">
@@ -267,7 +253,7 @@ export default async function SignalsPage() {
         description="These answers match the FAQPage structured data and keep signal observation separate from trade execution."
         items={signalFaqs}
       />
-    </main>
+    </>
   );
 }
 

@@ -64,7 +64,7 @@ export default async function AssetDetailPage({
   const offeringTerms = getOfferingTerms(deal);
 
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id={`${deal.ticker.toLowerCase()}-asset-json-ld`}
         data={[
@@ -291,7 +291,7 @@ export default async function AssetDetailPage({
         </section>
       </aside>
       </div>
-    </main>
+    </>
   );
 }
 

@@ -1,6 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
-import { ProductTabs } from "@/components/product-tabs";
-import { SectionHeader } from "@/components/section-header";
+import { ProductRouteHeader, SurfaceGrid, SurfacePanel } from "@/components/page-layout";
 import { deals, formatCurrency } from "@/lib/deals";
 import {
   breadcrumbJsonLd,
@@ -26,7 +25,7 @@ export const metadata = createSeoMetadata({
 
 export default function MarketPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="private-equities-market-json-ld"
         data={[
@@ -49,15 +48,14 @@ export default function MarketPage() {
         ]}
       />
 
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
-        <SectionHeader
-          eyebrow="Private Equities / Secondary Rail"
-          title="Secondary market"
-          description="The market route separates eligible transfer activity from primary issuer rounds."
-        />
-      </section>
-      <ProductTabs product="private-equities" active="market" />
-      <div className="grid gap-1 bg-border-muted md:grid-cols-2">
+      <ProductRouteHeader
+        product="private-equities"
+        active="market"
+        eyebrow="Private Equities / Secondary Rail"
+        title="Secondary market"
+        description="The market route separates eligible transfer activity from primary issuer rounds."
+      />
+      <SurfaceGrid columns="md:grid-cols-2">
         {secondaryDeals.map((deal) => (
           <Link
             key={deal.id}
@@ -80,15 +78,15 @@ export default function MarketPage() {
             </span>
           </Link>
         ))}
-      </div>
-      <div className="border border-border-muted border-t-status-warning bg-surface p-5">
+      </SurfaceGrid>
+      <SurfacePanel padded={false} className="border-t-status-warning p-5">
         <LineChart className="h-5 w-5 text-status-warning" />
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           Secondary transfer availability depends on eligibility, lockups, issuer
           restrictions, and jurisdiction-specific compliance controls.
         </p>
-      </div>
-    </main>
+      </SurfacePanel>
+    </>
   );
 }
 

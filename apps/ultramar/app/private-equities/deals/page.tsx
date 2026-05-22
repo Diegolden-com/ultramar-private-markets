@@ -1,6 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
-import { ProductTabs } from "@/components/product-tabs";
-import { SectionHeader } from "@/components/section-header";
+import { ProductRouteHeader, SurfaceGrid, SurfacePanel } from "@/components/page-layout";
 import { deals, formatCurrency } from "@/lib/deals";
 import {
   breadcrumbJsonLd,
@@ -26,7 +25,7 @@ export const metadata = createSeoMetadata({
 
 export default function DealsPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-1 bg-surface-ink px-4 py-8 text-on-surface md:px-12">
+    <>
       <JsonLd
         id="private-equities-deals-json-ld"
         data={[
@@ -49,15 +48,14 @@ export default function DealsPage() {
         ]}
       />
 
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
-        <SectionHeader
-          eyebrow="Private Equities / Deal Rail"
-          title="Issuer rounds and deal mechanics"
-          description="Deals make the issuer round understandable before an investor reaches the transaction workflow."
-        />
-      </section>
-      <ProductTabs product="private-equities" active="deals" />
-      <div className="grid gap-1 bg-border-muted">
+      <ProductRouteHeader
+        product="private-equities"
+        active="deals"
+        eyebrow="Private Equities / Deal Rail"
+        title="Issuer rounds and deal mechanics"
+        description="Deals make the issuer round understandable before an investor reaches the transaction workflow."
+      />
+      <SurfaceGrid>
         {primaryDeals.map((deal) => (
           <Link
             key={deal.id}
@@ -110,8 +108,8 @@ export default function DealsPage() {
             </div>
           </Link>
         ))}
-      </div>
-      <div className="border border-border-muted border-t-status-warning bg-surface p-5">
+      </SurfaceGrid>
+      <SurfacePanel padded={false} className="border-t-status-warning p-5">
         <FileCheck2 className="h-5 w-5 text-status-warning" />
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           Production participation requires legal review, KYC/KYB, accreditation or
@@ -119,8 +117,8 @@ export default function DealsPage() {
           offering documents. The public deal page should not accept funds or binding
           commitments until the selected offering path is approved.
         </p>
-      </div>
-    </main>
+      </SurfacePanel>
+    </>
   );
 }
 
