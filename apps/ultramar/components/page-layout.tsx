@@ -289,14 +289,21 @@ export function StatTile({
         className,
       )}
     >
-      <p className="stat-title font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+      <p className="stat-title whitespace-normal break-words font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant [overflow-wrap:anywhere]">
         {label}
       </p>
-      <p className={cn("stat-value mt-4 font-mono text-lg font-semibold uppercase", valueClassName)}>
+      <p
+        className={cn(
+          "stat-value mt-4 whitespace-normal break-words font-mono text-lg font-semibold uppercase [overflow-wrap:anywhere]",
+          valueClassName,
+        )}
+      >
         {value}
       </p>
       {detail ? (
-        <p className="stat-desc mt-2 text-sm leading-normal text-on-surface-variant">{detail}</p>
+        <p className="stat-desc mt-2 whitespace-normal break-words text-sm leading-normal text-on-surface-variant [overflow-wrap:anywhere]">
+          {detail}
+        </p>
       ) : null}
     </div>
   );

@@ -10,6 +10,15 @@ Ultramar.capital is a single capital platform for two public product surfaces:
 - Ultramar Private Equities: tokenized private-market workflows for issuer onboarding, asset discovery, compliance-aware investor flows, oracle-backed operating data, markets, and portfolio visibility. Canonical URL: https://ultramar.capital/private-equities
 - Ultramar Arbitrage Hedge Fund: Polymarket-first arbitrage infrastructure with signal monitoring, allocator dashboard context, position exposure, and risk controls. Canonical URL: https://ultramar.capital/arbitrage-hedge-fund
 
+Press pages:
+
+- https://ultramar.capital/press
+- https://ultramar.capital/press/capital-windows-uniswap-v4-custom-accounting
+- https://ultramar.capital/press/why-capital-markets-need-onchain-instruments-now
+- https://ultramar.capital/press/private-secondaries-need-transparent-rails
+- https://ultramar.capital/press/ai-compliance-is-the-disclosure-layer-for-tokenized-equity
+- https://ultramar.capital/press/retail-access-to-private-companies-should-not-wait-for-ipo
+
 Research pages:
 
 - https://ultramar.capital/research/polymarket-arbitrage-explainer

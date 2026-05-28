@@ -42,6 +42,8 @@ yarn-error.log*
 next-env.d.ts
 
 # foundry/forge (smart contracts)
+# Keep generated build output and hydrated library repos out of the app repo.
+# Rehydrate local libs from apps/private-equities/contracts/README.md.
 contracts/cache/
 contracts/out/
 contracts/lib/

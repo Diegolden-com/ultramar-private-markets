@@ -15,6 +15,8 @@ Ultramar.capital is the canonical public app for the Ultramar platform. It prese
 
 Capital is the umbrella layer and should not be described as a third public product.
 
+The Press section is an editorial SEO surface for authoritative articles on Uniswap v4 custom accounting, onchain instruments, tokenized private equity, AI compliance, and continuous disclosure. It should be described as market-structure and technical commentary, not as an offering page.
+
 ## Routing Policy
 
 - https://ultramar.capital serves the canonical app directly.
@@ -28,6 +30,7 @@ Platform:
 
 - https://ultramar.capital
 - https://ultramar.capital/research
+- https://ultramar.capital/press
 - https://ultramar.capital/compliance
 - https://ultramar.capital/legal
 - https://ultramar.capital/sitemap
@@ -60,6 +63,14 @@ Research:
 - https://ultramar.capital/research/issuer-oracle-operating-data
 - https://ultramar.capital/research/event-market-risk-controls
 
+Press:
+
+- https://ultramar.capital/press/capital-windows-uniswap-v4-custom-accounting
+- https://ultramar.capital/press/why-capital-markets-need-onchain-instruments-now
+- https://ultramar.capital/press/private-secondaries-need-transparent-rails
+- https://ultramar.capital/press/ai-compliance-is-the-disclosure-layer-for-tokenized-equity
+- https://ultramar.capital/press/retail-access-to-private-companies-should-not-wait-for-ipo
+
 ## Product Summaries
 
 Private Equities organizes tokenized private-market workflows across asset discovery, issuer rounds, oracle-backed operating data, eligible secondary transfer context, compliance boundaries, and investor portfolio visibility. Public pages explain product workflow and asset context. Production participation requires eligibility checks, issuer-specific documents, legal review, and transfer controls.
@@ -83,6 +94,28 @@ Explains why issuer operating data, solvency context, liquidity state, and data 
 Event-market risk controls memo:
 https://ultramar.capital/research/event-market-risk-controls
 Explains sizing, liquidity, exposure, resolution, and model-drift controls for event-market arbitrage.
+
+## Press Pages
+
+Capital Windows: Gated company-token conversion with Uniswap v4 custom accounting:
+https://ultramar.capital/press/capital-windows-uniswap-v4-custom-accounting
+Explains the Uniswap v4 hackathon implementation for gated primary conversion and company-sponsored secondary liquidity windows using custom accounting, signed authorization, investor caps, oracle freshness, and exact-input routing.
+
+Why capital markets need onchain instruments now:
+https://ultramar.capital/press/why-capital-markets-need-onchain-instruments-now
+Explains why onchain instruments are an operating response to private-market opacity, high secondary fees, slow settlement, and unequal access.
+
+Private secondaries need transparent rails:
+https://ultramar.capital/press/private-secondaries-need-transparent-rails
+Explains why private secondary markets need better ownership records, transfer controls, price confidence, and issuer state rather than more manual toll booths.
+
+AI compliance is the disclosure layer tokenized equity is missing:
+https://ultramar.capital/press/ai-compliance-is-the-disclosure-layer-for-tokenized-equity
+Explains how source-bound financial telemetry, anomaly detection, and explainable compliance scores can support tokenized equity.
+
+Retail access to private companies should not wait for the IPO:
+https://ultramar.capital/press/retail-access-to-private-companies-should-not-wait-for-ipo
+Explains the access thesis for controlled private-company investing before traditional public listings.
 
 ## Compliance And Non-Offer Boundaries
 

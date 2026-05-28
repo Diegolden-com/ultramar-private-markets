@@ -1,20 +1,22 @@
 # Uniswap v4 permissioned liquidity architecture
 
-Working objective: evaluate whether Ultramar Private Equities can use Uniswap v4 as the secondary-liquidity substrate while preserving the prior counsel-gated boundary: no public purchase, subscription, swap, wire instruction, or binding commitment until the issuer path is approved.
+Working objective: evaluate whether Ultramar Private Equities can use Uniswap v4 as the gated conversion substrate for approved capital windows while preserving the prior counsel-gated boundary: no public purchase, subscription, swap, wire instruction, or binding commitment until the issuer path is approved.
 
 This is architecture guidance, not legal, tax, accounting, or investment advice. Counsel must approve the issuer, investor jurisdictions, transfer restrictions, marketing language, liquidity operations, custody, and funds flow before any production pool or transaction path is exposed.
 
 ## Current conclusion
 
-Uniswap v4 is viable only as a controlled secondary-market infrastructure layer, not as a public trading shortcut.
+Uniswap v4 is viable only as a controlled capital-window infrastructure layer, not as a public trading shortcut.
 
 The right direction is:
 
 - Keep Ultramar public pages read-only and informational.
-- Keep primary issuance, allocation, subscription, and funds flow outside Uniswap.
-- Replace `SimpleAMM` as the long-term liquidity primitive with a Uniswap v4 pool only after legal approval.
+- Keep public primary issuance, public allocation, subscription, and funds-flow instructions outside Ultramar public pages.
+- Use Uniswap v4 only as the final gated conversion step after eligibility, allocation, counsel review, and signed authorization exist.
+- Replace `SimpleAMM` as the long-term liquidity primitive with Capital Windows: scheduled primary conversion windows and company-sponsored secondary windows.
 - Enforce eligibility and transfer controls through both the restricted `AssetToken` and a Uniswap v4 Hook.
 - Use an Ultramar-controlled router/gated app path; reject generic public routes unless they carry approved eligibility context.
+- Use custom accounting for the hackathon demo to replace generic AMM price discovery with a windowed step conversion curve.
 
 ## Official v4 premises
 
@@ -26,6 +28,17 @@ Links rechecked on May 13, 2026:
 - Hook permissions are encoded in the hook contract address; production deployment needs address mining and permission verification: https://developers.uniswap.org/docs/protocols/v4/guides/hooks/hook-deployment
 - Uniswap v4 deployments are chain-specific. Do not assume the same addresses across chains: https://developers.uniswap.org/docs/protocols/v4/deployments
 - Uniswap's hook security framework treats hooks as a new risk surface requiring scoring, testing, monitoring, and audit planning: https://developers.uniswap.org/docs/protocols/v4/security
+
+## Implementation status
+
+Implemented locally on May 28, 2026 in `apps/private-equities/contracts`:
+
+- `CapitalWindowRegistry`: schedules primary and secondary windows with caps, investor limits, signed authorization, and oracle freshness checks.
+- `CapitalWindowHook`: uses `beforeSwap` plus `beforeSwapReturnDelta` custom accounting to replace generic AMM execution with the windowed conversion curve.
+- `CapitalWindowRouter`: pre-settles exact-input investor payment into `PoolManager`, routes through the hook, and delivers company-token output to the approved recipient.
+- `CapitalWindowHook.t.sol`: tests primary conversion, secondary liquidity, outside-window rejection, total-cap rejection, per-investor-cap rejection, stale oracle rejection, unapproved investor rejection, invalid signature rejection, exact-output rejection, and unauthorized liquidity modification rejection.
+
+This implementation is a hackathon demo and architecture proof. It is not audited, deployed, or available as production liquidity.
 
 ## Chain decision
 
@@ -43,17 +56,16 @@ Recommended path:
 ```mermaid
 flowchart LR
   Issuer["Issuer + Counsel"] --> DataRoom["Data room / terms / transfer policy"]
+  DataRoom --> Window["CapitalWindowRegistry"]
   DataRoom --> CRM["Ultramar CRM + eligibility ops"]
-  CRM --> Eligibility["EligibilityRegistry"]
-  CRM --> Policy["TransferPolicyRegistry"]
+  CRM --> Window
   Oracle["Accounting / KPI oracle"] --> Solvency["SolvencyRegistry on v4 chain"]
 
-  Eligibility --> Hook["LCXComplianceHook"]
-  Policy --> Hook
+  Window --> Hook["CapitalWindowHook"]
   Solvency --> Hook
 
   Investor["Verified investor"] --> App["Gated Ultramar app"]
-  App --> Router["UltramarV4Router"]
+  App --> Router["CapitalWindowRouter"]
   Router --> PoolManager["Uniswap v4 PoolManager"]
   Hook --> PoolManager
 
@@ -79,9 +91,9 @@ flowchart LR
 ### Gated Ultramar app
 
 - Handles authentication, KYC/KYB status, investor category, jurisdiction, sanctions checks, NDA status, suitability, and transfer-policy acceptance.
-- Shows quotes and pool state only to eligible investors.
-- Builds transaction calldata for `UltramarV4Router`.
-- Passes signed eligibility context to the v4 Hook through `hookData`.
+- Shows capital-window quotes and state only to eligible investors.
+- Builds transaction calldata for `CapitalWindowRouter`.
+- Passes signed authorization context to the v4 Hook through `hookData`: window id, investor, minimum company-token output, deadline, nonce, and authorizer signature.
 
 ### `AssetToken`
 
@@ -97,35 +109,44 @@ flowchart LR
 - Required infrastructure contracts such as `PoolManager` and `PositionManager` should receive narrowly scoped permissions, not blanket holder-equivalent freedom.
 - Token restrictions are the last line of defense if a route bypasses the app or Hook; direct holder-to-holder transfers must fail unless a counsel-approved transfer policy explicitly permits that path.
 
-### `LCXComplianceHook`
+### Capital Windows
 
-Initial hook should be boring and restrictive. Do not ship dynamic fees, custom accounting, custom curves, or autonomous parameter updates in v1.
+Capital Windows are the v4 primitive for the hackathon implementation. They are scheduled, counsel-gated windows that can operate in two modes:
+
+- `PrimaryConversion`: an approved investor uses USDC to receive company tokens from issuer-controlled inventory after allocation and authorization.
+- `SecondaryLiquidity`: a company-sponsored transfer window lets approved buyers receive company tokens from escrow while cash routes to a seller or settlement recipient.
+
+Each window defines start/end time, payment token, company token, cash recipient, total cap, per-investor cap, min/max ticket, base conversion price, optional step increments, oracle freshness, and active/paused/closed status.
+
+The v1 curve is a windowed step conversion curve. The approved round or window terms set the base price. As payment fills scheduled tranches, the hook can apply a configured step premium. Oracle data gates availability and freshness; it does not silently reprice the asset.
+
+### `CapitalWindowHook`
+
+The hackathon hook is intentionally restrictive even though it uses custom accounting.
 
 Recommended callback permissions:
 
-- `beforeInitialize`: allow only issuer/admin-approved pool initialization for the exact LCX/USDC pool.
-- `beforeAddLiquidity`: allow only approved issuer, treasury, market-maker, or liquidity-program addresses.
-- `beforeRemoveLiquidity`: enforce lockups, notice windows, and approved LP exits.
-- `beforeSwap`: require approved router, valid investor eligibility payload, active transfer window, non-expired KYC/KYB, allowed jurisdiction, and no sanctions block.
-- `afterSwap`: emit audit events for offchain reconciliation and portfolio updates.
+- `beforeAddLiquidity`: reject public liquidity modification for the custom-accounting pool.
+- `beforeRemoveLiquidity`: reject public liquidity modification for the custom-accounting pool.
+- `beforeSwap`: require exact input, approved router, valid `hookData`, active window, eligible investor, signed authorization, caps, oracle freshness, and valid token direction.
+- `beforeSwapReturnDelta`: consume the full exact input and return custom company-token output from the window curve.
 
-Avoid in v1:
+Avoid in production until separately reviewed:
 
-- `beforeSwapReturnDelta` and custom accounting.
-- custom curves,
-- hook-managed custody,
 - automatic fee changes,
 - cross-chain state reads inside swap execution.
+- generic Universal Router paths.
+- unsupported exact-output swaps.
 
-### `UltramarV4Router`
+### `CapitalWindowRouter`
 
 This is the transaction adapter between the gated app and Uniswap v4.
 
 Responsibilities:
 
-- Decode the authenticated investor session into a compact signed eligibility payload.
-- Call v4 periphery/`PoolManager` with the correct pool key and hook data.
-- Restrict calls to known LCX pool IDs and approved tokens.
+- Pre-settle the investor payment into `PoolManager`, call the window hook, and deliver company tokens to the approved recipient.
+- Route only exact-input payment-token-to-company-token conversions.
+- Restrict calls to known pool keys and approved tokens.
 - Prevent generic Universal Router paths from becoming the primary compliance surface.
 - Emit app-level events that match CRM stages and portfolio reporting.
 
@@ -146,9 +167,9 @@ Responsibilities:
 
 ### Phase 1: v4 sandbox
 
-- Deploy mock `AssetToken`, `EligibilityRegistry`, `TransferPolicyRegistry`, local `SolvencyRegistry`, `LCXComplianceHook`, and `UltramarV4Router` on Base Sepolia or Sepolia.
+- Deploy mock `AssetToken`, local `SolvencyRegistry`, `CapitalWindowRegistry`, `CapitalWindowHook`, and `CapitalWindowRouter` on Base Sepolia or Sepolia.
 - Initialize a test LCX/USDC v4 pool with the mined hook address.
-- Test direct PoolManager/router attempts, ineligible investor attempts, expired eligibility, paused transfer windows, and issuer-only LP controls.
+- Test primary conversion, secondary windows, direct PoolManager/router attempts, ineligible investor attempts, expired windows, stale oracle proofs, cap breaches, exact-output rejection, and liquidity modification rejection.
 
 ### Phase 2: private pilot
 
@@ -182,11 +203,14 @@ Migration target:
 - Keep `SimpleAMM` tests for simple transfer-restriction proofs.
 - Add a new v4 integration workspace under contracts once implementation begins.
 - Port the relevant tests:
-  - whitelisted investor can swap through the approved route,
-  - non-whitelisted investor cannot receive `AssetToken`,
-  - unapproved router/direct caller reverts,
-  - paused transfer window reverts,
-  - issuer/approved LP can add/remove liquidity under policy,
+  - whitelisted investor can convert through the approved route,
+  - scheduled primary conversion window routes cash to treasury,
+  - scheduled secondary window routes cash to seller escrow,
+  - non-whitelisted or unauthorized investor reverts,
+  - stale oracle proof reverts,
+  - over-cap and over-investor-cap attempts revert,
+  - exact-output attempts revert,
+  - public add/remove liquidity reverts,
   - event stream reconciles against CRM/portfolio state.
 
 ## Open decisions
@@ -194,7 +218,7 @@ Migration target:
 - Production chain: Base, Arbitrum, Ethereum, Unichain, or another officially supported v4 deployment.
 - Token standard: keep restricted ERC20 or migrate to a more securities-specific transfer-control standard.
 - Router policy: Ultramar-only router versus allowing approved Universal Router flows with strict hook data.
-- LP model: issuer-only liquidity, approved market maker, or tightly capped investor LPs.
+- LP model: hook-owned company-token inventory for capital windows versus separate issuer-only liquidity after legal review.
 - Fee policy: fixed v4 fee tier in v1; dynamic fees only after separate review.
 - Oracle gating: which oracle status flags can pause or restrict transfers.
 - Custody: self-custody, qualified custody, or broker/custodian-mediated wallets.

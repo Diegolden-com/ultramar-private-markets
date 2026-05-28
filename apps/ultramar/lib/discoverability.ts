@@ -1,4 +1,5 @@
 import { deals } from "@/lib/deals";
+import { pressArticles } from "@/lib/press";
 import { researchArticles } from "@/lib/research";
 import {
   platformRouteGroup,
@@ -8,9 +9,9 @@ import {
   type SiteRouteGroup,
 } from "@/lib/site-navigation";
 
-export const lastSignificantUpdate = new Date("2026-05-22T00:00:00.000Z");
+export const lastSignificantUpdate = new Date("2026-05-28T00:00:00.000Z");
 
-const platformIndexableKeys = new Set(["home", "research", "compliance", "legal", "sitemap"]);
+const platformIndexableKeys = new Set(["home", "research", "press", "compliance", "legal", "sitemap"]);
 const privateEquitiesExcludedKeys = new Set(["overview", "portfolio"]);
 const arbitrageExcludedKeys = new Set(["overview"]);
 
@@ -48,6 +49,15 @@ export const researchIndexableRoutes: SiteNavLink[] = researchArticles.map((arti
   priority: 0.78,
 }));
 
+export const pressIndexableRoutes: SiteNavLink[] = pressArticles.map((article) => ({
+  key: `press-${article.slug}`,
+  label: article.title,
+  href: `/press/${article.slug}`,
+  description: article.description,
+  changeFrequency: "monthly",
+  priority: 0.8,
+}));
+
 export const indexableRouteGroups: SiteRouteGroup[] = [
   {
     title: platformRouteGroup.title,
@@ -65,6 +75,10 @@ export const indexableRouteGroups: SiteRouteGroup[] = [
   {
     title: "Research Memos",
     links: researchIndexableRoutes,
+  },
+  {
+    title: "Press Articles",
+    links: pressIndexableRoutes,
   },
 ];
 

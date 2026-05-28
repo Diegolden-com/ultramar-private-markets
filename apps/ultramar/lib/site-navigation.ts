@@ -44,6 +44,14 @@ export const platformRouteGroup = {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      key: "press",
+      label: "Press",
+      href: "/press",
+      description: "Authoritative articles on onchain instruments, tokenized private markets, and AI compliance.",
+      changeFrequency: "weekly",
+      priority: 0.82,
+    },
     ...footerRouteItems.map((route) => ({
       ...route,
       description: `Ultramar.capital ${route.label.toLowerCase()} route.`,
@@ -188,6 +196,13 @@ export const headerNavItems = [
     label: "Research",
     href: "/research",
     description: "Research library for private-market and arbitrage memos.",
+    links: [],
+  },
+  {
+    key: "press",
+    label: "Press",
+    href: "/press",
+    description: "Authoritative articles on onchain instruments and private-market access.",
     links: [],
   },
 ] as const;
