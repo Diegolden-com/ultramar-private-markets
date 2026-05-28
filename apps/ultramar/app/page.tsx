@@ -1,6 +1,7 @@
 import { BrandName } from "@/components/brand-name";
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
+import { ParticleWaveHero } from "@/components/particle-wave-hero";
 import { indexableSitemapRoutes } from "@/lib/discoverability";
 import { productRouteGroups } from "@/lib/site-navigation";
 import {
@@ -20,7 +21,6 @@ import {
   Route,
   ShieldCheck,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const homeDescription =
@@ -124,14 +124,7 @@ export default function HomePage() {
       />
 
       <header className="hero relative min-h-[560px] overflow-hidden border-b border-border-muted bg-surface px-4 py-10 md:px-12">
-        <Image
-          src="/abstract-financial-growth-chart-geometric-shapes.jpg"
-          alt=""
-          fill
-          className="image-blackwork object-cover opacity-45"
-          priority
-          sizes="100vw"
-        />
+        <ParticleWaveHero />
         <div className="hero-overlay bg-surface-ink/75" />
         <div className="hero-content relative z-10 flex w-full max-w-[1600px] flex-col items-start gap-10 p-0">
           <div className="max-w-5xl">
