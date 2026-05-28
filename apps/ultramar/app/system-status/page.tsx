@@ -1,4 +1,5 @@
 import { BrandText } from "@/components/brand-name";
+import { StatusToastPanel } from "@/components/daisyui-route-widgets";
 import { JsonLd } from "@/components/json-ld";
 import { PageHeader, PageShell, StatTile, SurfaceGrid, SurfacePanel } from "@/components/page-layout";
 import { averageAbsoluteSpread, samplePositions, sampleSignals, totalExposure } from "@/lib/arbitrage";
@@ -125,6 +126,8 @@ export default function SystemStatusPage() {
           </Link>
         ))}
       </SurfaceGrid>
+
+      <StatusToastPanel />
 
       <SurfacePanel padded={false} className="p-6">
         <CircuitBoard className="h-5 w-5 text-status-signal" />

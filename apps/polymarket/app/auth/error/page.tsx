@@ -23,15 +23,18 @@ export default function Page({
 }) {
   return (
     <div className="flex min-h-svh w-full items-center justify-center bg-background p-6 md:p-10">
-      <div className="w-full max-w-sm text-center">
+      <div className="card card-border w-full max-w-sm bg-card text-center">
+        <div className="card-body">
         <Link
           href="/"
           className="inline-block text-xs font-semibold uppercase tracking-[0.3em] text-primary"
         >
           Ultramar
         </Link>
-        <div className="mx-auto mt-6 flex h-12 w-12 items-center justify-center rounded-full border border-destructive/30 bg-destructive/10">
-          <AlertCircle className="h-5 w-5 text-destructive" />
+        <div className="avatar placeholder mx-auto mt-6">
+          <div className="w-12 rounded-full border border-destructive/30 bg-destructive/10 text-destructive">
+            <AlertCircle className="h-5 w-5" />
+          </div>
         </div>
         <h1 className="mt-4 text-2xl font-semibold tracking-tight">
           Something went wrong
@@ -44,10 +47,11 @@ export default function Page({
         <div className="mt-6">
           <Link
             href="/auth/login"
-            className="text-sm text-foreground underline underline-offset-4 transition-colors hover:text-primary"
+            className="btn btn-primary btn-sm"
           >
             Back to sign in
           </Link>
+        </div>
         </div>
       </div>
     </div>

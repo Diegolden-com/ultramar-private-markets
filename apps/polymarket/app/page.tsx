@@ -1,5 +1,4 @@
 import { BrandName, BrandText } from "@/components/brand-name";
-import { Button } from "@/components/ui/button";
 import { Hero } from "@/components/hero";
 import {
   Activity,
@@ -70,19 +69,19 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+      <nav className="navbar sticky top-0 z-50 border-b border-border bg-background/80 px-0 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-8">
             <Link
               href="/"
-              className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground"
+              className="btn btn-ghost btn-sm px-0 text-sm font-semibold uppercase tracking-[0.2em] text-foreground"
             >
               Ultramar
             </Link>
-            <div className="hidden items-center gap-6 text-sm text-muted-foreground sm:flex">
+            <div className="hidden items-center gap-2 text-sm text-muted-foreground sm:flex">
               <Link
                 href="/dashboard"
-                className="transition-colors hover:text-foreground"
+                className="btn btn-ghost btn-sm"
               >
                 Dashboard
               </Link>
@@ -90,7 +89,7 @@ export default function Home() {
                 <a
                   key={app.href}
                   href={app.href}
-                  className="transition-colors hover:text-foreground"
+                  className="badge badge-outline border-border text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
                 >
                   {app.label}
                 </a>
@@ -98,19 +97,19 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/auth/login">Sign in</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/auth/sign-up">Sign up</Link>
-            </Button>
+            <Link href="/auth/login" className="btn btn-ghost btn-sm">
+              Sign in
+            </Link>
+            <Link href="/auth/sign-up" className="btn btn-primary btn-sm">
+              Sign up
+            </Link>
           </div>
         </div>
-        <div className="border-t border-border sm:hidden">
+        <div className="absolute top-full w-full border-t border-border bg-background/90 sm:hidden">
           <div className="mx-auto flex max-w-6xl gap-4 overflow-x-auto px-6 py-2 text-xs text-muted-foreground">
             <Link
               href="/dashboard"
-              className="shrink-0 transition-colors hover:text-foreground"
+              className="badge badge-outline shrink-0"
             >
               Dashboard
             </Link>
@@ -118,7 +117,7 @@ export default function Home() {
               <a
                 key={app.href}
                 href={app.href}
-                className="shrink-0 transition-colors hover:text-foreground"
+                className="badge badge-outline shrink-0"
               >
                 {app.label}
               </a>
@@ -135,8 +134,8 @@ export default function Home() {
             {/* Left: Copy */}
             <div className="flex flex-col gap-6">
               <div className="animate-fade-in-up delay-1">
-                <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1 text-xs font-medium text-muted-foreground">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-signal-positive animate-terminal-pulse" />
+                <span className="badge badge-success badge-outline gap-2">
+                  <span className="status status-success animate-terminal-pulse" />
                   MVP Live
                 </span>
               </div>
@@ -154,15 +153,13 @@ export default function Home() {
                 </BrandText>
               </p>
               <div className="animate-fade-in-up delay-5 flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
-                <Button size="lg" className="w-full sm:w-auto" asChild>
-                  <Link href="/dashboard">
-                    Open Signal Dashboard
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
-                  <Link href="/auth/sign-up">Create Account</Link>
-                </Button>
+                <Link href="/dashboard" className="btn btn-primary w-full sm:w-auto">
+                  Open Signal Dashboard
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+                <Link href="/auth/sign-up" className="btn btn-outline w-full sm:w-auto">
+                  Create Account
+                </Link>
               </div>
             </div>
 
@@ -191,15 +188,19 @@ export default function Home() {
             {FEATURES.map((f, i) => (
               <div
                 key={f.title}
-                className={`group rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/30 animate-fade-in-up delay-${i + 1}`}
+                className={`card card-border group bg-card transition-colors hover:border-primary/30 animate-fade-in-up delay-${i + 1}`}
               >
-                <div className="mb-4 inline-flex rounded-lg border border-border bg-secondary p-2.5">
-                  <f.icon className="h-5 w-5 text-primary" />
+                <div className="card-body">
+                  <div className="avatar placeholder mb-4">
+                    <div className="w-11 rounded-lg border border-border bg-secondary text-primary">
+                      <f.icon className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <h3 className="card-title text-base">{f.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {f.description}
+                  </p>
                 </div>
-                <h3 className="mb-2 text-base font-semibold">{f.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {f.description}
-                </p>
               </div>
             ))}
           </div>
@@ -217,19 +218,22 @@ export default function Home() {
               From market data to actionable signals
             </h2>
           </div>
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="steps steps-vertical w-full gap-8 lg:steps-horizontal">
             {STEPS.map((s, i) => (
-              <div key={s.step} className={`animate-fade-in-up delay-${i + 1}`}>
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary font-mono text-sm font-bold text-primary-foreground">
+              <div
+                key={s.step}
+                className={`step step-primary animate-fade-in-up delay-${i + 1}`}
+              >
+                <div className="mt-4 max-w-sm text-left lg:text-center">
+                  <span className="badge badge-primary mb-4 font-mono">
                     {s.step}
                   </span>
-                  <s.icon className="h-5 w-5 text-muted-foreground" />
+                  <s.icon className="mx-0 mb-3 h-5 w-5 text-muted-foreground lg:mx-auto" />
+                  <h3 className="mb-2 text-base font-semibold">{s.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {s.description}
+                  </p>
                 </div>
-                <h3 className="mb-2 text-base font-semibold">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {s.description}
-                </p>
               </div>
             ))}
           </div>
@@ -247,19 +251,17 @@ export default function Home() {
             account to unlock paper trading and execution.
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
-            <Button size="lg" asChild>
-              <Link href="/dashboard">
-                Open Dashboard
-                <ChevronRight className="ml-1 h-4 w-4" />
-              </Link>
-            </Button>
+            <Link href="/dashboard" className="btn btn-primary">
+              Open Dashboard
+              <ChevronRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
+      <footer className="footer border-t border-border">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
             Ultramar
           </p>

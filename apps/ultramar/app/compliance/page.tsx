@@ -1,4 +1,5 @@
 import { BrandText } from "@/components/brand-name";
+import { CapitalIntakeForm, ComplianceModal } from "@/components/daisyui-route-widgets";
 import { JsonLd } from "@/components/json-ld";
 import {
   FeatureCard,
@@ -117,6 +118,8 @@ export default function CompliancePage() {
         ))}
       </SurfaceGrid>
 
+      <CapitalIntakeForm />
+
       <SplitPanel
         columns="lg:grid-cols-[0.9fr_1.1fr]"
         contentPadded={false}
@@ -148,6 +151,8 @@ export default function CompliancePage() {
           Compliance is a workflow constraint, not a marketing claim.
         </h2>
       </SplitPanel>
+
+      <ComplianceModal />
     </PageShell>
   );
 }

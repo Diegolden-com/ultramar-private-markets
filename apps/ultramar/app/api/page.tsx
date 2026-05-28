@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { ApiMockupPanel } from "@/components/daisyui-route-widgets";
 import {
   FeatureCard,
   PageHeader,
@@ -133,6 +134,8 @@ export default function ApiPage() {
           </Link>
         ))}
       </SurfaceGrid>
+
+      <ApiMockupPanel />
 
       <SurfaceGrid columns="md:grid-cols-3">
         {principles.map((principle) => (

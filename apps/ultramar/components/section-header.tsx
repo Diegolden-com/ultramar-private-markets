@@ -15,9 +15,12 @@ export function SectionHeader({
 
   return (
     <div className="max-w-3xl">
-      <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-        {eyebrow}
-      </p>
+      <div className="indicator">
+        <span className="indicator-item status status-success" />
+        <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+          {eyebrow}
+        </p>
+      </div>
       <Heading className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
         <BrandText>{title}</BrandText>
       </Heading>

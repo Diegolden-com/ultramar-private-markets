@@ -76,27 +76,27 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
+      <header className="navbar sticky top-0 z-50 border-b border-border bg-background/80 px-0 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-6">
             <Link
               href="/"
-              className="text-sm font-semibold uppercase tracking-[0.2em]"
+              className="btn btn-ghost btn-sm px-0 text-sm font-semibold uppercase tracking-[0.2em]"
             >
               Ultramar
             </Link>
             <span className="hidden text-xs text-muted-foreground sm:inline">
               /
             </span>
-            <span className="hidden text-xs text-muted-foreground sm:inline">
+            <span className="badge badge-outline hidden sm:inline-flex">
               Dashboard
             </span>
-            <div className="hidden items-center gap-4 text-xs text-muted-foreground md:flex">
+            <div className="hidden items-center gap-2 text-xs text-muted-foreground md:flex">
               {ultramarSuiteLinks.map((app) => (
                 <a
                   key={app.href}
                   href={app.href}
-                  className="transition-colors hover:text-foreground"
+                  className="badge badge-outline border-border text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
                 >
                   {app.label}
                 </a>
@@ -104,13 +104,13 @@ export default async function DashboardPage() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 font-mono text-xs text-signal-positive">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-signal-positive animate-terminal-pulse" />
+            <span className="badge badge-success badge-outline gap-1.5 font-mono text-xs">
+              <span className="status status-success animate-terminal-pulse" />
               LIVE
             </span>
             <Link
               href="/auth/login"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+              className="btn btn-ghost btn-sm"
             >
               Sign in
             </Link>
@@ -130,19 +130,19 @@ export default async function DashboardPage() {
         </div>
 
         {/* Stats bar */}
-        <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="stats stats-vertical mb-8 w-full border border-border bg-card shadow-none sm:stats-horizontal">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className={`animate-fade-in-up delay-${i + 1} rounded-xl border border-border bg-card p-4`}
+              className={`stat animate-fade-in-up delay-${i + 1}`}
             >
-              <div className="flex items-center justify-between">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  {stat.label}
-                </p>
+              <div className="stat-figure">
                 <stat.icon className={`h-4 w-4 ${stat.accent}`} />
               </div>
-              <p className={`mt-2 font-mono text-2xl font-semibold font-data ${stat.accent}`}>
+              <p className="stat-title text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                {stat.label}
+              </p>
+              <p className={`stat-value mt-2 font-mono text-2xl font-semibold font-data ${stat.accent}`}>
                 {stat.value}
               </p>
             </div>

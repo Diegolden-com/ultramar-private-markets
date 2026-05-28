@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { OracleConversationPanel } from "@/components/daisyui-route-widgets";
 import { OracleConsole } from "@/components/oracle-console";
 import { ProductRouteHeader } from "@/components/page-layout";
 import {
@@ -44,6 +45,7 @@ export default function OraclePage() {
       <section>
         <OracleConsole />
       </section>
+      <OracleConversationPanel />
     </>
   );
 }

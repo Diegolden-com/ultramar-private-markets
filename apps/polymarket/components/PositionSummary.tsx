@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Wallet, PackageOpen } from "lucide-react";
 
 type Position = {
@@ -14,13 +13,13 @@ type Props = {
 
 function VenueBadge({ venue }: { venue: string }) {
   const v = venue.toLowerCase();
-  let colors = "bg-muted text-muted-foreground";
-  if (v.includes("polymarket")) colors = "bg-primary/15 text-primary";
-  else if (v.includes("deribit")) colors = "bg-chart-2/15 text-chart-2";
+  let colors = "badge-neutral";
+  if (v.includes("polymarket")) colors = "badge-primary";
+  else if (v.includes("deribit")) colors = "badge-info";
 
   return (
     <span
-      className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider ${colors}`}
+      className={`badge badge-outline ${colors} text-[10px] uppercase tracking-wider`}
     >
       {venue}
     </span>
@@ -39,26 +38,26 @@ export default function PositionSummary({ positions }: Props) {
       : 1;
 
   return (
-    <section className="rounded-xl border border-border bg-card">
+    <section className="card card-border bg-card">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
         <div className="flex items-center gap-3">
           <Wallet className="h-4 w-4 text-primary" />
           <h2 className="text-sm font-semibold">Positions</h2>
         </div>
-        <Badge variant="secondary" className="font-mono text-xs">
+        <span className="badge badge-secondary font-mono text-xs">
           {positions.length}
-        </Badge>
+        </span>
       </div>
 
       <div className="p-5">
         {/* Exposure card */}
-        <div className="rounded-lg border border-border bg-background p-4">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+        <div className="stat rounded-lg border border-border bg-background p-4">
+          <p className="stat-title text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
             Total Exposure
           </p>
           <p
-            className={`mt-2 font-mono text-2xl font-semibold font-data ${
+            className={`stat-value mt-2 font-mono text-2xl font-semibold font-data ${
               total > 0 ? "text-foreground" : "text-muted-foreground"
             }`}
           >
@@ -67,7 +66,7 @@ export default function PositionSummary({ positions }: Props) {
         </div>
 
         {/* Position list */}
-        <div className="mt-5 space-y-3">
+        <div className="list mt-5 gap-3">
           {positions.map((pos) => {
             const notional = pos.size * pos.avg_price;
             const barWidth = maxNotional > 0 ? (notional / maxNotional) * 100 : 0;
@@ -75,7 +74,7 @@ export default function PositionSummary({ positions }: Props) {
             return (
               <div
                 key={pos.id}
-                className="rounded-lg border border-border bg-background p-3"
+                className="list-row rounded-lg border border-border bg-background p-3"
               >
                 <div className="flex items-start justify-between">
                   <div>
@@ -94,19 +93,22 @@ export default function PositionSummary({ positions }: Props) {
                   </div>
                 </div>
                 {/* Size bar */}
-                <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-muted">
-                  <div
-                    className="h-full rounded-full bg-primary/60 transition-all"
-                    style={{ width: `${barWidth}%` }}
-                  />
-                </div>
+                <progress
+                  className="progress progress-primary mt-3 h-1 w-full"
+                  value={barWidth}
+                  max={100}
+                />
               </div>
             );
           })}
 
           {positions.length === 0 && (
             <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-border px-4 py-10 text-center">
-              <PackageOpen className="h-8 w-8 text-muted-foreground/50" />
+              <div className="avatar placeholder">
+                <div className="w-12 rounded-full border border-dashed border-border bg-background text-muted-foreground">
+                  <PackageOpen className="h-6 w-6" />
+                </div>
+              </div>
               <p className="text-sm text-muted-foreground">
                 No open positions
               </p>

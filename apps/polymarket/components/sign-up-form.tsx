@@ -66,11 +66,11 @@ export function SignUpForm({
         </p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-6">
+      <div className="card card-border bg-card">
         <form onSubmit={handleSignUp}>
-          <div className="flex flex-col gap-5">
+          <fieldset className="card-body fieldset gap-5">
             <div className="grid gap-2">
-              <Label htmlFor="email" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <Label htmlFor="email" className="label text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Email
               </Label>
               <Input
@@ -80,11 +80,11 @@ export function SignUpForm({
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-background"
+                className="input input-bordered w-full bg-background"
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <Label htmlFor="password" className="label text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Password
               </Label>
               <Input
@@ -93,11 +93,11 @@ export function SignUpForm({
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-background"
+                className="input input-bordered w-full bg-background"
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="repeat-password" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <Label htmlFor="repeat-password" className="label text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Confirm Password
               </Label>
               <Input
@@ -106,18 +106,18 @@ export function SignUpForm({
                 required
                 value={repeatPassword}
                 onChange={(e) => setRepeatPassword(e.target.value)}
-                className="bg-background"
+                className="input input-bordered w-full bg-background"
               />
             </div>
             {error && (
-              <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              <div className="alert alert-error alert-soft text-sm">
                 {error}
               </div>
             )}
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="btn btn-primary w-full" disabled={isLoading}>
               {isLoading ? "Creating account..." : "Create account"}
             </Button>
-          </div>
+          </fieldset>
         </form>
       </div>
 

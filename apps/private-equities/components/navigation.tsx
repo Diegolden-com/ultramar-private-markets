@@ -30,7 +30,7 @@ export function Navigation() {
     ]
 
     return (
-        <nav className="border-b border-border/60 bg-background/80 backdrop-blur-xl sticky top-0 z-50">
+        <nav className="navbar border-b border-border/60 bg-background/80 backdrop-blur-xl sticky top-0 z-50">
             <div className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 group">
@@ -45,12 +45,12 @@ export function Navigation() {
                         </span>
                     </Link>
 
-                    <div className="hidden md:flex gap-6 items-center">
+                    <div className="hidden md:flex gap-3 items-center">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`relative font-mono text-xs uppercase tracking-widest transition-colors hover:text-accent ${pathname === link.href ? "text-accent" : "text-muted-foreground"}`}
+                                className={`btn btn-ghost btn-sm relative font-mono text-xs uppercase tracking-widest ${pathname === link.href ? "btn-active text-accent" : "text-muted-foreground"}`}
                             >
                                 {link.label}
                                 {pathname === link.href && (
@@ -68,7 +68,7 @@ export function Navigation() {
                             <a
                                 key={link.href}
                                 href={link.href}
-                                className="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-accent"
+                                className="badge badge-outline font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-accent"
                             >
                                 {link.label}
                             </a>
@@ -78,7 +78,7 @@ export function Navigation() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={toggleTheme}
-                            className="p-2.5 rounded-lg border border-border/60 hover:bg-muted hover:border-accent/30 transition-all"
+                            className="btn btn-square btn-ghost btn-sm border border-border/60"
                             aria-label="Toggle dark mode"
                         >
                             {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
@@ -86,15 +86,15 @@ export function Navigation() {
 
                         {ready && authenticated && user ? (
                             <div 
-                                className="relative"
+                                className="dropdown dropdown-end relative"
                                 onMouseEnter={() => setWalletOpen(true)}
                                 onMouseLeave={() => setWalletOpen(false)}
                             >
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border/60 hover:bg-muted hover:border-accent/30 transition-all"
+                                    className="btn btn-outline btn-sm flex items-center gap-2"
                                 >
-                                    <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                                    <div className="status status-success animate-pulse" />
                                     <span className="font-mono text-xs">{walletAddress}</span>
                                     <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${walletOpen ? "rotate-180" : ""}`} />
                                 </motion.button>
@@ -106,12 +106,14 @@ export function Navigation() {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 8, scale: 0.95 }}
                                             transition={{ duration: 0.15 }}
-                                            className="absolute right-0 top-full mt-3 w-72 border border-border/60 bg-card rounded-xl p-5 shadow-xl"
+                                            className="dropdown-content card card-border absolute right-0 top-full z-50 mt-3 w-72 bg-card p-5 shadow-xl"
                                         >
                                             <div className="space-y-3">
                                                 <div className="flex items-center gap-3 pb-3 border-b border-border/40">
-                                                    <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                                                        <div className="w-2.5 h-2.5 rounded-full bg-accent" />
+                                                    <div className="avatar placeholder">
+                                                        <div className="w-10 bg-accent/10 text-accent">
+                                                            <span className="status status-success" />
+                                                        </div>
                                                     </div>
                                                     <div>
                                                         <p className="font-mono text-xs text-muted-foreground">Wallet Connected</p>
@@ -126,7 +128,7 @@ export function Navigation() {
                                                     whileHover={{ scale: 1.02 }}
                                                     whileTap={{ scale: 0.98 }}
                                                     onClick={logout}
-                                                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-destructive/10 text-destructive font-mono text-xs rounded-lg hover:bg-destructive/20 transition-colors"
+                                                    className="btn btn-error btn-sm w-full gap-2 font-mono text-xs"
                                                 >
                                                     <LogOut className="w-3.5 h-3.5" />
                                                     Disconnect
@@ -141,9 +143,9 @@ export function Navigation() {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={login}
-                                className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border/60 font-mono text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-all"
+                                className="btn btn-outline btn-sm gap-2 font-mono text-xs uppercase tracking-widest"
                             >
-                                <div className="w-2 h-2 rounded-full bg-destructive" />
+                                <div className="status status-error" />
                                 Login
                             </motion.button>
                         )}
@@ -153,7 +155,7 @@ export function Navigation() {
                         <motion.button
                             whileTap={{ scale: 0.9 }}
                             onClick={toggleTheme}
-                            className="p-2.5 rounded-lg border border-border/60 hover:bg-muted transition-colors"
+                            className="btn btn-square btn-ghost btn-sm border border-border/60"
                             aria-label="Toggle dark mode"
                         >
                             {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
@@ -166,18 +168,18 @@ export function Navigation() {
                             >
                                 <motion.button
                                     whileTap={{ scale: 0.9 }}
-                                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-border/60"
+                                    className="btn btn-square btn-ghost btn-sm border border-border/60"
                                 >
-                                    <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                                    <div className="status status-success animate-pulse" />
                                 </motion.button>
                             </div>
                         ) : (
                             <motion.button
                                 whileTap={{ scale: 0.9 }}
                                 onClick={login}
-                                className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border/60 font-mono text-xs uppercase"
+                                className="btn btn-square btn-ghost btn-sm border border-border/60"
                             >
-                                <div className="w-2 h-2 rounded-full bg-destructive" />
+                                <div className="status status-error" />
                             </motion.button>
                         )}
                     </div>

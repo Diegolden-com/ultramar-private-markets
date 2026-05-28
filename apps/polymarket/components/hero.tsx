@@ -10,26 +10,23 @@ const SAMPLE_SIGNALS = [
 
 export function Hero() {
   return (
-    <div className="relative w-full max-w-full overflow-hidden rounded-xl border border-border bg-card p-1">
+    <div className="mockup-window relative w-full max-w-full overflow-hidden border border-border bg-card">
       {/* Terminal header */}
-      <div className="flex items-center gap-2 border-b border-border px-4 py-2">
-        <div className="h-2.5 w-2.5 rounded-full bg-signal-negative/60" />
-        <div className="h-2.5 w-2.5 rounded-full bg-signal-neutral/60" />
-        <div className="h-2.5 w-2.5 rounded-full bg-signal-positive/60" />
-        <span className="ml-3 font-mono text-xs text-muted-foreground">
+      <div className="flex items-center gap-2 border-y border-border px-4 py-2">
+        <span className="font-mono text-xs text-muted-foreground">
           ultramar — signal-feed
         </span>
-        <span className="ml-auto flex items-center gap-1.5 font-mono text-xs text-signal-positive">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-signal-positive animate-terminal-pulse" />
+        <span className="badge badge-success badge-outline ml-auto gap-1.5 font-mono text-xs">
+          <span className="status status-success animate-terminal-pulse" />
           LIVE
         </span>
       </div>
 
       {/* Terminal body */}
       <div className="overflow-x-auto bg-background/50 p-0">
-        <table className="min-w-[520px] text-left font-mono text-sm">
+        <table className="table table-zebra min-w-[520px] font-mono text-sm">
           <thead>
-            <tr className="border-b border-border text-xs text-muted-foreground">
+            <tr className="text-xs text-muted-foreground">
               <th className="px-4 py-2.5 font-medium">MARKET</th>
               <th className="px-4 py-2.5 font-medium text-right">IMPLIED</th>
               <th className="px-4 py-2.5 font-medium text-right">THEO</th>
@@ -40,7 +37,7 @@ export function Hero() {
             {SAMPLE_SIGNALS.map((s, i) => (
               <tr
                 key={s.market}
-                className={`border-b border-border/50 animate-fade-in-up delay-${i + 1}`}
+                className={`animate-fade-in-up delay-${i + 1}`}
               >
                 <td className="px-4 py-2.5 text-foreground">{s.market}</td>
                 <td className="px-4 py-2.5 text-right text-muted-foreground font-data">

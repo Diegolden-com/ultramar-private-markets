@@ -1,6 +1,43 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@plugin "daisyui" {
+  themes: false;
+  logs: false;
+}
+
+@plugin "daisyui/theme" {
+  name: "polymarket";
+  default: true;
+  color-scheme: light dark;
+  --color-base-100: hsl(var(--background));
+  --color-base-200: hsl(var(--muted));
+  --color-base-300: hsl(var(--secondary));
+  --color-base-content: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-content: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-content: hsl(var(--secondary-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-content: hsl(var(--accent-foreground));
+  --color-neutral: hsl(var(--card));
+  --color-neutral-content: hsl(var(--card-foreground));
+  --color-info: hsl(var(--primary));
+  --color-info-content: hsl(var(--primary-foreground));
+  --color-success: hsl(var(--signal-positive));
+  --color-success-content: hsl(var(--primary-foreground));
+  --color-warning: hsl(var(--signal-neutral));
+  --color-warning-content: hsl(var(--foreground));
+  --color-error: hsl(var(--signal-negative));
+  --color-error-content: hsl(var(--primary-foreground));
+  --radius-selector: var(--radius);
+  --radius-field: var(--radius);
+  --radius-box: var(--radius);
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @layer base {

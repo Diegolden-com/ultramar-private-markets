@@ -1,6 +1,8 @@
 "use client";
 
 import { BrandName, BrandText } from "@/components/brand-name";
+import { PlatformQuickActions } from "@/components/daisyui-route-widgets";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { footerLinks } from "@/lib/footer-routes";
 import { headerNavItems, headerUtilityLinks } from "@/lib/site-navigation";
 import { ChevronDown, LogIn, Menu, Monitor, X } from "lucide-react";
@@ -21,6 +23,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const terminalActive = isActiveHref(pathname, terminalLink.href);
   const authActive = pathname.startsWith("/auth");
+  const breadcrumbs = breadcrumbItems(pathname);
   const closeMenus = () => {
     setOpen(false);
     setActiveMenu(null);
@@ -49,10 +52,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [activeMenu]);
 
   return (
-    <div className="min-h-screen bg-surface-ink text-on-surface">
+    <div className="min-h-screen bg-surface-ink pb-14 text-on-surface lg:pb-0">
       <header
         ref={headerRef}
-        className="sticky top-0 z-50 border-b border-border-muted bg-surface"
+        className="navbar sticky top-0 z-50 min-h-12 border-b border-border-muted bg-surface p-0"
         onBlur={(event) => {
           const nextFocusedElement = event.relatedTarget;
 
@@ -62,7 +65,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         }}
       >
         <div className="mx-auto flex min-h-12 w-full max-w-[1600px] items-center justify-between px-4 py-0 md:px-12">
-          <div className="flex min-w-0 items-center gap-6 md:gap-8">
+          <div className="navbar-start min-w-0 gap-6 md:gap-8">
             <Link
               href="/"
               className="flex h-12 shrink-0 items-center truncate font-serif text-xl font-bold leading-none text-on-surface"
@@ -94,15 +97,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </nav>
           </div>
 
-          <div className="hidden items-center gap-4 lg:flex">
+          <div className="navbar-end hidden gap-3 lg:flex">
             <Link
               href={terminalLink.href}
               aria-current={terminalActive ? "page" : undefined}
               onClick={closeMenus}
-              className={`btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
+              className={`indicator tooltip tooltip-bottom btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
                 terminalActive ? "btn-info" : "btn-outline btn-info"
               }`}
+              data-tip={terminalLink.description}
             >
+              <span className="indicator-item status status-success" />
               <Monitor className="h-4 w-4" aria-hidden="true" />
               {terminalLink.label}
             </Link>
@@ -119,6 +124,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <LogIn className="h-4 w-4" aria-hidden="true" />
               {signInLink.label}
             </Link>
+            <ThemeToggle compact />
           </div>
 
           <button
@@ -189,6 +195,27 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ) : null}
       </header>
 
+      {breadcrumbs.length > 1 ? (
+        <nav
+          className="breadcrumbs border-b border-border-muted bg-surface-ink px-4 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-on-surface-variant md:px-12"
+          aria-label="Breadcrumb"
+        >
+          <ul className="mx-auto max-w-[1600px]">
+            {breadcrumbs.map((item, index) => (
+              <li key={item.href}>
+                {index === breadcrumbs.length - 1 ? (
+                  <span className="text-on-surface">{item.label}</span>
+                ) : (
+                  <Link href={item.href} onClick={closeMenus}>
+                    {item.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
+
       {children}
 
       <footer className="footer border-t border-border-muted bg-surface-container-lowest px-4 py-8 md:px-12">
@@ -212,6 +239,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
         </div>
       </footer>
+      <PlatformQuickActions />
     </div>
   );
 }
@@ -239,6 +267,21 @@ function isActiveHeaderItem(pathname: string, item: HeaderNavItem) {
 function isActiveHref(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function breadcrumbItems(pathname: string) {
+  const segments = pathname.split("/").filter(Boolean);
+
+  return [
+    { label: "Home", href: "/" },
+    ...segments.map((segment, index) => ({
+      label: segment
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" "),
+      href: `/${segments.slice(0, index + 1).join("/")}`,
+    })),
+  ];
 }
 
 function TerminalNavLink({
@@ -285,7 +328,7 @@ function DesktopNavMenu({
   const menuId = `${item.key}-menu`;
 
   return (
-    <div className="group relative flex h-12 items-stretch">
+    <div className="dropdown group relative flex h-12 items-stretch">
       <button
         type="button"
         aria-current={active ? "page" : undefined}
@@ -306,7 +349,7 @@ function DesktopNavMenu({
       </button>
       <div
         id={menuId}
-        className={`absolute left-0 top-full z-50 max-h-[calc(100vh-3rem)] w-[360px] overflow-y-auto border border-border-muted bg-surface shadow-2xl shadow-black/30 transition-opacity ${
+        className={`dropdown-content menu absolute left-0 top-full z-50 max-h-[calc(100vh-3rem)] w-[360px] overflow-y-auto border border-border-muted bg-surface p-0 shadow-2xl shadow-black/30 transition-opacity ${
           open ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
         }`}
       >

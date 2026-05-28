@@ -1,4 +1,5 @@
 import { BrandName } from "@/components/brand-name";
+import { ProductExperiencePanels } from "@/components/daisyui-route-widgets";
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { ParticleWaveHero } from "@/components/particle-wave-hero";
@@ -170,6 +171,8 @@ export default function HomePage() {
           </div>
         </div>
       </header>
+
+      <ProductExperiencePanels />
 
       <section className="grid gap-1 border-b border-border-muted bg-border-muted md:grid-cols-3">
         {platformPrinciples.map((item) => (

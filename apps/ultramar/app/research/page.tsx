@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { PaginationStrip } from "@/components/daisyui-route-widgets";
 import { PageHeader, SurfaceGrid } from "@/components/page-layout";
 import { researchArticles } from "@/lib/research";
 import {
@@ -111,6 +112,10 @@ export default function ResearchPage() {
           </Link>
         ))}
       </SurfaceGrid>
+
+      <div className="flex justify-center bg-surface p-4">
+        <PaginationStrip />
+      </div>
     </>
   );
 }

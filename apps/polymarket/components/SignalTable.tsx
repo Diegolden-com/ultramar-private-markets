@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import {
   ArrowUpRight,
   ArrowDownRight,
@@ -26,15 +25,15 @@ function SpreadStrength({ spread }: { spread: number }) {
   else if (abs >= 0.02) level = "med";
   else level = "low";
 
-  const colors = {
-    high: "bg-signal-positive/20 text-signal-positive",
-    med: "bg-signal-neutral/20 text-signal-neutral",
-    low: "bg-muted text-muted-foreground",
+  const classes = {
+    high: "badge-success",
+    med: "badge-warning",
+    low: "badge-neutral",
   };
 
   return (
     <span
-      className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider ${colors[level]}`}
+      className={`badge badge-outline ${classes[level]} text-[10px] uppercase tracking-wider`}
     >
       {level}
     </span>
@@ -43,26 +42,23 @@ function SpreadStrength({ spread }: { spread: number }) {
 
 export default function SignalTable({ signals }: Props) {
   return (
-    <section className="rounded-xl border border-border bg-card">
+    <section className="card card-border bg-card">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
         <div className="flex items-center gap-3">
           <Activity className="h-4 w-4 text-primary" />
           <h2 className="text-sm font-semibold">Signals</h2>
         </div>
-        <Badge
-          variant="secondary"
-          className="font-mono text-xs"
-        >
+        <span className="badge badge-secondary font-mono text-xs">
           {signals.length}
-        </Badge>
+        </span>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
+        <table className="table table-zebra w-full text-sm">
           <thead>
-            <tr className="border-b border-border text-xs text-muted-foreground">
+            <tr className="text-xs text-muted-foreground">
               <th className="px-5 py-3 font-medium">Market</th>
               <th className="px-5 py-3 font-medium text-right">Implied</th>
               <th className="px-5 py-3 font-medium text-right">Theo</th>
@@ -74,7 +70,7 @@ export default function SignalTable({ signals }: Props) {
             {signals.map((signal) => (
               <tr
                 key={signal.id}
-                className="border-b border-border/50 transition-colors hover:bg-accent/50"
+                className="transition-colors hover:bg-accent/50"
               >
                 <td className="px-5 py-3">
                   <span className="font-medium text-foreground">
@@ -113,7 +109,11 @@ export default function SignalTable({ signals }: Props) {
               <tr>
                 <td colSpan={5} className="px-5 py-16 text-center">
                   <div className="flex flex-col items-center gap-3">
-                    <Radio className="h-8 w-8 text-muted-foreground/50" />
+                    <div className="avatar placeholder">
+                      <div className="w-12 rounded-full border border-dashed border-border bg-background text-muted-foreground">
+                        <Radio className="h-6 w-6" />
+                      </div>
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       No signals detected yet
                     </p>

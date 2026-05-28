@@ -32,21 +32,26 @@ export function ThemeToggle({ compact = false }: { compact?: boolean }) {
   }, []);
 
   return (
-    <button
-      type="button"
+    <label
       aria-label={`Switch to ${nextTheme} mode`}
-      aria-pressed={theme === "dark"}
       suppressHydrationWarning
-      onClick={() => {
-        setTheme(nextTheme);
-        window.localStorage.setItem(storageKey, nextTheme);
-        applyTheme(nextTheme);
-      }}
-      className={`btn btn-square btn-ghost border border-border-muted bg-surface-ink text-on-surface hover:border-status-signal hover:text-status-signal ${
+      className={`swap swap-rotate btn btn-square btn-ghost border border-border-muted bg-surface-ink text-on-surface hover:border-status-signal hover:text-status-signal ${
         compact ? "h-10 w-10" : "h-9 w-9"
       }`}
     >
-      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-    </button>
+      <input
+        type="checkbox"
+        className="theme-controller"
+        value="dark"
+        checked={theme === "dark"}
+        onChange={() => {
+          setTheme(nextTheme);
+          window.localStorage.setItem(storageKey, nextTheme);
+          applyTheme(nextTheme);
+        }}
+      />
+      <Sun className="swap-on h-4 w-4" />
+      <Moon className="swap-off h-4 w-4" />
+    </label>
   );
 }

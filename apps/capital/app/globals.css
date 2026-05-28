@@ -1,6 +1,43 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@plugin "daisyui" {
+  themes: false;
+  logs: false;
+}
+
+@plugin "daisyui/theme" {
+  name: "capital";
+  default: true;
+  color-scheme: light dark;
+  --color-base-100: var(--background);
+  --color-base-200: var(--muted);
+  --color-base-300: var(--secondary);
+  --color-base-content: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-content: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-content: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-content: var(--accent-foreground);
+  --color-neutral: var(--card);
+  --color-neutral-content: var(--card-foreground);
+  --color-info: var(--primary);
+  --color-info-content: var(--primary-foreground);
+  --color-success: var(--accent);
+  --color-success-content: var(--accent-foreground);
+  --color-warning: var(--accent);
+  --color-warning-content: var(--accent-foreground);
+  --color-error: var(--destructive);
+  --color-error-content: var(--destructive-foreground);
+  --radius-selector: var(--radius);
+  --radius-field: var(--radius);
+  --radius-box: var(--radius);
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

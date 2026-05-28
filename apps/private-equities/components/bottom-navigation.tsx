@@ -39,24 +39,21 @@ export function BottomNavigation() {
     }
 
     return (
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t-2 border-foreground z-50">
-            <div className="grid grid-cols-4 h-14">
-                {navItems.map((item) => {
-                    const Icon = item.icon
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={handleNavClick}
-                            className={`flex flex-col items-center justify-center gap-0.5 font-mono text-xs transition-colors ${item.isActive ? "bg-foreground text-background" : "hover:bg-muted"
-                                }`}
-                        >
-                            <Icon className="w-5 h-5" />
-                            <span className="tracking-wider">{item.label}</span>
-                        </Link>
-                    )
-                })}
-            </div>
+        <nav className="dock dock-sm md:hidden border-t-2 border-foreground bg-background">
+            {navItems.map((item) => {
+                const Icon = item.icon
+                return (
+                    <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={handleNavClick}
+                        className={`font-mono text-xs ${item.isActive ? "dock-active text-accent" : ""}`}
+                    >
+                        <Icon className="w-5 h-5" />
+                        <span className="dock-label tracking-wider">{item.label}</span>
+                    </Link>
+                )
+            })}
         </nav>
     )
 }

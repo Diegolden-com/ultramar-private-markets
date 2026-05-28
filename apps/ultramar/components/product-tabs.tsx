@@ -10,7 +10,10 @@ export function ProductTabs<TProduct extends ProductSlug>({
   active: ProductTabKey<TProduct>;
 }) {
   return (
-    <nav className="flex flex-nowrap overflow-x-auto border-x border-t border-border-muted bg-surface">
+    <nav
+      className="tabs tabs-border flex-nowrap overflow-x-auto border-x border-t border-border-muted bg-surface"
+      aria-label={`${productRouteGroups[product].title} routes`}
+    >
       {productRouteGroups[product].links.map((tab) => {
         const isActive = tab.key === active;
 
@@ -19,10 +22,12 @@ export function ProductTabs<TProduct extends ProductSlug>({
             key={tab.href}
             href={tab.href}
             aria-current={isActive ? "page" : undefined}
-            className={`whitespace-nowrap border-r border-b-2 border-r-border-muted px-5 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 ${
+            role="tab"
+            aria-selected={isActive}
+            className={`tab h-auto min-h-11 whitespace-nowrap border-r border-r-border-muted font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 ${
               isActive
-                ? "border-b-primary bg-surface-container text-primary"
-                : "border-b-border-muted text-on-surface-variant hover:bg-surface-variant hover:text-primary"
+                ? "tab-active bg-surface-container text-primary"
+                : "text-on-surface-variant hover:bg-surface-variant hover:text-primary"
             }`}
           >
             {tab.label}

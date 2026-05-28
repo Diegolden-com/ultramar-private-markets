@@ -20,15 +20,19 @@ export function FaqSection({
       asidePadded={false}
       aside={
         <div className="grid gap-1 bg-border-muted">
-          {items.map((item) => (
-            <article key={item.question} className="bg-surface p-5">
-              <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
+          {items.map((item, index) => (
+            <div
+              key={item.question}
+              className="collapse collapse-arrow bg-surface"
+            >
+              <input type="radio" name={`faq-${title}`} defaultChecked={index === 0} />
+              <h2 className="collapse-title font-serif text-2xl font-semibold leading-tight text-on-surface">
                 <BrandText>{item.question}</BrandText>
               </h2>
-              <p className="mt-3 text-sm leading-6 text-on-surface-variant">
+              <p className="collapse-content text-sm leading-6 text-on-surface-variant">
                 <BrandText>{item.answer}</BrandText>
               </p>
-            </article>
+            </div>
           ))}
         </div>
       }

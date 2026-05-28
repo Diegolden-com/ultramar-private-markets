@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PlatformDock } from "@/components/platform-dock";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
@@ -34,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${geistSans.className} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${geistSans.className} pb-14 antialiased md:pb-0`}
       >
         <ThemeProvider
           attribute="class"
@@ -43,6 +44,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <PlatformDock />
         </ThemeProvider>
       </body>
     </html>
