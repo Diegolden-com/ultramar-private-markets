@@ -14,7 +14,7 @@ export function BrandName({
   const classes = ["normal-case tracking-normal", className].filter(Boolean).join(" ");
 
   return (
-    <Component className={classes} aria-label="Ultramar Capital" {...props}>
+    <Component className={classes} aria-label="Ultramar Capital" translate="no" {...props}>
       <span>Ultramar.</span>
       <span className="italic">Capital</span>
     </Component>

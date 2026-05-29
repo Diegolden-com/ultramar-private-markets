@@ -96,7 +96,7 @@ export function ParticleWaveHero() {
     <div
       ref={mountRef}
       aria-hidden="true"
-      className="pointer-events-none absolute bottom-0 right-0 -top-10 -left-4 overflow-hidden bg-surface-ink md:-left-12"
+      className="pointer-events-none absolute bottom-0 right-0 top-[46%] -left-4 overflow-hidden md:left-[12%] md:top-[34%]"
     />
   );
 }

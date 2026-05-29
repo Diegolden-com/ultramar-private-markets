@@ -2,7 +2,6 @@
 
 import { BrandName, BrandText } from "@/components/brand-name";
 import { PlatformQuickActions } from "@/components/daisyui-route-widgets";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { footerLinks } from "@/lib/footer-routes";
 import { headerNavItems, headerUtilityLinks, platformRouteGroup, productRouteGroups } from "@/lib/site-navigation";
 import { ChevronDown, LogIn, Menu, Monitor, X } from "lucide-react";
@@ -15,6 +14,8 @@ type HeaderNavLink = HeaderNavItem["links"][number];
 
 const terminalLink = headerUtilityLinks[0];
 const signInLink = headerUtilityLinks[1];
+const focusVisibleClass =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
 const platformFooterKeys = new Set(["home", "research", "press"]);
 const footerRouteGroups = [
   {
@@ -76,6 +77,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-surface-ink pb-14 text-on-surface lg:pb-0">
+      <a
+        href="#main-content"
+        className={`btn btn-sm btn-success fixed left-4 top-4 z-[100] -translate-y-16 font-mono text-[11px] font-medium uppercase tracking-[0.08em] opacity-0 transition-[opacity,transform] ${focusVisibleClass} focus-visible:translate-y-0 focus-visible:opacity-100`}
+      >
+        Skip to content
+      </a>
       <header
         ref={headerRef}
         className="sticky top-0 z-50 border-b border-border-muted bg-surface"
@@ -91,7 +98,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="flex min-w-0 flex-1 items-center gap-6 md:gap-8">
             <Link
               href="/"
-              className="flex h-12 shrink-0 items-center truncate font-serif text-xl font-bold leading-none text-on-surface"
+              className={`flex h-12 shrink-0 items-center truncate font-serif text-xl font-bold leading-none text-on-surface ${focusVisibleClass}`}
               onClick={closeMenus}
             >
               <BrandName />
@@ -125,7 +132,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               href={terminalLink.href}
               aria-current={terminalActive ? "page" : undefined}
               onClick={closeMenus}
-              className={`indicator tooltip tooltip-bottom btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
+              className={`indicator tooltip tooltip-bottom btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
                 terminalActive ? "btn-info" : "btn-outline btn-info"
               }`}
               data-tip={terminalLink.description}
@@ -138,7 +145,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               href={signInLink.href}
               aria-current={authActive ? "page" : undefined}
               onClick={closeMenus}
-              className={`btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
+              className={`btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
                 authActive
                   ? "btn-info"
                   : "btn-ghost text-on-surface-variant hover:text-primary"
@@ -147,11 +154,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <LogIn className="h-4 w-4" aria-hidden="true" />
               {signInLink.label}
             </Link>
-            <ThemeToggle compact />
           </div>
 
           <button
-            className="btn btn-square btn-ghost btn-sm border border-border-muted bg-surface-ink text-on-surface lg:hidden"
+            className={`btn btn-square btn-ghost btn-sm border border-border-muted bg-surface-ink text-on-surface lg:hidden ${focusVisibleClass}`}
             onClick={() => {
               setOpen((value) => !value);
               setActiveMenu(null);
@@ -230,7 +236,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 {index === breadcrumbs.length - 1 ? (
                   <span className="text-on-surface">{item.label}</span>
                 ) : (
-                  <Link href={item.href} onClick={closeMenus}>
+                  <Link href={item.href} onClick={closeMenus} className={focusVisibleClass}>
                     {item.label}
                   </Link>
                 )}
@@ -256,7 +262,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.label}
                 href={item.href}
-                className="link-hover font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-primary"
+                className={`link-hover font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-primary ${focusVisibleClass}`}
               >
                 {item.label}
               </Link>
@@ -270,7 +276,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 }
 
 function mobileNavClass(active: boolean) {
-  return `rounded-none px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
+  return `rounded-none px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
     active
       ? "menu-active !bg-primary !text-primary-foreground"
       : "text-on-surface-variant hover:text-primary"
@@ -278,7 +284,7 @@ function mobileNavClass(active: boolean) {
 }
 
 function mobileSubNavClass(active: boolean) {
-  return `border-t border-border-muted px-8 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] ${
+  return `border-t border-border-muted px-8 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
     active
       ? "menu-active !bg-surface-container !text-primary"
       : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
@@ -325,7 +331,7 @@ function TerminalNavLink({
       href={href}
       aria-current={active ? "page" : undefined}
       onClick={onClick}
-      className={`flex h-12 items-center border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+      className={`flex h-12 items-center border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${focusVisibleClass} ${
         active
           ? "border-primary text-primary"
           : "border-transparent text-on-surface-variant hover:text-primary"
@@ -360,7 +366,7 @@ function DesktopNavMenu({
         aria-controls={menuId}
         aria-expanded={open}
         onClick={onToggle}
-        className={`flex h-full items-center gap-1 border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+        className={`flex h-full items-center gap-1 border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${focusVisibleClass} ${
           active || open
             ? "border-primary text-primary"
             : "border-transparent text-on-surface-variant hover:text-primary"
@@ -416,7 +422,7 @@ function DesktopMenuLink({
       href={link.href}
       aria-current={active ? "page" : undefined}
       onClick={onClick}
-      className={`border-b border-border-muted px-4 py-3 transition-colors last:border-b-0 ${
+      className={`border-b border-border-muted px-4 py-3 transition-colors last:border-b-0 ${focusVisibleClass} ${
         active ? "menu-active !bg-surface-container !text-primary" : "hover:bg-surface-container"
       }`}
     >

@@ -34,8 +34,9 @@ export function PageShell({
 }) {
   return (
     <main
+      id="main-content"
       className={cn(
-        "mx-auto flex min-h-[calc(100vh-48px)] w-full flex-col bg-surface-ink px-4 py-8 text-on-surface md:px-12",
+        "mx-auto flex min-h-[calc(100vh-48px)] w-full scroll-mt-16 flex-col bg-surface-ink px-4 py-8 text-on-surface md:px-12",
         maxWidthClasses[maxWidth],
         gapClasses[gap],
         className,
@@ -244,7 +245,7 @@ export function FeatureCard({
       ) : null}
       <h2
         className={cn(
-          "mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface",
+          "mt-4 text-balance font-serif text-2xl font-semibold leading-tight text-on-surface",
           !Icon && !eyebrow && "mt-0",
           titleClassName,
         )}

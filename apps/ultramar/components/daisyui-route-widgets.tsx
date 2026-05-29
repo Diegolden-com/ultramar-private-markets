@@ -10,6 +10,15 @@ const quickActionLinks = [
   { label: "Status", href: "/system-status", icon: RadioTower },
 ] as const;
 
+const focusVisibleClass =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
+
+const workflowSteps = [
+  ["01", "Issuer or market context", "Source material enters a review queue."],
+  ["02", "Eligibility and controls", "Access, jurisdiction, and limits stay explicit."],
+  ["03", "Investor-facing route", "Only the right next action is exposed."],
+] as const;
+
 export function PlatformQuickActions({ pathname }: { pathname: string }) {
   return (
     <>
@@ -23,7 +32,7 @@ export function PlatformQuickActions({ pathname }: { pathname: string }) {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={active ? "dock-active" : undefined}
+              className={`${active ? "dock-active" : ""} ${focusVisibleClass}`}
             >
               <Icon className="size-[1.2em]" aria-hidden="true" />
               <span className="dock-label">{item.label}</span>
@@ -33,24 +42,24 @@ export function PlatformQuickActions({ pathname }: { pathname: string }) {
       </nav>
 
       <div className="fab hidden lg:flex">
-        <div tabIndex={0} role="button" className="btn btn-circle btn-primary" aria-label="Open quick actions">
+        <button type="button" className={`btn btn-circle btn-primary ${focusVisibleClass}`} aria-label="Open quick actions">
           <Plus className="h-5 w-5" aria-hidden="true" />
-        </div>
+        </button>
         <div className="fab-close">
           <span className="sr-only">Close quick actions</span>
-          <span className="btn btn-circle btn-neutral" aria-hidden="true">
+          <button type="button" className={`btn btn-circle btn-neutral ${focusVisibleClass}`} aria-label="Close quick actions">
             <X className="h-5 w-5" />
-          </span>
+          </button>
         </div>
-        <Link href="/private-equities/assets" className="btn btn-success gap-2">
+        <Link href="/private-equities/assets" className={`btn btn-success gap-2 ${focusVisibleClass}`}>
           <DatabaseZap className="h-4 w-4" aria-hidden="true" />
           Assets
         </Link>
-        <Link href="/arbitrage-hedge-fund/signals" className="btn btn-info gap-2">
+        <Link href="/arbitrage-hedge-fund/signals" className={`btn btn-info gap-2 ${focusVisibleClass}`}>
           <LineChart className="h-4 w-4" aria-hidden="true" />
           Signals
         </Link>
-        <Link href="/api" className="btn btn-outline gap-2">
+        <Link href="/api" className={`btn btn-outline gap-2 ${focusVisibleClass}`}>
           <Code2 className="h-4 w-4" aria-hidden="true" />
           API
         </Link>
@@ -62,11 +71,11 @@ export function PlatformQuickActions({ pathname }: { pathname: string }) {
 export function ProductExperiencePanels() {
   return (
     <section className="grid gap-1 border-y border-border-muted bg-border-muted lg:grid-cols-3">
-      <article className="card card-border bg-surface p-5">
+      <article className="card card-border bg-surface p-5 md:p-6">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
           Capital access
         </p>
-        <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight">
+        <h2 className="mt-3 text-balance font-serif text-2xl font-semibold leading-tight">
           Capital workflows stay{" "}
           <span className="text-rotate text-status-signal duration-[7s]">
             <span>
@@ -76,62 +85,101 @@ export function ProductExperiencePanels() {
             </span>
           </span>
         </h2>
-        <div className="mt-5 carousel w-full border border-border-muted">
-          <div className="carousel-item grid h-36 w-full place-items-center bg-surface-container text-sm">
-            Private-market assets
+        <div className="mt-5 grid gap-2">
+          {workflowSteps.map(([step, title, detail]) => (
+            <div key={step} className="grid grid-cols-[48px_1fr] gap-3 border border-border-muted bg-surface-container-low p-3">
+              <span className="grid h-10 w-10 place-items-center border border-border-muted font-mono text-[11px] font-semibold tabular-nums text-on-surface">
+                {step}
+              </span>
+              <div className="min-w-0">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                  {title}
+                </p>
+                <p className="mt-1 text-pretty text-sm leading-5 text-on-surface-variant">{detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-5">
+          <div className="mb-2 flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
+            <span>Public explanation</span>
+            <span>Gated action</span>
           </div>
-          <div className="carousel-item grid h-36 w-full place-items-center bg-surface-ink text-sm">
-            Polymarket signals
-          </div>
+          <progress className="progress progress-success h-1.5 w-full" value={72} max={100} aria-label="Capital workflow readiness" />
         </div>
       </article>
 
-      <article className="card card-border bg-surface p-5">
+      <article className="card card-border bg-surface p-5 md:p-6">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
           Diligence signal
         </p>
-        <figure className="diff mt-4 aspect-video w-full border border-border-muted" tabIndex={0}>
-          <div className="diff-item-1" role="img" tabIndex={0} aria-label="Sparse market data">
-            <div className="grid h-full place-content-center bg-surface-container text-4xl font-black">42</div>
+        <h2 className="mt-3 text-balance font-serif text-2xl font-semibold leading-tight">
+          Sparse inputs become reviewable signal.
+        </h2>
+        <div className="stats stats-vertical mt-5 w-full border border-border-muted bg-surface-container-low sm:stats-horizontal">
+          <div className="stat">
+            <div className="stat-title font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
+              Sparse Read
+            </div>
+            <div className="stat-value font-mono text-3xl tabular-nums text-on-surface">42</div>
+            <div className="stat-desc text-on-surface-variant">Unscored documents</div>
           </div>
-          <div className="diff-item-2" role="img" aria-label="Governed market data">
-            <div className="grid h-full place-content-center bg-primary text-4xl font-black text-primary-foreground">
+          <div className="stat">
+            <div className="stat-title font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
+              Governed Read
+            </div>
+            <div className="stat-value font-mono text-3xl tabular-nums text-status-signal">
               91
             </div>
+            <div className="stat-desc text-on-surface-variant">Controls attached</div>
           </div>
-          <div className="diff-resizer" />
-        </figure>
+        </div>
+        <div className="mt-5 border border-border-muted bg-surface-container-low p-4">
+          <div className="flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
+            <span>Raw input</span>
+            <span>Allocator-ready</span>
+          </div>
+          <progress className="progress progress-success mt-3 h-1.5 w-full" value={91} max={100} aria-label="Diligence signal completeness" />
+          <div className="mt-4 grid gap-2 text-sm text-on-surface-variant">
+            <p className="flex items-center gap-2">
+              <span className="status status-success" aria-hidden="true" />
+              Evidence and limits stay paired.
+            </p>
+            <p className="flex items-center gap-2">
+              <span className="status status-info" aria-hidden="true" />
+              Signal values remain reviewable.
+            </p>
+          </div>
+        </div>
       </article>
 
-      <article className="card card-border bg-surface p-5">
+      <article className="card card-border bg-surface p-5 md:p-6">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
           Operating lens
         </p>
-        <div className="hover-3d mt-4">
-          <div className="card w-full bg-surface-container shadow-xl">
-            <div className="card-body">
-              <div className="stack">
-                <div className="mask mask-hexagon grid size-20 place-items-center bg-primary text-primary-foreground">
-                  PE
-                </div>
-                <div className="grid size-20 place-items-center bg-status-signal text-surface-ink">DATA</div>
-                <div className="grid size-20 place-items-center bg-accent text-accent-foreground">ARB</div>
-              </div>
+        <h2 className="mt-3 text-balance font-serif text-2xl font-semibold leading-tight">
+          Every route keeps its operational job visible.
+        </h2>
+        <div className="mt-5 grid min-h-32 place-items-center border border-border-muted bg-surface-container p-5">
+          <div className="stack">
+            <div className="mask mask-hexagon grid size-20 place-items-center bg-primary text-primary-foreground">
+              PE
             </div>
+            <div className="grid size-20 place-items-center bg-status-signal text-surface-ink">DATA</div>
+            <div className="grid size-20 place-items-center bg-accent text-accent-foreground">ARB</div>
           </div>
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
         </div>
-        <div className="hover-gallery mt-5 h-24 border border-border-muted">
-          <div className="grid place-items-center bg-primary text-primary-foreground">Assets</div>
-          <div className="grid place-items-center bg-status-signal text-surface-ink">Oracle</div>
-          <div className="grid place-items-center bg-accent text-accent-foreground">Risk</div>
+        <div className="mt-5 grid gap-1 border border-border-muted bg-border-muted">
+          {["Assets", "Oracle", "Risk"].map((item) => (
+            <div key={item} className="flex items-center justify-between gap-4 bg-surface-container-low p-3">
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                {item}
+              </span>
+              <span className="badge badge-outline badge-success font-mono text-[10px] uppercase tracking-[0.08em]">
+                Live
+              </span>
+            </div>
+          ))}
         </div>
         <ul className="timeline timeline-horizontal mt-5">
           <li>

@@ -99,9 +99,15 @@ const platformStats = [
   ["Research & Disclosures", indexableSitemapRoutes.length.toString(), "Public materials for diligence and review"],
 ] as const;
 
+const focusVisibleClass =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
+
 export default function HomePage() {
   return (
-    <main className="flex min-h-[calc(100vh-48px)] flex-col bg-surface-ink text-on-surface">
+    <main
+      id="main-content"
+      className="flex min-h-[calc(100vh-48px)] scroll-mt-16 flex-col bg-surface-ink text-on-surface"
+    >
       <JsonLd
         id="home-webpage-json-ld"
         data={[
@@ -124,7 +130,7 @@ export default function HomePage() {
         ]}
       />
 
-      <header className="hero relative min-h-[560px] overflow-hidden border-b border-border-muted bg-surface px-4 py-10 md:px-12">
+      <header className="hero relative min-h-[560px] overflow-hidden border-b border-border-muted bg-surface px-4 py-12 md:px-12 md:py-14">
         <ParticleWaveHero />
         <div className="hero-overlay bg-surface-ink/75" />
         <div className="hero-content relative z-10 flex w-full max-w-[1600px] flex-col items-start gap-10 p-0">
@@ -133,39 +139,39 @@ export default function HomePage() {
               <span className="status status-success" />
               Capital products
             </div>
-            <h1 className="mt-4 max-w-5xl break-words font-serif text-3xl font-bold leading-[1.05] text-on-surface [overflow-wrap:anywhere] md:text-6xl">
+            <h1 className="mt-4 max-w-5xl break-words text-balance font-serif text-4xl font-bold leading-[0.98] text-on-surface [overflow-wrap:anywhere] md:text-6xl xl:text-7xl">
               <BrandName /> gives private markets and event-market arbitrage a controlled home.
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-on-surface-variant md:text-xl">
+            <p className="mt-6 max-w-3xl text-pretty text-lg leading-relaxed text-on-surface-variant md:text-xl">
               Private Equities organizes issuer diligence, investor eligibility, and transfer controls.
               The Arbitrage Hedge Fund turns Polymarket dislocations into reviewable allocator signals.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/private-equities"
-                className="btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-64"
+                className={`btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-64 ${focusVisibleClass}`}
               >
                 Private Equities
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
                 href="/arbitrage-hedge-fund"
-                className="btn btn-outline btn-info justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-64"
+                className={`btn btn-outline btn-info justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-64 ${focusVisibleClass}`}
               >
                 Arbitrage Hedge Fund
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
           </div>
 
           <div className="grid w-full gap-1 bg-border-muted md:grid-cols-3">
             {platformStats.map(([label, value, detail]) => (
-              <div key={label} className="bg-surface/95 p-5">
+              <div key={label} className="bg-surface/95 p-5 md:p-6">
                 <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                   {label}
                 </p>
-                <p className="mt-3 font-mono text-3xl font-semibold text-on-surface">{value}</p>
-                <p className="mt-2 text-sm leading-5 text-on-surface-variant">{detail}</p>
+                <p className="mt-3 font-mono text-3xl font-semibold tabular-nums text-on-surface">{value}</p>
+                <p className="mt-2 text-pretty text-sm leading-5 text-on-surface-variant">{detail}</p>
               </div>
             ))}
           </div>
@@ -177,11 +183,11 @@ export default function HomePage() {
       <section className="grid gap-1 border-b border-border-muted bg-border-muted md:grid-cols-3">
         {platformPrinciples.map((item) => (
           <div key={item.title} className="bg-surface p-6 md:p-8">
-            <item.icon className="h-5 w-5 text-status-signal" />
-            <h2 className="mt-6 font-serif text-2xl font-semibold leading-tight text-on-surface">
+            <item.icon className="h-5 w-5 text-status-signal" aria-hidden="true" />
+            <h2 className="mt-6 text-balance font-serif text-2xl font-semibold leading-tight text-on-surface">
               {item.title}
             </h2>
-            <p className="mt-4 text-sm leading-6 text-on-surface-variant">{item.body}</p>
+            <p className="mt-4 text-pretty text-sm leading-6 text-on-surface-variant">{item.body}</p>
           </div>
         ))}
       </section>
@@ -202,13 +208,13 @@ export default function HomePage() {
                     {product.name}
                   </h2>
                 </div>
-                <Icon className="h-6 w-6 shrink-0 text-on-surface-variant" />
+                <Icon className="h-6 w-6 shrink-0 text-on-surface-variant" aria-hidden="true" />
               </div>
 
-              <p className="mt-6 max-w-2xl text-lg leading-7 text-on-surface">
+              <p className="mt-6 max-w-2xl text-pretty text-lg leading-7 text-on-surface">
                 {narrative.headline}
               </p>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">
+              <p className="mt-3 max-w-2xl text-pretty text-sm leading-6 text-on-surface-variant">
                 {product.description}
               </p>
 
@@ -237,17 +243,17 @@ export default function HomePage() {
               <div className="mt-auto grid gap-3 pt-10 sm:grid-cols-2">
                 <Link
                   href={product.href}
-                  className="btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+                  className={`btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass}`}
                 >
                   Product overview
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
                 <Link
                   href={product.primaryHref}
-                  className="btn btn-ghost justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-primary"
+                  className={`btn btn-ghost justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-primary ${focusVisibleClass}`}
                 >
                   {product.primaryCta}
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
             </article>
@@ -262,11 +268,11 @@ export default function HomePage() {
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                 Product navigation
               </p>
-              <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
+              <h2 className="mt-3 text-balance font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
                 Each section answers a different investor question.
               </h2>
             </div>
-            <ShieldCheck className="hidden h-6 w-6 text-status-signal md:block" />
+            <ShieldCheck className="hidden h-6 w-6 text-status-signal md:block" aria-hidden="true" />
           </div>
 
           <div className="grid gap-1 bg-border-muted lg:grid-cols-2">
@@ -276,7 +282,7 @@ export default function HomePage() {
                   <h3 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
                     {product.name}
                   </h3>
-                  <p className="mt-2 text-sm leading-6 text-on-surface-variant">
+                  <p className="mt-2 text-pretty text-sm leading-6 text-on-surface-variant">
                     {productRouteGroups[product.slug].description}
                   </p>
                 </div>
@@ -285,15 +291,15 @@ export default function HomePage() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="group grid gap-3 border-b border-border-muted p-4 transition-colors last:border-b-0 hover:bg-surface-container md:grid-cols-[140px_1fr_auto]"
+                      className={`group grid gap-3 border-b border-border-muted p-4 transition-colors last:border-b-0 hover:bg-surface-container md:grid-cols-[minmax(140px,0.35fr)_1fr_auto] ${focusVisibleClass}`}
                     >
                       <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                         {link.label}
                       </span>
-                      <span className="text-sm leading-5 text-on-surface-variant">
+                      <span className="min-w-0 text-pretty text-sm leading-5 text-on-surface-variant">
                         {link.description}
                       </span>
-                      <ArrowRight className="h-4 w-4 text-on-surface-variant transition group-hover:translate-x-1 group-hover:text-status-signal" />
+                      <ArrowRight className="h-4 w-4 text-on-surface-variant transition-[color,transform] group-hover:translate-x-1 group-hover:text-status-signal" aria-hidden="true" />
                     </Link>
                   ))}
                 </div>
@@ -319,7 +325,7 @@ function ProductFact({ label, value }: { label: string; value: string }) {
       <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
         {label}
       </dt>
-      <dd className="text-sm leading-6 text-on-surface">{value}</dd>
+      <dd className="min-w-0 text-pretty text-sm leading-6 text-on-surface">{value}</dd>
     </div>
   );
 }

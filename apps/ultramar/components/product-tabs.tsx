@@ -25,7 +25,7 @@ export function ProductTabs<TProduct extends ProductSlug>({
             aria-current={isActive ? "page" : undefined}
             role="tab"
             aria-selected={isActive}
-            className={`tab h-auto min-h-11 whitespace-nowrap border-r border-r-border-muted font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 ${
+            className={`tab h-auto min-h-11 whitespace-nowrap border-r border-r-border-muted font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-status-signal ${
               isActive
                 ? "tab-active bg-surface-container text-primary"
                 : "text-on-surface-variant hover:bg-surface-variant hover:text-primary"

@@ -21,11 +21,11 @@ export function SectionHeader({
           {eyebrow}
         </p>
       </div>
-      <Heading className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
+      <Heading className="mt-3 text-balance font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
         <BrandText>{title}</BrandText>
       </Heading>
       {description ? (
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">
+        <p className="mt-3 max-w-2xl text-pretty text-sm leading-6 text-on-surface-variant">
           <BrandText>{description}</BrandText>
         </p>
       ) : null}
