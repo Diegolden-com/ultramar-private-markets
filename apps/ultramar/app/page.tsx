@@ -76,7 +76,7 @@ const productNarratives = {
     icon: Landmark,
     label: "Private-market rail",
     headline: "For issuers and eligible investors evaluating private assets.",
-    routes: ["Assets", "Deals", "Oracle", "Market", "Legal Gate"],
+    routes: ["Assets", "Deals", "Oracle", "Market", "Portfolio", "Legal Gate"],
     nextStep: "Start with the overview, then inspect assets and issuer diligence.",
   },
   "arbitrage-hedge-fund": {

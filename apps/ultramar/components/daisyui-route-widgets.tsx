@@ -1,37 +1,57 @@
+import { Code2, DatabaseZap, LineChart, Plus, RadioTower, X } from "lucide-react";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 
 const cssVars = (vars: Record<string, string | number>) => vars as CSSProperties;
 
-export function PlatformQuickActions() {
+const quickActionLinks = [
+  { label: "Assets", href: "/private-equities/assets", icon: DatabaseZap },
+  { label: "Signals", href: "/arbitrage-hedge-fund/signals", icon: LineChart },
+  { label: "Status", href: "/system-status", icon: RadioTower },
+] as const;
+
+export function PlatformQuickActions({ pathname }: { pathname: string }) {
   return (
     <>
       <nav className="dock dock-sm border-t border-border-muted bg-surface lg:hidden" aria-label="Quick product navigation">
-        <Link href="/private-equities" className="dock-active">
-          <span className="dock-label">Assets</span>
-        </Link>
-        <Link href="/arbitrage-hedge-fund/signals">
-          <span className="dock-label">Signals</span>
-        </Link>
-        <Link href="/system-status">
-          <span className="dock-label">Status</span>
-        </Link>
+        {quickActionLinks.map((item) => {
+          const Icon = item.icon;
+          const active = isActiveAction(pathname, item.href);
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={active ? "dock-active" : undefined}
+            >
+              <Icon className="size-[1.2em]" aria-hidden="true" />
+              <span className="dock-label">{item.label}</span>
+            </Link>
+          );
+        })}
       </nav>
 
       <div className="fab hidden lg:flex">
-        <button type="button" className="btn btn-circle btn-primary" tabIndex={0} aria-label="Open quick actions">
-          +
-        </button>
-        <button type="button" className="fab-close btn btn-circle btn-neutral" aria-label="Close quick actions">
-          x
-        </button>
-        <Link href="/private-equities/assets" className="btn btn-success">
+        <div tabIndex={0} role="button" className="btn btn-circle btn-primary" aria-label="Open quick actions">
+          <Plus className="h-5 w-5" aria-hidden="true" />
+        </div>
+        <div className="fab-close">
+          <span className="sr-only">Close quick actions</span>
+          <span className="btn btn-circle btn-neutral" aria-hidden="true">
+            <X className="h-5 w-5" />
+          </span>
+        </div>
+        <Link href="/private-equities/assets" className="btn btn-success gap-2">
+          <DatabaseZap className="h-4 w-4" aria-hidden="true" />
           Assets
         </Link>
-        <Link href="/arbitrage-hedge-fund/signals" className="btn btn-info">
+        <Link href="/arbitrage-hedge-fund/signals" className="btn btn-info gap-2">
+          <LineChart className="h-4 w-4" aria-hidden="true" />
           Signals
         </Link>
-        <Link href="/api" className="btn btn-outline">
+        <Link href="/api" className="btn btn-outline gap-2">
+          <Code2 className="h-4 w-4" aria-hidden="true" />
           API
         </Link>
       </div>
@@ -198,10 +218,10 @@ export function CapitalIntakeForm() {
               </p>
               <ul className="menu mt-3">
                 <li>
-                  <a>Eligibility</a>
+                  <Link href="/private-equities/legal">Eligibility</Link>
                 </li>
                 <li>
-                  <a>Documents</a>
+                  <Link href="/private-equities/deals">Documents</Link>
                 </li>
               </ul>
             </div>
@@ -287,6 +307,10 @@ export function CapitalIntakeForm() {
       </form>
     </section>
   );
+}
+
+function isActiveAction(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 export function ApiMockupPanel() {

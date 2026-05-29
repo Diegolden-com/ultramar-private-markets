@@ -106,6 +106,14 @@ export const productRouteGroups = {
         priority: 0.75,
       },
       {
+        key: "portfolio",
+        label: "Portfolio",
+        href: "/private-equities/portfolio",
+        description: "Investor-facing holdings, value, and performance state.",
+        changeFrequency: "monthly",
+        priority: 0.35,
+      },
+      {
         key: "legal",
         label: "Legal Gate",
         href: "/private-equities/legal",

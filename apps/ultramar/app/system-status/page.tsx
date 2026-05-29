@@ -56,7 +56,7 @@ const statusItems = [
 const incidents = [
   ["Open Incidents", "0"],
   ["Public APIs", "4"],
-  ["Footer Links", "3"],
+  ["Disclosure Links", "3"],
   ["Status Mode", "Read-only"],
 ] as const;
 

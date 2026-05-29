@@ -170,25 +170,33 @@ export default async function AssetDetailPage({
 
           <h3 className="mb-4 mt-8 font-serif text-2xl font-medium">Offering Terms</h3>
           <div className="mb-8 overflow-x-auto border border-border-muted">
-            <div className="table table-sm min-w-full">
-            <div className="grid grid-cols-2 border-b border-border-muted bg-surface-dim">
-              <div className="p-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                Parameter
-              </div>
-              <div className="p-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                Specification
-              </div>
-            </div>
-            {offeringTerms.map(([label, value], index) => (
-              <div
-                key={label}
-                className={`grid grid-cols-2 ${index === offeringTerms.length - 1 ? "" : "border-b border-border-muted"}`}
-              >
-                <div className="p-3 font-mono text-sm font-medium uppercase text-on-surface">{label}</div>
-                <div className="p-3 font-mono text-sm font-medium uppercase text-on-surface">{value}</div>
-              </div>
-            ))}
-            </div>
+            <table className="table table-sm min-w-full">
+              <thead className="border-b border-border-muted bg-surface-dim">
+                <tr>
+                  <th className="p-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                    Parameter
+                  </th>
+                  <th className="p-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+                    Specification
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {offeringTerms.map(([label, value]) => (
+                  <tr key={label} className="border-b border-border-muted last:border-b-0">
+                    <th
+                      scope="row"
+                      className="p-3 font-mono text-sm font-medium uppercase text-on-surface"
+                    >
+                      {label}
+                    </th>
+                    <td className="p-3 font-mono text-sm font-medium uppercase text-on-surface">
+                      {value}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           <section className="border border-border-muted border-t-status-signal bg-surface-dim p-6">

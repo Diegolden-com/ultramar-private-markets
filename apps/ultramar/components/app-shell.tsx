@@ -4,7 +4,7 @@ import { BrandName, BrandText } from "@/components/brand-name";
 import { PlatformQuickActions } from "@/components/daisyui-route-widgets";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { footerLinks } from "@/lib/footer-routes";
-import { headerNavItems, headerUtilityLinks } from "@/lib/site-navigation";
+import { headerNavItems, headerUtilityLinks, platformRouteGroup, productRouteGroups } from "@/lib/site-navigation";
 import { ChevronDown, LogIn, Menu, Monitor, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,6 +15,29 @@ type HeaderNavLink = HeaderNavItem["links"][number];
 
 const terminalLink = headerUtilityLinks[0];
 const signInLink = headerUtilityLinks[1];
+const platformFooterKeys = new Set(["home", "research", "press"]);
+const footerRouteGroups = [
+  {
+    title: "Platform",
+    links: platformRouteGroup.links.filter((link) => platformFooterKeys.has(link.key)),
+  },
+  {
+    title: productRouteGroups["private-equities"].title,
+    links: productRouteGroups["private-equities"].links,
+  },
+  {
+    title: productRouteGroups["arbitrage-hedge-fund"].title,
+    links: productRouteGroups["arbitrage-hedge-fund"].links,
+  },
+  {
+    title: "Operations",
+    links: [
+      { label: "API", href: "/api" },
+      { label: "System Status", href: "/system-status" },
+      ...footerLinks,
+    ],
+  },
+] as const;
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -55,7 +78,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-surface-ink pb-14 text-on-surface lg:pb-0">
       <header
         ref={headerRef}
-        className="navbar sticky top-0 z-50 min-h-12 border-b border-border-muted bg-surface p-0"
+        className="sticky top-0 z-50 border-b border-border-muted bg-surface"
         onBlur={(event) => {
           const nextFocusedElement = event.relatedTarget;
 
@@ -64,8 +87,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           }
         }}
       >
-        <div className="mx-auto flex min-h-12 w-full max-w-[1600px] items-center justify-between px-4 py-0 md:px-12">
-          <div className="navbar-start min-w-0 gap-6 md:gap-8">
+        <div className="navbar mx-auto min-h-12 w-full max-w-[1600px] px-4 py-0 md:px-12">
+          <div className="flex min-w-0 flex-1 items-center gap-6 md:gap-8">
             <Link
               href="/"
               className="flex h-12 shrink-0 items-center truncate font-serif text-xl font-bold leading-none text-on-surface"
@@ -97,7 +120,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </nav>
           </div>
 
-          <div className="navbar-end hidden gap-3 lg:flex">
+          <div className="hidden flex-none gap-3 lg:flex">
             <Link
               href={terminalLink.href}
               aria-current={terminalActive ? "page" : undefined}
@@ -142,7 +165,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         {open ? (
           <nav className="border-t border-border-muted bg-surface lg:hidden" aria-label="Mobile navigation">
-            <ul className="menu grid p-0">
+            <ul className="menu w-full p-0">
               {headerNavItems.map((item) => (
                 <li key={item.key} className="border-b border-border-muted">
                   <Link
@@ -154,19 +177,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     {item.label}
                   </Link>
                   {item.links.length > 0 ? (
-                    <div className="grid bg-surface-ink/40">
+                    <ul className="rounded-none bg-surface-ink/40 p-0">
                       {item.links.map((link) => (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          className={mobileSubNavClass(isActiveHref(pathname, link.href))}
-                          aria-current={isActiveHref(pathname, link.href) ? "page" : undefined}
-                          onClick={closeMenus}
-                        >
-                          {link.label}
-                        </Link>
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            className={mobileSubNavClass(isActiveHref(pathname, link.href))}
+                            aria-current={isActiveHref(pathname, link.href) ? "page" : undefined}
+                            onClick={closeMenus}
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   ) : null}
                 </li>
               ))}
@@ -197,7 +221,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {breadcrumbs.length > 1 ? (
         <nav
-          className="breadcrumbs border-b border-border-muted bg-surface-ink px-4 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-on-surface-variant md:px-12"
+          className="breadcrumbs overflow-x-auto border-b border-border-muted bg-surface-ink px-4 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-on-surface-variant md:px-12"
           aria-label="Breadcrumb"
         >
           <ul className="mx-auto max-w-[1600px]">
@@ -218,28 +242,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {children}
 
-      <footer className="footer border-t border-border-muted bg-surface-container-lowest px-4 py-8 md:px-12">
-        <div className="flex w-full flex-col gap-5 md:flex-row md:items-center md:justify-between">
-          <div>
-            <BrandName as="p" className="font-serif text-xl font-bold text-on-surface" />
-            <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              (c)2024 <BrandName /> Group. All rights reserved. Disclosures and controls.
-            </p>
-          </div>
-          <nav className="flex flex-wrap gap-x-6 gap-y-3">
-            {footerLinks.map((item) => (
+      <footer className="footer sm:footer-horizontal border-t border-border-muted bg-surface-container-lowest px-4 py-8 text-on-surface md:px-12">
+        <aside className="max-w-md">
+          <BrandName as="p" className="font-serif text-xl font-bold text-on-surface" />
+          <p className="mt-2 max-w-sm font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+            (c){new Date().getFullYear()} <BrandName /> Group. All rights reserved. Disclosures and controls.
+          </p>
+        </aside>
+        {footerRouteGroups.map((group) => (
+          <nav key={group.title}>
+            <h2 className="footer-title text-on-surface">{group.title}</h2>
+            {group.links.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant underline transition-colors hover:text-primary"
+                className="link-hover font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-primary"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
-        </div>
+        ))}
       </footer>
-      <PlatformQuickActions />
+      <PlatformQuickActions pathname={pathname} />
     </div>
   );
 }
@@ -247,7 +272,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 function mobileNavClass(active: boolean) {
   return `rounded-none px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${
     active
-      ? "active !bg-primary !text-primary-foreground"
+      ? "menu-active !bg-primary !text-primary-foreground"
       : "text-on-surface-variant hover:text-primary"
   }`;
 }
@@ -255,7 +280,7 @@ function mobileNavClass(active: boolean) {
 function mobileSubNavClass(active: boolean) {
   return `border-t border-border-muted px-8 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] ${
     active
-      ? "bg-surface-container text-primary"
+      ? "menu-active !bg-surface-container !text-primary"
       : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
   }`;
 }
@@ -328,7 +353,7 @@ function DesktopNavMenu({
   const menuId = `${item.key}-menu`;
 
   return (
-    <div className="dropdown group relative flex h-12 items-stretch">
+    <div className={`dropdown group relative flex h-12 items-stretch ${open ? "dropdown-open" : ""}`}>
       <button
         type="button"
         aria-current={active ? "page" : undefined}
@@ -349,7 +374,7 @@ function DesktopNavMenu({
       </button>
       <div
         id={menuId}
-        className={`dropdown-content menu absolute left-0 top-full z-50 max-h-[calc(100vh-3rem)] w-[360px] overflow-y-auto border border-border-muted bg-surface p-0 shadow-2xl shadow-black/30 transition-opacity ${
+        className={`dropdown-content absolute left-0 top-full z-50 max-h-[calc(100vh-3rem)] w-[360px] overflow-y-auto border border-border-muted bg-surface p-0 shadow-2xl shadow-black/30 transition-opacity ${
           open ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
         }`}
       >
@@ -361,16 +386,17 @@ function DesktopNavMenu({
             <BrandText>{item.description}</BrandText>
           </p>
         </div>
-        <div className="grid">
+        <ul className="menu grid p-0">
           {item.links.map((link) => (
-            <DesktopMenuLink
-              key={link.href}
-              link={link}
-              active={isActiveHref(pathname, link.href)}
-              onClick={onNavigate}
-            />
+            <li key={link.href}>
+              <DesktopMenuLink
+                link={link}
+                active={isActiveHref(pathname, link.href)}
+                onClick={onNavigate}
+              />
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );
@@ -391,7 +417,7 @@ function DesktopMenuLink({
       aria-current={active ? "page" : undefined}
       onClick={onClick}
       className={`border-b border-border-muted px-4 py-3 transition-colors last:border-b-0 ${
-        active ? "bg-surface-container text-primary" : "hover:bg-surface-container"
+        active ? "menu-active !bg-surface-container !text-primary" : "hover:bg-surface-container"
       }`}
     >
       <span className="block font-mono text-[11px] font-medium uppercase tracking-[0.08em]">

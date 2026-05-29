@@ -29,9 +29,11 @@ export function FaqSection({
               <h2 className="collapse-title font-serif text-2xl font-semibold leading-tight text-on-surface">
                 <BrandText>{item.question}</BrandText>
               </h2>
-              <p className="collapse-content text-sm leading-6 text-on-surface-variant">
-                <BrandText>{item.answer}</BrandText>
-              </p>
+              <div className="collapse-content">
+                <p className="text-sm leading-6 text-on-surface-variant">
+                  <BrandText>{item.answer}</BrandText>
+                </p>
+              </div>
             </div>
           ))}
         </div>

@@ -1,6 +1,6 @@
 import { BrandText } from "@/components/brand-name";
 import { MetricCard } from "@/components/metric-card";
-import { PageHeader, SurfacePanel } from "@/components/page-layout";
+import { ProductRouteHeader, SurfacePanel } from "@/components/page-layout";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
 import { Activity, Download, PieChart, TrendingUp, Wallet } from "lucide-react";
 
@@ -24,7 +24,9 @@ export default function PortfolioPage() {
 
   return (
     <>
-      <PageHeader
+      <ProductRouteHeader
+        product="private-equities"
+        active="portfolio"
         eyebrow="Private Equities / Portfolio State"
         title="Portfolio"
         description="A consolidated investor view for private-market exposure, daily changes, and holding-level performance."
