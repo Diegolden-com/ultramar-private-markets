@@ -10,7 +10,7 @@ import {
 } from "@/lib/seo";
 
 const oraclePath = "/private-equities/oracle";
-const description = "Issuer accounting oracle and solvency proof workflow.";
+const description = "Issuer accounting oracle for solvency, liquidity, and data freshness.";
 
 export const metadata = createSeoMetadata({
   title: "Private Equities Oracle",

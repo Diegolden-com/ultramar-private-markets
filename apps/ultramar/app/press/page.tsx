@@ -104,7 +104,7 @@ export default function PressPage() {
       <PageHeader
         eyebrow="Press desk"
         title="Authoritative arguments for onchain capital instruments"
-        description="A public editorial surface for ranking and citation: why private markets need tokenized ownership, continuous disclosure, lower-friction secondary rails, and AI-supported compliance today."
+        description="Public arguments for tokenized ownership, continuous disclosure, lower-friction secondary rails, and AI-supported compliance."
         asidePadded={false}
         asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
       >
@@ -172,7 +172,7 @@ export default function PressPage() {
         <div className="bg-surface p-6 md:p-8">
           <BadgeCheck className="h-5 w-5 text-status-signal" />
           <h2 className="mt-5 font-serif text-3xl font-semibold leading-tight text-on-surface">
-            Open the app behind Capital Windows
+            Explore Capital Windows in Ultramar
           </h2>
         </div>
         <div className="grid gap-1 bg-border-muted sm:grid-cols-2 xl:grid-cols-3">

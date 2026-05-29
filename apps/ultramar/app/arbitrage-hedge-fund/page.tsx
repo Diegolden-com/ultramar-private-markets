@@ -41,9 +41,9 @@ const description =
 
 const arbitrageFaqs = [
   {
-    question: "What is the Arbitrage Hedge Fund overview for?",
+    question: "What does the Arbitrage Hedge Fund evaluate?",
     answer:
-      "The overview explains the product workflow and routes allocators to the dashboard, signal board, risk controls, and research backlog before they evaluate deeper pages.",
+      "The fund evaluates Polymarket event prices against repeatable probability models, then reviews exposure, sizing, liquidity, and resolution risk before allocation.",
   },
   {
     question: "What makes the product Polymarket-first?",
@@ -53,7 +53,7 @@ const arbitrageFaqs = [
   {
     question: "Are lending markets and derivative arbitrage active products?",
     answer:
-      "No. They remain research context until data quality, risk limits, and allocator language are complete enough to graduate into product surfaces.",
+      "No. They remain research context until data quality, risk limits, and allocator language are complete enough for investment review.",
   },
 ];
 
@@ -97,7 +97,7 @@ const scopeItems = [
     icon: Radar,
     title: "Polymarket arbitrage",
     status: "Active product",
-    body: "Current product surface for event-market probability dislocations, monitored signals, exposure, and controls.",
+    body: "Current product focus for event-market probability dislocations, monitored signals, exposure, and controls.",
   },
   {
     icon: FlaskConical,
@@ -115,19 +115,19 @@ const scopeItems = [
     icon: ClipboardCheck,
     title: "Graduation rule",
     status: "Governance",
-    body: "A strategy only becomes product surface after data quality, risk limits, and allocator language are complete enough for review.",
+    body: "A strategy only becomes investable after data quality, risk limits, and allocator language are complete enough for review.",
   },
 ] as const;
 
 const avgSpread = averageAbsoluteSpread(sampleSignals);
 const exposure = totalExposure(samplePositions);
 const overviewStats = [
-  ["Sample Signals", sampleSignals.length.toString(), "Fallback signal board observations"],
+  ["Reference Signals", sampleSignals.length.toString(), "Illustrative signal observations"],
   ["Avg Spread", `${(avgSpread * 100).toFixed(1)}%`, "Average absolute observed spread"],
   [
-    "Sample Exposure",
+    "Modeled Exposure",
     `$${exposure.toLocaleString("en-US", { maximumFractionDigits: 0 })}`,
-    "Fallback position exposure shown in product demos",
+    "Illustrative notional exposure under review",
   ],
   ["Product Boundary", "V1", "Polymarket-first, research-gated expansion"],
 ] as const;
@@ -150,8 +150,8 @@ export default function ArbitrageHedgeFundPage() {
           serviceJsonLd({ product, serviceType: "Polymarket-first arbitrage fund" }),
           itemListJsonLd({
             path: product.href,
-            name: "Ultramar Arbitrage Hedge Fund route map",
-            description: "The public routes that explain the fund workflow.",
+            name: "Ultramar Arbitrage Hedge Fund areas",
+            description: "The core fund areas allocators can review.",
             items: routeCards.map((route) => ({
               name: route.label,
               url: route.href,
@@ -172,10 +172,10 @@ export default function ArbitrageHedgeFundPage() {
           <div className="flex flex-col justify-between">
             <div>
               <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-                {product.eyebrow} / Overview
+                {product.eyebrow} / Fund discipline
               </p>
               <h1 className="mt-4 max-w-4xl break-words font-serif text-4xl font-bold leading-[1.1] text-on-surface [overflow-wrap:anywhere] md:text-5xl">
-                A Polymarket-first fund workflow for signals, exposure, and controls.
+                A Polymarket-first fund discipline for signals, exposure, and controls.
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-relaxed text-on-surface-variant">
                 The product compares event-market prices with probability models, watches durable
@@ -208,7 +208,7 @@ export default function ArbitrageHedgeFundPage() {
                 Polymarket dislocation monitoring
               </h2>
               <p className="mt-3 text-sm leading-5 text-on-surface-variant">
-                Research can inform the model, but the v1 product surface stays centered on
+                Research can inform the model, but the current fund discipline stays centered on
                 Polymarket signals and allocator-visible controls.
               </p>
             </div>
@@ -221,15 +221,14 @@ export default function ArbitrageHedgeFundPage() {
       <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.85fr_1.15fr]">
         <div className="bg-surface p-6 md:p-8">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Product job
+            Product role
           </p>
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
             Turn market dislocations into reviewable fund signals.
           </h2>
           <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-            The overview is the allocator orientation layer. It explains what the fund observes, how
-            probability comparisons become signals, where exposure is reviewed, and why risk
-            controls sit beside the opportunity.
+            Allocators can see what the fund observes, how probability comparisons become signals,
+            where exposure is reviewed, and why risk controls sit beside the opportunity.
           </p>
         </div>
 
@@ -260,10 +259,10 @@ export default function ArbitrageHedgeFundPage() {
         <div className="bg-surface">
           <div className="border-b border-border-muted p-6">
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-              Route map
+              Allocator questions
             </p>
             <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-              What each fund page is for.
+              Move from signal discovery to risk review.
             </h2>
           </div>
           <div className="grid">
@@ -291,7 +290,7 @@ export default function ArbitrageHedgeFundPage() {
               Scope boundary
             </p>
             <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-              Research context is not the same as product scope.
+              Research context is not the same as investable scope.
             </h2>
           </div>
           <div className="grid">
@@ -331,7 +330,7 @@ export default function ArbitrageHedgeFundPage() {
           {[
             ["Signal confidence", "Spread quality and model confidence determine whether a market stays monitored or progresses to sizing."],
             ["Exposure controls", "Notional exposure, venue concentration, and stale-signal risk stay visible beside the opportunity."],
-            ["Failure modes", "Oracle delay, ambiguous resolution, liquidity gaps, and model drift are treated as product risks."],
+            ["Failure modes", "Oracle delay, ambiguous resolution, liquidity gaps, and model drift are treated as fund risks."],
           ].map(([title, body]) => (
             <div key={title} className="bg-surface p-5">
               {title === "Failure modes" ? (
@@ -353,7 +352,7 @@ export default function ArbitrageHedgeFundPage() {
       <FaqSection
         eyebrow="Arbitrage FAQ"
         title="How to read the fund overview"
-        description="The answers below match the FAQPage structured data and keep research-only strategies separate from active product scope."
+        description="A plain-language guide to signal monitoring, sizing discipline, and research-only ideas."
         items={arbitrageFaqs}
       />
 

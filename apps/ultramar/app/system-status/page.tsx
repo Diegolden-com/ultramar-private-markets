@@ -15,7 +15,7 @@ import Link from "next/link";
 
 const statusPath = "/system-status";
 const description =
-  "System status surface for Ultramar.capital public pages, API telemetry, arbitrage signals, private-equities data, and disclosure routes.";
+  "System status for Ultramar.capital availability, read-only reference feeds, arbitrage examples, private-equities data, and disclosures.";
 
 const avgSpread = averageAbsoluteSpread(sampleSignals);
 const exposure = totalExposure(samplePositions);
@@ -23,39 +23,39 @@ const exposure = totalExposure(samplePositions);
 const statusItems = [
   {
     icon: Activity,
-    name: "Public web surface",
+    name: "Website availability",
     status: "Operational",
-    detail: "App shell, product routes, research pages, and disclosure pages are available through the canonical public app.",
+    detail: "Product areas, research, disclosures, and public navigation are responding normally.",
     href: "/sitemap",
   },
   {
     icon: Radar,
     name: "Arbitrage signals",
     status: "Operational",
-    detail: `${sampleSignals.length} sample signals reporting an average absolute spread of ${avgSpread.toFixed(3)}.`,
+    detail: `${sampleSignals.length} reference signals available with an average absolute spread of ${avgSpread.toFixed(3)}.`,
     href: "/arbitrage-hedge-fund/signals",
   },
   {
     icon: DatabaseZap,
-    name: "Portfolio telemetry",
+    name: "Portfolio data",
     status: "Operational",
-    detail: `Read-only position telemetry is available with modeled exposure of $${exposure.toLocaleString("en-US", {
+    detail: `Read-only reference position data is available with modeled exposure of $${exposure.toLocaleString("en-US", {
       maximumFractionDigits: 0,
     })}.`,
     href: "/api/private-equities/portfolio",
   },
   {
     icon: ShieldCheck,
-    name: "Compliance routes",
+    name: "Compliance materials",
     status: "Operational",
-    detail: "Footer disclosure routes resolve to human-readable pages instead of raw endpoints or missing route shells.",
+    detail: "Legal, compliance, and sitemap materials are available for reviewer reference.",
     href: "/compliance",
   },
 ] as const;
 
 const incidents = [
   ["Open Incidents", "0"],
-  ["Public APIs", "4"],
+  ["Data Feeds", "4"],
   ["Disclosure Links", "3"],
   ["Status Mode", "Read-only"],
 ] as const;
@@ -95,8 +95,8 @@ export default function SystemStatusPage() {
 
       <PageHeader
         eyebrow="System monitor"
-        title="Public route and telemetry status"
-        description="A compact operating surface for checking whether the public routes and read-only API surfaces are wired and discoverable."
+        title="Availability and data status"
+        description="A compact operating view for Ultramar availability, read-only data feeds, and disclosure access."
         asidePadded={false}
         asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
       >
@@ -137,7 +137,7 @@ export default function SystemStatusPage() {
         <p className="mt-3 max-w-3xl text-sm leading-6 text-on-surface-variant">
           <BrandText>
             {
-              "This page reports the availability of public app routes and read-only sample telemetry in the current Ultramar.capital app. It is not a broker-dealer, custodian, bank, exchange, or production incident-management portal."
+              "This status view reports availability for Ultramar.capital and its read-only data feeds. It is not a broker-dealer, custodian, bank, exchange, or production incident-management portal."
             }
           </BrandText>
         </p>

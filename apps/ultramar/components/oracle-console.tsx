@@ -38,14 +38,14 @@ export function OracleConsole() {
     <div className="grid gap-1 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="card card-border bg-surface p-6">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Issuer telemetry
+          Issuer data
         </p>
         <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
           Issuer Solvency Oracle
         </h2>
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           The oracle reads accounting data, computes solvency and liquidity ratios,
-          and produces a signed proof that can be referenced by the asset workflow.
+          and produces a signed proof that can be referenced during asset review.
         </p>
         <button
           type="button"

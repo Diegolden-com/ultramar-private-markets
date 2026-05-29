@@ -33,7 +33,7 @@ const strategyItems = [
   {
     icon: Lock,
     title: "Graduation rule",
-    body: "A strategy only becomes product surface after data quality, risk limits, and allocator language are complete.",
+    body: "A strategy only becomes investable after data quality, risk limits, and allocator language are complete.",
     status: "Governance",
   },
 ] as const;
@@ -80,7 +80,7 @@ export default function ResearchPage() {
         active="research"
         eyebrow="Arbitrage Hedge Fund / Research Gate"
         title="Research, not product"
-        description="This route preserves strategy context without presenting lending markets or derivative arbitrage as active commercial products."
+        description="Strategy context stays clearly separated from Polymarket-first monitoring until controls are ready."
       />
       <SurfaceGrid columns="md:grid-cols-2">
         {strategyItems.map((item) => (

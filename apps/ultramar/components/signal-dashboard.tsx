@@ -69,7 +69,7 @@ export async function SignalDashboard() {
               Signal Board
             </h2>
             <p className="mt-1 text-sm text-on-surface-variant">
-              Polymarket prices normalized against derivatives-implied probabilities.
+              Polymarket prices compared with model probabilities before sizing review.
             </p>
           </div>
           <div className="overflow-x-auto">

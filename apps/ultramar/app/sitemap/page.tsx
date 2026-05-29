@@ -13,13 +13,13 @@ import Link from "next/link";
 
 const sitemapPath = "/sitemap";
 const description =
-  "Human-readable sitemap for Ultramar.capital product, disclosure, research, private equities, and arbitrage hedge fund routes.";
+  "Human-readable sitemap for Ultramar.capital products, disclosures, research, Private Equities, and the Arbitrage Hedge Fund.";
 
 const allLinks = indexableRouteGroups.flatMap((group) =>
   group.links.map((link) => ({
     name: `${group.title}: ${link.label}`,
     url: link.href,
-    description: `Ultramar.capital route for ${link.label}.`,
+    description: `${link.label} on Ultramar.capital.`,
   })),
 );
 
@@ -28,7 +28,7 @@ export const metadata = createSeoMetadata({
   description,
   path: sitemapPath,
   image: seoImages.platform,
-  keywords: ["Ultramar sitemap", "Ultramar routes", "capital platform sitemap"],
+  keywords: ["Ultramar sitemap", "Ultramar site index", "capital platform sitemap"],
 });
 
 export default function SitemapPage() {
@@ -40,7 +40,7 @@ export default function SitemapPage() {
           webPageJsonLd({ path: sitemapPath, name: "Ultramar.capital Sitemap", description }),
           itemListJsonLd({
             path: sitemapPath,
-            name: "Ultramar.capital public routes",
+            name: "Ultramar.capital public destinations",
             description,
             items: allLinks,
           }),
@@ -52,14 +52,14 @@ export default function SitemapPage() {
       />
 
       <PageHeader
-        eyebrow="Route index"
+        eyebrow="Site index"
         title="Human-readable sitemap"
-        description="A compact index of public product surfaces, disclosure routes, research assets, and machine-readable feeds."
+        description="A compact index of product areas, disclosures, research, press articles, and read-only data feeds."
       >
         <Map className="h-5 w-5 text-status-signal" />
         <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-          Search crawlers should use the XML feed. Operators and reviewers can use this page to inspect
-          the visible route map without opening raw metadata.
+          Reviewers can use this index to move through Ultramar&apos;s public materials. The XML sitemap
+          remains available for search engines and automated tools.
         </p>
         <Link
           href="/sitemap.xml"

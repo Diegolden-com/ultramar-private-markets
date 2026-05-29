@@ -26,17 +26,17 @@ const assetFaqs = [
   {
     question: "What appears on the Ultramar Private Equities asset marketplace?",
     answer:
-      "The marketplace organizes primary issuer rounds and eligible secondary-transfer opportunities with asset narrative, valuation context, minimum tickets, compliance score, and route-level links into detail pages.",
+      "The marketplace organizes primary issuer rounds and eligible secondary-transfer opportunities with asset narrative, valuation context, minimum tickets, compliance score, and deeper diligence links.",
   },
   {
     question: "Are these private-market assets freely tradable?",
     answer:
-      "No. The public asset page is a product and research surface. Production participation requires investor eligibility checks, issuer documents, legal review, and transfer restrictions.",
+      "No. Production participation requires investor eligibility checks, issuer documents, legal review, and transfer restrictions.",
   },
   {
     question: "How does issuer operating data support asset discovery?",
     answer:
-      "The issuer oracle can connect operating data to solvency, liquidity, and data-recency context so asset pages are not limited to static token metadata.",
+      "The issuer oracle can connect operating data to solvency, liquidity, and data-recency context so assets are not evaluated only from static token metadata.",
   },
 ];
 
@@ -49,7 +49,7 @@ const marketplaceContext = [
   {
     icon: DatabaseZap,
     title: "Oracle-ready context",
-    body: "The asset rail is designed to absorb issuer operating data, so visibility can mature from profile metadata into investor-facing proofs.",
+    body: "The asset index can absorb issuer operating data, so visibility can mature from profile metadata into investor-facing proofs.",
   },
   {
     icon: ShieldCheck,
@@ -95,10 +95,10 @@ export default function AssetsPage() {
             description,
           }),
           itemListJsonLd({
-            path: assetsPath,
-            name: "Ultramar Private Equities asset marketplace",
-            description:
-              "Primary and secondary tokenized private-market assets available in the Ultramar.capital private-equities workflow.",
+    path: assetsPath,
+    name: "Ultramar Private Equities asset marketplace",
+    description:
+      "Primary and secondary tokenized private-market assets available through Ultramar Private Equities.",
             items: deals.map((deal) => ({
               name: `${deal.name} (${deal.ticker})`,
               url: `/private-equities/assets/${deal.ticker}`,
@@ -126,7 +126,7 @@ export default function AssetsPage() {
                 Asset index for controlled private-market access.
               </h1>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
-                A spare browsing surface for issuer rounds, secondary transfer
+                A focused index for issuer rounds, secondary transfer
                 paths, and asset-level operating context. The marketplace stays
                 quiet so the diligence can stay visible.
               </p>
@@ -250,7 +250,7 @@ export default function AssetsPage() {
               More than a token list.
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-6 text-on-surface-variant">
-              The asset route closes the loop with Ultramar research on
+              Asset diligence connects directly to Ultramar research on
               tokenized private equity and issuer operating data.
             </p>
           </div>
@@ -283,7 +283,7 @@ export default function AssetsPage() {
       <FaqSection
         eyebrow="Asset FAQ"
         title="How investors should read the index"
-        description="Public pages explain the workflow; production access remains gated by eligibility, documents, and jurisdiction-specific review."
+        description="Public asset information supports review; participation remains gated by eligibility, documents, and jurisdiction-specific checks."
         items={assetFaqs}
       />
 

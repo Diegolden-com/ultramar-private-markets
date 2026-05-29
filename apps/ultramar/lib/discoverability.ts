@@ -35,7 +35,7 @@ export const assetIndexableRoutes: SiteNavLink[] = deals.map((deal) => ({
   key: `asset-${deal.ticker}`,
   label: `${deal.name} (${deal.ticker})`,
   href: `/private-equities/assets/${deal.ticker}`,
-  description: `Private-market asset route for ${deal.name}.`,
+  description: `Private-market asset profile for ${deal.name}.`,
   changeFrequency: "weekly",
   priority: 0.7,
 }));

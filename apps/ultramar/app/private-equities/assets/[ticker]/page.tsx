@@ -18,7 +18,7 @@ const diligenceSteps = [
   ["NDA Execution", "complete"],
   ["Memo Review", "active"],
   ["Data Room Access", "pending"],
-  ["Capital Call", "idle"],
+  ["Allocation Review", "idle"],
 ] as const;
 
 export function generateStaticParams() {
@@ -98,7 +98,7 @@ export default async function AssetDetailPage({
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                Asset Identifier
+                Asset
               </p>
               <h1 className="font-serif text-4xl font-bold leading-[1.1] text-on-surface md:text-5xl">
                 {deal.name}
@@ -106,7 +106,7 @@ export default async function AssetDetailPage({
             </div>
             <div className="min-w-0 sm:text-right">
               <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                Classification
+                Sector
               </p>
               <span className="badge badge-outline max-w-full break-words bg-surface-dim px-2 py-1 font-mono text-sm font-medium uppercase text-on-surface">
                 {deal.sector}
@@ -117,7 +117,7 @@ export default async function AssetDetailPage({
           <div className="border-t border-border-muted pt-6">
             <div className="mb-2 flex justify-between">
               <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                Funding Progress
+                Funding status
               </span>
               <span className="font-mono text-sm font-medium text-status-signal">
                 {fundingProgress}%
@@ -139,7 +139,7 @@ export default async function AssetDetailPage({
               </div>
               <div className="text-right">
                 <p className="block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                  Target Raise
+                  Target raise
                 </p>
                 <p className="font-mono text-xl font-semibold text-on-surface">
                   {formatCurrency(targetRaise)}
@@ -291,7 +291,7 @@ export default async function AssetDetailPage({
             className="btn btn-success w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             type="button"
           >
-            Initiate Allocation
+            Request Allocation Review
           </button>
           <p className="mt-4 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
             Status: {statusLabels[deal.status]} / {deal.location}
@@ -326,7 +326,7 @@ function getUseOfFunds(deal: NonNullable<ReturnType<typeof findDeal>>) {
     {
       label: "Target return",
       percent: `${deal.apy}%`,
-      amount: deal.type === "primary" ? "Primary rail" : "Secondary rail",
+      amount: deal.type === "primary" ? "Primary market" : "Secondary market",
     },
   ];
 }
@@ -345,6 +345,6 @@ function getOfferingTerms(deal: NonNullable<ReturnType<typeof findDeal>>) {
     ["Instrument", deal.type === "primary" ? "Primary private-market allocation" : "Eligible secondary transfer"],
     ["Target return", `${deal.apy}%`],
     ["Minimum ticket", formatCurrency(deal.minInvestment)],
-    ["Market rail", deal.type === "primary" ? "Primary" : "Secondary"],
+    ["Market type", deal.type === "primary" ? "Primary" : "Secondary"],
   ];
 }

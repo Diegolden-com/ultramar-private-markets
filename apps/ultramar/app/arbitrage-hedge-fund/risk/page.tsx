@@ -47,7 +47,7 @@ const riskFaqs = [
   {
     question: "How does Ultramar handle model drift?",
     answer:
-      "The risk workflow treats model drift as a failure mode that has to be monitored beside stale signals, liquidity changes, and ambiguous event resolution.",
+      "The risk process treats model drift as a failure mode that has to be monitored beside stale signals, liquidity changes, and ambiguous event resolution.",
   },
   {
     question: "Why keep research strategies separate from risk-controlled product scope?",
@@ -119,7 +119,7 @@ export default function RiskPage() {
             path: riskPath,
             name: "Polymarket arbitrage risk controls",
             description:
-              "Sizing, exposure, hedge, and failure-mode controls for the Polymarket-first fund surface.",
+              "Sizing, exposure, hedge, and failure-mode controls for the Polymarket-first fund.",
             items: riskControlItems.map((item) => ({
               name: item.title,
               url: item.href,
@@ -138,7 +138,7 @@ export default function RiskPage() {
       <ProductRouteHeader
         product="arbitrage-hedge-fund"
         active="risk"
-        eyebrow="Module // Risk_Ctrl_01"
+        eyebrow="Arbitrage Hedge Fund / Risk Review"
         title="Arbitrage Risk Controls"
         description={description}
       >
@@ -146,13 +146,13 @@ export default function RiskPage() {
           <div className="badge badge-outline badge-success flex items-center gap-2 bg-surface px-3 py-1">
             <span className="status status-success" />
             <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-              System Active
+              Monitoring Active
             </span>
           </div>
           <div className="badge badge-outline flex items-center gap-2 bg-surface px-3 py-1">
             <Lock className="h-4 w-4 text-on-surface-variant" />
             <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-              Secure Env
+              Controlled Access
             </span>
           </div>
         </div>
@@ -222,7 +222,7 @@ export default function RiskPage() {
                     Mandatory Audit Trail
                   </h3>
                   <p className="text-sm leading-normal text-on-surface-variant">
-                    All risk parameter adjustments logged with cryptographic hashes.
+                    All risk parameter adjustments require logged review and approval.
                   </p>
                 </div>
               </div>
@@ -255,9 +255,9 @@ export default function RiskPage() {
               </div>
               <div className="mt-8 space-y-3">
                 {[
-                  ["FIX 1", "15%"],
-                  ["FIX 2", "25%"],
-                  ["WSS 1", "5%"],
+                  ["Feed A", "15%"],
+                  ["Feed B", "25%"],
+                  ["Feed C", "5%"],
                 ].map(([label, width]) => (
                   <div key={label} className="flex h-4 w-full items-center">
                     <span className="w-12 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
@@ -275,7 +275,7 @@ export default function RiskPage() {
       <FaqSection
         eyebrow="Risk FAQ"
         title="How risk controls constrain product scope"
-        description="These visible answers match the FAQPage structured data for this route."
+        description="Risk policy explains when a signal can move from monitoring toward sizing."
         items={riskFaqs}
       />
     </>

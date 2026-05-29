@@ -64,7 +64,7 @@ export function ProductExperiencePanels() {
     <section className="grid gap-1 border-y border-border-muted bg-border-muted lg:grid-cols-3">
       <article className="card card-border bg-surface p-5">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Live route narrative
+          Capital access
         </p>
         <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight">
           Capital workflows stay{" "}
@@ -88,7 +88,7 @@ export function ProductExperiencePanels() {
 
       <article className="card card-border bg-surface p-5">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Before / after evidence
+          Diligence signal
         </p>
         <figure className="diff mt-4 aspect-video w-full border border-border-muted" tabIndex={0}>
           <div className="diff-item-1" role="img" tabIndex={0} aria-label="Sparse market data">
@@ -105,7 +105,7 @@ export function ProductExperiencePanels() {
 
       <article className="card card-border bg-surface p-5">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Interface density
+          Operating lens
         </p>
         <div className="hover-3d mt-4">
           <div className="card w-full bg-surface-container shadow-xl">
@@ -114,7 +114,7 @@ export function ProductExperiencePanels() {
                 <div className="mask mask-hexagon grid size-20 place-items-center bg-primary text-primary-foreground">
                   PE
                 </div>
-                <div className="grid size-20 place-items-center bg-status-signal text-surface-ink">API</div>
+                <div className="grid size-20 place-items-center bg-status-signal text-surface-ink">DATA</div>
                 <div className="grid size-20 place-items-center bg-accent text-accent-foreground">ARB</div>
               </div>
             </div>
@@ -322,7 +322,7 @@ export function ApiMockupPanel() {
         </div>
         <div className="grid place-content-center border-t border-border-muted p-6">
           <kbd className="kbd">GET</kbd>
-          <p className="mt-3 text-sm text-on-surface-variant">Read-only product telemetry.</p>
+          <p className="mt-3 text-sm text-on-surface-variant">Read-only operating snapshots.</p>
         </div>
       </div>
       <div className="mockup-window border border-border-muted bg-surface">
@@ -395,9 +395,9 @@ export function ComplianceModal() {
       <input type="checkbox" id="compliance-scope-modal" className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className="modal-box border border-border-muted bg-surface">
-          <h3 className="font-serif text-lg font-bold">Public surface boundary</h3>
+          <h3 className="font-serif text-lg font-bold">Access boundary</h3>
           <p className="py-4 text-sm text-on-surface-variant">
-            Public pages explain workflows. Regulated allocation, issuer onboarding, and transfer steps stay behind
+            Public materials explain the process. Regulated allocation, issuer onboarding, and transfer steps stay behind
             eligibility, counsel, and document controls.
           </p>
           <div className="modal-action">
@@ -419,7 +419,7 @@ export function StatusToastPanel() {
     <div className="toast toast-end !static !translate-x-0">
       <div className="alert alert-success">
         <span className="status status-success" />
-        <span>All public routes are operational.</span>
+        <span>Core Ultramar services are available.</span>
       </div>
     </div>
   );

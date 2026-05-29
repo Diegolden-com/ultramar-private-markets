@@ -55,14 +55,14 @@ export default function ResearchPage() {
 
       <PageHeader
         eyebrow="Research library"
-        title="Linkable assets for private markets and Polymarket arbitrage"
-        description="These memos are built for investors, issuers, analysts, and editors who need a concrete page to cite instead of a generic homepage."
+        title="Research for private markets and Polymarket arbitrage"
+        description="Memos for investors, issuers, analysts, and editors evaluating Ultramar's capital products."
         columns="lg:grid-cols-[0.75fr_1.25fr]"
       >
         <BookOpenText className="h-5 w-5 text-status-signal" />
         <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-          The library implements the SEO growth plan with editorial assets that point back into
-          the product surfaces: assets, oracle, legal, signals, dashboard, and risk.
+          The library connects market structure, issuer diligence, operating data, signals,
+          dashboard review, legal boundaries, and risk controls.
         </p>
       </PageHeader>
 

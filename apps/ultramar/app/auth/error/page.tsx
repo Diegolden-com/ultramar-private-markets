@@ -3,7 +3,7 @@ import { createSeoMetadata } from "@/lib/seo";
 
 export const metadata = createSeoMetadata({
   title: "Sign-in Error",
-  description: "Sign-in error page for Ultramar.capital account access.",
+  description: "Sign-in issue for Ultramar.capital account access.",
   path: "/auth/error",
   noIndex: true,
 });

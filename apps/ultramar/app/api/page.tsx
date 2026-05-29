@@ -18,50 +18,50 @@ import Link from "next/link";
 
 const apiPath = "/api";
 const description =
-  "Public API directory for Ultramar.capital read-only product telemetry across arbitrage signals, positions, private-equities portfolio data, and oracle scoring.";
+  "Developer reference for read-only Ultramar data examples covering arbitrage signals, positions, private-equities portfolio snapshots, and issuer oracle scores.";
 
 const endpoints = [
   {
     method: "GET",
     path: "/api/arbitrage/signals",
     title: "Arbitrage signals",
-    body: "Sample Polymarket-first signal feed with implied probability, model probability, spread, confidence, and status fields.",
+    body: "Illustrative Polymarket-first signal feed with implied probability, model probability, spread, confidence, and status fields.",
   },
   {
     method: "GET",
     path: "/api/arbitrage/positions",
     title: "Arbitrage positions",
-    body: "Read-only position inventory used by the public dashboard and signal pages for product telemetry.",
+    body: "Illustrative read-only position inventory for allocator exposure and hedge review.",
   },
   {
     method: "GET",
     path: "/api/private-equities/portfolio",
     title: "Private-equities portfolio",
-    body: "Portfolio summary endpoint for tokenized private-market asset balances, prices, values, and day-change data.",
+    body: "Illustrative portfolio summary for tokenized private-market asset balances, prices, values, and day-change data.",
   },
   {
     method: "GET",
     path: "/api/private-equities/oracle/score",
     title: "Oracle score",
-    body: "Issuer oracle scoring sample for the private-equities operating-data console.",
+    body: "Sandbox issuer oracle score for solvency, liquidity, and operating-data freshness checks.",
   },
 ] as const;
 
 const principles = [
   {
     icon: ShieldCheck,
-    title: "Read-only public surface",
-    body: "The listed endpoints expose product telemetry only. Transactional, investor, issuer, and admin workflows require controlled access.",
+    title: "Read-only by default",
+    body: "The listed endpoints expose non-transactional data only. Investor, issuer, and admin actions require controlled access.",
   },
   {
     icon: Gauge,
-    title: "Stable route names",
-    body: "Endpoint paths are explicit by product line so crawlers, dashboards, and reviewers can distinguish arbitrage from private-equities data.",
+    title: "Product-specific data",
+    body: "Endpoint paths are separated by product line so integrations can distinguish arbitrage data from private-market data.",
   },
   {
     icon: RadioTower,
-    title: "Status pairing",
-    body: "API availability should be reviewed alongside the system-status page rather than inferred from a single product screen.",
+    title: "Operational status",
+    body: "Data availability should be reviewed alongside system status instead of inferred from one screen.",
   },
 ] as const;
 
@@ -99,13 +99,13 @@ export default function ApiPage() {
       />
 
       <PageHeader
-        eyebrow="API directory"
-        title="Read-only product telemetry"
-        description="The public API index makes machine routes discoverable without sending footer traffic directly into raw JSON."
+        eyebrow="Developer data"
+        title="Read-only data examples"
+        description="The API index groups Ultramar's non-transactional reference feeds for developers, reviewers, and internal operators."
       >
         <Database className="h-5 w-5 text-status-signal" />
         <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-          These endpoints are public product samples. Production integrations should expect authentication,
+          These endpoints are public read-only references. Production integrations should expect authentication,
           rate limits, contractual terms, and product-specific permissions.
         </p>
       </PageHeader>

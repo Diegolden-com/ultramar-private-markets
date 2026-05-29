@@ -24,7 +24,7 @@ export const seoImages = {
     url: "/og-ultramar-capital.png",
     width: 1200,
     height: 630,
-    alt: "Ultramar.capital institutional capital interface",
+    alt: "Ultramar.capital institutional capital dashboard",
   },
   privateEquities: {
     url: "/og-private-equities.png",

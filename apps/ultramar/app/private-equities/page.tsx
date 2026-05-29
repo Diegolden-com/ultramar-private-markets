@@ -30,18 +30,18 @@ import Link from "next/link";
 
 const product = productBySlug["private-equities"];
 const description =
-  "A controlled private-market workflow for issuer onboarding, asset diligence, oracle-backed operating data, eligible secondary views, and gated investor participation.";
+  "Controlled private-market access for issuer onboarding, asset diligence, oracle-backed operating data, eligible secondary views, and gated investor participation.";
 
 const privateEquitiesFaqs = [
   {
-    question: "What is the Private Equities overview for?",
+    question: "What does Private Equities help investors evaluate?",
     answer:
-      "The overview explains how the product is organized before a user enters the asset index, issuer rounds, oracle, secondary market, or legal gate routes.",
+      "Private Equities helps investors evaluate issuer rounds, asset diligence, operating data, eligible secondary transfers, and legal access requirements in one controlled environment.",
   },
   {
     question: "Is Ultramar Private Equities a public exchange?",
     answer:
-      "No. The public site explains the product workflow. Production participation requires investor eligibility checks, legal review, issuer documents, and jurisdiction-specific transfer controls.",
+      "No. Participation requires investor eligibility checks, legal review, issuer documents, and jurisdiction-specific transfer controls.",
   },
   {
     question: "Why does the product include an issuer oracle?",
@@ -72,21 +72,21 @@ const workflowItems = [
   {
     icon: DatabaseZap,
     title: "Operating data bridge",
-    body: "The oracle route shows how issuer accounting and operating data can become repeatable investor-facing proof instead of static token metadata.",
+    body: "The oracle shows how issuer accounting and operating data can become repeatable investor-facing proof instead of static token metadata.",
     href: "/private-equities/oracle",
     cta: "Open oracle",
   },
   {
     icon: Repeat2,
     title: "Eligible transfer context",
-    body: "The market route keeps secondary transfer views distinct from issuer rounds and makes transfer restrictions visible before any action.",
+    body: "Secondary transfer views stay distinct from issuer rounds, with restrictions visible before any action.",
     href: "/private-equities/market",
     cta: "View market",
   },
 ] as const;
 
 const boundaryItems = [
-  "No public page accepts money, subscriptions, or binding commitments.",
+  "No public material accepts money, subscriptions, or binding commitments.",
   "Eligibility, KYC/KYB, jurisdiction, suitability, and transfer restrictions sit before production access.",
   "Issuer documents, legal wrapper, data-room status, and counsel-approved language determine when an opportunity can progress.",
 ] as const;
@@ -97,12 +97,12 @@ const featuredDeal = deals[0];
 const featuredRaise = featuredDeal.capitalRaise;
 const overviewStats = [
   ["Listed Assets", deals.length.toString(), "Primary and secondary private-market views"],
-  ["Issuer Rounds", primaryDeals.length.toString(), "Capital raise workflows"],
+  ["Issuer Rounds", primaryDeals.length.toString(), "Capital raise processes"],
   ["Secondary Views", secondaryDeals.length.toString(), "Eligible transfer context"],
   [
     "Minimum Ticket",
     formatCurrency(Math.min(...deals.map((deal) => deal.minInvestment))),
-    "Smallest example minimum on the public surface",
+    "Smallest displayed minimum for eligible review",
   ],
 ] as const;
 
@@ -124,8 +124,8 @@ export default function PrivateEquitiesPage() {
           serviceJsonLd({ product, serviceType: "Private-market investing platform" }),
           itemListJsonLd({
             path: product.href,
-            name: "Ultramar Private Equities route map",
-            description: "The public routes that explain the Private Equities workflow.",
+            name: "Ultramar Private Equities areas",
+            description: "The core Private Equities areas investors and issuers can review.",
             items: routeCards.map((route) => ({
               name: route.label,
               url: route.href,
@@ -146,14 +146,14 @@ export default function PrivateEquitiesPage() {
           <div className="flex flex-col justify-between">
             <div>
               <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-                {product.eyebrow} / Overview
+                {product.eyebrow} / Access model
               </p>
               <h1 className="mt-4 max-w-4xl break-words font-serif text-4xl font-bold leading-[1.1] text-on-surface [overflow-wrap:anywhere] md:text-5xl">
                 Private Equities is a controlled rail for private-market assets.
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-relaxed text-on-surface-variant">
-                The product organizes issuer rounds, asset diligence, oracle-backed operating
-                context, secondary-transfer visibility, and legal gating into one workflow.
+                Private Equities organizes issuer rounds, asset diligence, oracle-backed operating
+                context, secondary-transfer visibility, and legal gating into one controlled process.
               </p>
             </div>
 
@@ -194,15 +194,14 @@ export default function PrivateEquitiesPage() {
       <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.85fr_1.15fr]">
         <div className="bg-surface p-6 md:p-8">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Product job
+            Product role
           </p>
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
             Make private-market access understandable before it becomes transactional.
           </h2>
           <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-            The overview is the orientation layer. It tells investors, issuers, and reviewers where
-            the information lives and which actions remain gated by eligibility, documents, and
-            counsel-approved workflows.
+            Investors, issuers, and reviewers can see how diligence, operating data, deal terms,
+            and access controls fit together before any subscription or transfer process begins.
           </p>
         </div>
 
@@ -233,10 +232,10 @@ export default function PrivateEquitiesPage() {
         <div className="bg-surface">
           <div className="border-b border-border-muted p-6">
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-              Route map
+              Investor questions
             </p>
             <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-              What each Private Equities page is for.
+              Move from asset discovery to controlled access.
             </h2>
           </div>
           <div className="grid">
@@ -272,9 +271,8 @@ export default function PrivateEquitiesPage() {
           </div>
 
           <p className="mt-5 text-sm leading-6 text-surface-variant">
-            The overview no longer treats one issuer as the whole product. This example shows how an
-            asset can move through the rail once its data room, offering path, and investor process
-            are ready.
+            One issuer should not carry the whole product story. This example shows how an asset
+            can move forward once its data room, offering path, and investor process are ready.
           </p>
 
           <div className="mt-6 grid gap-1 bg-border-muted sm:grid-cols-2">
@@ -310,7 +308,7 @@ export default function PrivateEquitiesPage() {
               href="/private-equities/deals"
               className="btn btn-ghost justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             >
-              Deal rail
+              Deal terms
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -324,7 +322,7 @@ export default function PrivateEquitiesPage() {
             Access is intentionally gated.
           </h2>
           <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-            Clear public explanation should reduce confusion without making the site behave like an
+            Clear public information should reduce confusion without turning Ultramar into an
             unrestricted exchange or subscription portal.
           </p>
         </div>
@@ -351,8 +349,8 @@ export default function PrivateEquitiesPage() {
 
       <FaqSection
         eyebrow="Private Equities FAQ"
-        title="How to read the product overview"
-        description="The FAQ content is visible on-page and matches the FAQPage structured data."
+        title="How investors should read Private Equities"
+        description="A plain-language guide to what is visible publicly and what requires controlled access."
         items={privateEquitiesFaqs}
       />
 

@@ -89,7 +89,7 @@ export const deals: Deal[] = [
         "Eligible private-market investors after KYC/KYB, suitability, and jurisdiction review.",
       diligenceStatus: "Operating proof pack in progress",
       summary:
-        "Lavanderias CX needs a capital-ready package before Ultramar can route serious investors into the opportunity. The current public surface should create confidence, but actual subscriptions remain gated until counsel approves the offering path, documents, eligibility rules, and transfer controls.",
+        "Lavanderias CX needs a capital-ready package before Ultramar can introduce eligible investors to the opportunity. Public materials should build confidence, while actual subscriptions remain gated until counsel approves the offering path, documents, eligibility rules, and transfer controls.",
       useOfFunds: [
         {
           label: "New-store capex",
@@ -109,7 +109,7 @@ export const deals: Deal[] = [
         {
           label: "Compliance and data room",
           percent: 8,
-          body: "Legal review, investor materials, eligibility workflow, and issuer reporting controls.",
+          body: "Legal review, investor materials, eligibility checks, and issuer reporting controls.",
         },
         {
           label: "Contingency reserve",
@@ -121,7 +121,7 @@ export const deals: Deal[] = [
         "Brick-and-mortar service with tangible equipment and local demand drivers.",
         "Round economics can be tied to store-level deployment milestones instead of vague platform growth.",
         "Issuer oracle path can convert accounting exports into investor-facing solvency and liquidity context.",
-        "Minimum-ticket workflow can remain private and gated while public pages explain the asset clearly.",
+        "Minimum-ticket access can remain private and gated while public materials explain the asset clearly.",
       ],
       milestones: [
         {
@@ -190,7 +190,7 @@ export const deals: Deal[] = [
       investorProcess: [
         {
           label: "Request access",
-          body: "Investor submits interest through Ultramar; no money or binding commitment is accepted on the public site.",
+          body: "Investor submits interest through Ultramar; no money or binding commitment is accepted publicly.",
         },
         {
           label: "Eligibility screen",
@@ -198,7 +198,7 @@ export const deals: Deal[] = [
         },
         {
           label: "Data room review",
-          body: "Verified investors receive issuer materials, Q&A, oracle context, and round economics inside a tracked workflow.",
+          body: "Verified investors receive issuer materials, Q&A, oracle context, and round economics in a tracked review process.",
         },
         {
           label: "Subscription",
@@ -226,7 +226,7 @@ export const deals: Deal[] = [
         "Final issuer entity, cap table, board approvals, and authorized signers.",
         "Clean 24-month financial package or a clearly explained shorter operating history.",
         "Store-level KPI export with repeatable oracle mapping and exception handling.",
-        "Investor eligibility workflow, subscription package, funds-flow memo, and post-close reporting calendar.",
+        "Investor eligibility checks, subscription package, funds-flow memo, and post-close reporting calendar.",
       ],
     },
   },

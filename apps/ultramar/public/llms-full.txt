@@ -8,21 +8,21 @@ Compliance: https://ultramar.capital/compliance
 
 ## Platform
 
-Ultramar.capital is the canonical public app for the Ultramar platform. It presents two product lines:
+Ultramar.capital is the public home for two Ultramar product lines:
 
 1. Ultramar Private Equities
 2. Ultramar Arbitrage Hedge Fund
 
 Capital is the umbrella layer and should not be described as a third public product.
 
-The Press section is an editorial SEO surface for authoritative articles on Uniswap v4 custom accounting, onchain instruments, tokenized private equity, AI compliance, and continuous disclosure. It should be described as market-structure and technical commentary, not as an offering page.
+The Press section contains market-structure and technical commentary on Uniswap v4 custom accounting, onchain instruments, tokenized private equity, AI compliance, and continuous disclosure. It should not be described as an offering.
 
-## Routing Policy
+## Access Policy
 
-- https://ultramar.capital serves the canonical app directly.
+- https://ultramar.capital serves the site directly.
 - https://www.ultramar.capital redirects once to https://ultramar.capital.
 - Prelaunch subdomains, including capital.ultramar.capital, polymarket.ultramar.capital, and private-equities.ultramar.capital, are intentionally not restored, aliased, or redirected.
-- API JSON endpoints, auth routes, controlled portfolio surfaces, data-room unlock actions, and allocation actions are not public SEO destinations.
+- API JSON endpoints, auth URLs, controlled portfolio screens, data-room unlock actions, and allocation actions are not public product destinations.
 
 ## Indexable Product URLs
 
@@ -73,7 +73,7 @@ Press:
 
 ## Product Summaries
 
-Private Equities organizes tokenized private-market workflows across asset discovery, issuer rounds, oracle-backed operating data, eligible secondary transfer context, compliance boundaries, and investor portfolio visibility. Public pages explain product workflow and asset context. Production participation requires eligibility checks, issuer-specific documents, legal review, and transfer controls.
+Private Equities organizes tokenized private-market access across asset discovery, issuer rounds, oracle-backed operating data, eligible secondary transfer context, compliance boundaries, and investor portfolio visibility. Public materials explain product scope and asset context. Production participation requires eligibility checks, issuer-specific documents, legal review, and transfer controls.
 
 The Arbitrage Hedge Fund is Polymarket-first. It compares prediction-market prices with model or derivatives-implied probabilities, then exposes signal status, confidence, position exposure, dashboard context, sizing controls, liquidity controls, and model-drift risk. Lending markets and derivative-only strategies are research context until data quality, risk limits, and allocator language are complete enough to graduate.
 
@@ -111,7 +111,7 @@ Explains why private secondary markets need better ownership records, transfer c
 
 AI compliance is the disclosure layer tokenized equity is missing:
 https://ultramar.capital/press/ai-compliance-is-the-disclosure-layer-for-tokenized-equity
-Explains how source-bound financial telemetry, anomaly detection, and explainable compliance scores can support tokenized equity.
+Explains how source-bound financial data, anomaly detection, and explainable compliance scores can support tokenized equity.
 
 Retail access to private companies should not wait for the IPO:
 https://ultramar.capital/press/retail-access-to-private-companies-should-not-wait-for-ipo
@@ -119,9 +119,9 @@ Explains the access thesis for controlled private-company investing before tradi
 
 ## Compliance And Non-Offer Boundaries
 
-- Ultramar.capital pages are product and research surfaces.
-- Public pages do not provide legal, tax, accounting, or investment advice.
-- Public pages do not collect funds, provide subscription instructions, or create binding commitments.
+- Ultramar.capital materials are informational.
+- Public materials do not provide legal, tax, accounting, or investment advice.
+- Public materials do not collect funds, provide subscription instructions, or create binding commitments.
 - Private-market participation can require KYC, KYB where relevant, investor category checks, suitability checks, jurisdiction review, issuer documents, transfer restrictions, custody controls, and counsel approval.
 - Projected returns, yields, timelines, market conditions, and operating milestones are illustrative unless finalized in controlled documents.
 - Non-public financials, subscription instructions, funds-flow details, allocation decisions, and investor-only Q&A belong behind permissioned access.

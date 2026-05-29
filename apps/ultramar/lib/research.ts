@@ -50,7 +50,7 @@ export const researchArticles: ResearchArticle[] = [
     takeaways: [
       "Prediction markets and derivatives markets can price the same macro event through different participant bases, constraints, and liquidity cycles.",
       "The spread is only useful when the comparison model is explicit, repeatable, and tied to risk controls.",
-      "Ultramar treats Polymarket arbitrage as a monitored fund workflow, not a one-off trade idea.",
+      "Ultramar treats Polymarket arbitrage as monitored fund discipline, not a one-off trade idea.",
     ],
     sections: [
       {
@@ -63,15 +63,15 @@ export const researchArticles: ResearchArticle[] = [
       {
         heading: "What makes the comparison investable",
         body: [
-          "A spread is not automatically an arbitrage. The fund workflow has to normalize event definitions, data latency, liquidity, venue rules, hedge availability, and the probability model used to compare prices.",
-          "That is why Ultramar routes users from the thesis into signals and risk. The signal board explains what the system is observing; the risk page explains how sizing, concentration, and model drift are controlled before allocation.",
+          "A spread is not automatically an arbitrage. The fund has to normalize event definitions, data latency, liquidity, venue rules, hedge availability, and the probability model used to compare prices.",
+          "That is why Ultramar connects the thesis to signals and risk. The signal board explains what the fund is observing; risk controls explain how sizing, concentration, and model drift are controlled before allocation.",
         ],
       },
       {
         heading: "How Ultramar frames the product",
         body: [
           "The commercial product is Polymarket-first. Lending markets and derivatives-only strategies remain research context until they have enough data quality, risk language, and allocator-facing controls to graduate.",
-          "That boundary matters for search and for investor communication: the page should rank for Polymarket arbitrage without implying that every adjacent strategy is already live capital infrastructure.",
+          "That boundary matters for investor communication: Ultramar can be clear about Polymarket arbitrage without implying that every adjacent strategy is already live capital infrastructure.",
         ],
       },
     ],
@@ -79,7 +79,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         label: "Arbitrage Hedge Fund",
         href: "/arbitrage-hedge-fund",
-        description: "The main Polymarket-first fund product surface.",
+        description: "The main Polymarket-first fund product.",
       },
       {
         label: "Signals",
@@ -114,7 +114,7 @@ export const researchArticles: ResearchArticle[] = [
     ],
     takeaways: [
       "The token is not the product; issuer onboarding, legal wrappers, eligibility, data, custody, and transfer controls are the product.",
-      "A useful private-market interface separates primary issuer rounds from secondary transfer views.",
+      "A useful private-market product separates primary issuer rounds from secondary transfer views.",
       "Ultramar Private Equities is framed as a controlled rail rather than an unrestricted public exchange.",
     ],
     sections: [
@@ -122,14 +122,14 @@ export const researchArticles: ResearchArticle[] = [
         heading: "Tokenization is the last mile, not the first",
         body: [
           "Private equity does not become investable just because ownership can be represented by a token. The harder work is deciding what the asset is, which legal wrapper governs it, who is eligible to participate, what information the issuer must provide, and how transfers are restricted.",
-          "That operating layer is why Ultramar presents Private Equities as a workflow: assets, deals, oracle data, market views, portfolio state, and legal boundaries all need to be legible together.",
+          "That operating layer is why Ultramar presents Private Equities as a controlled product: assets, deals, oracle data, market views, portfolio state, and legal boundaries all need to be legible together.",
         ],
       },
       {
         heading: "The market needs separate lanes",
         body: [
           "Primary rounds and secondary transfers are different jobs. Primary rounds need issuer context, minimum tickets, offering mechanics, and diligence. Secondary transfers need eligibility, lockups, issuer restrictions, and jurisdiction-specific compliance controls.",
-          "Bundling those lanes into one generic marketplace creates ambiguity. Ultramar keeps assets, deals, market, portfolio, oracle, and legal pages separate so investors and issuers can understand which workflow they are entering.",
+          "Bundling those lanes into one generic marketplace creates ambiguity. Ultramar separates assets, deals, market context, portfolio reporting, oracle data, and legal boundaries so investors and issuers know what they are evaluating.",
         ],
       },
       {
@@ -144,17 +144,17 @@ export const researchArticles: ResearchArticle[] = [
       {
         label: "Private Equities",
         href: "/private-equities",
-        description: "The product page for tokenized private-market workflows.",
+        description: "The product for controlled tokenized private-market access.",
       },
       {
         label: "Assets",
         href: "/private-equities/assets",
-        description: "The marketplace surface for primary and secondary private-market assets.",
+        description: "Primary and secondary private-market assets.",
       },
       {
         label: "Legal",
         href: "/private-equities/legal",
-        description: "The compliance and legal boundary page.",
+        description: "Compliance and legal boundaries for private-market access.",
       },
     ],
   },
@@ -180,7 +180,7 @@ export const researchArticles: ResearchArticle[] = [
     takeaways: [
       "Private-market investors need a repeatable way to inspect issuer state after the initial offering.",
       "An issuer oracle should compress accounting and operating data into signals that investors can understand without exposing every internal detail.",
-      "Oracle-backed context makes asset pages and portfolio views more credible than token metadata alone.",
+      "Oracle-backed context makes asset profiles and portfolio views more credible than token metadata alone.",
     ],
     sections: [
       {
@@ -194,14 +194,14 @@ export const researchArticles: ResearchArticle[] = [
         heading: "What an issuer oracle should do",
         body: [
           "The oracle should not dump raw accounting systems into the market. It should transform operating data into signed, interpretable signals: solvency context, liquidity state, data recency, and confidence boundaries.",
-          "For issuers, that creates a repeatable disclosure workflow. For investors, it creates a cleaner diligence surface. For the platform, it makes asset discovery, market eligibility, and portfolio reporting more coherent.",
+          "For issuers, that creates a repeatable disclosure process. For investors, it creates cleaner diligence. For Ultramar, it makes asset discovery, market eligibility, and portfolio reporting more coherent.",
         ],
       },
       {
         heading: "How Ultramar uses the idea",
         body: [
-          "Ultramar connects the oracle concept to asset pages and portfolio state. A listed company like Lavanderias CX should not be evaluated only by ticker and image; it should have an operating-data path that can mature into investor-facing proof.",
-          "That is why the issuer oracle is a ranking asset and a product asset: it gives RWA readers a concrete reason to understand Ultramar beyond the tokenization narrative.",
+          "Ultramar connects the oracle concept to asset profiles and portfolio state. A listed company like Lavanderias CX should not be evaluated only by ticker and image; it should have an operating-data path that can mature into investor-facing proof.",
+          "That is why the issuer oracle matters commercially: it gives RWA readers a concrete reason to understand Ultramar beyond the tokenization narrative.",
         ],
       },
     ],
@@ -209,7 +209,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         label: "Oracle",
         href: "/private-equities/oracle",
-        description: "The issuer accounting oracle and solvency proof workflow.",
+        description: "Issuer accounting oracle and solvency proof.",
       },
       {
         label: "Lavanderias CX",
@@ -252,14 +252,14 @@ export const researchArticles: ResearchArticle[] = [
         heading: "Why controls need to be visible",
         body: [
           "Event-market arbitrage can look simple when reduced to a spread. In practice, the spread is only one input. Venue liquidity, event resolution rules, timing, hedge quality, and model drift can dominate the outcome.",
-          "That is why Ultramar surfaces risk next to the signal workflow. Allocators need to see how the system thinks about exposure before they can evaluate the opportunity.",
+          "That is why Ultramar puts risk next to signals. Allocators need to see how the fund thinks about exposure before they can evaluate the opportunity.",
         ],
       },
       {
         heading: "Core controls",
         body: [
           "Sizing should be capped by confidence, liquidity, drawdown tolerance, and concentration. Exposure monitoring should separate open notional, stale signals, realized PnL, and venue-specific risk. Hedge discipline should define where derivatives inform probabilities versus where they become active hedges.",
-          "The dashboard exists to make these controls inspectable. The risk page exists to explain the policy behind the dashboard.",
+          "The dashboard makes these controls inspectable. The risk materials explain the policy behind the dashboard.",
         ],
       },
       {
@@ -274,17 +274,17 @@ export const researchArticles: ResearchArticle[] = [
       {
         label: "Risk",
         href: "/arbitrage-hedge-fund/risk",
-        description: "The risk-control page for the fund product.",
+        description: "Risk controls for the fund product.",
       },
       {
         label: "Dashboard",
         href: "/arbitrage-hedge-fund/dashboard",
-        description: "Allocator-facing signal and exposure dashboard.",
+        description: "Allocator signal and exposure dashboard.",
       },
       {
         label: "Research",
         href: "/arbitrage-hedge-fund/research",
-        description: "Research-only strategy backlog.",
+        description: "Strategy ideas kept under research review.",
       },
     ],
   },

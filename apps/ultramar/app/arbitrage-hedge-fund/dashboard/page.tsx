@@ -42,7 +42,7 @@ const dashboardModules = [
   {
     icon: ClipboardCheck,
     title: "Allocator review",
-    body: "Dashboard copy explains what is active product scope and what remains research-only before any strategy graduates.",
+    body: "Allocator review distinguishes Polymarket monitoring from research-only ideas before any strategy graduates.",
     href: `${dashboardPath}#allocator-review`,
   },
 ];
@@ -116,7 +116,7 @@ export default function DashboardPage() {
       <ProductRouteHeader
         product="arbitrage-hedge-fund"
         active="dashboard"
-        eyebrow="Arbitrage Hedge Fund / Allocator Surface"
+        eyebrow="Arbitrage Hedge Fund / Allocator Review"
         title="Dashboard"
         description={description}
       />
@@ -166,13 +166,13 @@ export default function DashboardPage() {
         <SectionHeader
           eyebrow="Research context"
           title="Dashboard metrics need a risk memo behind them"
-          description="The route connects fund-dashboard intent to the research that explains spread quality, exposure, and strategy graduation rules."
+          description="Allocator metrics need research context explaining spread quality, exposure, and strategy graduation rules."
         />
       </SplitPanel>
       <FaqSection
         eyebrow="Dashboard FAQ"
         title="How allocators should read the dashboard"
-        description="These answers match the FAQPage structured data and keep dashboard telemetry aligned with the page copy."
+        description="How to connect signal health, exposure, and risk controls before evaluating allocation."
         items={dashboardFaqs}
       />
       <ProductCrosslink current="arbitrage-hedge-fund" />

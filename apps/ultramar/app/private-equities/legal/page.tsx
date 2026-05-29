@@ -35,7 +35,7 @@ const legalControls = [
   {
     icon: FileWarning,
     title: "No public solicitation shortcut",
-    body: "Marketing copy must describe the platform and product workflow without making unmanaged return promises.",
+    body: "Marketing copy must describe the product and its access requirements without making unmanaged return promises.",
   },
   {
     icon: ClipboardCheck,
@@ -87,7 +87,7 @@ export default function LegalPage() {
         active="legal"
         eyebrow="Private Equities / Counsel Gate"
         title="Legal and compliance boundaries"
-        description="The public product explains the intended operating model without implying unrestricted securities availability."
+        description="Private Equities can describe the intended operating model without implying unrestricted securities availability."
       />
       <SurfaceGrid columns="md:grid-cols-2">
         {legalControls.map((item) => (
@@ -100,9 +100,9 @@ export default function LegalPage() {
           Capital acceptance boundary
         </h2>
         <p className="mt-2 text-sm leading-6 text-on-surface-variant">
-          Ultramar public pages should not collect funds, publish subscription
+          Ultramar public materials should not collect funds, publish subscription
           instructions, or treat expressions of interest as binding commitments.
-          Those steps belong in a counsel-approved, investor-gated workflow.
+          Those steps belong behind counsel approval and investor access checks.
         </p>
       </SurfacePanel>
     </>

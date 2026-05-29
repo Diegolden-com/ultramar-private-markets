@@ -12,7 +12,7 @@ export function ProductTabs<TProduct extends ProductSlug>({
   return (
     <nav
       className="tabs tabs-border flex-nowrap overflow-x-auto border-x border-t border-border-muted bg-surface"
-      aria-label={`${productRouteGroups[product].title} routes`}
+      aria-label={`${productRouteGroups[product].title} navigation`}
       role="tablist"
     >
       {productRouteGroups[product].links.map((tab) => {

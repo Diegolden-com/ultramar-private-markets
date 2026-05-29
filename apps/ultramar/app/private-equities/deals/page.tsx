@@ -51,9 +51,9 @@ export default function DealsPage() {
       <ProductRouteHeader
         product="private-equities"
         active="deals"
-        eyebrow="Private Equities / Deal Rail"
+        eyebrow="Private Equities / Issuer Rounds"
         title="Issuer rounds and deal mechanics"
-        description="Deals make the issuer round understandable before an investor reaches the transaction workflow."
+        description="Deals make issuer rounds understandable before an investor reaches eligibility review, allocation, or closing."
       />
       <SurfaceGrid>
         {primaryDeals.map((deal) => (
@@ -114,7 +114,7 @@ export default function DealsPage() {
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           Production participation requires legal review, KYC/KYB, accreditation or
           suitability checks where applicable, custody setup, and issuer-specific
-          offering documents. The public deal page should not accept funds or binding
+          offering documents. Public deal materials should not accept funds or binding
           commitments until the selected offering path is approved.
         </p>
       </SurfacePanel>

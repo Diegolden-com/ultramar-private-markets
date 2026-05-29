@@ -189,7 +189,7 @@ export default async function PressArticlePage({
 
             <section className="card card-border bg-surface p-6">
               <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-                Open app surfaces
+                Related Ultramar areas
               </p>
               <div className="mt-5 grid gap-4">
                 {article.linkTargets.map((target) => (
@@ -243,7 +243,7 @@ export default async function PressArticlePage({
 
             <p className="border border-border-muted bg-surface p-5 font-mono text-[11px] uppercase leading-6 tracking-[0.08em] text-on-surface-variant">
               This article is informational and describes market structure,
-              product architecture, and compliance concepts. It is not
+              product design, and compliance concepts. It is not
               investment, legal, tax, accounting, or financial advice.
             </p>
           </div>

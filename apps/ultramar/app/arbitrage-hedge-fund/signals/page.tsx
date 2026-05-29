@@ -40,8 +40,8 @@ const signalBoardItems = [
     href: `${signalsPath}#confidence-language`,
   },
   {
-    title: "Product boundary",
-    body: "Lending markets and derivative-only strategies stay out of the active surface until they have risk limits and allocator language.",
+    title: "Investment boundary",
+    body: "Lending markets and derivative-only strategies stay under research review until they have risk limits and allocator language.",
     href: `${signalsPath}#product-boundary`,
   },
 ];
@@ -58,7 +58,7 @@ const signalFaqs = [
       "No. A spread can remain in monitoring until persistence, liquidity, hedge context, and event-resolution language are strong enough to support a fund signal.",
   },
   {
-    question: "Why does the page mention derivatives if the product is Polymarket-first?",
+    question: "Why are derivatives mentioned if the product is Polymarket-first?",
     answer:
       "Derivatives can inform probability models and hedge assumptions, but derivative-only strategies are research context rather than active commercial product scope in v1.",
   },
@@ -131,8 +131,8 @@ export default async function SignalsPage() {
       <ProductRouteHeader
         product="arbitrage-hedge-fund"
         active="signals"
-        eyebrow="Live Risk & Signal Feed // System V4.2"
-        title="Arbitrage Operations"
+        eyebrow="Arbitrage Hedge Fund / Signal Review"
+        title="Polymarket Signal Board"
         description={description}
       >
         <div className="flex gap-4">
@@ -250,7 +250,7 @@ export default async function SignalsPage() {
       <FaqSection
         eyebrow="Signal FAQ"
         title="How the signal board should be interpreted"
-        description="These answers match the FAQPage structured data and keep signal observation separate from trade execution."
+        description="Signals are observations for review; they are not automatic trade instructions."
         items={signalFaqs}
       />
     </>

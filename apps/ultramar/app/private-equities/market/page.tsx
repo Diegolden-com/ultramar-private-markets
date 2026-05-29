@@ -53,7 +53,7 @@ export default function MarketPage() {
         active="market"
         eyebrow="Private Equities / Secondary Rail"
         title="Secondary market"
-        description="The market route separates eligible transfer activity from primary issuer rounds."
+        description="Eligible transfer activity stays separate from primary issuer rounds and remains subject to issuer restrictions."
       />
       <SurfaceGrid columns="md:grid-cols-2">
         {secondaryDeals.map((deal) => (

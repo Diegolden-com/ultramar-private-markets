@@ -19,13 +19,13 @@ import Link from "next/link";
 
 const legalPath = "/legal";
 const description =
-  "Legal disclosures for Ultramar.capital covering platform scope, investment limitations, data use, jurisdiction controls, and counsel-gated workflows.";
+  "Legal disclosures for Ultramar.capital covering product scope, investment limitations, data use, jurisdiction controls, and counsel-gated access.";
 
 const disclosures = [
   {
     icon: Scale,
     title: "No investment advice",
-    body: "Ultramar.capital pages are product and research surfaces. They do not provide legal, tax, accounting, or investment advice.",
+    body: "Ultramar.capital materials are informational. They do not provide legal, tax, accounting, or investment advice.",
   },
   {
     icon: Landmark,
@@ -45,7 +45,7 @@ const disclosures = [
   {
     icon: TerminalSquare,
     title: "API and data use",
-    body: "Public API examples are read-only product telemetry. Production access can require authentication, rate limits, and written integration terms.",
+    body: "Public API examples expose read-only data. Production access can require authentication, rate limits, and written integration terms.",
   },
   {
     icon: ShieldAlert,
@@ -89,7 +89,7 @@ export default function LegalPage() {
       <PageHeader
         eyebrow="Legal register"
         title="Public disclosures and transaction boundaries"
-        description="This page keeps general platform disclosures separate from product-specific counsel gates and investor-only documents."
+        description="General Ultramar disclosures are separate from issuer-specific counsel review and investor-only documents."
       />
 
       <SurfaceGrid columns="md:grid-cols-2 xl:grid-cols-3">
@@ -112,9 +112,9 @@ export default function LegalPage() {
         aside={
           <>
             <p className="text-sm leading-6 text-on-surface-variant">
-              If a route describes an issuer, market, signal, model, or operating workflow, that route is still
-              only a public product surface. Binding transaction terms require approved documents,
-              eligibility checks, and a controlled closing process.
+              Any issuer, market, signal, model, or operating discussion is informational unless
+              approved documents say otherwise. Binding transaction terms require eligibility
+              checks, approved documents, and a controlled closing process.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link

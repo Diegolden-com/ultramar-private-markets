@@ -32,39 +32,39 @@ const capitalWindowsAppLinks: PressLinkTarget[] = [
   {
     label: "Open Private Equities",
     href: "/private-equities",
-    description: "The canonical Ultramar app surface for gated private-market workflows.",
+    description: "Ultramar Private Equities for gated private-market access.",
   },
   {
     label: "View company-token asset",
     href: "/private-equities/assets/lcx",
-    description: "A concrete company-token workspace with asset context and capital terms.",
+    description: "A company-token asset profile with context and capital terms.",
   },
   {
     label: "Review capital windows",
     href: "/private-equities/deals",
-    description: "Issuer rounds and controlled capital-call style workflow context.",
+    description: "Issuer rounds and controlled capital-call style review.",
   },
   {
     label: "Open secondary context",
     href: "/private-equities/market",
-    description: "The app route for controlled transfer and secondary-liquidity context.",
+    description: "Controlled transfer and secondary-liquidity context.",
   },
   {
     label: "Check eligibility gate",
     href: "/private-equities/legal",
-    description: "The app boundary for counsel review, eligibility, and access controls.",
+    description: "Counsel review, eligibility, and access controls.",
   },
   {
     label: "Request access",
     href: "/auth/sign-up",
-    description: "The account request route before gated investor workflows.",
+    description: "Request an account before gated investor review.",
   },
 ];
 
 export const pressArticles: PressArticle[] = [
   {
     slug: "capital-windows-uniswap-v4-custom-accounting",
-    eyebrow: "Uniswap v4 hackathon submission",
+    eyebrow: "Capital Windows design",
     title: "Capital Windows: Gated company-token conversion with Uniswap v4 custom accounting",
     description:
       "Ultramar Capital Windows use Uniswap v4 custom accounting as a gated final conversion step for approved primary capital calls and company-sponsored secondary liquidity windows.",
@@ -89,7 +89,7 @@ export const pressArticles: PressArticle[] = [
       "capital windows",
     ],
     takeaways: [
-      "The implementation treats a Uniswap v4 pool as the final conversion step for approved capital workflows, not as an open public exchange.",
+      "The design treats a Uniswap v4 pool as the final conversion step for approved capital activity, not as an open public exchange.",
       "The hook uses `beforeSwapReturnDelta` custom accounting to replace generic AMM execution with a windowed step conversion curve.",
       "Primary conversion and secondary liquidity are both supported, but only through scheduled windows with signed authorization, investor caps, oracle freshness, and exact-input routing.",
     ],
@@ -98,14 +98,14 @@ export const pressArticles: PressArticle[] = [
         heading: "The goal is not a public securities AMM",
         body: [
           "Private-company liquidity is usually structured. The company, counsel, transfer agent, or platform controls who can participate, when the window opens, which securities can move, what price or pricing method applies, and how much can be sold. That is closer to a tender window, capital call, or controlled closing than to an always-on public pool.",
-          "Capital Windows are built around that reality. The pool is the last step after investor eligibility, data-room access, allocation, counsel-reviewed terms, and signed authorization. Public Ultramar pages remain informational. The transaction path belongs behind a gated app and router.",
+          "Capital Windows are built around that reality. The pool is the last step after investor eligibility, data-room access, allocation, counsel-reviewed terms, and signed authorization. Ultramar public materials remain informational. The transaction path belongs behind controlled access.",
         ],
       },
       {
-        heading: "What was implemented",
+        heading: "How the design works",
         body: [
-          "The demo adds `CapitalWindowRegistry`, `CapitalWindowHook`, and `CapitalWindowRouter` to the Private Equities contract workspace. The registry schedules windows, records investor limits, checks oracle freshness, verifies authorizer signatures, and tracks filled capacity. The router pre-settles exact-input payment into Uniswap v4 `PoolManager`. The hook validates the window and returns a custom accounting delta that delivers company-token output.",
-          "The Foundry tests use the real Uniswap v4 `PoolManager` from `v4-core`. They cover primary conversion, secondary liquidity, outside-window rejection, total-cap rejection, per-investor-cap rejection, stale oracle rejection, unapproved investor rejection, invalid signature rejection, exact-output rejection, and public liquidity modification rejection.",
+          "Capital Windows use a registry, a gated router, and a custom-accounting hook. The registry schedules windows, records investor limits, checks oracle freshness, verifies authorizer signatures, and tracks filled capacity. The router pre-settles exact-input payment. The hook validates the window and delivers company-token output only when the authorization is valid.",
+          "The control set covers primary conversion, secondary liquidity, outside-window rejection, total-cap rejection, per-investor-cap rejection, stale oracle rejection, unapproved investor rejection, invalid signature rejection, exact-output rejection, and public liquidity modification rejection.",
         ],
       },
       {
@@ -118,7 +118,7 @@ export const pressArticles: PressArticle[] = [
       {
         heading: "Primary conversion windows",
         body: [
-          "A primary conversion window models the final step of a capital call or approved issuer round. The investor has already passed the platform workflow. The window defines the payment token, company token, treasury recipient, start and end time, total cap, per-investor cap, minimum ticket, base price, step size, and required oracle freshness.",
+          "A primary conversion window models the final step of a capital call or approved issuer round. The investor has already passed eligibility and allocation review. The window defines the payment token, company token, treasury recipient, start and end time, total cap, per-investor cap, minimum ticket, base price, step size, and required oracle freshness.",
           "When the approved investor sends exact-input USDC through the gated router, the hook verifies the signed payload and window state, routes cash to the issuer treasury, and releases company tokens from hook-held inventory. If the window is paused, expired, stale, over capacity, or missing authorization, the swap reverts.",
         ],
       },
@@ -133,7 +133,7 @@ export const pressArticles: PressArticle[] = [
         heading: "The gated router is part of the design",
         body: [
           "Uniswap v4 hooks see the router as the sender, not the end investor. Capital Windows handle that by requiring `hookData` with a window id, investor address, minimum company-token output, deadline, nonce, and authorizer signature. The registry verifies the signer and marks the authorization as used.",
-          "The router is intentionally narrow: exact input only, payment-token-to-company-token only, and tied to approved pool keys. This keeps generic routing from becoming the compliance boundary. The restricted `AssetToken` remains a second layer of defense because only whitelisted infrastructure and investors can send or receive the company token.",
+          "The router is intentionally narrow: exact input only, payment-token-to-company-token only, and tied to approved pool keys. This keeps generic execution from becoming the compliance boundary. The restricted `AssetToken` remains a second layer of defense because only whitelisted infrastructure and investors can send or receive the company token.",
         ],
       },
       {
@@ -146,7 +146,7 @@ export const pressArticles: PressArticle[] = [
       {
         heading: "Production path",
         body: [
-          "This is a hackathon implementation and architecture proof. A production version would need counsel-approved offering paths, transfer-agent workflow, custody decisions, hook address mining, deployment verification, monitoring, invariant testing, third-party audit, and issuer-specific documents before any real capital moves.",
+          "A production version would need counsel-approved offering paths, transfer-agent process, custody decisions, deployment verification, monitoring, invariant testing, third-party audit, and issuer-specific documents before any real capital moves.",
           "The ambitious claim is narrower and stronger than a generic RWA AMM: Uniswap v4 can be the programmable settlement layer for structured private-market windows. The hook is valuable because it makes the compliant path more deterministic, not because it removes the need for legal, operational, or investor-protection work.",
         ],
       },
@@ -210,7 +210,7 @@ export const pressArticles: PressArticle[] = [
     ],
     takeaways: [
       "The strongest argument for onchain instruments is operational, not ideological: markets need a shared source of truth for ownership, eligibility, settlement, and transfer history.",
-      "Private-market access cannot scale while liquidity, pricing confidence, and disclosure remain trapped in manual workflows.",
+      "Private-market access cannot scale while liquidity, pricing confidence, and disclosure remain trapped in manual processes.",
       "AI-native compliance and onchain transfer controls can make private assets more legible without pretending every company is ready for a traditional public listing.",
     ],
     sections: [
@@ -232,7 +232,7 @@ export const pressArticles: PressArticle[] = [
         heading: "Disclosure has to become continuous",
         body: [
           "The old model asks investors to trust periodic PDFs, delayed financial statements, and sporadic issuer updates. That cadence is weak for assets that may trade continuously and globally.",
-          "A modern rail should connect issuer bank data, receivables, payables, accounting systems, customer concentration, renewal data, and cash-flow telemetry into compliance signals. The market does not need every raw document in public. It needs a reliable way to know whether the issuer remains healthy, current, and eligible for trading.",
+          "A modern rail should connect issuer bank data, receivables, payables, accounting systems, customer concentration, renewal data, and cash-flow records into compliance signals. The market does not need every raw document in public. It needs a reliable way to know whether the issuer remains healthy, current, and eligible for trading.",
         ],
       },
       {
@@ -247,7 +247,7 @@ export const pressArticles: PressArticle[] = [
       {
         label: "Private Equities",
         href: "/private-equities",
-        description: "The Ultramar product surface for tokenized private-market workflows.",
+        description: "Ultramar Private Equities for tokenized private-market access.",
       },
       {
         label: "Issuer Oracle",
@@ -306,7 +306,7 @@ export const pressArticles: PressArticle[] = [
         heading: "Price confidence needs issuer state",
         body: [
           "A private-company token without issuer state is still a blind trade. Investors need a signal about revenue quality, cash position, burn rate, liabilities, data recency, and material anomalies.",
-          "Continuous issuer telemetry does not eliminate diligence, but it can change the baseline. The market can move from rumor and stale decks toward comparable operating signals that everyone can inspect at the same time.",
+          "Continuous issuer data does not eliminate diligence, but it can change the baseline. The market can move from rumor and stale decks toward comparable operating signals that everyone can inspect at the same time.",
         ],
       },
       {
@@ -321,17 +321,17 @@ export const pressArticles: PressArticle[] = [
       {
         label: "Private Market",
         href: "/private-equities/market",
-        description: "The Ultramar market route for private-market pricing and transfer context.",
+        description: "Private-market pricing and transfer context.",
       },
       {
         label: "Assets",
         href: "/private-equities/assets",
-        description: "The asset discovery surface for private-market opportunities.",
+        description: "Asset discovery for private-market opportunities.",
       },
       {
         label: "Compliance",
         href: "/compliance",
-        description: "The public control surface for eligibility, diligence, and transfer boundaries.",
+        description: "Eligibility, diligence, and transfer boundaries.",
       },
     ],
   },
@@ -360,7 +360,7 @@ export const pressArticles: PressArticle[] = [
     takeaways: [
       "AI compliance is most useful when it evaluates source data, flags anomalies, and explains score changes instead of producing unsupported opinions.",
       "The right comparison is not AI versus perfect oversight. It is AI-supported continuous review versus expensive periodic review that can miss problems for months.",
-      "Model risk is real, so high-stakes compliance should benchmark multiple models, retain audit logs, and route edge cases to human review.",
+      "Model risk is real, so high-stakes compliance should benchmark multiple models, retain audit logs, and escalate edge cases to human review.",
     ],
     sections: [
       {
@@ -396,7 +396,7 @@ export const pressArticles: PressArticle[] = [
       {
         label: "Oracle",
         href: "/private-equities/oracle",
-        description: "The issuer accounting oracle and solvency proof workflow.",
+        description: "Issuer accounting oracle and solvency proof.",
       },
       {
         label: "Issuer Oracle Research",
@@ -476,12 +476,12 @@ export const pressArticles: PressArticle[] = [
       {
         label: "Deals",
         href: "/private-equities/deals",
-        description: "The capital raise and deal pipeline surface.",
+        description: "Capital raises and issuer deal terms.",
       },
       {
         label: "Legal",
         href: "/private-equities/legal",
-        description: "Eligibility, compliance, and legal boundary route.",
+        description: "Eligibility, compliance, and legal boundaries.",
       },
     ],
   },

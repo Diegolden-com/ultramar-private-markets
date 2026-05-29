@@ -45,8 +45,8 @@ export function AssetExplorer() {
               {filteredDeals.length} of {deals.length}
             </p>
             <p className="mt-2 text-sm leading-6 text-on-surface-variant">
-              Search the same private-market data set through issuer, ticker,
-              sector, and market rail.
+              Search private-market opportunities by issuer, ticker, sector,
+              and market type.
             </p>
           </div>
 
@@ -83,7 +83,7 @@ export function AssetExplorer() {
 
           <div>
             <p className="mb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-              Market rail
+              Market type
             </p>
             <div className="join grid h-12 grid-cols-3 bg-surface-ink text-[10px] font-medium uppercase tracking-[0.08em]">
               {marketOptions.map((item) => (

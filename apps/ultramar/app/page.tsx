@@ -25,7 +25,7 @@ import {
 import Link from "next/link";
 
 const homeDescription =
-  "Ultramar.capital explains and routes two institutional capital products: Private Equities for controlled private-market access and an Arbitrage Hedge Fund for Polymarket-first event-market signals.";
+  "Ultramar.capital brings controlled private-market access and Polymarket-first arbitrage under one institutional capital brand.";
 
 export const metadata = createSeoMetadata({
   title: "Ultramar.capital | Private Equities and Arbitrage Hedge Fund",
@@ -39,7 +39,7 @@ const homeFaqs = [
   {
     question: "What is Ultramar.capital?",
     answer:
-      "Ultramar.capital is the public product map for two capital products: Ultramar Private Equities and the Ultramar Arbitrage Hedge Fund.",
+      "Ultramar.capital is the home of two institutional capital products: Ultramar Private Equities and the Ultramar Arbitrage Hedge Fund.",
   },
   {
     question: "Which product should I open first?",
@@ -47,9 +47,9 @@ const homeFaqs = [
       "Open Private Equities if you are evaluating issuer rounds, tokenized private-market assets, oracle-backed diligence, or eligible secondary transfers. Open the Arbitrage Hedge Fund if you are evaluating Polymarket-first signals, exposure, sizing, and risk controls.",
   },
   {
-    question: "Does the public site accept investments or execute trades?",
+    question: "Can I invest or trade directly here?",
     answer:
-      "No. The public site explains product scope, routes, and workflow boundaries. Private-market participation and fund allocation require eligibility checks, documents, and product-specific review.",
+      "No. Investment access, private-market participation, and fund allocation require eligibility checks, issuer documents, and product-specific review.",
   },
 ];
 
@@ -57,17 +57,17 @@ const platformPrinciples = [
   {
     icon: Route,
     title: "Two products, separate jobs",
-    body: "Private Equities handles issuer and investor workflows for private assets. The Arbitrage Hedge Fund handles event-market signal and risk workflows.",
+    body: "Private Equities serves issuers and eligible investors in private assets. The Arbitrage Hedge Fund serves allocators reviewing event-market signal and risk discipline.",
   },
   {
     icon: DatabaseZap,
-    title: "Overview before terminal",
-    body: "Each product overview now explains the workflow, the deeper routes, and the decision points before sending users into assets, signals, or risk pages.",
+    title: "Context before action",
+    body: "Each product starts with the business case, the decision points, and the access limits before users inspect assets, signals, or risk controls.",
   },
   {
     icon: LockKeyhole,
     title: "Public explanation, gated action",
-    body: "The site can describe the products clearly without implying public exchange access, binding commitments, or automatic trade execution.",
+    body: "Ultramar can describe each product clearly without implying public exchange access, binding commitments, or automatic trade execution.",
   },
 ] as const;
 
@@ -77,14 +77,14 @@ const productNarratives = {
     label: "Private-market rail",
     headline: "For issuers and eligible investors evaluating private assets.",
     routes: ["Assets", "Deals", "Oracle", "Market", "Portfolio", "Legal Gate"],
-    nextStep: "Start with the overview, then inspect assets and issuer diligence.",
+    nextStep: "Start with the thesis, then inspect assets and issuer diligence.",
   },
   "arbitrage-hedge-fund": {
     icon: LineChart,
     label: "Polymarket-first fund",
     headline: "For allocators evaluating event-market signals and controls.",
     routes: ["Dashboard", "Signals", "Risk", "Research"],
-    nextStep: "Start with the overview, then inspect live signals and risk controls.",
+    nextStep: "Start with the thesis, then inspect signal logic and risk controls.",
   },
 } as const;
 
@@ -95,8 +95,8 @@ const productRouteCount = Object.values(productRouteGroups).reduce(
 
 const platformStats = [
   ["Products", products.length.toString().padStart(2, "0"), "Private assets and event markets"],
-  ["Product Routes", productRouteCount.toString(), "Overview, asset, signal, risk, and research surfaces"],
-  ["Indexable Pages", indexableSitemapRoutes.length.toString(), "Canonical public pages"],
+  ["Product Areas", productRouteCount.toString(), "Assets, signals, risk, research, and access controls"],
+  ["Research & Disclosures", indexableSitemapRoutes.length.toString(), "Public materials for diligence and review"],
 ] as const;
 
 export default function HomePage() {
@@ -113,7 +113,7 @@ export default function HomePage() {
           itemListJsonLd({
             path: "/",
             name: "Ultramar.capital products",
-            description: "The canonical product surfaces available on Ultramar.capital.",
+            description: "The institutional capital products available through Ultramar.capital.",
             items: products.map((product) => ({
               name: product.name,
               url: product.href,
@@ -131,14 +131,14 @@ export default function HomePage() {
           <div className="max-w-5xl">
             <div className="badge badge-outline badge-success gap-2 bg-surface-ink/80 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
               <span className="status status-success" />
-              Product map active
+              Capital products
             </div>
             <h1 className="mt-4 max-w-5xl break-words font-serif text-3xl font-bold leading-[1.05] text-on-surface [overflow-wrap:anywhere] md:text-6xl">
-              <BrandName /> is the home for two capital products.
+              <BrandName /> gives private markets and event-market arbitrage a controlled home.
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-relaxed text-on-surface-variant md:text-xl">
-              Private Equities explains controlled private-market access. The Arbitrage Hedge
-              Fund explains Polymarket-first signal, exposure, and risk workflows.
+              Private Equities organizes issuer diligence, investor eligibility, and transfer controls.
+              The Arbitrage Hedge Fund turns Polymarket dislocations into reviewable allocator signals.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -220,7 +220,7 @@ export default function HomePage() {
 
               <div className="mt-8">
                 <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                  Route sequence
+                  What to inspect
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {narrative.routes.map((route) => (
@@ -260,10 +260,10 @@ export default function HomePage() {
           <div className="mb-6 flex items-end justify-between gap-6">
             <div>
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                Site organization
+                Product navigation
               </p>
               <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
-                Every page has a specific job.
+                Each section answers a different investor question.
               </h2>
             </div>
             <ShieldCheck className="hidden h-6 w-6 text-status-signal md:block" />
@@ -306,7 +306,7 @@ export default function HomePage() {
       <FaqSection
         eyebrow="Platform FAQ"
         title="How to read the public platform"
-        description="These answers match the structured FAQ data for crawlers and keep product scope explicit on the page."
+        description="A quick orientation for investors, issuers, allocators, and reviewers."
         items={homeFaqs}
       />
     </main>

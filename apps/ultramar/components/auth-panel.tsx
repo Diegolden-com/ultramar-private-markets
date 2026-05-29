@@ -16,13 +16,13 @@ const accessRails = [
   {
     label: "01 / Private Equities",
     title: "Private-market rail",
-    body: "Issuer, oracle, asset, and portfolio workflows share one account surface.",
+    body: "Issuer diligence, oracle data, asset review, and portfolio access share one approved account.",
     icon: Building2,
   },
   {
     label: "02 / Arbitrage Fund",
     title: "Signal discipline",
-    body: "Allocator access stays tied to monitored signals, exposure, and risk controls.",
+    body: "Allocator access stays tied to monitored signals, exposure review, and risk controls.",
     icon: BarChart3,
   },
 ];
@@ -48,7 +48,7 @@ const modeForms: Record<
     ],
   },
   signup: {
-    heading: "Request shared access",
+    heading: "Request Ultramar access",
     submitLabel: "Request access",
     links: [{ href: "/auth/login", label: "Already have access? Sign in" }],
   },
@@ -134,7 +134,7 @@ export function AuthPanel({
                 Shared account
               </span>
               <span className="badge badge-outline badge-success bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-                Capital rail
+                Capital access
               </span>
             </div>
             <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-border-muted bg-surface-ink/90 text-on-surface">

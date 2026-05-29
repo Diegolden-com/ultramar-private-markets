@@ -20,7 +20,7 @@ export const canonicalDomain = "https://ultramar.capital";
 export const platform = {
   name: "Ultramar.capital",
   description:
-    "A single capital platform for private-market access and Polymarket-first arbitrage fund infrastructure.",
+    "Private-market access and Polymarket-first arbitrage for investors, issuers, and allocators.",
 };
 
 export const products: ProductDefinition[] = [
@@ -31,11 +31,11 @@ export const products: ProductDefinition[] = [
     href: "/private-equities",
     shortDescription: "Tokenized access to vetted private-market assets.",
     description:
-      "Issuer onboarding, private-market deal discovery, compliance-aware investor flows, and portfolio visibility for tokenized real-world assets.",
+      "Issuer onboarding, private-market deal discovery, investor eligibility, and portfolio visibility for tokenized real-world assets.",
     audience:
       "Investors and issuers who need a controlled private-market rail instead of a generic token marketplace.",
     problem:
-      "Private investments are hard to diligence, track, transfer, and explain without a shared operating layer.",
+      "Private investments are hard to diligence, track, transfer, and report without shared controls.",
     primaryCta: "Explore Assets",
     primaryHref: "/private-equities/assets",
     secondaryCta: "View Oracle",
@@ -52,7 +52,7 @@ export const products: ProductDefinition[] = [
     audience:
       "Allocators who want systematic event-market exposure with explicit signal, sizing, and risk controls.",
     problem:
-      "Prediction-market mispricings are visible but hard to normalize, size, monitor, and govern as a fund workflow.",
+      "Prediction-market mispricings are visible but hard to normalize, size, monitor, and govern for a fund.",
     primaryCta: "Open Signals",
     primaryHref: "/arbitrage-hedge-fund/signals",
     secondaryCta: "Review Risk",

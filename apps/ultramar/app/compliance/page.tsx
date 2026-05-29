@@ -21,18 +21,18 @@ import Link from "next/link";
 
 const compliancePath = "/compliance";
 const description =
-  "Compliance operating boundaries for Ultramar.capital, including investor gating, issuer diligence, transfer controls, and public-site limitations.";
+  "Compliance boundaries for Ultramar.capital, including investor gating, issuer diligence, transfer controls, and non-offer limitations.";
 
 const controls = [
   {
     icon: BadgeCheck,
     title: "Investor eligibility",
-    body: "Access to private-market workflows must be gated by KYC, KYB where relevant, suitability, jurisdiction, and offering-specific eligibility checks.",
+    body: "Access to private-market opportunities must be gated by KYC, KYB where relevant, suitability, jurisdiction, and offering-specific eligibility checks.",
   },
   {
     icon: FileCheck2,
     title: "Issuer diligence",
-    body: "Issuer pages distinguish public product education from gated diligence files, subscription materials, financial data, and investor-only Q&A.",
+    body: "Issuer materials distinguish general education from gated diligence files, subscription materials, financial data, and investor-only Q&A.",
   },
   {
     icon: LockKeyhole,
@@ -42,7 +42,7 @@ const controls = [
   {
     icon: ClipboardCheck,
     title: "Audit trail",
-    body: "Product workflows should leave a reviewable record of disclosures, status changes, eligibility decisions, document updates, and investor communications.",
+    body: "Capital activity should leave a reviewable record of disclosures, status changes, eligibility decisions, document updates, and investor communications.",
   },
   {
     icon: Scale,
@@ -52,7 +52,7 @@ const controls = [
   {
     icon: ShieldCheck,
     title: "No public acceptance",
-    body: "Public pages can describe workflows and asset readiness, but they should not accept funds or treat interest as a binding investment commitment.",
+    body: "Public materials can describe asset readiness, but they should not accept funds or treat interest as a binding investment commitment.",
   },
 ] as const;
 
@@ -96,9 +96,9 @@ export default function CompliancePage() {
       />
 
       <PageHeader
-        eyebrow="Compliance registry"
-        title="Control surface for gated capital workflows"
-        description="The public interface is intentionally constrained. Product pages can explain readiness, but regulated steps stay behind eligibility, counsel, and document controls."
+        eyebrow="Compliance controls"
+        title="Boundaries for gated capital activity"
+        description="Ultramar keeps regulated steps behind eligibility, counsel, and document controls while still making the access requirements clear."
         asidePadded={false}
         asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
       >
@@ -131,7 +131,7 @@ export default function CompliancePage() {
             <p className="text-sm leading-6 text-on-surface-variant">
               <BrandText>
                 {
-                  "Ultramar.capital separates public education from transaction mechanics. Any issuer-specific offer, investor allocation, closing instruction, subscription package, or transfer event belongs in a controlled workflow with legal review and access checks."
+                  "Ultramar.capital separates product education from transaction mechanics. Any issuer-specific offer, investor allocation, closing instruction, subscription package, or transfer event belongs behind legal review and access checks."
                 }
               </BrandText>
             </p>
@@ -139,16 +139,16 @@ export default function CompliancePage() {
               href="/private-equities/legal"
               className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             >
-              View private-equities legal gate
+              View Private Equities legal gate
             </Link>
           </>
         }
       >
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Product boundary
+          Access boundary
         </p>
         <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-          Compliance is a workflow constraint, not a marketing claim.
+          Compliance is an access constraint, not a marketing claim.
         </h2>
       </SplitPanel>
 

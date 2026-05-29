@@ -60,7 +60,7 @@ export default function PortfolioPage() {
               Holdings
             </h2>
             <p className="mt-1 text-sm text-on-surface-variant">
-              Representative holdings for the consolidated mega app.
+              Representative holdings for an approved investor account.
             </p>
           </div>
           <button
@@ -114,7 +114,7 @@ export default function PortfolioPage() {
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
           <BrandText>
             {
-              "This page is the investor-facing portfolio destination inside the unified Ultramar.capital app. It replaces the older standalone portfolio surface."
+              "Portfolio access is intended for approved investors reviewing private-market exposure, valuation changes, and holding-level performance."
             }
           </BrandText>
         </p>
