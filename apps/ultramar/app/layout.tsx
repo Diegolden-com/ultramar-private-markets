@@ -49,7 +49,8 @@ export const metadata: Metadata = {
     images: [seoImages.platform.url],
   },
   icons: {
-    icon: "/icon-192.jpg",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/icon-192.jpg",
   },
   manifest: "/manifest.json",
