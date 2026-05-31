@@ -78,7 +78,7 @@ Run the submission preflight:
 corepack yarn hookathon:submission:preflight
 ```
 
-Verify the public links that will go into Tally:
+Verify the public links that will go into Tally plus the public source basis:
 
 ```bash
 corepack yarn hookathon:links:check

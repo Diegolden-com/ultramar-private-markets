@@ -55,6 +55,27 @@ const checks = [
     url: "https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon-port-of-call-demo-2026-05-31",
     markers: ["hookathon-port-of-call-demo-2026-05-31", "Release"],
   },
+  {
+    label: "Uniswap v4 whitepaper",
+    url: "https://app.uniswap.org/whitepaper-v4.pdf",
+    contentTypeIncludes: "application/pdf",
+    minBytes: 100_000,
+  },
+  {
+    label: "Atrium public Uniswap course",
+    url: "https://atrium.academy/uniswap/course",
+    markers: ["Uniswap Hook Incubator", "v4", "Course"],
+  },
+  {
+    label: "Uniswap v4 architecture docs",
+    url: "https://developers.uniswap.org/docs/protocols/v4/concepts/architecture",
+    markers: ["PoolManager", "Singleton", "flash accounting"],
+  },
+  {
+    label: "Uniswap v4 custom accounting docs",
+    url: "https://developers.uniswap.org/docs/protocols/v4/guides/custom-accounting",
+    markers: ["Custom Accounting", "beforeSwapReturnDelta", "custom accounting"],
+  },
 ];
 
 function normalizeHeader(headers, name) {
@@ -99,6 +120,7 @@ async function runCheck(check) {
       response.status >= 200 &&
       response.status < 300 &&
       markerResults.every((result) => result.ok) &&
+      (!check.contentTypeIncludes || contentType.toLowerCase().includes(check.contentTypeIncludes.toLowerCase())) &&
       (!check.minBytes || bytes >= check.minBytes);
 
     return {
@@ -107,6 +129,7 @@ async function runCheck(check) {
       status: response.status,
       finalUrl: response.url,
       contentType,
+      contentTypeOk: !check.contentTypeIncludes || contentType.toLowerCase().includes(check.contentTypeIncludes.toLowerCase()),
       bytes,
       markerResults,
     };
@@ -117,6 +140,7 @@ async function runCheck(check) {
       status: "error",
       finalUrl: check.url,
       contentType: "",
+      contentTypeOk: !check.contentTypeIncludes,
       bytes: 0,
       markerResults: (check.markers ?? []).map((marker) => ({ marker, ok: false })),
       error: error instanceof Error ? error.message : String(error),
@@ -132,7 +156,7 @@ function formatRows(results) {
           ? "n/a"
           : result.markerResults.map((marker) => `${marker.ok ? "ok" : "missing"}: \`${marker.marker}\``).join("<br>");
       const size = result.bytes > 0 ? `${result.bytes} bytes` : "unknown";
-      return `| ${result.ok ? "Ready" : "Fail"} | ${result.label} | ${result.status} | ${size} | ${markers} | ${result.url} |`;
+      return `| ${result.ok ? "Ready" : "Fail"} | ${result.label} | ${result.status} | ${result.contentType || "unknown"} | ${size} | ${markers} | ${result.url} |`;
     })
     .join("\n");
 }
@@ -153,8 +177,8 @@ Failures: ${failures.length}
 
 ## Links
 
-| Status | Item | HTTP | Size | Markers | URL |
-| --- | --- | ---: | ---: | --- | --- |
+| Status | Item | HTTP | Content-Type | Size | Markers | URL |
+| --- | --- | ---: | --- | ---: | --- | --- |
 ${formatRows(results)}
 
 ## Failed Checks
