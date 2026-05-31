@@ -53,6 +53,7 @@ const preflight = safeRead("artifacts/hookathon/submission-preflight-latest.md")
 const strictPreflight = safeRead("artifacts/hookathon/submission-preflight-strict-latest.md");
 const publicLinks = safeRead("artifacts/hookathon/public-links-latest.md");
 const tallyFieldMap = safeRead("artifacts/hookathon/tally-field-map-latest.md");
+const tallyFillPlan = safeRead("artifacts/hookathon/tally-fill-plan-latest.md");
 const privatePacket = safeRead("artifacts/hookathon/tally-final-personalized-latest.md");
 const placeholders = collectPlaceholders();
 const unexpectedPlaceholders = placeholders.filter((placeholder) => !expectedExternalPlaceholders.includes(placeholder));
@@ -69,6 +70,7 @@ const preflightReady = preflight.includes("Ready for the next external step.") &
 const publicLinksReady = publicLinks.includes("All public submission links resolve.") && lineValue(publicLinks, "Failures") === "0";
 const tallyFieldMapReady =
   tallyFieldMap.includes("Current Tally fields match the final copy packet.") && lineValue(tallyFieldMap, "Failures") === "0";
+const tallyFillPlanReady = tallyFillPlan.includes("Fill plan is ready.") && lineValue(tallyFillPlan, "Failures") === "0";
 const finalPacketReady =
   tallyPacket.includes("## Copy Order") &&
   tallyPacket.includes("https://ultramar.capital/hookathon/port-of-call") &&
@@ -87,6 +89,7 @@ const checklist = [
   reportStatus("Local submission preflight", preflightReady, "`artifacts/hookathon/submission-preflight-latest.md`"),
   reportStatus("Public links", publicLinksReady, "`artifacts/hookathon/public-links-latest.md`"),
   reportStatus("Live Tally field map", tallyFieldMapReady, "`artifacts/hookathon/tally-field-map-latest.md`"),
+  reportStatus("Tally fill plan", tallyFillPlanReady, "`artifacts/hookathon/tally-fill-plan-latest.md`"),
   reportStatus("Final Tally copy packet", finalPacketReady, "`docs/HOOKATHON_TALLY_FINAL_PACKET.md`"),
   reportStatus(
     "Private personalized Tally packet",
@@ -112,6 +115,7 @@ const readyForSubmitterInput =
   preflightReady &&
   publicLinksReady &&
   tallyFieldMapReady &&
+  tallyFillPlanReady &&
   finalPacketReady &&
   placeholdersExpectedOnly &&
   strictBlockedOnlyByPersonalFields;

@@ -33,6 +33,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Provide submission preflight | Ready locally | `corepack yarn hookathon:submission:preflight` verifies required repo files, generated artifacts, proof markers, video manifest, and known external Tally placeholders. |
 | Provide public-link preflight | Ready externally | `corepack yarn hookathon:links:check` verifies the Tally form, public GitHub branch, raw Tally copy, production demo, production deck, video asset, captions asset, and release page, then writes `artifacts/hookathon/public-links-latest.md`. |
 | Provide live Tally field map | Ready externally | `corepack yarn hookathon:tally:field-map` parses the current public Tally form, verifies the UHI8 Specialized Markets marker, maps required fields to `docs/HOOKATHON_TALLY_FINAL_PACKET.md`, and writes `artifacts/hookathon/tally-field-map-latest.md`. |
+| Provide Tally fill plan | Ready locally | `corepack yarn hookathon:tally:fill-plan` combines the live Tally field map with the public or private Tally packet, then writes exact field actions to `artifacts/hookathon/tally-fill-plan-latest.md`. |
 | Provide readiness report | Ready locally | `corepack yarn hookathon:readiness` writes `artifacts/hookathon/submission-readiness-latest.md`, separating repo readiness from the personal fields and Tally confirmation evidence still required before the thread goal can be marked complete. |
 | Provide private personalized Tally packet | Ready locally | `corepack yarn hookathon:tally:personalize` validates submitter email, team status, course rating, and team details if team status is `Yes`, then writes `artifacts/hookathon/tally-final-personalized-latest.md` without committing personal data. Use `--check-only` to validate without writing. |
 | Keep non-offer/compliance boundary clear | Ready | `HOOKATHON_README.md`, `docs/HOOKATHON_SUBMISSION_FORM.md`, and the demo route use sandbox/non-offer framing. |
@@ -90,6 +91,12 @@ Live Tally field map:
 
 ```bash
 corepack yarn hookathon:tally:field-map
+```
+
+Tally fill plan:
+
+```bash
+corepack yarn hookathon:tally:fill-plan
 ```
 
 Submission readiness report:

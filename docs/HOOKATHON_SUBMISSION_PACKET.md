@@ -162,6 +162,7 @@ Secondary angles:
 - Expose one-command submission preflight. Current command: `corepack yarn hookathon:submission:preflight`.
 - Expose strict final preflight after external URLs/details are filled. Current command: `corepack yarn hookathon:submission:preflight:strict`.
 - Expose live Tally field mapping. Current command: `corepack yarn hookathon:tally:field-map`.
+- Expose live Tally fill planning. Current command: `corepack yarn hookathon:tally:fill-plan`.
 - Expose private Tally personalization without committing personal data. Current command: `corepack yarn hookathon:tally:personalize` with `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, `HOOKATHON_COURSE_RATING`, and `HOOKATHON_TEAM_DETAILS` if team status is `Yes`.
 - Expose one-command v4 testnet simulation. Current command: `corepack yarn hookathon:testnet:e2e`.
 - Keep every user-facing statement clearly sandbox/testnet and non-offer.
@@ -213,6 +214,7 @@ Secondary angles:
 - Captioned video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
+- Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Submission readiness script: `scripts/hookathon-readiness-report.mjs`
 - Private Tally personalization script: `scripts/hookathon-personalize-tally.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`

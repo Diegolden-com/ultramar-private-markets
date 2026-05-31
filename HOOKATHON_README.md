@@ -90,6 +90,12 @@ Verify that the current Tally form fields still match the final copy packet:
 corepack yarn hookathon:tally:field-map
 ```
 
+Generate the Tally fill plan from the live field map:
+
+```bash
+corepack yarn hookathon:tally:fill-plan
+```
+
 Generate the final readiness report:
 
 ```bash
@@ -151,6 +157,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Public link report: `artifacts/hookathon/public-links-latest.md`
 - Tally field map report: `artifacts/hookathon/tally-field-map-latest.md`
+- Tally fill plan: `artifacts/hookathon/tally-fill-plan-latest.md`
 - Submission readiness report: `artifacts/hookathon/submission-readiness-latest.md`
 - Private personalized Tally packet: `artifacts/hookathon/tally-final-personalized-latest.md`
 - Public GitHub branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
@@ -184,6 +191,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
+- Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Submission readiness script: `scripts/hookathon-readiness-report.mjs`
 - Private Tally personalization script: `scripts/hookathon-personalize-tally.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
