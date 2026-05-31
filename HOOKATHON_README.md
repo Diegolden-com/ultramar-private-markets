@@ -111,7 +111,8 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Submission preflight report: `artifacts/hookathon/submission-preflight-latest.md`
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Public GitHub branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
-- Remaining off-repo work: upload the demo video, fill submitter/team/rating fields, submit the form, and deploy to a public testnet only if the current prize rules require it.
+- Demo video: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`
+- Remaining off-repo work: fill submitter/team/rating fields, submit the form, and deploy to a public testnet only if the current prize rules require it.
 
 ## Why Uniswap v4
 

@@ -70,13 +70,17 @@ const requiredNarrativeMarkers = [
   ["Custom accounting", "HOOKATHON_README.md", "beforeSwapReturnDelta"],
   ["Non-offer boundary", "HOOKATHON_README.md", "not a public securities offering"],
   ["Public GitHub repo", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://github.com/Diegolden-com/ultramar-private-markets"],
+  [
+    "Demo video URL",
+    "docs/HOOKATHON_TALLY_SUBMISSION.md",
+    "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
+  ],
   ["Deck URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call/deck"],
   ["Project URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call"],
 ];
 
 const externalPlaceholders = [
   "[submitter email]",
-  "[uploaded demo video URL]",
   "[Yes/No]",
   "[1-5]",
 ];
@@ -247,9 +251,8 @@ ${exitFailures.length > 0 ? exitFailures.map((failure) => `- ${failure}`).join("
 
 1. Commit and push the current Hookathon package to the public GitHub repo.
 2. Deploy the frontend or decide to submit repo-only plus local route evidence.
-3. Upload the demo video.
-4. Fill submitter email, team status, and course rating.
-5. Submit https://tally.so/r/VLV1pa.
+3. Fill submitter email, team status, and course rating.
+4. Submit https://tally.so/r/VLV1pa.
 `;
 
 mkdirSync(artifactDir, { recursive: true });

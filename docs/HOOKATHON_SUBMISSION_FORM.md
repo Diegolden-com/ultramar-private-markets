@@ -86,6 +86,20 @@ https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wav
 
 Repository visibility was verified as public on May 31, 2026. Use this branch URL until the Hookathon package is merged into the default branch.
 
+## Demo video
+
+Direct WebM:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
+```
+
+Release page with captions:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon-port-of-call-demo-2026-05-31
+```
+
 ## Repository map
 
 - Demo app: `apps/ultramar/app/hookathon/port-of-call/page.tsx`

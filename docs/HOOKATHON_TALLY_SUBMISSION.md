@@ -102,7 +102,13 @@ Local route: http://localhost:3000/hookathon/port-of-call/deck
 ### Demo video link
 
 ```text
-[uploaded demo video URL]
+https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
+```
+
+Release page with captions:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon-port-of-call-demo-2026-05-31
 ```
 
 ### Project link, if there's a front end

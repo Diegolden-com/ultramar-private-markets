@@ -70,6 +70,12 @@ artifacts/hookathon/video/final-demo-latest.vtt
 artifacts/hookathon/video/final-demo-manifest-latest.md
 ```
 
+Uploaded release asset:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
+```
+
 The preflight script writes:
 
 ```text
@@ -165,7 +171,7 @@ Run `corepack yarn hookathon:check` for app build, typecheck, Foundry tests, and
 ## QA before upload
 
 - The video is under two minutes, or the platform permits the chosen length.
-- If using the generated review cut, upload `artifacts/hookathon/video/final-demo-latest.webm` or use it as the base layer for a narrated edit.
+- Use the uploaded release asset above, or use `artifacts/hookathon/video/final-demo-latest.webm` as the base layer for a narrated edit if a different hosting platform is preferred.
 - The first 20 seconds explain the user problem, not Solidity internals.
 - The Specialized Markets framing is explicit.
 - The revert path is visible.
