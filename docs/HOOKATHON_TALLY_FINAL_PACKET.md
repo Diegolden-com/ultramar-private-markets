@@ -10,6 +10,7 @@ Run these from the monorepo root immediately before opening Tally:
 
 ```bash
 corepack yarn hookathon:links:check
+corepack yarn hookathon:tally:field-map
 corepack yarn hookathon:submission:preflight
 corepack yarn hookathon:readiness
 ```
@@ -30,6 +31,8 @@ HOOKATHON_WORKED_WITH_TEAM="No" \
 HOOKATHON_COURSE_RATING="5" \
 corepack yarn hookathon:tally:personalize
 ```
+
+If `HOOKATHON_WORKED_WITH_TEAM="Yes"`, also set `HOOKATHON_TEAM_DETAILS`.
 
 Use `--check-only` with the same environment variables to validate without writing the private packet.
 
@@ -70,10 +73,10 @@ Ultramar Port of Call
 Ultramar Port of Call is an Ablo-style private-market discovery app where eligible investors travel to local operating businesses, receive a signed passport stamp, and enter a Uniswap v4 capital window. The v4 hook creates a Specialized Market for private operating-business capital by enforcing router-bound authorization, exact-input windows, oracle freshness, caps, and custom-accounting settlement.
 ```
 
-### Partner integration
+### Did you integrate any of our partners?
 
 ```text
-No formal sponsor-partner integration beyond Uniswap v4 itself.
+Leave the sponsor-partner multiselect blank. No formal sponsor-partner integration beyond Uniswap v4 itself.
 ```
 
 ### Partner integration details
@@ -88,16 +91,11 @@ No additional partner protocol was integrated. The project focuses tightly on Un
 Yes, my project addresses the theme.
 ```
 
-### Current theme explanation
-
-```text
-Yes. The form lists the current theme as Specialized Markets, and Port of Call is designed as an asset-class-specific liquidity system for private operating-business capital windows. Generic AMMs are a poor fit for this asset class because eligibility, transfer policy, ticket size, timing, issuer proof freshness, and allocation caps are not continuous public variables. The hook turns those constraints into a v4-native specialized market: public LP changes are blocked, execution is exact-input only, custom accounting returns window-priced issuer-token output, and signed passports bind order flow to the intended router.
-```
-
 ### Project tags
 
 ```text
-Specialized Markets, RWA, Private Markets, Custom Accounting, Return Delta Hook, Router-Bound Authorization, Capital Windows, Oracle-Gated Execution, Permissioned Liquidity, Liquidity Protection
+Select: RWA, Custom hooks, Custom Routers, KYC, Compliance, Oracle, Illiquid Assets, Private Debt, Price Discovery, Other
+Other text: Specialized Markets, Capital Windows, Custom Accounting, Return Delta Hook, Router-Bound Authorization, Permissioned Liquidity, Liquidity Protection
 ```
 
 ### GitHub Repo
@@ -158,10 +156,22 @@ The hard part was making the hook feel like a real v4 market instead of a standa
 [Yes/No]
 ```
 
+### Team details, if team Yes
+
+```text
+{{TEAM_DETAILS_IF_YES}}
+```
+
 ### Continue after graduation
 
 ```text
 Yes :)
+```
+
+### Future plans support, if shown
+
+```text
+Yes. I plan to keep developing Port of Call as an Ultramar Private Equities primitive: a reusable v4 pattern for passport-gated issuer windows, translated diligence, operating-proof freshness, and post-trade reconciliation. The areas where Atrium support would be most useful are hook audits, production-grade router/periphery review, and introductions to teams exploring RWA or specialized-market deployments.
 ```
 
 ### Course rating

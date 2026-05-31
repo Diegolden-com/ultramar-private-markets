@@ -84,6 +84,12 @@ Verify the public links that will go into Tally:
 corepack yarn hookathon:links:check
 ```
 
+Verify that the current Tally form fields still match the final copy packet:
+
+```bash
+corepack yarn hookathon:tally:field-map
+```
+
 Generate the final readiness report:
 
 ```bash
@@ -107,6 +113,8 @@ HOOKATHON_WORKED_WITH_TEAM="No" \
 HOOKATHON_COURSE_RATING="5" \
 corepack yarn hookathon:tally:personalize --check-only
 ```
+
+If `HOOKATHON_WORKED_WITH_TEAM="Yes"`, also set `HOOKATHON_TEAM_DETAILS`.
 
 Run the final strict preflight after filling external Tally URLs/details:
 
@@ -142,6 +150,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Submission preflight report: `artifacts/hookathon/submission-preflight-latest.md`
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Public link report: `artifacts/hookathon/public-links-latest.md`
+- Tally field map report: `artifacts/hookathon/tally-field-map-latest.md`
 - Submission readiness report: `artifacts/hookathon/submission-readiness-latest.md`
 - Private personalized Tally packet: `artifacts/hookathon/tally-final-personalized-latest.md`
 - Public GitHub branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
@@ -174,6 +183,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
+- Tally field map script: `scripts/hookathon-tally-field-map.mjs`
 - Submission readiness script: `scripts/hookathon-readiness-report.mjs`
 - Private Tally personalization script: `scripts/hookathon-personalize-tally.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`

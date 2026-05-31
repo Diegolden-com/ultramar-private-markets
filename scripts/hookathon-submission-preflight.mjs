@@ -33,6 +33,7 @@ const requiredFiles = [
   ["Video render script", "scripts/hookathon-render-video.mjs"],
   ["Public link check script", "scripts/hookathon-public-links-check.mjs"],
   ["Readiness report script", "scripts/hookathon-readiness-report.mjs"],
+  ["Tally field map script", "scripts/hookathon-tally-field-map.mjs"],
   ["Tally personalization script", "scripts/hookathon-personalize-tally.mjs"],
 ];
 
@@ -52,6 +53,7 @@ const requiredArtifacts = [
   ["Final captions", "artifacts/hookathon/video/final-demo-latest.vtt"],
   ["Final video manifest", "artifacts/hookathon/video/final-demo-manifest-latest.md"],
   ["Public link report", "artifacts/hookathon/public-links-latest.md"],
+  ["Tally field map report", "artifacts/hookathon/tally-field-map-latest.md"],
 ];
 
 const requiredProofMarkers = [
@@ -85,6 +87,7 @@ const requiredNarrativeMarkers = [
   ["Public frontend verification", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Verified live on May 31, 2026"],
   ["Final packet pre-submit gate", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:links:check"],
   ["Final packet direct video URL", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm"],
+  ["Tally field map command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:field-map"],
   ["Readiness command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:readiness"],
   ["Private personalization command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:personalize"],
 ];

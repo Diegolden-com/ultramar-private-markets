@@ -11,6 +11,7 @@ const checkOnly = process.argv.includes("--check-only");
 const rawEmail = process.env.HOOKATHON_SUBMITTER_EMAIL?.trim() ?? "";
 const rawTeam = process.env.HOOKATHON_WORKED_WITH_TEAM?.trim() ?? "";
 const rawRating = process.env.HOOKATHON_COURSE_RATING?.trim() ?? "";
+const rawTeamDetails = process.env.HOOKATHON_TEAM_DETAILS?.trim() ?? "";
 
 function normalizeTeam(value) {
   const normalized = value.toLowerCase();
@@ -29,6 +30,7 @@ const rating = Number(rawRating);
 const failures = [
   ...(validateEmail(rawEmail) ? [] : ["HOOKATHON_SUBMITTER_EMAIL must be a valid email address"]),
   ...(team ? [] : ["HOOKATHON_WORKED_WITH_TEAM must be Yes or No"]),
+  ...(team === "Yes" && rawTeamDetails.length === 0 ? ["HOOKATHON_TEAM_DETAILS is required when HOOKATHON_WORKED_WITH_TEAM is Yes"] : []),
   ...(Number.isInteger(rating) && rating >= 1 && rating <= 5 ? [] : ["HOOKATHON_COURSE_RATING must be an integer from 1 to 5"]),
 ];
 
@@ -41,11 +43,16 @@ const source = readFileSync(sourcePath, "utf8");
 const personalized = source
   .replaceAll("[submitter email]", rawEmail)
   .replaceAll("[Yes/No]", team)
-  .replaceAll("[1-5]", String(rating));
+  .replaceAll("[1-5]", String(rating))
+  .replaceAll(
+    "{{TEAM_DETAILS_IF_YES}}",
+    team === "Yes" ? rawTeamDetails : "This field stays hidden because team status is No.",
+  );
 const unresolved = Array.from(new Set(personalized.match(/\[[^\]\n]+\]/g) ?? []));
+const unresolvedTokens = Array.from(new Set(personalized.match(/\{\{[^}\n]+\}\}/g) ?? []));
 
-if (unresolved.length > 0) {
-  console.error(`Unresolved placeholders remain: ${unresolved.join(", ")}`);
+if (unresolved.length > 0 || unresolvedTokens.length > 0) {
+  console.error(`Unresolved placeholders remain: ${[...unresolved, ...unresolvedTokens].join(", ")}`);
   process.exit(1);
 }
 

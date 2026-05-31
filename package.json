@@ -21,6 +21,7 @@
     "hookathon:readiness": "node scripts/hookathon-readiness-report.mjs",
     "hookathon:submission:preflight": "node scripts/hookathon-submission-preflight.mjs",
     "hookathon:submission:preflight:strict": "node scripts/hookathon-submission-preflight.mjs --strict-external",
+    "hookathon:tally:field-map": "node scripts/hookathon-tally-field-map.mjs",
     "hookathon:tally:personalize": "node scripts/hookathon-personalize-tally.mjs",
     "hookathon:video:proof": "node scripts/hookathon-video-proof.mjs",
     "hookathon:testnet:dry-run": "cd apps/private-equities/contracts && DEPLOYER_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 forge script script/DeployCapitalWindowTestnet.s.sol:DeployCapitalWindowTestnet --rpc-url https://sepolia.base.org -vv",
