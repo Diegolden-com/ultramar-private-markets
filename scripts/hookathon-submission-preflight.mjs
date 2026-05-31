@@ -13,6 +13,7 @@ const reportPath = resolve(
 const requiredFiles = [
   ["Public README", "HOOKATHON_README.md"],
   ["Tally copy", "docs/HOOKATHON_TALLY_SUBMISSION.md"],
+  ["Final Tally packet", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"],
   ["Completion audit", "docs/HOOKATHON_COMPLETION_AUDIT.md"],
   ["Use-case thesis", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md"],
   ["Pitch deck source", "docs/HOOKATHON_SLIDE_DECK.md"],
@@ -80,6 +81,8 @@ const requiredNarrativeMarkers = [
   ["Deck URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call/deck"],
   ["Project URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call"],
   ["Public frontend verification", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Verified live on May 31, 2026"],
+  ["Final packet pre-submit gate", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:links:check"],
+  ["Final packet direct video URL", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm"],
 ];
 
 const externalPlaceholders = [
@@ -151,12 +154,16 @@ function checkVideoManifest() {
 }
 
 function findTallyPlaceholders() {
-  let content = "";
-  try {
-    content = read("docs/HOOKATHON_TALLY_SUBMISSION.md");
-  } catch {
-    return externalPlaceholders.map((placeholder) => ({ placeholder, present: false, expectedExternal: true }));
-  }
+  const placeholderSources = ["docs/HOOKATHON_TALLY_SUBMISSION.md", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"];
+  const content = placeholderSources
+    .map((path) => {
+      try {
+        return read(path);
+      } catch {
+        return "";
+      }
+    })
+    .join("\n");
 
   const discovered = Array.from(new Set(content.match(/\[[^\]\n]+\]/g) ?? []));
   return discovered.map((placeholder) => ({

@@ -16,6 +16,8 @@ Video recording kit lives in `docs/HOOKATHON_VIDEO_RECORDING_KIT.md`.
 
 Exact Tally answers live in `docs/HOOKATHON_TALLY_SUBMISSION.md`.
 
+Final Tally browser-session copy packet lives in `docs/HOOKATHON_TALLY_FINAL_PACKET.md`.
+
 ## Submission title
 
 **Ultramar Port of Call: passport-gated capital windows for local businesses**
@@ -190,6 +192,7 @@ Secondary angles:
 - Use case thesis: `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md`
 - Submission form copy: `docs/HOOKATHON_SUBMISSION_FORM.md`
 - Exact Tally answers: `docs/HOOKATHON_TALLY_SUBMISSION.md`
+- Final Tally copy packet: `docs/HOOKATHON_TALLY_FINAL_PACKET.md`
 - Completion audit: `docs/HOOKATHON_COMPLETION_AUDIT.md`
 - Atrium course alignment: `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`
 - Active Tally theme strategy: `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`
@@ -206,6 +209,7 @@ Secondary angles:
 - Optional testnet deploy script: `apps/private-equities/contracts/script/DeployCapitalWindowTestnet.s.sol`
 - Optional testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Captioned video render script: `scripts/hookathon-render-video.mjs`
+- Public link check script: `scripts/hookathon-public-links-check.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Demo runbook: `apps/private-equities/contracts/README.md`

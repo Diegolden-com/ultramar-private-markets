@@ -114,6 +114,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Web deck source: `docs/HOOKATHON_SLIDE_DECK.md`
 - Video recording kit: `docs/HOOKATHON_VIDEO_RECORDING_KIT.md`
 - Exact Tally answers: `docs/HOOKATHON_TALLY_SUBMISSION.md`
+- Final Tally copy packet: `docs/HOOKATHON_TALLY_FINAL_PACKET.md`
 - Submission preflight report: `artifacts/hookathon/submission-preflight-latest.md`
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Public link report: `artifacts/hookathon/public-links-latest.md`
@@ -154,6 +155,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Video recording kit: `docs/HOOKATHON_VIDEO_RECORDING_KIT.md`
 - Submission copy: `docs/HOOKATHON_SUBMISSION_FORM.md`
 - Exact Tally answers: `docs/HOOKATHON_TALLY_SUBMISSION.md`
+- Final Tally copy packet: `docs/HOOKATHON_TALLY_FINAL_PACKET.md`
 - Full packet: `docs/HOOKATHON_SUBMISSION_PACKET.md`
 - Atrium alignment: `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`
 - Active theme strategy: `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`
