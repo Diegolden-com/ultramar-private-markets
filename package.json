@@ -21,6 +21,7 @@
     "hookathon:readiness": "node scripts/hookathon-readiness-report.mjs",
     "hookathon:submission:preflight": "node scripts/hookathon-submission-preflight.mjs",
     "hookathon:submission:preflight:strict": "node scripts/hookathon-submission-preflight.mjs --strict-external",
+    "hookathon:submission:receipt": "node scripts/hookathon-submission-receipt.mjs",
     "hookathon:tally:field-map": "node scripts/hookathon-tally-field-map.mjs",
     "hookathon:tally:fill-plan": "node scripts/hookathon-tally-fill-plan.mjs",
     "hookathon:tally:personalize": "node scripts/hookathon-personalize-tally.mjs",

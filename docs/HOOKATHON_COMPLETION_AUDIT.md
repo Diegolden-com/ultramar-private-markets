@@ -4,7 +4,7 @@ Purpose: keep the Hookathon package honest. This file maps the original goal to 
 
 ## Current verdict
 
-The public submission package is ready to submit as a sandbox demo once the remaining personal Tally fields are filled.
+The public submission package is ready to submit as a sandbox demo once the remaining personal Tally fields are filled. The final completion gate is now an ignored local receipt generated after Tally accepts the submission.
 
 The broader goal is not fully complete until the Tally form is submitted and, if required by the current prize rules, the team broadcasts or demonstrates on a supported public testnet.
 
@@ -36,10 +36,11 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Provide Tally fill plan | Ready locally | `corepack yarn hookathon:tally:fill-plan` combines the live Tally field map with the public or private Tally packet, then writes exact field actions to `artifacts/hookathon/tally-fill-plan-latest.md`. |
 | Provide readiness report | Ready locally | `corepack yarn hookathon:readiness` writes `artifacts/hookathon/submission-readiness-latest.md`, separating repo readiness from the personal fields and Tally confirmation evidence still required before the thread goal can be marked complete. |
 | Provide private personalized Tally packet | Ready locally | `corepack yarn hookathon:tally:personalize` validates submitter email, team status, course rating, and team details if team status is `Yes`, then writes `artifacts/hookathon/tally-final-personalized-latest.md` without committing personal data. Use `--check-only` to validate without writing. |
+| Provide post-submit Tally receipt | Ready locally / external pending | `corepack yarn hookathon:submission:receipt` validates Tally submitted-at time and confirmation evidence, then writes ignored `artifacts/hookathon/submission-receipt-latest.md` and `.json`. The artifact should be generated only after the official form accepts the submission. |
 | Keep non-offer/compliance boundary clear | Ready | `HOOKATHON_README.md`, `docs/HOOKATHON_SUBMISSION_FORM.md`, and the demo route use sandbox/non-offer framing. |
 | Public GitHub branch | Ready externally after push | `gh repo view Diegolden-com/ultramar-private-markets --json visibility,url` returned `visibility: PUBLIC` and `https://github.com/Diegolden-com/ultramar-private-markets` on May 31, 2026. The Tally copy points judges to `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui` so they inspect the Hookathon package before it is merged to the default branch. |
 | Public frontend deployment | Ready externally | Production routes verified live on May 31, 2026: `https://ultramar.capital/hookathon/port-of-call` and `https://ultramar.capital/hookathon/port-of-call/deck` returned HTTP 200 with the expected Hookathon and deck content. |
-| Formal Hookathon submission | External pending | The copy is ready, but the actual Atrium/Devfolio/Tally submission must be sent outside the repo. |
+| Formal Hookathon submission | External pending | The copy is ready, but the actual Atrium/Devfolio/Tally submission must be sent outside the repo. After submission, generate `artifacts/hookathon/submission-receipt-latest.md` with `corepack yarn hookathon:submission:receipt`; until that receipt exists with real confirmation evidence, the goal is not complete. |
 | Demo video upload | Ready externally | GitHub release `hookathon-port-of-call-demo-2026-05-31` includes `final-demo-latest.webm` and captions. Direct video URL: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`. |
 | Testnet deployment | E2E dry-run ready / broadcast pending | Local v4 proof exists. `docs/HOOKATHON_TESTNET_DEPLOYMENT.md`, `DeployCapitalWindowTestnet.s.sol`, and `ExecuteCapitalWindowTestnetSwap.s.sol` define the public-testnet path. A Base Sepolia dry-run succeeded without `--broadcast`, including mined hook deployment, window creation, and an approved exact-input smoke swap through the official `PoolManager`; explorer-verifiable deployment/swap remains external pending. |
 
@@ -103,6 +104,12 @@ Submission readiness report:
 
 ```bash
 corepack yarn hookathon:readiness
+```
+
+Post-submit private receipt after Tally confirms:
+
+```bash
+HOOKATHON_TALLY_SUBMITTED_AT="REPLACE_WITH_ISO_TIMESTAMP_FROM_CONFIRMATION" HOOKATHON_TALLY_CONFIRMATION="REPLACE_WITH_TALLY_CONFIRMATION_TEXT_OR_ID" HOOKATHON_TALLY_EVIDENCE="REPLACE_WITH_SCREENSHOT_OR_EMAIL_REFERENCE" corepack yarn hookathon:submission:receipt
 ```
 
 Private personalized Tally packet:

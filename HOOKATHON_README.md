@@ -128,6 +128,15 @@ Run the final strict preflight after filling external Tally URLs/details:
 corepack yarn hookathon:submission:preflight:strict
 ```
 
+After the official Tally form accepts the submission, record the private receipt without committing personal data:
+
+```bash
+HOOKATHON_TALLY_SUBMITTED_AT="REPLACE_WITH_ISO_TIMESTAMP_FROM_CONFIRMATION" \
+HOOKATHON_TALLY_CONFIRMATION="REPLACE_WITH_TALLY_CONFIRMATION_TEXT_OR_ID" \
+HOOKATHON_TALLY_EVIDENCE="REPLACE_WITH_SCREENSHOT_OR_EMAIL_REFERENCE" \
+corepack yarn hookathon:submission:receipt
+```
+
 The script should show:
 
 - Approved settlement: `1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX.
@@ -160,11 +169,12 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Tally fill plan: `artifacts/hookathon/tally-fill-plan-latest.md`
 - Submission readiness report: `artifacts/hookathon/submission-readiness-latest.md`
 - Private personalized Tally packet: `artifacts/hookathon/tally-final-personalized-latest.md`
+- Private Tally submission receipt: `artifacts/hookathon/submission-receipt-latest.md`
 - Public GitHub branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
 - Public demo route: `https://ultramar.capital/hookathon/port-of-call`
 - Public deck route: `https://ultramar.capital/hookathon/port-of-call/deck`
 - Demo video: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`
-- Remaining off-repo work: fill submitter/team/rating fields, submit the form, and deploy to a public testnet only if the current prize rules require it.
+- Remaining off-repo work: fill submitter/team/rating fields, submit the form, record the private receipt, and deploy to a public testnet only if the current prize rules require it.
 
 ## Why Uniswap v4
 
@@ -194,6 +204,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Submission readiness script: `scripts/hookathon-readiness-report.mjs`
 - Private Tally personalization script: `scripts/hookathon-personalize-tally.mjs`
+- Private Tally receipt script: `scripts/hookathon-submission-receipt.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Demo run-of-show: `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`

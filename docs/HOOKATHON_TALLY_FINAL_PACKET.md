@@ -198,10 +198,28 @@ The most useful parts were the progression from v4 architecture into return-delt
 
 ## Post-submit evidence
 
-After Tally confirms submission, capture the confirmation page or confirmation email and update `docs/HOOKATHON_COMPLETION_AUDIT.md` with:
+After Tally confirms submission, capture the confirmation page or confirmation email, then generate the private ignored receipt:
 
-```text
-Submitted: <absolute date/time>
-Confirmation evidence: <screenshot/email/reference>
-Submitter email: [submitter email]
+```bash
+HOOKATHON_TALLY_SUBMITTED_AT="REPLACE_WITH_ISO_TIMESTAMP_FROM_CONFIRMATION" \
+HOOKATHON_TALLY_CONFIRMATION="REPLACE_WITH_TALLY_CONFIRMATION_TEXT_OR_ID" \
+HOOKATHON_TALLY_EVIDENCE="REPLACE_WITH_SCREENSHOT_OR_EMAIL_REFERENCE" \
+corepack yarn hookathon:submission:receipt
+```
+
+If useful for private audit, include `HOOKATHON_SUBMITTER_EMAIL`; the receipt is written under ignored `artifacts/`.
+
+Validate the values without writing the private receipt:
+
+```bash
+HOOKATHON_TALLY_SUBMITTED_AT="REPLACE_WITH_ISO_TIMESTAMP_FROM_CONFIRMATION" \
+HOOKATHON_TALLY_CONFIRMATION="REPLACE_WITH_TALLY_CONFIRMATION_TEXT_OR_ID" \
+HOOKATHON_TALLY_EVIDENCE="REPLACE_WITH_SCREENSHOT_OR_EMAIL_REFERENCE" \
+corepack yarn hookathon:submission:receipt --check-only
+```
+
+Then rerun:
+
+```bash
+corepack yarn hookathon:readiness
 ```

@@ -33,6 +33,7 @@ const requiredFiles = [
   ["Video render script", "scripts/hookathon-render-video.mjs"],
   ["Public link check script", "scripts/hookathon-public-links-check.mjs"],
   ["Readiness report script", "scripts/hookathon-readiness-report.mjs"],
+  ["Submission receipt script", "scripts/hookathon-submission-receipt.mjs"],
   ["Tally field map script", "scripts/hookathon-tally-field-map.mjs"],
   ["Tally fill plan script", "scripts/hookathon-tally-fill-plan.mjs"],
   ["Tally personalization script", "scripts/hookathon-personalize-tally.mjs"],
@@ -92,6 +93,7 @@ const requiredNarrativeMarkers = [
   ["Tally field map command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:field-map"],
   ["Tally fill plan command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:fill-plan"],
   ["Readiness command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:readiness"],
+  ["Submission receipt command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:submission:receipt"],
   ["Private personalization command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:personalize"],
 ];
 
@@ -272,6 +274,7 @@ ${exitFailures.length > 0 ? exitFailures.map((failure) => `- ${failure}`).join("
 1. Run \`corepack yarn hookathon:links:check\` right before Tally submission.
 2. Fill submitter email, team status, and course rating.
 3. Submit https://tally.so/r/VLV1pa.
+4. Record the private receipt with \`corepack yarn hookathon:submission:receipt\` after Tally confirms.
 `;
 
 mkdirSync(artifactDir, { recursive: true });

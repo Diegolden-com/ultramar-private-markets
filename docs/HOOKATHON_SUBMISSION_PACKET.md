@@ -164,6 +164,7 @@ Secondary angles:
 - Expose live Tally field mapping. Current command: `corepack yarn hookathon:tally:field-map`.
 - Expose live Tally fill planning. Current command: `corepack yarn hookathon:tally:fill-plan`.
 - Expose private Tally personalization without committing personal data. Current command: `corepack yarn hookathon:tally:personalize` with `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, `HOOKATHON_COURSE_RATING`, and `HOOKATHON_TEAM_DETAILS` if team status is `Yes`.
+- Expose private post-submit receipt capture without committing personal data. Current command: `corepack yarn hookathon:submission:receipt` with `HOOKATHON_TALLY_SUBMITTED_AT`, `HOOKATHON_TALLY_CONFIRMATION`, optional `HOOKATHON_TALLY_EVIDENCE`, and optional `HOOKATHON_SUBMITTER_EMAIL`.
 - Expose one-command v4 testnet simulation. Current command: `corepack yarn hookathon:testnet:e2e`.
 - Keep every user-facing statement clearly sandbox/testnet and non-offer.
 
@@ -217,6 +218,7 @@ Secondary angles:
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Submission readiness script: `scripts/hookathon-readiness-report.mjs`
 - Private Tally personalization script: `scripts/hookathon-personalize-tally.mjs`
+- Private Tally receipt script: `scripts/hookathon-submission-receipt.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Demo runbook: `apps/private-equities/contracts/README.md`
