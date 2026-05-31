@@ -38,6 +38,7 @@ const requiredFiles = [
   ["Tally field map script", "scripts/hookathon-tally-field-map.mjs"],
   ["Tally fill plan script", "scripts/hookathon-tally-fill-plan.mjs"],
   ["Tally browser session script", "scripts/hookathon-tally-session-pack.mjs"],
+  ["Tally browser session QA script", "scripts/hookathon-tally-session-qa.mjs"],
   ["Tally personalization script", "scripts/hookathon-personalize-tally.mjs"],
 ];
 
@@ -60,6 +61,7 @@ const requiredArtifacts = [
   ["Tally field map report", "artifacts/hookathon/tally-field-map-latest.md"],
   ["Tally fill plan report", "artifacts/hookathon/tally-fill-plan-latest.md"],
   ["Tally browser session pack", "artifacts/hookathon/tally-browser-session-latest.md"],
+  ["Tally browser session QA report", "artifacts/hookathon/tally-browser-session-qa-latest.md"],
 ];
 
 const requiredProofMarkers = [

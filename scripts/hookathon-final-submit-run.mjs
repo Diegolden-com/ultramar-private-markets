@@ -171,6 +171,7 @@ steps.push(
     ...(canPersonalize || strict ? ["--strict-personalized"] : []),
   ]),
 );
+steps.push(runStep("Tally browser session QA", "node", ["scripts/hookathon-tally-session-qa.mjs"]));
 steps.push(runStep("Local submission preflight", "corepack", ["yarn", "hookathon:submission:preflight"]));
 steps.push(runStep("Submission readiness", "corepack", ["yarn", "hookathon:readiness"]));
 
