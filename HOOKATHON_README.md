@@ -16,6 +16,12 @@ The hook is the market boundary:
 
 ## Try it
 
+Judge fast path:
+
+```text
+docs/HOOKATHON_JUDGE_FAST_PATH.md
+```
+
 Run the product demo:
 
 ```bash
@@ -194,6 +200,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 
 - Public frontend, contract tests, demo script, copy, captioned video, and run-of-show are ready for submission.
 - Completion audit: `docs/HOOKATHON_COMPLETION_AUDIT.md`
+- Judge fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
 - Optional testnet deployment runbook: `docs/HOOKATHON_TESTNET_DEPLOYMENT.md`
 - Atrium course alignment: `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`
 - Active theme strategy: `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`
@@ -255,6 +262,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Demo run-of-show: `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`
+- Judge fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
 - Web deck source: `docs/HOOKATHON_SLIDE_DECK.md`
 - Video recording kit: `docs/HOOKATHON_VIDEO_RECORDING_KIT.md`
 - Submission copy: `docs/HOOKATHON_SUBMISSION_FORM.md`

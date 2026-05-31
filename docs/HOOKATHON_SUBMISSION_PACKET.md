@@ -6,6 +6,8 @@ Copy/paste submission fields live in `docs/HOOKATHON_SUBMISSION_FORM.md`.
 
 Completion audit and final submission checklist live in `docs/HOOKATHON_COMPLETION_AUDIT.md`.
 
+Judge fast path lives in `docs/HOOKATHON_JUDGE_FAST_PATH.md`.
+
 Atrium course-to-demo alignment lives in `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`.
 
 Active Tally theme strategy lives in `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`.
@@ -202,6 +204,7 @@ Secondary angles:
 - Exact Tally answers: `docs/HOOKATHON_TALLY_SUBMISSION.md`
 - Final Tally copy packet: `docs/HOOKATHON_TALLY_FINAL_PACKET.md`
 - Completion audit: `docs/HOOKATHON_COMPLETION_AUDIT.md`
+- Judge fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
 - Atrium course alignment: `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`
 - Active Tally theme strategy: `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`
 - Web pitch deck source: `docs/HOOKATHON_SLIDE_DECK.md`

@@ -15,6 +15,7 @@ const requiredFiles = [
   ["Tally copy", "docs/HOOKATHON_TALLY_SUBMISSION.md"],
   ["Final Tally packet", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"],
   ["Completion audit", "docs/HOOKATHON_COMPLETION_AUDIT.md"],
+  ["Judge fast path", "docs/HOOKATHON_JUDGE_FAST_PATH.md"],
   ["Use-case thesis", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md"],
   ["Pitch deck source", "docs/HOOKATHON_SLIDE_DECK.md"],
   ["Video kit", "docs/HOOKATHON_VIDEO_RECORDING_KIT.md"],
@@ -83,6 +84,7 @@ const requiredProofMarkers = [
 const requiredNarrativeMarkers = [
   ["Tally theme", "docs/HOOKATHON_TALLY_SUBMISSION.md", "UHI8: Specialized Markets"],
   ["Specialized Markets answer", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Yes, my project addresses the theme."],
+  ["Judge fast path rubric", "docs/HOOKATHON_JUDGE_FAST_PATH.md", "Uniqueness"],
   ["Ablo loop", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md", "Ablo"],
   ["Custom accounting", "HOOKATHON_README.md", "beforeSwapReturnDelta"],
   ["Non-offer boundary", "HOOKATHON_README.md", "not a public securities offering"],

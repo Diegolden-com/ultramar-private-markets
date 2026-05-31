@@ -113,6 +113,7 @@ https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Technical runbook: `apps/private-equities/contracts/README.md`
 - Demo run-of-show: `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`
+- Judge fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
 - Video recording kit: `docs/HOOKATHON_VIDEO_RECORDING_KIT.md`
 - Exact Tally answers: `docs/HOOKATHON_TALLY_SUBMISSION.md`
 - Atrium alignment: `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`
