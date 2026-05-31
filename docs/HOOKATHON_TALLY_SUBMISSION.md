@@ -92,11 +92,10 @@ Verified with `gh repo view Diegolden-com/ultramar-private-markets --json visibi
 https://ultramar.capital/hookathon/port-of-call/deck
 ```
 
-If the public deployment is not live yet, use the repo source deck and local route:
+Verified live on May 31, 2026. Source deck backup:
 
 ```text
 Source deck: docs/HOOKATHON_SLIDE_DECK.md
-Local route: http://localhost:3000/hookathon/port-of-call/deck
 ```
 
 ### Demo video link
@@ -117,7 +116,7 @@ https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon
 https://ultramar.capital/hookathon/port-of-call
 ```
 
-If the public deployment is not live yet, use the repo README and local route:
+Verified live on May 31, 2026. Local reproducibility route:
 
 ```text
 Local route: http://localhost:3000/hookathon/port-of-call

@@ -77,6 +77,7 @@ const requiredNarrativeMarkers = [
   ],
   ["Deck URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call/deck"],
   ["Project URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call"],
+  ["Public frontend verification", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Verified live on May 31, 2026"],
 ];
 
 const externalPlaceholders = [
@@ -249,10 +250,9 @@ ${exitFailures.length > 0 ? exitFailures.map((failure) => `- ${failure}`).join("
 
 ## Next External Steps
 
-1. Commit and push the current Hookathon package to the public GitHub repo.
-2. Deploy the frontend or decide to submit repo-only plus local route evidence.
-3. Fill submitter email, team status, and course rating.
-4. Submit https://tally.so/r/VLV1pa.
+1. Confirm the public GitHub branch, production frontend, and demo video links still resolve.
+2. Fill submitter email, team status, and course rating.
+3. Submit https://tally.so/r/VLV1pa.
 `;
 
 mkdirSync(artifactDir, { recursive: true });

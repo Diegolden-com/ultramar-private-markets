@@ -72,7 +72,7 @@ Local demo route:
 http://localhost:3000/hookathon/port-of-call
 ```
 
-Production/public route once deployed:
+Production/public route, verified live on May 31, 2026:
 
 ```text
 https://ultramar.capital/hookathon/port-of-call

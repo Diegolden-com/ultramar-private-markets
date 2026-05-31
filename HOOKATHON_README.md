@@ -100,7 +100,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 
 ## Submission status
 
-- Local app, contract tests, demo script, copy, and run-of-show are ready for recording.
+- Public frontend, contract tests, demo script, copy, captioned video, and run-of-show are ready for submission.
 - Completion audit: `docs/HOOKATHON_COMPLETION_AUDIT.md`
 - Optional testnet deployment runbook: `docs/HOOKATHON_TESTNET_DEPLOYMENT.md`
 - Atrium course alignment: `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`
@@ -111,6 +111,8 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Submission preflight report: `artifacts/hookathon/submission-preflight-latest.md`
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Public GitHub branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
+- Public demo route: `https://ultramar.capital/hookathon/port-of-call`
+- Public deck route: `https://ultramar.capital/hookathon/port-of-call/deck`
 - Demo video: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`
 - Remaining off-repo work: fill submitter/team/rating fields, submit the form, and deploy to a public testnet only if the current prize rules require it.
 
