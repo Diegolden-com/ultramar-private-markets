@@ -16,6 +16,9 @@ The contracts model a permissioned market where issuer solvency can be published
 | `src/CapitalWindowHook.sol` | Uniswap v4 hook | Uses `beforeSwapReturnDelta` custom accounting to convert approved USDC exact-input swaps into company-token output. |
 | `src/CapitalWindowRouter.sol` | Gated v4 router | Pre-settles investor payment into `PoolManager`, routes through the hook, and delivers company tokens to the approved recipient. |
 | `test/*.t.sol` | Contract tests | Proof, trading, and POC test coverage. |
+| `script/CapitalWindowDemo.s.sol` | Local hookathon demo | Runs one approved capital window plus six blocked paths without RPC or broadcast. |
+| `script/DeployCapitalWindowTestnet.s.sol` | Optional Hookathon testnet deployment | Mines a real v4 hook address, deploys the Capital Window stack, initializes an LCX/USDC pool, and creates one sandbox window. |
+| `script/ExecuteCapitalWindowTestnetSwap.s.sol` | Optional Hookathon testnet swap | Signs a passport payload and executes one approved exact-input swap against a deployed sandbox window. |
 | `script/DeployRegistry.s.sol` | Deployment script | Deploys the solvency registry. |
 
 ## Uniswap v4 Direction
@@ -25,6 +28,8 @@ The contracts model a permissioned market where issuer solvency can be published
 Do not deploy public production liquidity from this workspace until the issuer path, investor eligibility rules, transfer controls, custody, audits, and pool chain are approved.
 
 The v4 demo is tested against the real Uniswap v4 `PoolManager` from `v4-core`. It is not a production securities offering, public swap path, or audited deployment.
+
+Optional public-testnet deployment instructions live in `../../../docs/HOOKATHON_TESTNET_DEPLOYMENT.md`. Use that path only for Hookathon evidence; it still deploys mock tokens and a sandbox window.
 
 ## Local Dependency Setup
 
@@ -54,6 +59,56 @@ forge test
 forge fmt
 forge snapshot
 ```
+
+## Hookathon Demo Runbook
+
+Use this sequence to rehearse the Port of Call technical demo locally:
+
+```bash
+cd apps/private-equities/contracts
+forge test --match-contract CapitalWindowHookTest
+forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv
+```
+
+From the monorepo root, `corepack yarn hookathon:check` runs the Ultramar app checks plus the Foundry test suite and local demo script.
+
+From the monorepo root, `corepack yarn hookathon:testnet:e2e` runs a Base Sepolia dry-run against the official v4 `PoolManager`, mines the hook address, initializes the LCX/USDC pool, creates one sandbox window, and executes one approved exact-input smoke swap. It does not broadcast.
+
+The local demo script should print these judge-facing markers:
+
+- `APPROVED window`: exact input `1500.00` USDC, quoted `1454.54` LCX output, effective price `1.0312` USDC/LCX.
+- `MISSING PASSPORT window`: blocked because `hookData` is required.
+- `GENERIC ROUTER window`: blocked because the passport is bound to `CapitalWindowRouter`.
+- `EXPIRED AUTHORIZATION window`: blocked because the signed passport deadline has expired.
+- `MIN OUTPUT window`: blocked because signed minimum output exceeds the quote.
+- `REPLAY window`: blocked because the authorization nonce was already consumed.
+- `STALE ORACLE window`: blocked because the issuer proof is stale.
+
+The hookathon-critical tests are:
+
+- `testHookAddressEncodesOnlyCapitalWindowPermissions`: the demo hook address encodes only `beforeAddLiquidity`, `beforeRemoveLiquidity`, `beforeSwap`, and `beforeSwapReturnDelta`.
+- `testAuthorizationDigestBindsPassportToCapitalRouter`: the signed passport digest changes if a generic router replaces `CapitalWindowRouter`.
+- `testPrimaryConversionWindowExecutesCustomAccountingSwap`: approved LCX/USDC capital window succeeds through custom accounting.
+- `testSecondaryLiquidityWindowRoutesCashToEscrow`: secondary window routes cash to seller escrow and company tokens to the approved buyer.
+- Both successful conversion tests assert the audit trail events: `WindowConsumed` from the registry and `CapitalWindowHookSwap` from the hook.
+- `testMissingPassportHookDataReverts`: a swap without the signed passport payload reverts.
+- `testGenericRouterWithCapitalPassportReverts`: a signed passport bound to `CapitalWindowRouter` cannot be replayed through a generic v4 swap router.
+- `testExpiredAuthorizationReverts`: expired passport deadlines cannot consume the window.
+- `testAuthorizationReplayReverts`: the same signed authorization cannot be reused.
+- `testMinimumOutputSlippageReverts`: signed minimum-output protection blocks stale or overoptimistic quotes.
+- `testUnapprovedInvestorReverts`: ineligible investors cannot consume the window.
+- `testStaleOracleReverts`: stale issuer proof closes the window.
+- `testExactOutputReverts`: exact-output style execution is rejected.
+- `testUnauthorizedLiquidityModificationReverts`: public liquidity modification is blocked.
+
+Demo narrative:
+
+1. Show the Ultramar Port of Call app route at `/hookathon/port-of-call`.
+2. Explain that the frontend passport stamp becomes `hookData`.
+3. Run `forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv`.
+4. Point to the approved settlement output: exact-input USDC, quoted LCX, effective price, and treasury/investor balances.
+5. Point to the blocked paths: missing passport, generic router, expired authorization, minimum output, replayed authorization, and stale issuer proof.
+6. Close with the constraint: this is sandbox/testnet capital-window infrastructure, not a public securities market.
 
 Run a local node:
 

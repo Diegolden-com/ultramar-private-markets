@@ -13,7 +13,15 @@
     "dev:private-equities": "yarn workspace @ultramar/private-equities dev",
     "build": "yarn workspaces foreach -Apt run build",
     "lint": "yarn workspaces foreach -Apt run lint",
-    "typecheck": "yarn workspace @ultramar/ultramar typecheck && yarn workspace @ultramar/polymarket typecheck"
+    "typecheck": "yarn workspace @ultramar/ultramar typecheck && yarn workspace @ultramar/polymarket typecheck",
+    "hookathon:check": "yarn workspace @ultramar/ultramar lint && yarn workspace @ultramar/ultramar typecheck && yarn workspace @ultramar/ultramar build && cd apps/private-equities/contracts && forge test && forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv",
+    "hookathon:capture:demo": "node scripts/hookathon-capture-demo.mjs",
+    "hookathon:render:video": "node scripts/hookathon-render-video.mjs",
+    "hookathon:submission:preflight": "node scripts/hookathon-submission-preflight.mjs",
+    "hookathon:submission:preflight:strict": "node scripts/hookathon-submission-preflight.mjs --strict-external",
+    "hookathon:video:proof": "node scripts/hookathon-video-proof.mjs",
+    "hookathon:testnet:dry-run": "cd apps/private-equities/contracts && DEPLOYER_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 forge script script/DeployCapitalWindowTestnet.s.sol:DeployCapitalWindowTestnet --rpc-url https://sepolia.base.org -vv",
+    "hookathon:testnet:e2e": "cd apps/private-equities/contracts && DEPLOYER_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 CAPITAL_WINDOW_RUN_SMOKE_SWAP=true forge script script/DeployCapitalWindowTestnet.s.sol:DeployCapitalWindowTestnet --rpc-url https://sepolia.base.org -vv"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "1.3.3",

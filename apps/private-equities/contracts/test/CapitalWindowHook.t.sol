@@ -6,9 +6,12 @@ import {Deployers} from "v4-core/test/utils/Deployers.sol";
 import {Hooks} from "v4-core/src/libraries/Hooks.sol";
 import {IHooks} from "v4-core/src/interfaces/IHooks.sol";
 import {Currency} from "v4-core/src/types/Currency.sol";
+import {PoolId} from "v4-core/src/types/PoolId.sol";
+import {PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
 import {SwapParams} from "v4-core/src/types/PoolOperation.sol";
+import {PoolSwapTest} from "v4-core/src/test/PoolSwapTest.sol";
 import {MessageHashUtils} from "openzeppelin-contracts/contracts/utils/cryptography/MessageHashUtils.sol";
 import {AssetToken} from "../src/AssetToken.sol";
 import {CapitalWindowHook} from "../src/CapitalWindowHook.sol";
@@ -19,6 +22,8 @@ import {MockUSDC} from "./Mocks.sol";
 
 contract CapitalWindowHookTest is Test, Deployers {
     using MessageHashUtils for bytes32;
+    using PoolIdLibrary for PoolKey;
+    using Hooks for IHooks;
 
     uint256 private constant AUTHORIZER_PK = 0xA11CE;
     uint256 private constant PRICE_SCALE = 1e18;
@@ -39,6 +44,25 @@ contract CapitalWindowHookTest is Test, Deployers {
     address private sellerEscrow = address(0x3333);
     address private investor = address(0x4444);
     address private secondInvestor = address(0x5555);
+
+    event CapitalWindowHookSwap(
+        PoolId indexed poolId,
+        uint256 indexed windowId,
+        address indexed investor,
+        address router,
+        CapitalWindowRegistry.WindowMode mode,
+        uint256 paymentAmount,
+        uint256 companyTokenAmount,
+        uint256 effectivePrice
+    );
+    event WindowConsumed(
+        uint256 indexed windowId,
+        address indexed investor,
+        CapitalWindowRegistry.WindowMode indexed mode,
+        uint256 paymentAmount,
+        uint256 companyTokenAmount,
+        uint256 filledAfter
+    );
 
     function setUp() public {
         vm.warp(1_000_000);
@@ -91,6 +115,69 @@ contract CapitalWindowHookTest is Test, Deployers {
         solvency.publishSolvency(issuer, 150, 250, block.timestamp);
     }
 
+    function testHookAddressEncodesOnlyCapitalWindowPermissions() public view {
+        IHooks hookPermissions = IHooks(hookAddress);
+
+        hookPermissions.validateHookPermissions(
+            Hooks.Permissions({
+                beforeInitialize: false,
+                afterInitialize: false,
+                beforeAddLiquidity: true,
+                afterAddLiquidity: false,
+                beforeRemoveLiquidity: true,
+                afterRemoveLiquidity: false,
+                beforeSwap: true,
+                afterSwap: false,
+                beforeDonate: false,
+                afterDonate: false,
+                beforeSwapReturnDelta: true,
+                afterSwapReturnDelta: false,
+                afterAddLiquidityReturnDelta: false,
+                afterRemoveLiquidityReturnDelta: false
+            })
+        );
+
+        assertTrue(hookPermissions.isValidHookAddress(3000), "hook address must be valid for static fee pools");
+        assertTrue(hookPermissions.hasPermission(Hooks.BEFORE_ADD_LIQUIDITY_FLAG), "before add liquidity");
+        assertTrue(hookPermissions.hasPermission(Hooks.BEFORE_REMOVE_LIQUIDITY_FLAG), "before remove liquidity");
+        assertTrue(hookPermissions.hasPermission(Hooks.BEFORE_SWAP_FLAG), "before swap");
+        assertTrue(hookPermissions.hasPermission(Hooks.BEFORE_SWAP_RETURNS_DELTA_FLAG), "before swap delta");
+
+        assertFalse(hookPermissions.hasPermission(Hooks.AFTER_SWAP_FLAG), "after swap disabled");
+        assertFalse(hookPermissions.hasPermission(Hooks.AFTER_SWAP_RETURNS_DELTA_FLAG), "after swap delta disabled");
+        assertFalse(hookPermissions.hasPermission(Hooks.BEFORE_DONATE_FLAG), "before donate disabled");
+        assertFalse(hookPermissions.hasPermission(Hooks.AFTER_DONATE_FLAG), "after donate disabled");
+    }
+
+    function testAuthorizationDigestBindsPassportToCapitalRouter() public view {
+        uint256 windowId = 1;
+        uint256 paymentAmount = 1_000e18;
+        uint256 minCompanyTokens = 950e18;
+        uint256 deadline = block.timestamp + 1 hours;
+        uint256 nonce = 42;
+
+        bytes32 capitalRouterDigest = registry.authorizationDigest(
+            windowId,
+            investor,
+            address(capitalRouter),
+            paymentAmount,
+            minCompanyTokens,
+            deadline,
+            nonce
+        );
+        bytes32 genericRouterDigest = registry.authorizationDigest(
+            windowId,
+            investor,
+            address(swapRouter),
+            paymentAmount,
+            minCompanyTokens,
+            deadline,
+            nonce
+        );
+
+        assertNotEq(capitalRouterDigest, genericRouterDigest, "passport must bind to the approved router");
+    }
+
     function testPrimaryConversionWindowExecutesCustomAccountingSwap() public {
         uint256 windowId = _createWindow(
             CapitalWindowRegistry.WindowMode.PrimaryConversion,
@@ -104,10 +191,19 @@ contract CapitalWindowHookTest is Test, Deployers {
         registry.setInvestorLimit(windowId, investor, true, 5_000e18);
 
         uint256 paymentAmount = 1_500e18;
-        (uint256 quoted,) = registry.quoteCompanyTokens(windowId, paymentAmount);
+        (uint256 quoted, uint256 effectivePrice) = registry.quoteCompanyTokens(windowId, paymentAmount);
         assertLt(quoted, paymentAmount, "step curve should reduce output after the first tranche");
 
         uint256 hookCompanyBefore = companyToken.balanceOf(hookAddress);
+        _expectWindowEvents(
+            windowId,
+            investor,
+            CapitalWindowRegistry.WindowMode.PrimaryConversion,
+            paymentAmount,
+            quoted,
+            effectivePrice,
+            paymentAmount
+        );
         BalanceDelta delta = _swap(windowId, investor, paymentAmount, quoted, 1);
 
         assertEq(usdc.balanceOf(treasury), paymentAmount, "treasury receives payment");
@@ -137,7 +233,16 @@ contract CapitalWindowHookTest is Test, Deployers {
         registry.setInvestorLimit(windowId, secondInvestor, true, 4_000e18);
 
         uint256 paymentAmount = 2_000e18;
-        (uint256 quoted,) = registry.quoteCompanyTokens(windowId, paymentAmount);
+        (uint256 quoted, uint256 effectivePrice) = registry.quoteCompanyTokens(windowId, paymentAmount);
+        _expectWindowEvents(
+            windowId,
+            secondInvestor,
+            CapitalWindowRegistry.WindowMode.SecondaryLiquidity,
+            paymentAmount,
+            quoted,
+            effectivePrice,
+            paymentAmount
+        );
         _swap(windowId, secondInvestor, paymentAmount, quoted, 11);
 
         assertEq(usdc.balanceOf(sellerEscrow), paymentAmount, "seller escrow receives secondary cash");
@@ -238,6 +343,67 @@ contract CapitalWindowHookTest is Test, Deployers {
         _swapWithHookData(investor, 1_000e18, data);
     }
 
+    function testMissingPassportHookDataReverts() public {
+        uint256 windowId = _createWindow(
+            CapitalWindowRegistry.WindowMode.PrimaryConversion,
+            treasury,
+            10_000e18,
+            5_000e18,
+            1e18,
+            0,
+            0
+        );
+        registry.setInvestorLimit(windowId, investor, true, 5_000e18);
+
+        vm.prank(investor);
+        vm.expectRevert();
+        capitalRouter.swapExactInput(
+            key,
+            SwapParams({
+                zeroForOne: _paymentIsCurrency0(),
+                amountSpecified: -int256(1_000e18),
+                sqrtPriceLimitX96: _paymentIsCurrency0() ? MIN_PRICE_LIMIT : MAX_PRICE_LIMIT
+            }),
+            1_000e18,
+            investor,
+            ZERO_BYTES
+        );
+    }
+
+    function testGenericRouterWithCapitalPassportReverts() public {
+        uint256 windowId = _createWindow(
+            CapitalWindowRegistry.WindowMode.PrimaryConversion,
+            treasury,
+            10_000e18,
+            5_000e18,
+            1e18,
+            0,
+            0
+        );
+        registry.setInvestorLimit(windowId, investor, true, 5_000e18);
+
+        uint256 paymentAmount = 1_000e18;
+        (uint256 quoted,) = registry.quoteCompanyTokens(windowId, paymentAmount);
+        bytes memory data = _hookData(windowId, investor, paymentAmount, quoted, 14);
+
+        vm.prank(investor);
+        vm.expectRevert();
+        swapRouter.swap(
+            key,
+            SwapParams({
+                zeroForOne: _paymentIsCurrency0(),
+                amountSpecified: -int256(paymentAmount),
+                sqrtPriceLimitX96: _paymentIsCurrency0() ? MIN_PRICE_LIMIT : MAX_PRICE_LIMIT
+            }),
+            PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}),
+            data
+        );
+
+        assertEq(registry.windowFilled(windowId), 0, "generic router must not consume the capital window");
+        assertEq(companyToken.balanceOf(investor), 0, "generic router must not deliver company tokens");
+        assertEq(usdc.balanceOf(treasury), 0, "generic router must not route cash to treasury");
+    }
+
     function testInvalidSignatureReverts() public {
         uint256 windowId = _createWindow(
             CapitalWindowRegistry.WindowMode.PrimaryConversion,
@@ -275,6 +441,76 @@ contract CapitalWindowHookTest is Test, Deployers {
             investor,
             abi.encode(data)
         );
+    }
+
+    function testExpiredAuthorizationReverts() public {
+        uint256 windowId = _createWindow(
+            CapitalWindowRegistry.WindowMode.PrimaryConversion,
+            treasury,
+            10_000e18,
+            5_000e18,
+            1e18,
+            0,
+            0
+        );
+        registry.setInvestorLimit(windowId, investor, true, 5_000e18);
+
+        uint256 paymentAmount = 1_000e18;
+        (uint256 quoted,) = registry.quoteCompanyTokens(windowId, paymentAmount);
+        bytes memory data = _hookDataWithDeadline(windowId, investor, paymentAmount, quoted, block.timestamp - 1, 15);
+
+        vm.expectRevert();
+        _swapWithHookData(investor, paymentAmount, data);
+
+        assertEq(registry.windowFilled(windowId), 0, "expired authorization must not fill the window");
+        assertEq(companyToken.balanceOf(investor), 0, "expired authorization must not deliver company tokens");
+        assertEq(usdc.balanceOf(treasury), 0, "expired authorization must not route cash to treasury");
+    }
+
+    function testAuthorizationReplayReverts() public {
+        uint256 windowId = _createWindow(
+            CapitalWindowRegistry.WindowMode.PrimaryConversion,
+            treasury,
+            10_000e18,
+            5_000e18,
+            1e18,
+            0,
+            0
+        );
+        registry.setInvestorLimit(windowId, investor, true, 5_000e18);
+
+        uint256 paymentAmount = 1_000e18;
+        (uint256 quoted,) = registry.quoteCompanyTokens(windowId, paymentAmount);
+        bytes memory data = _hookData(windowId, investor, paymentAmount, quoted, 13);
+
+        _swapWithHookData(investor, paymentAmount, data);
+
+        vm.expectRevert();
+        _swapWithHookData(investor, paymentAmount, data);
+    }
+
+    function testMinimumOutputSlippageReverts() public {
+        uint256 windowId = _createWindow(
+            CapitalWindowRegistry.WindowMode.PrimaryConversion,
+            treasury,
+            10_000e18,
+            5_000e18,
+            1e18,
+            0,
+            0
+        );
+        registry.setInvestorLimit(windowId, investor, true, 5_000e18);
+
+        uint256 paymentAmount = 1_000e18;
+        (uint256 quoted,) = registry.quoteCompanyTokens(windowId, paymentAmount);
+        bytes memory data = _hookData(windowId, investor, paymentAmount, quoted + 1, 16);
+
+        vm.expectRevert();
+        _swapWithHookData(investor, paymentAmount, data);
+
+        assertEq(registry.windowFilled(windowId), 0, "slippage rejection must not fill the window");
+        assertEq(companyToken.balanceOf(investor), 0, "slippage rejection must not deliver company tokens");
+        assertEq(usdc.balanceOf(treasury), 0, "slippage rejection must not route cash to treasury");
     }
 
     function testExactOutputReverts() public {
@@ -365,6 +601,17 @@ contract CapitalWindowHookTest is Test, Deployers {
         uint256 nonce
     ) internal view returns (bytes memory) {
         uint256 deadline = block.timestamp + 1 hours;
+        return _hookDataWithDeadline(windowId, buyer, paymentAmount, minCompanyTokens, deadline, nonce);
+    }
+
+    function _hookDataWithDeadline(
+        uint256 windowId,
+        address buyer,
+        uint256 paymentAmount,
+        uint256 minCompanyTokens,
+        uint256 deadline,
+        uint256 nonce
+    ) internal view returns (bytes memory) {
         CapitalWindowHook.HookData memory data = CapitalWindowHook.HookData({
             windowId: windowId,
             investor: buyer,
@@ -391,6 +638,31 @@ contract CapitalWindowHookTest is Test, Deployers {
             paymentAmount,
             buyer,
             hookData
+        );
+    }
+
+    function _expectWindowEvents(
+        uint256 windowId,
+        address buyer,
+        CapitalWindowRegistry.WindowMode mode,
+        uint256 paymentAmount,
+        uint256 companyTokenAmount,
+        uint256 effectivePrice,
+        uint256 filledAfter
+    ) internal {
+        vm.expectEmit(true, true, true, true, address(registry));
+        emit WindowConsumed(windowId, buyer, mode, paymentAmount, companyTokenAmount, filledAfter);
+
+        vm.expectEmit(true, true, true, true, hookAddress);
+        emit CapitalWindowHookSwap(
+            key.toId(),
+            windowId,
+            buyer,
+            address(capitalRouter),
+            mode,
+            paymentAmount,
+            companyTokenAmount,
+            effectivePrice
         );
     }
 

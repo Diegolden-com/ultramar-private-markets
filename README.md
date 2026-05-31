@@ -7,6 +7,8 @@ Ultramar.capital is now a single public platform with two product lines:
 
 The public brand is **Ultramar.capital**. “Capital” is the platform layer, not a third sellable product.
 
+Hookathon judges should start with `HOOKATHON_README.md` for the Uniswap v4 Port of Call demo, local commands, and submission map.
+
 ## Canonical App
 
 | Workspace | Role | Public domain |

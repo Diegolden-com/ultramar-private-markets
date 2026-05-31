@@ -36,7 +36,7 @@ Implemented locally on May 28, 2026 in `apps/private-equities/contracts`:
 - `CapitalWindowRegistry`: schedules primary and secondary windows with caps, investor limits, signed authorization, and oracle freshness checks.
 - `CapitalWindowHook`: uses `beforeSwap` plus `beforeSwapReturnDelta` custom accounting to replace generic AMM execution with the windowed conversion curve.
 - `CapitalWindowRouter`: pre-settles exact-input investor payment into `PoolManager`, routes through the hook, and delivers company-token output to the approved recipient.
-- `CapitalWindowHook.t.sol`: tests primary conversion, secondary liquidity, outside-window rejection, total-cap rejection, per-investor-cap rejection, stale oracle rejection, unapproved investor rejection, invalid signature rejection, exact-output rejection, and unauthorized liquidity modification rejection.
+- `CapitalWindowHook.t.sol`: tests hook-address permission encoding, router-bound passport digests, primary conversion, secondary liquidity, audit-trail event emission, missing-passport rejection, generic-router bypass rejection, expired authorization rejection, authorization replay rejection, minimum-output slippage rejection, outside-window rejection, total-cap rejection, per-investor-cap rejection, stale oracle rejection, unapproved investor rejection, invalid signature rejection, exact-output rejection, and unauthorized liquidity modification rejection.
 
 This implementation is a hackathon demo and architecture proof. It is not audited, deployed, or available as production liquidity.
 
@@ -188,6 +188,7 @@ Responsibilities:
 - Public pool discoverability: even a blocked pool may signal a securities market. Do not initialize production pools before counsel approval.
 - Route bypass: assume users and aggregators may call v4 directly. The Hook and `AssetToken` must reject unauthorized flows.
 - Router ambiguity: `sender` may be the router, not the final investor. The architecture must verify end-beneficiary data through signed hook payloads and app-side routing.
+- Router-bound passports: authorization digests must include the approved router address so a valid signature for `CapitalWindowRouter` cannot be replayed through generic v4 routing.
 - Hook permission mistakes: because callback permissions are encoded in the deployed address, deployment scripts must verify the permission bitmap.
 - Flash-accounting assumptions: hook logic must not rely on stale transient deltas or unresolved balances.
 - Token-transfer edge cases: restricted ERC20 behavior must be tested with `PoolManager`, periphery contracts, LP mint/burn, swaps, refunds, and pauses.
