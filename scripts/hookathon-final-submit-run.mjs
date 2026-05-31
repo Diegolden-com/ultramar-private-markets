@@ -7,26 +7,91 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const artifactDir = resolve(repoRoot, "artifacts/hookathon");
 const reportPath = resolve(artifactDir, "final-submit-run-latest.md");
 const jsonPath = resolve(artifactDir, "final-submit-run-latest.json");
+const defaultEnvPath = resolve(artifactDir, "final-submit.env");
 const strict = process.argv.includes("--strict") || process.env.HOOKATHON_FINAL_SUBMIT_STRICT === "true";
+const explicitEnvFileArg = process.argv.find((arg) => arg.startsWith("--env-file="));
+const envPath = resolve(repoRoot, explicitEnvFileArg?.slice("--env-file=".length) || defaultEnvPath);
 
 const requiredPersonalEnv = [
   "HOOKATHON_SUBMITTER_EMAIL",
   "HOOKATHON_WORKED_WITH_TEAM",
   "HOOKATHON_COURSE_RATING",
 ];
-const rawTeam = process.env.HOOKATHON_WORKED_WITH_TEAM?.trim().toLowerCase() ?? "";
+
+function parseEnvFile(path) {
+  if (!existsSync(path)) return {};
+  const content = readFileSync(path, "utf8");
+  const values = {};
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const separator = line.indexOf("=");
+    if (separator === -1) continue;
+
+    const key = line.slice(0, separator).trim();
+    let value = line.slice(separator + 1).trim();
+    if (!/^HOOKATHON_[A-Z0-9_]+$/.test(key)) continue;
+
+    const quoted =
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"));
+    if (quoted) {
+      value = value.slice(1, -1);
+    }
+    values[key] = value.replaceAll("\\n", "\n");
+  }
+
+  return values;
+}
+
+function valueForEnv(name) {
+  return (process.env[name]?.trim() || privateEnv[name]?.trim() || "");
+}
+
+function writeEnvTemplate(path) {
+  if (existsSync(path)) return false;
+
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(
+    path,
+    `# Private Hookathon final-submit inputs. This file lives under artifacts/ and is ignored by git.
+# Fill these values, then run:
+# corepack yarn hookathon:submission:operator --strict
+
+HOOKATHON_SUBMITTER_EMAIL=
+HOOKATHON_WORKED_WITH_TEAM=
+HOOKATHON_COURSE_RATING=
+
+# Required only when HOOKATHON_WORKED_WITH_TEAM=Yes.
+HOOKATHON_TEAM_DETAILS=
+`,
+  );
+  return true;
+}
+
+const privateEnv = parseEnvFile(envPath);
+const envTemplateWritten = writeEnvTemplate(envPath);
+const operatorEnv = { ...process.env, ...privateEnv };
+for (const key of Object.keys(privateEnv)) {
+  if (process.env[key]?.trim()) {
+    operatorEnv[key] = process.env[key];
+  }
+}
+
+const rawTeam = valueForEnv("HOOKATHON_WORKED_WITH_TEAM").toLowerCase();
 const teamIsYes = ["yes", "y", "true", "1"].includes(rawTeam);
 const personalMissing = [
-  ...requiredPersonalEnv.filter((name) => !process.env[name]?.trim()),
-  ...(teamIsYes && !process.env.HOOKATHON_TEAM_DETAILS?.trim() ? ["HOOKATHON_TEAM_DETAILS"] : []),
+  ...requiredPersonalEnv.filter((name) => !valueForEnv(name)),
+  ...(teamIsYes && !valueForEnv("HOOKATHON_TEAM_DETAILS") ? ["HOOKATHON_TEAM_DETAILS"] : []),
 ];
-const hasAnyPersonalEnv = [...requiredPersonalEnv, "HOOKATHON_TEAM_DETAILS"].some((name) => process.env[name]?.trim());
+const hasAnyPersonalEnv = [...requiredPersonalEnv, "HOOKATHON_TEAM_DETAILS"].some((name) => valueForEnv(name));
 const canPersonalize = personalMissing.length === 0;
 
 function runStep(label, command, args, options = {}) {
   const result = spawnSync(command, args, {
     cwd: repoRoot,
-    env: process.env,
+    env: operatorEnv,
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -135,6 +200,10 @@ Generated: ${generatedAt}
 
 Strict mode: ${strict ? "yes" : "no"}
 
+Private env file: \`${envPath.replace(`${repoRoot}/`, "")}\`
+
+Private env template written: ${envTemplateWritten ? "yes" : "no"}
+
 ## Verdict
 
 ${verdict}
@@ -146,6 +215,8 @@ Local failures: ${localFailures.length}
 Personal inputs present: ${personalReady ? "yes" : "no"}
 
 Missing personal env: ${personalMissing.length > 0 ? personalMissing.join(", ") : "none"}
+
+Personal env source: ${Object.keys(privateEnv).length > 0 ? "private env file and shell env" : "shell env only"}
 
 Packet source: ${fillPlan?.packetSource ?? "unknown"}
 
@@ -170,7 +241,7 @@ ${strictFailures.length > 0 ? strictFailures.map((failure) => `- ${failure}`).jo
 ${
   readyForTallySubmit
     ? "Open the Tally form, copy fields from `artifacts/hookathon/tally-browser-session-latest.html`, submit, then record the receipt with `corepack yarn hookathon:submission:receipt`."
-    : "Set `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, and `HOOKATHON_COURSE_RATING`; if team is Yes, also set `HOOKATHON_TEAM_DETAILS`. Then rerun `corepack yarn hookathon:submission:operator --strict`."
+    : "Fill `artifacts/hookathon/final-submit.env` or set `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, and `HOOKATHON_COURSE_RATING`; if team is Yes, also set `HOOKATHON_TEAM_DETAILS`. Then rerun `corepack yarn hookathon:submission:operator --strict`."
 }
 
 ## Step Output Summary
@@ -190,6 +261,9 @@ writeFileSync(
       localFailures: localFailures.map((step) => step.label),
       personalReady,
       personalMissing,
+      envPath,
+      envTemplateWritten,
+      privateEnvKeys: Object.keys(privateEnv).sort(),
       packetSource: fillPlan?.packetSource ?? "unknown",
       sessionSubmitReady,
       steps,

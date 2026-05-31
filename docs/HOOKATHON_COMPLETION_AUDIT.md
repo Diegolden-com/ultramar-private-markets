@@ -35,7 +35,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Provide live Tally field map | Ready externally | `corepack yarn hookathon:tally:field-map` parses the current public Tally form, verifies the UHI8 Specialized Markets marker, maps required fields to `docs/HOOKATHON_TALLY_FINAL_PACKET.md`, and writes `artifacts/hookathon/tally-field-map-latest.md`. |
 | Provide Tally fill plan | Ready locally | `corepack yarn hookathon:tally:fill-plan` combines the live Tally field map with the public or private Tally packet, then writes exact field actions to `artifacts/hookathon/tally-fill-plan-latest.md`. |
 | Provide Tally browser-session pack | Ready locally | `corepack yarn hookathon:tally:session` turns the fill plan into ignored Markdown/HTML copy aids at `artifacts/hookathon/tally-browser-session-latest.*`. The HTML is submit-ready only after the private personalized packet removes personal placeholders. |
-| Provide final submit operator | Ready locally | `corepack yarn hookathon:submission:operator` refreshes public links, Tally field mapping, fill plan, browser session pack, preflight, and readiness, then writes ignored `artifacts/hookathon/final-submit-run-latest.md`. In `--strict` mode it requires personal env vars and a submit-ready session pack. |
+| Provide final submit operator | Ready locally | `corepack yarn hookathon:submission:operator` refreshes public links, Tally field mapping, fill plan, browser session pack, preflight, and readiness, then writes ignored `artifacts/hookathon/final-submit-run-latest.md`. In `--strict` mode it requires personal inputs from shell env or ignored `artifacts/hookathon/final-submit.env` and a submit-ready session pack. |
 | Provide readiness report | Ready locally | `corepack yarn hookathon:readiness` writes `artifacts/hookathon/submission-readiness-latest.md`, separating repo readiness from the personal fields and Tally confirmation evidence still required before the thread goal can be marked complete. |
 | Provide private personalized Tally packet | Ready locally | `corepack yarn hookathon:tally:personalize` validates submitter email, team status, course rating, and team details if team status is `Yes`, then writes `artifacts/hookathon/tally-final-personalized-latest.md` without committing personal data. Use `--check-only` to validate without writing. |
 | Provide post-submit Tally receipt | Ready locally / external pending | `corepack yarn hookathon:submission:receipt` validates Tally submitted-at time and confirmation evidence, then writes ignored `artifacts/hookathon/submission-receipt-latest.md` and `.json`. The artifact should be generated only after the official form accepts the submission. |
@@ -113,6 +113,8 @@ Final submit operator:
 ```bash
 corepack yarn hookathon:submission:operator
 ```
+
+The operator creates an ignored private input file at `artifacts/hookathon/final-submit.env` if it does not already exist.
 
 Submission readiness report:
 

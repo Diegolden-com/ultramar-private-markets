@@ -117,6 +117,12 @@ HOOKATHON_COURSE_RATING="5" \
 corepack yarn hookathon:submission:operator --strict
 ```
 
+Alternatively, fill the ignored private file generated at `artifacts/hookathon/final-submit.env`, then run:
+
+```bash
+corepack yarn hookathon:submission:operator --strict
+```
+
 Generate the final readiness report:
 
 ```bash

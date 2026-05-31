@@ -65,6 +65,15 @@ For the final personal-data run, set `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WOR
 corepack yarn hookathon:submission:operator --strict
 ```
 
+The operator also creates and reads an ignored private env file at `artifacts/hookathon/final-submit.env`. You can fill that file instead of exporting shell variables:
+
+```text
+HOOKATHON_SUBMITTER_EMAIL=
+HOOKATHON_WORKED_WITH_TEAM=
+HOOKATHON_COURSE_RATING=
+HOOKATHON_TEAM_DETAILS=
+```
+
 The strict operator run writes `artifacts/hookathon/final-submit-run-latest.md` and should say `Ready for Tally submit: yes` before pressing Submit in Tally.
 
 ## Links to keep open
