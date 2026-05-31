@@ -102,6 +102,21 @@ Generate the local browser-session pack for the final Tally copy/paste pass:
 corepack yarn hookathon:tally:session
 ```
 
+Run the final submit operator to refresh Tally/link checks and produce the private operator report:
+
+```bash
+corepack yarn hookathon:submission:operator
+```
+
+With personal inputs present, require the submit-ready path:
+
+```bash
+HOOKATHON_SUBMITTER_EMAIL="you@example.com" \
+HOOKATHON_WORKED_WITH_TEAM="No" \
+HOOKATHON_COURSE_RATING="5" \
+corepack yarn hookathon:submission:operator --strict
+```
+
 Generate the final readiness report:
 
 ```bash
@@ -170,6 +185,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Final Tally copy packet: `docs/HOOKATHON_TALLY_FINAL_PACKET.md`
 - Submission preflight report: `artifacts/hookathon/submission-preflight-latest.md`
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
+- Final submit operator report: `artifacts/hookathon/final-submit-run-latest.md`
 - Public link report: `artifacts/hookathon/public-links-latest.md`
 - Tally field map report: `artifacts/hookathon/tally-field-map-latest.md`
 - Tally fill plan: `artifacts/hookathon/tally-fill-plan-latest.md`
@@ -207,6 +223,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
+- Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Tally browser session script: `scripts/hookathon-tally-session-pack.mjs`

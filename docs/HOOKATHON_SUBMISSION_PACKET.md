@@ -164,6 +164,7 @@ Secondary angles:
 - Expose live Tally field mapping. Current command: `corepack yarn hookathon:tally:field-map`.
 - Expose live Tally fill planning. Current command: `corepack yarn hookathon:tally:fill-plan`.
 - Expose a local Tally browser-session pack for the final copy/paste pass. Current command: `corepack yarn hookathon:tally:session`, which writes ignored Markdown/HTML aids under `artifacts/hookathon/`.
+- Expose one final submit operator pass. Current command: `corepack yarn hookathon:submission:operator`, with `--strict` requiring personal env vars and a submit-ready browser session pack.
 - Expose private Tally personalization without committing personal data. Current command: `corepack yarn hookathon:tally:personalize` with `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, `HOOKATHON_COURSE_RATING`, and `HOOKATHON_TEAM_DETAILS` if team status is `Yes`.
 - Expose private post-submit receipt capture without committing personal data. Current command: `corepack yarn hookathon:submission:receipt` with `HOOKATHON_TALLY_SUBMITTED_AT`, `HOOKATHON_TALLY_CONFIRMATION`, optional `HOOKATHON_TALLY_EVIDENCE`, and optional `HOOKATHON_SUBMITTER_EMAIL`.
 - Expose one-command v4 testnet simulation. Current command: `corepack yarn hookathon:testnet:e2e`.
@@ -215,6 +216,7 @@ Secondary angles:
 - Optional testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Captioned video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
+- Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Tally browser session script: `scripts/hookathon-tally-session-pack.mjs`

@@ -14,6 +14,7 @@ corepack yarn hookathon:tally:field-map
 corepack yarn hookathon:tally:fill-plan
 corepack yarn hookathon:tally:session
 corepack yarn hookathon:submission:preflight
+corepack yarn hookathon:submission:operator
 corepack yarn hookathon:readiness
 ```
 
@@ -51,6 +52,20 @@ corepack yarn hookathon:tally:session
 ```
 
 Open `artifacts/hookathon/tally-browser-session-latest.html` alongside the Tally form. It is submit-ready only after the personal placeholders are replaced by the private personalized packet.
+
+To refresh every Tally-facing artifact in one pass before opening the form, run:
+
+```bash
+corepack yarn hookathon:submission:operator
+```
+
+For the final personal-data run, set `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, and `HOOKATHON_COURSE_RATING`; if team status is `Yes`, also set `HOOKATHON_TEAM_DETAILS`. Then run:
+
+```bash
+corepack yarn hookathon:submission:operator --strict
+```
+
+The strict operator run writes `artifacts/hookathon/final-submit-run-latest.md` and should say `Ready for Tally submit: yes` before pressing Submit in Tally.
 
 ## Links to keep open
 
