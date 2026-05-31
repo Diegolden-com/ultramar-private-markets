@@ -78,6 +78,12 @@ Run the submission preflight:
 corepack yarn hookathon:submission:preflight
 ```
 
+Verify the public links that will go into Tally:
+
+```bash
+corepack yarn hookathon:links:check
+```
+
 Run the final strict preflight after filling external Tally URLs/details:
 
 ```bash
@@ -110,6 +116,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Exact Tally answers: `docs/HOOKATHON_TALLY_SUBMISSION.md`
 - Submission preflight report: `artifacts/hookathon/submission-preflight-latest.md`
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
+- Public link report: `artifacts/hookathon/public-links-latest.md`
 - Public GitHub branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
 - Public demo route: `https://ultramar.capital/hookathon/port-of-call`
 - Public deck route: `https://ultramar.capital/hookathon/port-of-call/deck`
@@ -139,6 +146,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Testnet deploy script: `apps/private-equities/contracts/script/DeployCapitalWindowTestnet.s.sol`
 - Testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Video render script: `scripts/hookathon-render-video.mjs`
+- Public link check script: `scripts/hookathon-public-links-check.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Demo run-of-show: `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`

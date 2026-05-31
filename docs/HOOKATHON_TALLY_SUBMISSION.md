@@ -182,5 +182,6 @@ The most useful parts were the progression from v4 architecture into return-delt
 - Terminal video proof: `corepack yarn hookathon:video:proof`
 - Browser capture assets: `corepack yarn hookathon:capture:demo`
 - Captioned review cut: `corepack yarn hookathon:render:video`
+- Public link check: `corepack yarn hookathon:links:check`
 - Submission preflight: `corepack yarn hookathon:submission:preflight`
 - Strict final preflight: `corepack yarn hookathon:submission:preflight:strict`

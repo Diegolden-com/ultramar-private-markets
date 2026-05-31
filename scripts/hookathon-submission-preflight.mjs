@@ -30,6 +30,7 @@ const requiredFiles = [
   ["Video proof script", "scripts/hookathon-video-proof.mjs"],
   ["Browser capture script", "scripts/hookathon-capture-demo.mjs"],
   ["Video render script", "scripts/hookathon-render-video.mjs"],
+  ["Public link check script", "scripts/hookathon-public-links-check.mjs"],
 ];
 
 const requiredArtifacts = [
@@ -47,6 +48,7 @@ const requiredArtifacts = [
   ["Final captioned video", "artifacts/hookathon/video/final-demo-latest.webm"],
   ["Final captions", "artifacts/hookathon/video/final-demo-latest.vtt"],
   ["Final video manifest", "artifacts/hookathon/video/final-demo-manifest-latest.md"],
+  ["Public link report", "artifacts/hookathon/public-links-latest.md"],
 ];
 
 const requiredProofMarkers = [
@@ -250,7 +252,7 @@ ${exitFailures.length > 0 ? exitFailures.map((failure) => `- ${failure}`).join("
 
 ## Next External Steps
 
-1. Confirm the public GitHub branch, production frontend, and demo video links still resolve.
+1. Run \`corepack yarn hookathon:links:check\` right before Tally submission.
 2. Fill submitter email, team status, and course rating.
 3. Submit https://tally.so/r/VLV1pa.
 `;
