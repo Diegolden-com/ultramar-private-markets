@@ -18,6 +18,7 @@
     "hookathon:capture:demo": "node scripts/hookathon-capture-demo.mjs",
     "hookathon:render:video": "node scripts/hookathon-render-video.mjs",
     "hookathon:links:check": "node scripts/hookathon-public-links-check.mjs",
+    "hookathon:public:render:qa": "node scripts/hookathon-public-render-qa.mjs",
     "hookathon:privacy:check": "node scripts/hookathon-privacy-check.mjs",
     "hookathon:readiness": "node scripts/hookathon-readiness-report.mjs",
     "hookathon:submission:operator": "node scripts/hookathon-final-submit-run.mjs",

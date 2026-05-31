@@ -162,6 +162,7 @@ Secondary angles:
 - Expose one-command terminal proof for recording. Current command: `corepack yarn hookathon:video:proof`.
 - Expose one-command captioned WebM review cut for upload/editing. Current command: `corepack yarn hookathon:render:video`.
 - Expose one-command submission preflight. Current command: `corepack yarn hookathon:submission:preflight`.
+- Expose production browser render QA for the public demo and deck. Current command: `corepack yarn hookathon:public:render:qa`.
 - Expose strict final preflight after external URLs/details are filled. Current command: `corepack yarn hookathon:submission:preflight:strict`.
 - Expose privacy hygiene verification for private submitter artifacts. Current command: `corepack yarn hookathon:privacy:check`.
 - Expose live Tally field mapping. Current command: `corepack yarn hookathon:tally:field-map`.
@@ -221,6 +222,7 @@ Secondary angles:
 - Optional testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Captioned video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
+- Public render QA script: `scripts/hookathon-public-render-qa.mjs`
 - Privacy hygiene script: `scripts/hookathon-privacy-check.mjs`
 - Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`

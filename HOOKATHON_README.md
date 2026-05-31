@@ -90,6 +90,12 @@ Verify the public links that will go into Tally plus the public source basis:
 corepack yarn hookathon:links:check
 ```
 
+Verify that the public demo and deck render correctly in desktop/mobile browser viewports:
+
+```bash
+corepack yarn hookathon:public:render:qa
+```
+
 Verify that private submitter artifacts and receipts are ignored by git:
 
 ```bash
@@ -212,6 +218,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Final submit operator report: `artifacts/hookathon/final-submit-run-latest.md`
 - Public link report: `artifacts/hookathon/public-links-latest.md`
+- Public render QA report: `artifacts/hookathon/public-render-qa-latest.md`
 - Privacy hygiene report: `artifacts/hookathon/privacy-check-latest.md`
 - Tally field map report: `artifacts/hookathon/tally-field-map-latest.md`
 - Tally fill plan: `artifacts/hookathon/tally-fill-plan-latest.md`
@@ -250,6 +257,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
+- Public render QA script: `scripts/hookathon-public-render-qa.mjs`
 - Privacy hygiene script: `scripts/hookathon-privacy-check.mjs`
 - Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
