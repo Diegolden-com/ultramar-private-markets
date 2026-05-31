@@ -58,7 +58,7 @@ corepack yarn hookathon:tally:session:qa
 
 Open `artifacts/hookathon/tally-browser-session-latest.html` alongside the Tally form. It is submit-ready only after the personal placeholders are replaced by the private personalized packet.
 
-To refresh every Tally-facing artifact in one pass before opening the form, run:
+To refresh every Tally-facing artifact in one pass before opening the form, including the private handoff, run:
 
 ```bash
 corepack yarn hookathon:submission:operator
@@ -81,7 +81,7 @@ HOOKATHON_TEAM_DETAILS=
 
 The strict operator run writes `artifacts/hookathon/final-submit-run-latest.md` and should say `Ready for Tally submit: yes` before pressing Submit in Tally.
 
-For a one-page private handoff after the operator run, generate:
+The operator also regenerates the one-page private handoff. To generate only the handoff after an operator run:
 
 ```bash
 corepack yarn hookathon:submission:handoff

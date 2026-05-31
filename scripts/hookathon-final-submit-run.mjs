@@ -252,25 +252,49 @@ ${
 ${steps.map((step) => `### ${step.label}\n\n${summarizeOutput(step)}`).join("\n\n")}
 `;
 
+const jsonPayload = {
+  generatedAt,
+  strict,
+  readyForTallySubmit,
+  localFailures: localFailures.map((step) => step.label),
+  personalReady,
+  personalMissing,
+  envPath,
+  envTemplateWritten,
+  privateEnvKeys: Object.keys(privateEnv).sort(),
+  packetSource: fillPlan?.packetSource ?? "unknown",
+  sessionSubmitReady,
+  steps,
+  strictFailures,
+};
+
 mkdirSync(artifactDir, { recursive: true });
 writeFileSync(reportPath, report);
+writeFileSync(jsonPath, JSON.stringify(jsonPayload, null, 2));
+
+const handoffStep = runStep("Final submit handoff", "node", ["scripts/hookathon-submission-handoff.mjs"]);
+const handoffFailures = handoffStep.failed ? ["Final submit handoff failed"] : [];
+const reportWithHandoff = `${report}
+
+## Final Handoff
+
+| Status | Step | Command | Exit | Note |
+| --- | --- | --- | ---: | --- |
+${stepRow(handoffStep)}
+
+### Final submit handoff
+
+${summarizeOutput(handoffStep)}
+`;
+
+writeFileSync(reportPath, reportWithHandoff);
 writeFileSync(
   jsonPath,
   JSON.stringify(
     {
-      generatedAt,
-      strict,
-      readyForTallySubmit,
-      localFailures: localFailures.map((step) => step.label),
-      personalReady,
-      personalMissing,
-      envPath,
-      envTemplateWritten,
-      privateEnvKeys: Object.keys(privateEnv).sort(),
-      packetSource: fillPlan?.packetSource ?? "unknown",
-      sessionSubmitReady,
-      steps,
-      strictFailures,
+      ...jsonPayload,
+      handoff: handoffStep,
+      handoffFailures,
     },
     null,
     2,
@@ -280,6 +304,6 @@ writeFileSync(
 console.log(`Hookathon final submit operator: ${readyForTallySubmit ? "ready to submit" : "needs personal input"}`);
 console.log(reportPath);
 
-if (localFailures.length > 0 || strictFailures.length > 0) {
+if (localFailures.length > 0 || strictFailures.length > 0 || handoffFailures.length > 0) {
   process.exitCode = 1;
 }

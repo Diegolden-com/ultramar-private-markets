@@ -126,7 +126,7 @@ Run visual QA on the local browser-session pack:
 corepack yarn hookathon:tally:session:qa
 ```
 
-Run the final submit operator to refresh Tally/link checks and produce the private operator report:
+Run the final submit operator to refresh Tally/link checks and produce the private operator report plus handoff:
 
 ```bash
 corepack yarn hookathon:submission:operator
