@@ -54,6 +54,7 @@ const strictPreflight = safeRead("artifacts/hookathon/submission-preflight-stric
 const publicLinks = safeRead("artifacts/hookathon/public-links-latest.md");
 const tallyFieldMap = safeRead("artifacts/hookathon/tally-field-map-latest.md");
 const tallyFillPlan = safeRead("artifacts/hookathon/tally-fill-plan-latest.md");
+const tallyBrowserSession = safeRead("artifacts/hookathon/tally-browser-session-latest.md");
 const privatePacket = safeRead("artifacts/hookathon/tally-final-personalized-latest.md");
 const submissionReceipt = safeRead("artifacts/hookathon/submission-receipt-latest.md");
 const submissionReceiptJson = safeRead("artifacts/hookathon/submission-receipt-latest.json");
@@ -126,6 +127,9 @@ const publicLinksReady = publicLinks.includes("All public submission links resol
 const tallyFieldMapReady =
   tallyFieldMap.includes("Current Tally fields match the final copy packet.") && lineValue(tallyFieldMap, "Failures") === "0";
 const tallyFillPlanReady = tallyFillPlan.includes("Fill plan is ready.") && lineValue(tallyFillPlan, "Failures") === "0";
+const tallyBrowserSessionReady =
+  tallyBrowserSession.includes("# Hookathon Tally browser session pack") &&
+  lineValue(tallyBrowserSession, "Failures") === "0";
 const finalPacketReady =
   tallyPacket.includes("## Copy Order") &&
   tallyPacket.includes("https://ultramar.capital/hookathon/port-of-call") &&
@@ -148,6 +152,7 @@ const checklist = [
   reportStatus("Public links", publicLinksReady, "`artifacts/hookathon/public-links-latest.md`"),
   reportStatus("Live Tally field map", tallyFieldMapReady, "`artifacts/hookathon/tally-field-map-latest.md`"),
   reportStatus("Tally fill plan", tallyFillPlanReady, "`artifacts/hookathon/tally-fill-plan-latest.md`"),
+  reportStatus("Tally browser session pack", tallyBrowserSessionReady, "`artifacts/hookathon/tally-browser-session-latest.html`"),
   reportStatus("Final Tally copy packet", finalPacketReady, "`docs/HOOKATHON_TALLY_FINAL_PACKET.md`"),
   reportStatus(
     "Private personalized Tally packet",
@@ -175,6 +180,7 @@ const readyForSubmitterInput =
   publicLinksReady &&
   tallyFieldMapReady &&
   tallyFillPlanReady &&
+  tallyBrowserSessionReady &&
   finalPacketReady &&
   submissionReceiptSane &&
   placeholdersExpectedOnly &&
@@ -215,10 +221,11 @@ ${[
 ## Submitter Action
 
 1. Generate \`artifacts/hookathon/tally-final-personalized-latest.md\` with \`corepack yarn hookathon:tally:personalize\`, or fill \`[submitter email]\`, \`[Yes/No]\`, and \`[1-5]\` in the tracked Tally docs.
-2. If tracked docs are filled directly, run \`corepack yarn hookathon:submission:preflight:strict\`.
-3. Open \`https://tally.so/r/VLV1pa\` and copy fields from the personalized packet or \`docs/HOOKATHON_TALLY_FINAL_PACKET.md\`.
-4. After Tally confirms submission, record the private receipt with \`corepack yarn hookathon:submission:receipt\`.
-5. Rerun \`corepack yarn hookathon:readiness\` and use the receipt artifact as completion evidence.
+2. Generate \`artifacts/hookathon/tally-browser-session-latest.html\` with \`corepack yarn hookathon:tally:session\`.
+3. If tracked docs are filled directly, run \`corepack yarn hookathon:submission:preflight:strict\`.
+4. Open \`https://tally.so/r/VLV1pa\` and copy fields from the personalized packet or browser session pack.
+5. After Tally confirms submission, record the private receipt with \`corepack yarn hookathon:submission:receipt\`.
+6. Rerun \`corepack yarn hookathon:readiness\` and use the receipt artifact as completion evidence.
 
 ## Current Git Status
 

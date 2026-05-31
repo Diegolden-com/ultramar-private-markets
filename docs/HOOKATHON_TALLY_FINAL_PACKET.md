@@ -12,6 +12,7 @@ Run these from the monorepo root immediately before opening Tally:
 corepack yarn hookathon:links:check
 corepack yarn hookathon:tally:field-map
 corepack yarn hookathon:tally:fill-plan
+corepack yarn hookathon:tally:session
 corepack yarn hookathon:submission:preflight
 corepack yarn hookathon:readiness
 ```
@@ -42,6 +43,14 @@ Use `artifacts/hookathon/tally-final-personalized-latest.md` for the final brows
 ```bash
 corepack yarn hookathon:submission:preflight:strict
 ```
+
+For a copy-button browser aid, generate and open the ignored local session pack:
+
+```bash
+corepack yarn hookathon:tally:session
+```
+
+Open `artifacts/hookathon/tally-browser-session-latest.html` alongside the Tally form. It is submit-ready only after the personal placeholders are replaced by the private personalized packet.
 
 ## Links to keep open
 
