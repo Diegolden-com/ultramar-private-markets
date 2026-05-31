@@ -49,6 +49,14 @@ function statusLine(ok) {
   return ok ? "ready" : "pending";
 }
 
+function gitSyncStatus(status) {
+  const header = status.split("\n")[0] ?? "";
+  if (/\[ahead \d+, behind \d+\]/.test(header)) return "diverged";
+  if (/\[ahead \d+\]/.test(header)) return "ahead of origin; push before submitting";
+  if (/\[behind \d+\]/.test(header)) return "behind origin; pull/rebase before submitting";
+  return "synced with origin";
+}
+
 const generatedAt = new Date().toISOString();
 const branchStatus = run("git", ["status", "--short", "--branch"]);
 const branch = run("git", ["branch", "--show-current"]);
@@ -62,6 +70,7 @@ const cleanWorktree = !branchStatus
   .split("\n")
   .slice(1)
   .some((line) => line.trim().length > 0);
+const syncStatus = gitSyncStatus(branchStatus);
 const localFailures = Array.isArray(finalSubmit?.localFailures) ? finalSubmit.localFailures : [];
 const personalMissing = Array.isArray(finalSubmit?.personalMissing)
   ? finalSubmit.personalMissing
@@ -80,6 +89,7 @@ const handoff = {
   branch,
   head,
   cleanWorktree,
+  syncStatus,
   readyForSubmitterInput,
   readyForTallySubmit,
   localFailures,
@@ -102,6 +112,7 @@ Privacy note: this handoff intentionally does not include submitter email, cours
 - Branch: \`${branch}\`
 - HEAD: \`${head}\`
 - Git worktree: ${cleanWorktree ? "clean" : "not clean"}
+- Git upstream: ${syncStatus}
 - Local operator failures: ${localFailures.length}
 - Ready for submitter inputs: ${readyForSubmitterInput ? "yes" : "no"}
 - Ready for Tally submit now: ${readyForTallySubmit ? "yes" : "no"}
