@@ -32,6 +32,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Provide captioned review cut | Ready externally | `corepack yarn hookathon:render:video` renders `artifacts/hookathon/video/final-demo-latest.webm`, captions, and a manifest from the browser frames and terminal proof; the rendered WebM and VTT are uploaded to the public GitHub release. |
 | Provide submission preflight | Ready locally | `corepack yarn hookathon:submission:preflight` verifies required repo files, generated artifacts, proof markers, video manifest, and known external Tally placeholders. |
 | Provide public-link preflight | Ready externally | `corepack yarn hookathon:links:check` verifies the Tally form, public GitHub branch, raw Tally copy, production demo, production deck, video asset, captions asset, and release page, then writes `artifacts/hookathon/public-links-latest.md`. |
+| Provide readiness report | Ready locally | `corepack yarn hookathon:readiness` writes `artifacts/hookathon/submission-readiness-latest.md`, separating repo readiness from the personal fields and Tally confirmation evidence still required before the thread goal can be marked complete. |
 | Keep non-offer/compliance boundary clear | Ready | `HOOKATHON_README.md`, `docs/HOOKATHON_SUBMISSION_FORM.md`, and the demo route use sandbox/non-offer framing. |
 | Public GitHub branch | Ready externally after push | `gh repo view Diegolden-com/ultramar-private-markets --json visibility,url` returned `visibility: PUBLIC` and `https://github.com/Diegolden-com/ultramar-private-markets` on May 31, 2026. The Tally copy points judges to `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui` so they inspect the Hookathon package before it is merged to the default branch. |
 | Public frontend deployment | Ready externally | Production routes verified live on May 31, 2026: `https://ultramar.capital/hookathon/port-of-call` and `https://ultramar.capital/hookathon/port-of-call/deck` returned HTTP 200 with the expected Hookathon and deck content. |
@@ -81,6 +82,12 @@ Public link preflight:
 
 ```bash
 corepack yarn hookathon:links:check
+```
+
+Submission readiness report:
+
+```bash
+corepack yarn hookathon:readiness
 ```
 
 Strict final preflight after filling external Tally details:

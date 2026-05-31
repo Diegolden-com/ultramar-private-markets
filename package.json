@@ -18,6 +18,7 @@
     "hookathon:capture:demo": "node scripts/hookathon-capture-demo.mjs",
     "hookathon:render:video": "node scripts/hookathon-render-video.mjs",
     "hookathon:links:check": "node scripts/hookathon-public-links-check.mjs",
+    "hookathon:readiness": "node scripts/hookathon-readiness-report.mjs",
     "hookathon:submission:preflight": "node scripts/hookathon-submission-preflight.mjs",
     "hookathon:submission:preflight:strict": "node scripts/hookathon-submission-preflight.mjs --strict-external",
     "hookathon:video:proof": "node scripts/hookathon-video-proof.mjs",

@@ -11,6 +11,7 @@ Run these from the monorepo root immediately before opening Tally:
 ```bash
 corepack yarn hookathon:links:check
 corepack yarn hookathon:submission:preflight
+corepack yarn hookathon:readiness
 ```
 
 Do not submit while these placeholders remain:
