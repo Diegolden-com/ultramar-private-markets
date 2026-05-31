@@ -149,6 +149,7 @@ const steps = [];
 
 steps.push(runStep("Public links", "corepack", ["yarn", "hookathon:links:check"]));
 steps.push(runStep("Live Tally field map", "corepack", ["yarn", "hookathon:tally:field-map"]));
+steps.push(runStep("Privacy hygiene", "corepack", ["yarn", "hookathon:privacy:check"]));
 
 if (canPersonalize) {
   steps.push(runStep("Private Tally personalization", "corepack", ["yarn", "hookathon:tally:personalize"]));

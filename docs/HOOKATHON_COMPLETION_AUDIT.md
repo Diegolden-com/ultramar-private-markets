@@ -32,6 +32,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Provide captioned review cut | Ready externally | `corepack yarn hookathon:render:video` renders `artifacts/hookathon/video/final-demo-latest.webm`, captions, and a manifest from the browser frames and terminal proof; the rendered WebM and VTT are uploaded to the public GitHub release. |
 | Provide submission preflight | Ready locally | `corepack yarn hookathon:submission:preflight` verifies required repo files, generated artifacts, proof markers, video manifest, and known external Tally placeholders. |
 | Provide public-link preflight | Ready externally | `corepack yarn hookathon:links:check` verifies the Tally form, public GitHub branch, raw Tally copy, production demo, production deck, video asset, captions asset, release page, Uniswap v4 whitepaper, public Atrium course page, and v4 docs sources, then writes `artifacts/hookathon/public-links-latest.md`. |
+| Provide privacy hygiene check | Ready locally | `corepack yarn hookathon:privacy:check` verifies that private submitter inputs, personalized packets, browser-session artifacts, and Tally receipts are ignored by git and not tracked. |
 | Provide live Tally field map | Ready externally | `corepack yarn hookathon:tally:field-map` parses the current public Tally form, verifies the UHI8 Specialized Markets marker, maps required fields to `docs/HOOKATHON_TALLY_FINAL_PACKET.md`, and writes `artifacts/hookathon/tally-field-map-latest.md`. |
 | Provide Tally fill plan | Ready locally | `corepack yarn hookathon:tally:fill-plan` combines the live Tally field map with the public or private Tally packet, then writes exact field actions to `artifacts/hookathon/tally-fill-plan-latest.md`. |
 | Provide Tally browser-session pack | Ready locally | `corepack yarn hookathon:tally:session` turns the fill plan into ignored Markdown/HTML copy aids at `artifacts/hookathon/tally-browser-session-latest.*`. The HTML is submit-ready only after the private personalized packet removes personal placeholders. |
@@ -89,6 +90,12 @@ Public link preflight:
 
 ```bash
 corepack yarn hookathon:links:check
+```
+
+Privacy hygiene check:
+
+```bash
+corepack yarn hookathon:privacy:check
 ```
 
 Live Tally field map:

@@ -10,6 +10,7 @@ Run these from the monorepo root immediately before opening Tally:
 
 ```bash
 corepack yarn hookathon:links:check
+corepack yarn hookathon:privacy:check
 corepack yarn hookathon:tally:field-map
 corepack yarn hookathon:tally:fill-plan
 corepack yarn hookathon:tally:session
