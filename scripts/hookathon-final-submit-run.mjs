@@ -150,6 +150,7 @@ const steps = [];
 steps.push(runStep("Public links", "corepack", ["yarn", "hookathon:links:check"]));
 steps.push(runStep("Public render QA", "corepack", ["yarn", "hookathon:public:render:qa"]));
 steps.push(runStep("Live Tally field map", "corepack", ["yarn", "hookathon:tally:field-map"]));
+steps.push(runStep("Live Tally render QA", "corepack", ["yarn", "hookathon:tally:live:qa"]));
 steps.push(runStep("Privacy hygiene", "corepack", ["yarn", "hookathon:privacy:check"]));
 
 if (canPersonalize) {

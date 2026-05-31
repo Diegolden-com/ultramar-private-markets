@@ -65,6 +65,7 @@ const finalSubmit = safeReadJson("artifacts/hookathon/final-submit-run-latest.js
 const readiness = safeRead("artifacts/hookathon/submission-readiness-latest.md");
 const publicRenderQa = safeRead("artifacts/hookathon/public-render-qa-latest.md");
 const publicLinksReport = safeRead("artifacts/hookathon/public-links-latest.md");
+const tallyLiveQa = safeRead("artifacts/hookathon/tally-live-qa-latest.md");
 const session = safeReadJson("artifacts/hookathon/tally-browser-session-latest.json");
 const cleanWorktree = !branchStatus
   .split("\n")
@@ -81,6 +82,9 @@ const publicRenderReady =
   publicRenderQa.includes("Production demo and deck render correctly in browser viewports.") &&
   lineValue(publicRenderQa, "Failures") === "0";
 const publicLinksReady = publicLinksReport.includes("All public submission links resolve.") && lineValue(publicLinksReport, "Failures") === "0";
+const tallyLiveQaReady =
+  tallyLiveQa.includes("The public Tally form renders and appears open for submission.") &&
+  lineValue(tallyLiveQa, "Failures") === "0";
 const sessionPackReady = existsSync(resolve(artifactDir, "tally-browser-session-latest.html"));
 const sessionSubmitReady = Boolean(session?.submitReady);
 
@@ -96,6 +100,7 @@ const handoff = {
   personalMissing,
   publicLinksReady,
   publicRenderReady,
+  tallyLiveQaReady,
   sessionPackReady,
   sessionSubmitReady,
   publicLinks,
@@ -118,6 +123,7 @@ Privacy note: this handoff intentionally does not include submitter email, cours
 - Ready for Tally submit now: ${readyForTallySubmit ? "yes" : "no"}
 - Public links: ${statusLine(publicLinksReady)}
 - Public render QA: ${statusLine(publicRenderReady)}
+- Tally live QA: ${statusLine(tallyLiveQaReady)}
 - Browser session pack exists: ${sessionPackReady ? "yes" : "no"}
 - Browser session submit-ready: ${sessionSubmitReady ? "yes" : "no"}
 

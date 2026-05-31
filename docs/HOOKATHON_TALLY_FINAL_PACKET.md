@@ -13,6 +13,7 @@ corepack yarn hookathon:links:check
 corepack yarn hookathon:public:render:qa
 corepack yarn hookathon:privacy:check
 corepack yarn hookathon:tally:field-map
+corepack yarn hookathon:tally:live:qa
 corepack yarn hookathon:tally:fill-plan
 corepack yarn hookathon:tally:session
 corepack yarn hookathon:tally:session:qa

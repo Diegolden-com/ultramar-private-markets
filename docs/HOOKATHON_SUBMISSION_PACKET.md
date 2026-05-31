@@ -166,6 +166,7 @@ Secondary angles:
 - Expose strict final preflight after external URLs/details are filled. Current command: `corepack yarn hookathon:submission:preflight:strict`.
 - Expose privacy hygiene verification for private submitter artifacts. Current command: `corepack yarn hookathon:privacy:check`.
 - Expose live Tally field mapping. Current command: `corepack yarn hookathon:tally:field-map`.
+- Expose live Tally browser QA. Current command: `corepack yarn hookathon:tally:live:qa`, which verifies that the official form renders and appears open.
 - Expose live Tally fill planning. Current command: `corepack yarn hookathon:tally:fill-plan`.
 - Expose a local Tally browser-session pack for the final copy/paste pass. Current command: `corepack yarn hookathon:tally:session`, which writes ignored Markdown/HTML aids under `artifacts/hookathon/`.
 - Expose visual QA for the local Tally browser-session pack. Current command: `corepack yarn hookathon:tally:session:qa`, which writes ignored desktop/mobile screenshots and a QA report under `artifacts/hookathon/`.
@@ -228,6 +229,7 @@ Secondary angles:
 - Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
 - Final handoff script: `scripts/hookathon-submission-handoff.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
+- Tally live QA script: `scripts/hookathon-tally-live-qa.mjs`
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Tally browser session script: `scripts/hookathon-tally-session-pack.mjs`
 - Tally browser session QA script: `scripts/hookathon-tally-session-qa.mjs`

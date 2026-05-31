@@ -108,6 +108,12 @@ Verify that the current Tally form fields still match the final copy packet:
 corepack yarn hookathon:tally:field-map
 ```
 
+Verify that the public Tally form renders in browser viewports and appears open:
+
+```bash
+corepack yarn hookathon:tally:live:qa
+```
+
 Generate the Tally fill plan from the live field map:
 
 ```bash
@@ -228,6 +234,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Public render QA report: `artifacts/hookathon/public-render-qa-latest.md`
 - Privacy hygiene report: `artifacts/hookathon/privacy-check-latest.md`
 - Tally field map report: `artifacts/hookathon/tally-field-map-latest.md`
+- Tally live QA report: `artifacts/hookathon/tally-live-qa-latest.md`
 - Tally fill plan: `artifacts/hookathon/tally-fill-plan-latest.md`
 - Tally browser session pack: `artifacts/hookathon/tally-browser-session-latest.html`
 - Tally browser session QA: `artifacts/hookathon/tally-browser-session-qa-latest.md`
@@ -269,6 +276,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
 - Final handoff script: `scripts/hookathon-submission-handoff.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
+- Tally live QA script: `scripts/hookathon-tally-live-qa.mjs`
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Tally browser session script: `scripts/hookathon-tally-session-pack.mjs`
 - Tally browser session QA script: `scripts/hookathon-tally-session-qa.mjs`

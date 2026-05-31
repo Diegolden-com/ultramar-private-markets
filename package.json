@@ -28,6 +28,7 @@
     "hookathon:submission:receipt": "node scripts/hookathon-submission-receipt.mjs",
     "hookathon:tally:field-map": "node scripts/hookathon-tally-field-map.mjs",
     "hookathon:tally:fill-plan": "node scripts/hookathon-tally-fill-plan.mjs",
+    "hookathon:tally:live:qa": "node scripts/hookathon-tally-live-qa.mjs",
     "hookathon:tally:personalize": "node scripts/hookathon-personalize-tally.mjs",
     "hookathon:tally:session:qa": "node scripts/hookathon-tally-session-qa.mjs",
     "hookathon:tally:session": "node scripts/hookathon-tally-session-pack.mjs",

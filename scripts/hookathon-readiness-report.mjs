@@ -55,6 +55,7 @@ const publicLinks = safeRead("artifacts/hookathon/public-links-latest.md");
 const publicRenderQa = safeRead("artifacts/hookathon/public-render-qa-latest.md");
 const privacy = safeRead("artifacts/hookathon/privacy-check-latest.md");
 const tallyFieldMap = safeRead("artifacts/hookathon/tally-field-map-latest.md");
+const tallyLiveQa = safeRead("artifacts/hookathon/tally-live-qa-latest.md");
 const tallyFillPlan = safeRead("artifacts/hookathon/tally-fill-plan-latest.md");
 const tallyBrowserSession = safeRead("artifacts/hookathon/tally-browser-session-latest.md");
 const privatePacket = safeRead("artifacts/hookathon/tally-final-personalized-latest.md");
@@ -132,6 +133,9 @@ const publicRenderQaReady =
 const privacyReady = privacy.includes("No private Hookathon submitter data is tracked.") && lineValue(privacy, "Failures") === "0";
 const tallyFieldMapReady =
   tallyFieldMap.includes("Current Tally fields match the final copy packet.") && lineValue(tallyFieldMap, "Failures") === "0";
+const tallyLiveQaReady =
+  tallyLiveQa.includes("The public Tally form renders and appears open for submission.") &&
+  lineValue(tallyLiveQa, "Failures") === "0";
 const tallyFillPlanReady = tallyFillPlan.includes("Fill plan is ready.") && lineValue(tallyFillPlan, "Failures") === "0";
 const tallyBrowserSessionReady =
   tallyBrowserSession.includes("# Hookathon Tally browser session pack") &&
@@ -159,6 +163,7 @@ const checklist = [
   reportStatus("Public render QA", publicRenderQaReady, "`artifacts/hookathon/public-render-qa-latest.md`"),
   reportStatus("Privacy hygiene", privacyReady, "`artifacts/hookathon/privacy-check-latest.md`"),
   reportStatus("Live Tally field map", tallyFieldMapReady, "`artifacts/hookathon/tally-field-map-latest.md`"),
+  reportStatus("Live Tally render QA", tallyLiveQaReady, "`artifacts/hookathon/tally-live-qa-latest.md`"),
   reportStatus("Tally fill plan", tallyFillPlanReady, "`artifacts/hookathon/tally-fill-plan-latest.md`"),
   reportStatus("Tally browser session pack", tallyBrowserSessionReady, "`artifacts/hookathon/tally-browser-session-latest.html`"),
   reportStatus("Final Tally copy packet", finalPacketReady, "`docs/HOOKATHON_TALLY_FINAL_PACKET.md`"),
@@ -189,6 +194,7 @@ const readyForSubmitterInput =
   publicRenderQaReady &&
   privacyReady &&
   tallyFieldMapReady &&
+  tallyLiveQaReady &&
   tallyFillPlanReady &&
   tallyBrowserSessionReady &&
   finalPacketReady &&
