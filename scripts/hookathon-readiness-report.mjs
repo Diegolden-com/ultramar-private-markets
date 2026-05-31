@@ -52,6 +52,7 @@ const tallyPacket = safeRead("docs/HOOKATHON_TALLY_FINAL_PACKET.md");
 const preflight = safeRead("artifacts/hookathon/submission-preflight-latest.md");
 const strictPreflight = safeRead("artifacts/hookathon/submission-preflight-strict-latest.md");
 const publicLinks = safeRead("artifacts/hookathon/public-links-latest.md");
+const privatePacket = safeRead("artifacts/hookathon/tally-final-personalized-latest.md");
 const placeholders = collectPlaceholders();
 const unexpectedPlaceholders = placeholders.filter((placeholder) => !expectedExternalPlaceholders.includes(placeholder));
 const missingExpectedPlaceholders = expectedExternalPlaceholders.filter((placeholder) => !placeholders.includes(placeholder));
@@ -69,6 +70,10 @@ const finalPacketReady =
   tallyPacket.includes("## Copy Order") &&
   tallyPacket.includes("https://ultramar.capital/hookathon/port-of-call") &&
   tallyPacket.includes("https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm");
+const privatePacketReady =
+  privatePacket.includes("# Personalized Hookathon Tally packet") &&
+  privatePacket.includes("Privacy note:") &&
+  !/\[[^\]\n]+\]/.test(privatePacket);
 const placeholdersExpectedOnly = unexpectedPlaceholders.length === 0 && missingExpectedPlaceholders.length === 0;
 const strictBlockedOnlyByPersonalFields =
   strictFailures.length === expectedExternalPlaceholders.length &&
@@ -79,6 +84,13 @@ const checklist = [
   reportStatus("Local submission preflight", preflightReady, "`artifacts/hookathon/submission-preflight-latest.md`"),
   reportStatus("Public links", publicLinksReady, "`artifacts/hookathon/public-links-latest.md`"),
   reportStatus("Final Tally copy packet", finalPacketReady, "`docs/HOOKATHON_TALLY_FINAL_PACKET.md`"),
+  reportStatus(
+    "Private personalized Tally packet",
+    privatePacketReady,
+    privatePacketReady
+      ? "`artifacts/hookathon/tally-final-personalized-latest.md`"
+      : "optional; generate with `corepack yarn hookathon:tally:personalize`",
+  ),
   reportStatus(
     "Known placeholders only",
     placeholdersExpectedOnly,
@@ -117,13 +129,13 @@ ${checklist.join("\n")}
 
 ## Remaining Inputs
 
-${placeholders.length > 0 ? placeholders.map((placeholder) => `- ${placeholder}`).join("\n") : "- None"}
+${privatePacketReady ? "- None in the private personalized packet. Public tracked docs intentionally retain placeholders." : placeholders.length > 0 ? placeholders.map((placeholder) => `- ${placeholder}`).join("\n") : "- None"}
 
 ## Submitter Action
 
-1. Fill \`[submitter email]\`, \`[Yes/No]\`, and \`[1-5]\` in \`docs/HOOKATHON_TALLY_SUBMISSION.md\` and \`docs/HOOKATHON_TALLY_FINAL_PACKET.md\`.
-2. Run \`corepack yarn hookathon:submission:preflight:strict\`.
-3. Open \`https://tally.so/r/VLV1pa\` and copy fields from \`docs/HOOKATHON_TALLY_FINAL_PACKET.md\`.
+1. Generate \`artifacts/hookathon/tally-final-personalized-latest.md\` with \`corepack yarn hookathon:tally:personalize\`, or fill \`[submitter email]\`, \`[Yes/No]\`, and \`[1-5]\` in the tracked Tally docs.
+2. If tracked docs are filled directly, run \`corepack yarn hookathon:submission:preflight:strict\`.
+3. Open \`https://tally.so/r/VLV1pa\` and copy fields from the personalized packet or \`docs/HOOKATHON_TALLY_FINAL_PACKET.md\`.
 4. After Tally confirms submission, record confirmation evidence in \`docs/HOOKATHON_COMPLETION_AUDIT.md\`.
 
 ## Current Git Status

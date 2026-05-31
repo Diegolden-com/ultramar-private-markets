@@ -161,6 +161,7 @@ Secondary angles:
 - Expose one-command captioned WebM review cut for upload/editing. Current command: `corepack yarn hookathon:render:video`.
 - Expose one-command submission preflight. Current command: `corepack yarn hookathon:submission:preflight`.
 - Expose strict final preflight after external URLs/details are filled. Current command: `corepack yarn hookathon:submission:preflight:strict`.
+- Expose private Tally personalization without committing personal data. Current command: `corepack yarn hookathon:tally:personalize` with `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, and `HOOKATHON_COURSE_RATING`.
 - Expose one-command v4 testnet simulation. Current command: `corepack yarn hookathon:testnet:e2e`.
 - Keep every user-facing statement clearly sandbox/testnet and non-offer.
 
@@ -210,6 +211,8 @@ Secondary angles:
 - Optional testnet swap script: `apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol`
 - Captioned video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
+- Submission readiness script: `scripts/hookathon-readiness-report.mjs`
+- Private Tally personalization script: `scripts/hookathon-personalize-tally.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Demo runbook: `apps/private-equities/contracts/README.md`

@@ -90,6 +90,24 @@ Generate the final readiness report:
 corepack yarn hookathon:readiness
 ```
 
+Generate the private, personalized Tally copy packet without committing personal data:
+
+```bash
+HOOKATHON_SUBMITTER_EMAIL="you@example.com" \
+HOOKATHON_WORKED_WITH_TEAM="No" \
+HOOKATHON_COURSE_RATING="5" \
+corepack yarn hookathon:tally:personalize
+```
+
+Validate the same inputs without writing a private packet:
+
+```bash
+HOOKATHON_SUBMITTER_EMAIL="you@example.com" \
+HOOKATHON_WORKED_WITH_TEAM="No" \
+HOOKATHON_COURSE_RATING="5" \
+corepack yarn hookathon:tally:personalize --check-only
+```
+
 Run the final strict preflight after filling external Tally URLs/details:
 
 ```bash
@@ -125,6 +143,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Public link report: `artifacts/hookathon/public-links-latest.md`
 - Submission readiness report: `artifacts/hookathon/submission-readiness-latest.md`
+- Private personalized Tally packet: `artifacts/hookathon/tally-final-personalized-latest.md`
 - Public GitHub branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
 - Public demo route: `https://ultramar.capital/hookathon/port-of-call`
 - Public deck route: `https://ultramar.capital/hookathon/port-of-call/deck`
@@ -156,6 +175,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Video render script: `scripts/hookathon-render-video.mjs`
 - Public link check script: `scripts/hookathon-public-links-check.mjs`
 - Submission readiness script: `scripts/hookathon-readiness-report.mjs`
+- Private Tally personalization script: `scripts/hookathon-personalize-tally.mjs`
 - Submission preflight script: `scripts/hookathon-submission-preflight.mjs`
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Demo run-of-show: `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`

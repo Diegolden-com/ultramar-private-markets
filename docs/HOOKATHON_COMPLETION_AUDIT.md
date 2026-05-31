@@ -33,6 +33,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Provide submission preflight | Ready locally | `corepack yarn hookathon:submission:preflight` verifies required repo files, generated artifacts, proof markers, video manifest, and known external Tally placeholders. |
 | Provide public-link preflight | Ready externally | `corepack yarn hookathon:links:check` verifies the Tally form, public GitHub branch, raw Tally copy, production demo, production deck, video asset, captions asset, and release page, then writes `artifacts/hookathon/public-links-latest.md`. |
 | Provide readiness report | Ready locally | `corepack yarn hookathon:readiness` writes `artifacts/hookathon/submission-readiness-latest.md`, separating repo readiness from the personal fields and Tally confirmation evidence still required before the thread goal can be marked complete. |
+| Provide private personalized Tally packet | Ready locally | `corepack yarn hookathon:tally:personalize` validates submitter email, team status, and course rating from environment variables, then writes `artifacts/hookathon/tally-final-personalized-latest.md` without committing personal data. Use `--check-only` to validate without writing. |
 | Keep non-offer/compliance boundary clear | Ready | `HOOKATHON_README.md`, `docs/HOOKATHON_SUBMISSION_FORM.md`, and the demo route use sandbox/non-offer framing. |
 | Public GitHub branch | Ready externally after push | `gh repo view Diegolden-com/ultramar-private-markets --json visibility,url` returned `visibility: PUBLIC` and `https://github.com/Diegolden-com/ultramar-private-markets` on May 31, 2026. The Tally copy points judges to `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui` so they inspect the Hookathon package before it is merged to the default branch. |
 | Public frontend deployment | Ready externally | Production routes verified live on May 31, 2026: `https://ultramar.capital/hookathon/port-of-call` and `https://ultramar.capital/hookathon/port-of-call/deck` returned HTTP 200 with the expected Hookathon and deck content. |
@@ -88,6 +89,12 @@ Submission readiness report:
 
 ```bash
 corepack yarn hookathon:readiness
+```
+
+Private personalized Tally packet:
+
+```bash
+HOOKATHON_SUBMITTER_EMAIL="you@example.com" HOOKATHON_WORKED_WITH_TEAM="No" HOOKATHON_COURSE_RATING="5" corepack yarn hookathon:tally:personalize
 ```
 
 Strict final preflight after filling external Tally details:

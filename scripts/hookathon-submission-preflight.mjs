@@ -33,6 +33,7 @@ const requiredFiles = [
   ["Video render script", "scripts/hookathon-render-video.mjs"],
   ["Public link check script", "scripts/hookathon-public-links-check.mjs"],
   ["Readiness report script", "scripts/hookathon-readiness-report.mjs"],
+  ["Tally personalization script", "scripts/hookathon-personalize-tally.mjs"],
 ];
 
 const requiredArtifacts = [
@@ -85,6 +86,7 @@ const requiredNarrativeMarkers = [
   ["Final packet pre-submit gate", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:links:check"],
   ["Final packet direct video URL", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm"],
   ["Readiness command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:readiness"],
+  ["Private personalization command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:personalize"],
 ];
 
 const externalPlaceholders = [

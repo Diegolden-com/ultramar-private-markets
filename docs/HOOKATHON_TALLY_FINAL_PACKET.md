@@ -22,7 +22,18 @@ Do not submit while these placeholders remain:
 [1-5]
 ```
 
-After those three values are filled, run:
+To avoid committing personal data, generate a private packet under ignored `artifacts/`:
+
+```bash
+HOOKATHON_SUBMITTER_EMAIL="you@example.com" \
+HOOKATHON_WORKED_WITH_TEAM="No" \
+HOOKATHON_COURSE_RATING="5" \
+corepack yarn hookathon:tally:personalize
+```
+
+Use `--check-only` with the same environment variables to validate without writing the private packet.
+
+Use `artifacts/hookathon/tally-final-personalized-latest.md` for the final browser copy/paste session. If you instead fill the tracked docs directly, run:
 
 ```bash
 corepack yarn hookathon:submission:preflight:strict
