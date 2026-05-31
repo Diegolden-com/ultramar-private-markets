@@ -52,6 +52,7 @@ const tallyPacket = safeRead("docs/HOOKATHON_TALLY_FINAL_PACKET.md");
 const preflight = safeRead("artifacts/hookathon/submission-preflight-latest.md");
 const strictPreflight = safeRead("artifacts/hookathon/submission-preflight-strict-latest.md");
 const publicLinks = safeRead("artifacts/hookathon/public-links-latest.md");
+const privacy = safeRead("artifacts/hookathon/privacy-check-latest.md");
 const tallyFieldMap = safeRead("artifacts/hookathon/tally-field-map-latest.md");
 const tallyFillPlan = safeRead("artifacts/hookathon/tally-fill-plan-latest.md");
 const tallyBrowserSession = safeRead("artifacts/hookathon/tally-browser-session-latest.md");
@@ -124,6 +125,7 @@ const cleanWorktree = !branchStatus
   .some((line) => line.trim().length > 0);
 const preflightReady = preflight.includes("Ready for the next external step.") && lineValue(preflight, "Local package failures") === "0";
 const publicLinksReady = publicLinks.includes("All public submission links resolve.") && lineValue(publicLinks, "Failures") === "0";
+const privacyReady = privacy.includes("No private Hookathon submitter data is tracked.") && lineValue(privacy, "Failures") === "0";
 const tallyFieldMapReady =
   tallyFieldMap.includes("Current Tally fields match the final copy packet.") && lineValue(tallyFieldMap, "Failures") === "0";
 const tallyFillPlanReady = tallyFillPlan.includes("Fill plan is ready.") && lineValue(tallyFillPlan, "Failures") === "0";
@@ -150,6 +152,7 @@ const checklist = [
   reportStatus("Git worktree", cleanWorktree, `branch \`${branch}\`, HEAD \`${head}\``),
   reportStatus("Local submission preflight", preflightReady, "`artifacts/hookathon/submission-preflight-latest.md`"),
   reportStatus("Public links", publicLinksReady, "`artifacts/hookathon/public-links-latest.md`"),
+  reportStatus("Privacy hygiene", privacyReady, "`artifacts/hookathon/privacy-check-latest.md`"),
   reportStatus("Live Tally field map", tallyFieldMapReady, "`artifacts/hookathon/tally-field-map-latest.md`"),
   reportStatus("Tally fill plan", tallyFillPlanReady, "`artifacts/hookathon/tally-fill-plan-latest.md`"),
   reportStatus("Tally browser session pack", tallyBrowserSessionReady, "`artifacts/hookathon/tally-browser-session-latest.html`"),
@@ -178,6 +181,7 @@ const readyForSubmitterInput =
   cleanWorktree &&
   preflightReady &&
   publicLinksReady &&
+  privacyReady &&
   tallyFieldMapReady &&
   tallyFillPlanReady &&
   tallyBrowserSessionReady &&
