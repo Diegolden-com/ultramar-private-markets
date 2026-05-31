@@ -18,6 +18,7 @@ corepack yarn hookathon:tally:session
 corepack yarn hookathon:tally:session:qa
 corepack yarn hookathon:submission:preflight
 corepack yarn hookathon:submission:operator
+corepack yarn hookathon:submission:handoff
 corepack yarn hookathon:readiness
 ```
 
@@ -79,6 +80,14 @@ HOOKATHON_TEAM_DETAILS=
 ```
 
 The strict operator run writes `artifacts/hookathon/final-submit-run-latest.md` and should say `Ready for Tally submit: yes` before pressing Submit in Tally.
+
+For a one-page private handoff after the operator run, generate:
+
+```bash
+corepack yarn hookathon:submission:handoff
+```
+
+It writes `artifacts/hookathon/final-handoff-latest.md` without including personal values.
 
 ## Links to keep open
 

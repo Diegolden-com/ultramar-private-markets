@@ -132,6 +132,12 @@ Run the final submit operator to refresh Tally/link checks and produce the priva
 corepack yarn hookathon:submission:operator
 ```
 
+Generate the final private handoff sheet for the human submitter:
+
+```bash
+corepack yarn hookathon:submission:handoff
+```
+
 With personal inputs present, require the submit-ready path:
 
 ```bash
@@ -217,6 +223,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Submission preflight report: `artifacts/hookathon/submission-preflight-latest.md`
 - Strict preflight report: `artifacts/hookathon/submission-preflight-strict-latest.md`
 - Final submit operator report: `artifacts/hookathon/final-submit-run-latest.md`
+- Final submit handoff: `artifacts/hookathon/final-handoff-latest.md`
 - Public link report: `artifacts/hookathon/public-links-latest.md`
 - Public render QA report: `artifacts/hookathon/public-render-qa-latest.md`
 - Privacy hygiene report: `artifacts/hookathon/privacy-check-latest.md`
@@ -260,6 +267,7 @@ This is not a bespoke escrow contract with a Uniswap logo. It uses v4 as the set
 - Public render QA script: `scripts/hookathon-public-render-qa.mjs`
 - Privacy hygiene script: `scripts/hookathon-privacy-check.mjs`
 - Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
+- Final handoff script: `scripts/hookathon-submission-handoff.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Tally browser session script: `scripts/hookathon-tally-session-pack.mjs`

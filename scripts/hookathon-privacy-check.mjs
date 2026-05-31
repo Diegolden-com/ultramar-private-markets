@@ -12,6 +12,8 @@ const privatePaths = [
   "artifacts/hookathon/final-submit.env",
   "artifacts/hookathon/final-submit-run-latest.md",
   "artifacts/hookathon/final-submit-run-latest.json",
+  "artifacts/hookathon/final-handoff-latest.md",
+  "artifacts/hookathon/final-handoff-latest.json",
   "artifacts/hookathon/tally-final-personalized-latest.md",
   "artifacts/hookathon/tally-browser-session-latest.html",
   "artifacts/hookathon/tally-browser-session-latest.md",

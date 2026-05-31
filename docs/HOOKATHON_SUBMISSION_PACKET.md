@@ -170,6 +170,7 @@ Secondary angles:
 - Expose a local Tally browser-session pack for the final copy/paste pass. Current command: `corepack yarn hookathon:tally:session`, which writes ignored Markdown/HTML aids under `artifacts/hookathon/`.
 - Expose visual QA for the local Tally browser-session pack. Current command: `corepack yarn hookathon:tally:session:qa`, which writes ignored desktop/mobile screenshots and a QA report under `artifacts/hookathon/`.
 - Expose one final submit operator pass. Current command: `corepack yarn hookathon:submission:operator`, with `--strict` requiring personal inputs from shell env or ignored `artifacts/hookathon/final-submit.env` and a submit-ready browser session pack.
+- Expose a final private handoff sheet. Current command: `corepack yarn hookathon:submission:handoff`, which writes ignored `artifacts/hookathon/final-handoff-latest.md` without personal values.
 - Expose private Tally personalization without committing personal data. Current command: `corepack yarn hookathon:tally:personalize` with `HOOKATHON_SUBMITTER_EMAIL`, `HOOKATHON_WORKED_WITH_TEAM`, `HOOKATHON_COURSE_RATING`, and `HOOKATHON_TEAM_DETAILS` if team status is `Yes`.
 - Expose private post-submit receipt capture without committing personal data. Current command: `corepack yarn hookathon:submission:receipt` with `HOOKATHON_TALLY_SUBMITTED_AT`, `HOOKATHON_TALLY_CONFIRMATION`, optional `HOOKATHON_TALLY_EVIDENCE`, and optional `HOOKATHON_SUBMITTER_EMAIL`.
 - Expose one-command v4 testnet simulation. Current command: `corepack yarn hookathon:testnet:e2e`.
@@ -225,6 +226,7 @@ Secondary angles:
 - Public render QA script: `scripts/hookathon-public-render-qa.mjs`
 - Privacy hygiene script: `scripts/hookathon-privacy-check.mjs`
 - Final submit operator script: `scripts/hookathon-final-submit-run.mjs`
+- Final handoff script: `scripts/hookathon-submission-handoff.mjs`
 - Tally field map script: `scripts/hookathon-tally-field-map.mjs`
 - Tally fill plan script: `scripts/hookathon-tally-fill-plan.mjs`
 - Tally browser session script: `scripts/hookathon-tally-session-pack.mjs`

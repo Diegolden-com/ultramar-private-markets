@@ -22,6 +22,7 @@
     "hookathon:privacy:check": "node scripts/hookathon-privacy-check.mjs",
     "hookathon:readiness": "node scripts/hookathon-readiness-report.mjs",
     "hookathon:submission:operator": "node scripts/hookathon-final-submit-run.mjs",
+    "hookathon:submission:handoff": "node scripts/hookathon-submission-handoff.mjs",
     "hookathon:submission:preflight": "node scripts/hookathon-submission-preflight.mjs",
     "hookathon:submission:preflight:strict": "node scripts/hookathon-submission-preflight.mjs --strict-external",
     "hookathon:submission:receipt": "node scripts/hookathon-submission-receipt.mjs",
