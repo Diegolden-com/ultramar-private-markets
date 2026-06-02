@@ -6,6 +6,7 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const artifactDir = resolve(repoRoot, "artifacts/hookathon");
 const reportPath = resolve(artifactDir, "public-links-latest.md");
 const timeoutMs = 30_000;
+const maxAttempts = 3;
 
 const checks = [
   {
@@ -173,7 +174,17 @@ async function fetchWithTimeout(url, options) {
   }
 }
 
-async function runCheck(check) {
+function sleep(ms) {
+  return new Promise((resolveSleep) => setTimeout(resolveSleep, ms));
+}
+
+function shouldRetry(result) {
+  if (result.ok) return false;
+  if (result.status === "error") return true;
+  return result.status === 429 || (Number.isInteger(result.status) && result.status >= 500);
+}
+
+async function runCheckOnce(check, attempt) {
   const method = check.method ?? "GET";
   try {
     const response = await fetchWithTimeout(check.url, { method });
@@ -205,6 +216,7 @@ async function runCheck(check) {
       contentTypeOk: !check.contentTypeIncludes || contentType.toLowerCase().includes(check.contentTypeIncludes.toLowerCase()),
       bytes,
       markerResults,
+      attempt,
     };
   } catch (error) {
     return {
@@ -217,8 +229,19 @@ async function runCheck(check) {
       bytes: 0,
       markerResults: (check.markers ?? []).map((marker) => ({ marker, ok: false })),
       error: error instanceof Error ? error.message : String(error),
+      attempt,
     };
   }
+}
+
+async function runCheck(check) {
+  let result;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    result = await runCheckOnce(check, attempt);
+    if (!shouldRetry(result) || attempt === maxAttempts) return result;
+    await sleep(500 * attempt);
+  }
+  return result;
 }
 
 function formatRows(results) {
@@ -229,7 +252,8 @@ function formatRows(results) {
           ? "n/a"
           : result.markerResults.map((marker) => `${marker.ok ? "ok" : "missing"}: \`${marker.marker}\``).join("<br>");
       const size = result.bytes > 0 ? `${result.bytes} bytes` : "unknown";
-      return `| ${result.ok ? "Ready" : "Fail"} | ${result.label} | ${result.status} | ${result.contentType || "unknown"} | ${size} | ${markers} | ${result.url} |`;
+      const attempts = result.attempt > 1 ? `${result.attempt} attempts` : "1 attempt";
+      return `| ${result.ok ? "Ready" : "Fail"} | ${result.label} | ${result.status} | ${attempts} | ${result.contentType || "unknown"} | ${size} | ${markers} | ${result.url} |`;
     })
     .join("\n");
 }
@@ -250,8 +274,8 @@ Failures: ${failures.length}
 
 ## Links
 
-| Status | Item | HTTP | Content-Type | Size | Markers | URL |
-| --- | --- | ---: | --- | ---: | --- | --- |
+| Status | Item | HTTP | Attempts | Content-Type | Size | Markers | URL |
+| --- | --- | ---: | ---: | --- | ---: | --- | --- |
 ${formatRows(results)}
 
 ## Failed Checks
