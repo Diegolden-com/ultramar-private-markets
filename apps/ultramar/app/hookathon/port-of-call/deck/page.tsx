@@ -8,6 +8,7 @@ import {
 import {
   ArrowRight,
   BadgeCheck,
+  Calculator,
   DatabaseZap,
   FileCheck2,
   Globe2,
@@ -77,6 +78,19 @@ const v4Mechanics = [
     label: "Market boundary",
     body: "Public add/remove liquidity reverts; the pool is a specialized capital window, not a public AMM.",
   },
+] as const;
+
+const valuationTerms = [
+  ["Pre-money", "4.5M USD", "Issuer-approved valuation frame."],
+  ["FD units", "4.5M LCX", "Sandbox token model for the demo."],
+  ["Base price", "1.00 USDC / LCX", "Terms signed before the window opens."],
+  ["FX policy", "Snapshot, then fixed", "MXN economics convert into a USDC window price."],
+] as const;
+
+const curveRows = [
+  ["Tranche 1", "0-1,000 USDC", "1.00 USDC/LCX", "1,000.00 LCX"],
+  ["Tranche 2", "1,000-1,500 USDC", "1.10 USDC/LCX", "454.54 LCX"],
+  ["Effective", "1,500 USDC input", "1.0312 USDC/LCX", "1,454.54 LCX"],
 ] as const;
 
 const proofRows = [
@@ -257,7 +271,37 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="05 / Proof paths"
+        eyebrow="05 / Pricing example"
+        title="Pre-money and FX become signed window terms, then the hook executes the curve."
+        body="The hook is not a valuation oracle. Ultramar approves the valuation frame and FX policy before the window opens; v4 custom accounting only enforces those terms at settlement."
+        icon={Calculator}
+      >
+        <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-6">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+              Window terms
+            </p>
+            <div className="mt-5 grid gap-1 bg-surface-container/20 sm:grid-cols-2">
+              {valuationTerms.map(([label, value, body]) => (
+                <ValuationTerm key={label} label={label} value={value} body={body} />
+              ))}
+            </div>
+            <div className="mt-5 border-t border-surface-container/25 pt-5">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+                Custom accounting formula
+              </p>
+              <p className="mt-3 break-words font-serif text-2xl font-semibold leading-tight [overflow-wrap:anywhere]">
+                companyTokenOut = sum(tranchePayment / tranchePrice)
+              </p>
+            </div>
+          </div>
+
+          <WindowCurveGraphic />
+        </div>
+      </DeckSlide>
+
+      <DeckSlide
+        eyebrow="06 / Proof paths"
         title="One approved settlement, six blocked paths."
         body="The product story is backed by tests, a local Foundry demo script, browser capture assets, and a Base Sepolia dry-run path using the official v4 PoolManager."
         icon={Terminal}
@@ -278,7 +322,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="06 / Judge frame"
+        eyebrow="07 / Judge frame"
         title="The submission is built around the four scoring questions."
         body="The story stays crisp for non-technical judges, while the code gives technical reviewers enough surface to verify the mechanism."
         icon={FileCheck2}
@@ -411,6 +455,114 @@ function Signal({ label, value }: { label: string; value: string }) {
       <p className="mt-3 break-words font-serif text-2xl font-semibold leading-tight text-on-surface">
         {value}
       </p>
+    </div>
+  );
+}
+
+function ValuationTerm({ label, value, body }: { label: string; value: string; body: string }) {
+  return (
+    <div className="min-w-0 bg-surface-paper p-4">
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+        {label}
+      </p>
+      <p className="mt-3 break-words font-serif text-2xl font-semibold leading-tight text-surface-ink">
+        {value}
+      </p>
+      <p className="mt-2 text-xs leading-5 text-surface-container">{body}</p>
+    </div>
+  );
+}
+
+function WindowCurveGraphic() {
+  return (
+    <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            Step conversion curve
+          </p>
+          <h3 className="mt-3 max-w-xl font-serif text-3xl font-semibold leading-tight">
+            1,500 USDC returns 1,454.54 LCX without public AMM price discovery.
+          </h3>
+        </div>
+        <div className="border border-border-muted bg-surface px-4 py-3">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+            Effective
+          </p>
+          <p className="mt-2 font-mono text-lg font-semibold text-status-signal">1.0312</p>
+        </div>
+      </div>
+
+      <div className="mt-6 min-w-0 overflow-hidden border border-border-muted bg-surface">
+        <svg
+          viewBox="0 0 560 360"
+          role="img"
+          aria-label="Step curve chart showing 1,000 USDC priced at 1.00 USDC per LCX and the next 500 USDC priced at 1.10 USDC per LCX."
+          className="h-auto w-full"
+        >
+          <rect width="560" height="360" fill="var(--surface)" />
+          <path d="M64 286H512" stroke="var(--border-muted)" strokeWidth="2" />
+          <path d="M64 54V286" stroke="var(--border-muted)" strokeWidth="2" />
+          <path d="M64 214H512M64 134H512M64 74H512" stroke="var(--border-muted)" strokeWidth="1" opacity="0.55" />
+
+          <path d="M64 286V214H246V134H337V286Z" fill="var(--status-signal)" opacity="0.14" />
+          <rect x="64" y="244" width="182" height="42" fill="var(--status-signal)" opacity="0.9" />
+          <rect x="246" y="244" width="91" height="42" fill="#c88f32" opacity="0.92" />
+          <path d="M64 214H246V134H428V74" fill="none" stroke="var(--status-signal)" strokeWidth="5" strokeLinecap="square" />
+
+          <path d="M246 62V286" stroke="var(--on-surface-variant)" strokeDasharray="7 7" strokeWidth="2" opacity="0.85" />
+          <path d="M337 62V286" stroke="#c88f32" strokeDasharray="7 7" strokeWidth="2" opacity="0.95" />
+          <circle cx="337" cy="134" r="8" fill="#c88f32" stroke="var(--surface)" strokeWidth="4" />
+
+          <text x="64" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">0</text>
+          <text x="216" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1,000</text>
+          <text x="312" y="326" fill="#c88f32" fontSize="15" fontFamily="monospace">1,500 input</text>
+          <text x="431" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">2,000 USDC</text>
+
+          <text x="18" y="219" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.00</text>
+          <text x="18" y="139" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.10</text>
+          <text x="18" y="79" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.20</text>
+
+          <text x="84" y="238" fill="var(--surface-ink)" fontSize="17" fontWeight="700" fontFamily="monospace">
+            1,000 LCX
+          </text>
+          <text x="258" y="238" fill="var(--surface-ink)" fontSize="17" fontWeight="700" fontFamily="monospace">
+            454.54
+          </text>
+          <text x="360" y="126" fill="var(--on-surface)" fontSize="18" fontWeight="700" fontFamily="monospace">
+            +10% tranche
+          </text>
+        </svg>
+      </div>
+
+      <div className="mt-5 grid min-w-0 gap-1 bg-border-muted">
+        {curveRows.map(([label, input, price, output]) => (
+          <CurveRow key={label} label={label} input={input} price={price} output={output} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CurveRow({
+  label,
+  input,
+  price,
+  output,
+}: {
+  label: string;
+  input: string;
+  price: string;
+  output: string;
+}) {
+  return (
+    <div className="grid min-w-0 gap-3 bg-surface-ink p-4 sm:grid-cols-[96px_1fr_1fr_1fr]">
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-status-signal">
+        {label}
+      </p>
+      <p className="break-words text-xs leading-5 text-on-surface-variant">{input}</p>
+      <p className="break-words text-xs leading-5 text-on-surface-variant">{price}</p>
+      <p className="break-words text-xs font-semibold leading-5 text-on-surface">{output}</p>
     </div>
   );
 }
