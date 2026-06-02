@@ -12,6 +12,7 @@ const reportPath = resolve(
 
 const requiredFiles = [
   ["Public README", "HOOKATHON_README.md"],
+  ["Generic submission form copy", "docs/HOOKATHON_SUBMISSION_FORM.md"],
   ["Tally copy", "docs/HOOKATHON_TALLY_SUBMISSION.md"],
   ["Final Tally packet", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"],
   ["Submit-now checklist", "docs/HOOKATHON_SUBMIT_NOW.md"],
@@ -111,6 +112,10 @@ const requiredNarrativeMarkers = [
   ["Winning scorecard core claim", "docs/HOOKATHON_WINNING_SCORECARD.md", "The hook is the market boundary"],
   ["Deck judge packet", "docs/HOOKATHON_SLIDE_DECK.md", "Judge packet links"],
   ["Ablo loop", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md", "Ablo"],
+  ["Atrium capstone final Tally path", "docs/HOOKATHON_ATRIUM_ALIGNMENT.md", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"],
+  ["Submission form submit-now path", "docs/HOOKATHON_SUBMISSION_FORM.md", "docs/HOOKATHON_SUBMIT_NOW.md"],
+  ["Submission form fixed FX policy", "docs/HOOKATHON_SUBMISSION_FORM.md", "active window stays fixed after that snapshot"],
+  ["Submission form floating FX policy", "docs/HOOKATHON_SUBMISSION_FORM.md", "floating FX policy can only refresh the next window"],
   ["Custom accounting", "HOOKATHON_README.md", "beforeSwapReturnDelta"],
   ["Non-offer boundary", "HOOKATHON_README.md", "not a public securities offering"],
   ["Public GitHub repo", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://github.com/Diegolden-com/ultramar-private-markets"],

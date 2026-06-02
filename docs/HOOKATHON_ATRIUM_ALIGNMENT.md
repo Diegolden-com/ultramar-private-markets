@@ -17,7 +17,7 @@ This is an internal judge-prep document. The public submission should cite the p
 | Periphery: Swap & Bridge | A real hook needs a believable periphery path. | `CapitalWindowRouter` is the periphery adapter. It packages exact-input settlement, `hookData`, and the v4 `unlock` flow. Bridging is deliberately outside the demo scope. |
 | Uniswap v4 Routers | Router assumptions are part of hook security. | The passport digest is bound to `CapitalWindowRouter`; `testGenericRouterWithCapitalPassportReverts` proves a generic router cannot reuse a valid passport. |
 | Hook Security | Show adversarial thinking, not only the happy path. | The suite covers hook permission bits, missing passport, invalid signature, expired authorization, replay, stale oracle, min-output slippage, exact-output rejection, generic-router rejection, cap enforcement, and public LP blocking. |
-| Capstone | Package the idea so judges can run it and remember it. | `HOOKATHON_README.md`, `docs/HOOKATHON_SUBMISSION_PACKET.md`, `docs/HOOKATHON_SUBMISSION_FORM.md`, and `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md` give the story, commands, script, and recording path. |
+| Capstone | Package the idea so judges can run it and remember it. | `HOOKATHON_README.md`, `docs/HOOKATHON_SUBMISSION_PACKET.md`, `docs/HOOKATHON_TALLY_FINAL_PACKET.md`, `docs/HOOKATHON_SUBMIT_NOW.md`, `docs/HOOKATHON_WINNING_SCORECARD.md`, and `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md` give the story, commands, final Tally path, rubric proof, and recording path. |
 
 ## Design conclusion
 

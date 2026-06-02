@@ -114,13 +114,17 @@ https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon
 - Technical runbook: `apps/private-equities/contracts/README.md`
 - Demo run-of-show: `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`
 - Judge fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
+- Winning scorecard: `docs/HOOKATHON_WINNING_SCORECARD.md`
 - Video recording kit: `docs/HOOKATHON_VIDEO_RECORDING_KIT.md`
 - Exact Tally answers: `docs/HOOKATHON_TALLY_SUBMISSION.md`
+- Final Tally packet: `docs/HOOKATHON_TALLY_FINAL_PACKET.md`
+- Submit-now checklist: `docs/HOOKATHON_SUBMIT_NOW.md`
 - Atrium alignment: `docs/HOOKATHON_ATRIUM_ALIGNMENT.md`
 - Active Tally theme strategy: `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`
 - Architecture doc: `docs/UNISWAP_V4_PERMISSIONED_LIQUIDITY_ARCHITECTURE.md`
 - Use case: `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md`
 - Submission packet: `docs/HOOKATHON_SUBMISSION_PACKET.md`
+- Completion audit: `docs/HOOKATHON_COMPLETION_AUDIT.md`
 
 ## Commands to verify
 
@@ -132,6 +136,12 @@ forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv
 
 ```bash
 corepack yarn hookathon:check
+```
+
+```bash
+corepack yarn hookathon:links:check
+corepack yarn hookathon:public:render:qa
+corepack yarn hookathon:submission:operator
 ```
 
 ```bash
@@ -168,7 +178,7 @@ corepack yarn workspace @ultramar/ultramar build
 - `testExactOutputReverts`: exact-output execution is rejected.
 - `testUnauthorizedLiquidityModificationReverts`: public liquidity modification is blocked.
 
-The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events, and the exact pricing test ties the visual curve to Solidity math. The local demo script prints one approved settlement with human-readable amounts (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price, MXN economics are translated through a signed FX snapshot before the window opens, and a `1,000 USDC` step with a `10%` premium creates the approved effective price. The demo page includes a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
+The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events, and the exact pricing test ties the visual curve to Solidity math. The local demo script prints one approved settlement with human-readable amounts (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price, MXN economics are translated through a signed FX snapshot before the window opens, the active window stays fixed after that snapshot, and a floating FX policy can only refresh the next window. A `1,000 USDC` step with a `10%` premium creates the approved effective price. The demo page includes a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
 
 ## Two-minute video script
 
