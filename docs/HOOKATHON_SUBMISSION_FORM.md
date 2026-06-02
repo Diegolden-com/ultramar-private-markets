@@ -156,6 +156,7 @@ corepack yarn workspace @ultramar/ultramar build
 
 - `testHookAddressEncodesOnlyCapitalWindowPermissions`: hook address encodes only the required v4 permissions.
 - `testAuthorizationDigestBindsPassportToCapitalRouter`: passport signatures are bound to the approved router address.
+- `testWindowStepCurveQuotesExactPricingExample`: the window curve quotes `1,500 USDC -> 1,454.54 LCX` at the deck's `1.0312 USDC/LCX` effective price.
 - `testPrimaryConversionWindowExecutesCustomAccountingSwap`: approved primary capital window succeeds.
 - `testSecondaryLiquidityWindowRoutesCashToEscrow`: approved secondary window routes cash to escrow.
 - `testMissingPassportHookDataReverts`: no passport payload, no swap.
@@ -167,7 +168,7 @@ corepack yarn workspace @ultramar/ultramar build
 - `testExactOutputReverts`: exact-output execution is rejected.
 - `testUnauthorizedLiquidityModificationReverts`: public liquidity modification is blocked.
 
-The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events. The local demo script prints one approved settlement with human-readable amounts (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price, MXN economics are translated through a signed FX snapshot before the window opens, and a `1,000 USDC` step with a `10%` premium creates the approved effective price. The demo page includes a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
+The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events, and the exact pricing test ties the visual curve to Solidity math. The local demo script prints one approved settlement with human-readable amounts (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price, MXN economics are translated through a signed FX snapshot before the window opens, and a `1,000 USDC` step with a `10%` premium creates the approved effective price. The demo page includes a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
 
 ## Two-minute video script
 

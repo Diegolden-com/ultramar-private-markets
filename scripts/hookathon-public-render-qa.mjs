@@ -30,6 +30,8 @@ const pages = [
       "Pre-money and FX become signed window terms",
       "Snapshot, then fixed",
       "1.0312",
+      "27 hook tests",
+      "exact step-curve pricing",
       "Uniswap v4 can host private-market windows without pretending they are public AMMs.",
       "Uniqueness",
     ],

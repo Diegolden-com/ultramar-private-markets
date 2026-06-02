@@ -228,7 +228,7 @@ The script should show:
 - Replayed authorization blocked.
 - Stale issuer proof blocked.
 
-The Foundry suite also covers router-bound passport digests, expired authorization deadlines, and signed minimum-output slippage protection.
+The Foundry suite also covers exact step-curve pricing, router-bound passport digests, expired authorization deadlines, and signed minimum-output slippage protection.
 
 The testnet dry-run should show a hook address ending in the `0xa88` permission mask plus smoke-swap deltas for `1500` mock USDC -> `1454.54` LCX. It does not broadcast or require funded keys.
 
