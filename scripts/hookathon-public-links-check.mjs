@@ -31,6 +31,16 @@ const checks = [
     ],
   },
   {
+    label: "Raw winning scorecard",
+    url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md",
+    markers: [
+      "The hook is the market boundary",
+      "Pre-money ledger -> FX snapshot locked -> Hook step curve",
+      "testWindowStepCurveQuotesExactPricingExample",
+      "Local package failures are `0`",
+    ],
+  },
+  {
     label: "Production demo route",
     url: "https://ultramar.capital/hookathon/port-of-call",
     markers: ["Port of Call Hookathon Demo", "Specialized Markets", "custom accounting"],

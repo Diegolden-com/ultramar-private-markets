@@ -8,6 +8,7 @@ Purpose: give judges a 10-minute route through the submission without making the
 2. Web deck: https://ultramar.capital/hookathon/port-of-call/deck
 3. Demo video: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
 4. GitHub branch: https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui
+5. Winning scorecard: `docs/HOOKATHON_WINNING_SCORECARD.md`
 
 One sentence to remember:
 

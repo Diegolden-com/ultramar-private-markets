@@ -99,6 +99,7 @@ Project demo: https://ultramar.capital/hookathon/port-of-call
 Pitch deck: https://ultramar.capital/hookathon/port-of-call/deck
 Demo video: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
 Video release page: https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon-port-of-call-demo-2026-05-31
+Winning scorecard: docs/HOOKATHON_WINNING_SCORECARD.md
 ```
 
 ## Copy Order
