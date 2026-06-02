@@ -122,28 +122,32 @@ HOOKATHON_CAPTURE_PORT=3002 corepack yarn hookathon:capture:demo
 
 If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` to create a captioned WebM review cut. It is intentionally silent; record the voiceover over that cut if the final upload platform expects narration.
 
-## Two-minute take
+## Captioned review cut
 
 | Time | Screen | Voiceover |
 | --- | --- | --- |
-| 0:00-0:15 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting are disconnected." |
-| 0:15-0:30 | Travel feed | "Ultramar Port of Call is Ablo for capital. The investor travels to Mexico City and enters Lavanderias CX before any transaction exists." |
-| 0:30-0:45 | Passport and quote | "The diligence room creates a signed passport: window id, investor, minimum output, deadline, nonce, and authorizer signature." |
-| 0:45-1:05 | Approved simulator | "The approved flow sends exact-input USDC through `CapitalWindowRouter`. The hook verifies the passport and returns LCX through v4 custom accounting." |
-| 1:05-1:20 | Specialized market claim | "This is the Specialized Markets angle: private operating-business capital needs eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance inside the market itself." |
-| 1:20-1:38 | Generic router or replay | "A valid passport cannot ride the wrong route or replay the same nonce. The hook rejects it before any custom delta is returned." |
-| 1:38-1:50 | Event reconciliation | "`WindowConsumed` and `CapitalWindowHookSwap` become CRM, portfolio, issuer reporting, and risk-review rows." |
-| 1:50-2:00 | Deck close or terminal proof | "The local proof shows one approved settlement and six blocked paths. The hook is the market boundary." |
+| 0:00-0:09 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting are disconnected." |
+| 0:09-0:18 | Travel feed | "Ultramar Port of Call is Ablo for capital. The investor travels to Mexico City and enters Lavanderias CX before any transaction exists." |
+| 0:18-0:28 | Passport and quote | "The diligence room creates a signed passport: window id, investor, minimum output, deadline, nonce, and authorizer signature." |
+| 0:28-0:38 | Approved simulator | "The approved flow sends exact-input USDC through `CapitalWindowRouter`. The hook verifies the passport and returns LCX through v4 custom accounting." |
+| 0:38-0:47 | Generic router | "A valid passport cannot ride the wrong route. The hook rejects it before any custom delta is returned." |
+| 0:47-0:55 | Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." |
+| 0:55-1:05 | Specialized market claim | "This is the Specialized Markets angle: private operating-business capital needs eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance inside the market itself." |
+| 1:05-1:13 | Pricing proof | "The deck curve is not decorative. `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
+| 1:13-1:21 | Deck close | "Uniswap v4 can host private-market windows without pretending they are public AMMs." |
+| 1:21-1:36 | Terminal proof | "The local proof shows one approved settlement and six blocked paths. The hook is the market boundary." |
 
 ## Required visual beats
 
 - `Uniswap v4 Hookathon` and `Sandbox / non-offer` badges.
 - `Specialized Markets` as the primary angle.
 - `1,454.54 LCX` expected output.
+- Pricing proof: `testWindowStepCurveQuotesExactPricingExample`.
+- `27 hook tests` if using the deck route.
 - Scenario simulator `Approved`.
 - Scenario simulator `Generic router` or `Replay`.
 - Audit/indexer event panel.
-- Pitch deck closing line if using the optional deck route.
+- Pricing example and pitch deck closing line if using the optional deck route.
 - Terminal marker: `Demo complete: one approved settlement, six blocked paths.`
 
 ## Upload copy

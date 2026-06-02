@@ -29,6 +29,8 @@ const pages = [
       "UHI8 Specialized Markets",
       "Pre-money and FX become signed window terms",
       "Snapshot, then fixed",
+      "FX snapshot locked",
+      "Hook step curve",
       "1.0312",
       "27 hook tests",
       "exact step-curve pricing",

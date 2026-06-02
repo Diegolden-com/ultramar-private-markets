@@ -73,9 +73,17 @@ const segments = [
       "Eligibility, caps, transfer boundaries, oracle freshness, and router provenance become settlement checks.",
   },
   {
-    frame: "08-pitch-deck-close.png",
+    frame: "08-pricing-proof.png",
     duration: 8,
-    eyebrow: "1:05 / Deck close",
+    eyebrow: "1:05 / Pricing proof",
+    title: "The deck curve is covered by Solidity.",
+    caption:
+      "testWindowStepCurveQuotesExactPricingExample proves 1,500 USDC returns 1,454.54 LCX at 1.0312 effective.",
+  },
+  {
+    frame: "09-pitch-deck-close.png",
+    duration: 8,
+    eyebrow: "1:13 / Deck close",
     title: "Uniswap v4 can host private-market windows without pretending they are public AMMs.",
     caption:
       "The memorable hook is the passport checkpoint. The practical hook is deterministic settlement control.",
@@ -83,7 +91,7 @@ const segments = [
   {
     frame: null,
     duration: 15,
-    eyebrow: "1:13 / Terminal proof",
+    eyebrow: "1:21 / Terminal proof",
     title: "One approved settlement, six blocked paths.",
     caption:
       "The local proof shows the hook boundary: approved settlement plus missing passport, generic router, expired, min output, replay, and stale oracle reverts.",

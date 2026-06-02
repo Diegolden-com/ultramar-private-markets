@@ -43,6 +43,8 @@ const checks = [
       "Specialized Markets",
       "Pre-money and FX become signed window terms",
       "Snapshot, then fixed",
+      "FX snapshot locked",
+      "Hook step curve",
       "1.0312",
       "27 hook tests",
       "exact step-curve pricing",
@@ -58,8 +60,8 @@ const checks = [
   {
     label: "Demo captions release asset",
     url: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.vtt",
-    method: "HEAD",
     minBytes: 500,
+    markers: ["testWindowStepCurveQuotesExactPricingExample", "1.0312 effective"],
   },
   {
     label: "Demo release page",

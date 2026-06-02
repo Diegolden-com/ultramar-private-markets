@@ -93,6 +93,12 @@ Show:
 - Curve: first `1,000 USDC` at `1.00`, next `500 USDC` at `1.10`.
 - Result: `1,500 USDC -> 1,454.54 LCX` at `1.0312 USDC/LCX` effective.
 
+Visual graph:
+
+- Valuation-to-window bridge: pre-money ledger -> FX snapshot locked -> hook step curve.
+- Step curve chart: the first `1,000 USDC` clears at `1.00 USDC/LCX`; the next `500 USDC` clears at `1.10 USDC/LCX`.
+- The displayed effective price is `1.0312 USDC/LCX`, proving the hook is executing fixed signed terms rather than floating AMM discovery.
+
 Speaker line:
 
 "The hook is not a valuation oracle. Ultramar approves valuation and FX terms before the window opens; v4 custom accounting enforces those terms during settlement."

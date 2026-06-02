@@ -93,6 +93,12 @@ const curveRows = [
   ["Effective", "1,500 USDC input", "1.0312 USDC/LCX", "1,454.54 LCX"],
 ] as const;
 
+const pricingBridge = [
+  ["01", "Pre-money ledger", "4.5M USD / 4.5M LCX FD", "1.00 USDC/LCX base"],
+  ["02", "FX snapshot locked", "MXN economics signed into USDC terms", "fixed during the window"],
+  ["03", "Hook step curve", "1,000 @ 1.00 + 500 @ 1.10", "1,454.54 LCX output"],
+] as const;
+
 const proofRows = [
   ["Approved settlement", "1,500 USDC -> 1,454.54 LCX"],
   ["Blocked paths", "missing passport / generic router / expired / min output / replay / stale oracle"],
@@ -289,6 +295,9 @@ export default function PortOfCallDeckPage() {
             <div className="mt-5 border-t border-surface-container/25 pt-5">
               <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
                 Custom accounting formula
+              </p>
+              <p className="mt-3 break-words font-serif text-2xl font-semibold leading-tight [overflow-wrap:anywhere]">
+                basePrice = preMoneyUsd / fullyDilutedUnits
               </p>
               <p className="mt-3 break-words font-serif text-2xl font-semibold leading-tight [overflow-wrap:anywhere]">
                 companyTokenOut = sum(tranchePayment / tranchePrice)
@@ -493,11 +502,20 @@ function WindowCurveGraphic() {
         </div>
       </div>
 
+      <div
+        className="mt-6 grid min-w-0 gap-1 bg-border-muted lg:grid-cols-3"
+        aria-label="Valuation-to-window bridge showing pre-money terms, fixed FX policy, and hook curve settlement."
+      >
+        {pricingBridge.map(([step, label, value, body]) => (
+          <PricingBridgeStep key={label} step={step} label={label} value={value} body={body} />
+        ))}
+      </div>
+
       <div className="mt-6 min-w-0 overflow-hidden border border-border-muted bg-surface">
         <svg
           viewBox="0 0 560 360"
           role="img"
-          aria-label="Step curve chart showing 1,000 USDC priced at 1.00 USDC per LCX and the next 500 USDC priced at 1.10 USDC per LCX."
+          aria-label="Visual pricing graph: pre-money and fixed FX define a 1.00 USDC per LCX base price; the hook then prices 1,000 USDC at 1.00 and the next 500 USDC at 1.10."
           className="h-auto w-full"
         >
           <rect width="560" height="360" fill="var(--surface)" />
@@ -532,6 +550,9 @@ function WindowCurveGraphic() {
           <text x="360" y="126" fill="var(--on-surface)" fontSize="18" fontWeight="700" fontFamily="monospace">
             +10% tranche
           </text>
+          <text x="84" y="42" fill="var(--status-signal)" fontSize="15" fontWeight="700" fontFamily="monospace">
+            fixed window curve after signed pre-money + FX
+          </text>
         </svg>
       </div>
 
@@ -540,6 +561,33 @@ function WindowCurveGraphic() {
           <CurveRow key={label} label={label} input={input} price={price} output={output} />
         ))}
       </div>
+    </div>
+  );
+}
+
+function PricingBridgeStep({
+  step,
+  label,
+  value,
+  body,
+}: {
+  step: string;
+  label: string;
+  value: string;
+  body: string;
+}) {
+  return (
+    <div className="min-w-0 bg-surface p-4">
+      <p className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-status-signal">
+        <span className="grid h-6 w-6 shrink-0 place-items-center border border-border-muted bg-surface-ink text-[10px] tabular-nums text-on-surface">
+          {step}
+        </span>
+        <span className="min-w-0 break-words">{label}</span>
+      </p>
+      <p className="mt-4 break-words font-mono text-sm font-semibold leading-5 text-on-surface">
+        {value}
+      </p>
+      <p className="mt-2 text-xs leading-5 text-on-surface-variant">{body}</p>
     </div>
   );
 }

@@ -74,6 +74,36 @@ async function scrollToText(page, text, options = {}) {
   await page.waitForTimeout(450);
 }
 
+async function scrollToVisibleText(page, text) {
+  await page.evaluate((targetText) => {
+    const candidates = Array.from(document.querySelectorAll("main p, main h2, main h3, main span, main text"));
+    const target = candidates.find((element) => {
+      const rect = element.getBoundingClientRect();
+      return (
+        element.textContent?.includes(targetText) &&
+        rect.width > 0 &&
+        rect.height > 0 &&
+        window.getComputedStyle(element).visibility !== "hidden"
+      );
+    });
+    target?.scrollIntoView({ block: "center", inline: "nearest" });
+  }, text);
+  await page.waitForTimeout(450);
+}
+
+async function scrollToPricingGraph(page) {
+  await page.evaluate(() => {
+    const graph = document.querySelector('main svg[role="img"][aria-label*="Visual pricing graph"]');
+    graph?.scrollIntoView({ block: "center", inline: "nearest" });
+  });
+  await page.waitForTimeout(450);
+}
+
+async function clickScenarioButton(page, name) {
+  await page.getByRole("button", { name }).click({ noWaitAfter: true });
+  await page.waitForTimeout(600);
+}
+
 function latestVideoFile() {
   const files = readdirSync(videoDir)
     .filter((file) => file.endsWith(".webm"))
@@ -106,16 +136,13 @@ await scrollToText(page, "Capital window quote", { exact: true });
 frames.push(await captureFrame(page, "03-passport-and-quote", "Passport checks and expected LCX output."));
 
 await scrollToText(page, "Scenario simulator");
-await page.getByRole("button", { name: /Approved/i }).click();
-await page.waitForTimeout(600);
+await clickScenarioButton(page, /Approved/i);
 frames.push(await captureFrame(page, "04-approved-scenario", "Approved exact-input custom-accounting path."));
 
-await page.getByRole("button", { name: /Generic router/i }).click();
-await page.waitForTimeout(600);
+await clickScenarioButton(page, /Generic router/i);
 frames.push(await captureFrame(page, "05-generic-router-revert", "Generic router bypass rejection."));
 
-await page.getByRole("button", { name: /Replay/i }).click();
-await page.waitForTimeout(600);
+await clickScenarioButton(page, /Replay/i);
 frames.push(await captureFrame(page, "06-replay-revert", "Nonce replay rejection."));
 
 await scrollToText(page, "Submission claim");
@@ -123,9 +150,13 @@ frames.push(await captureFrame(page, "07-specialized-markets-claim", "Primary Sp
 
 await page.goto(deckUrl, { waitUntil: "networkidle" });
 await page.waitForTimeout(600);
+await scrollToVisibleText(page, "FX snapshot locked");
+await scrollToPricingGraph(page);
+frames.push(await captureFrame(page, "08-pricing-proof", "Deck pricing bridge with exact step-curve proof."));
+
 await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
 await page.waitForTimeout(450);
-frames.push(await captureFrame(page, "08-pitch-deck-close", "Pitch deck closing claim for Tally deck link."));
+frames.push(await captureFrame(page, "09-pitch-deck-close", "Pitch deck closing claim for Tally deck link."));
 
 await page.close();
 await context.close();
@@ -175,8 +206,9 @@ ${frames.map((frame) => `- ${frame.name}: ${frame.path}\n  ${frame.note}`).join(
 4. Approved scenario.
 5. Generic-router or replay rejection.
 6. Specialized Markets claim.
-7. Pitch deck close.
-8. Terminal proof from \`corepack yarn hookathon:video:proof\`.
+7. Pricing proof.
+8. Pitch deck close.
+9. Terminal proof from \`corepack yarn hookathon:video:proof\`.
 `;
 
 writeFileSync(manifestPath, manifest);

@@ -35,17 +35,20 @@ cd apps/private-equities/contracts
 forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv
 ```
 
-## Two-minute recording
+## Captioned review cut
 
 | Time | Screen | Say | Must show |
 | --- | --- | --- | --- |
-| 0:00-0:15 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting live in different systems." | `Port of Call` hero and sandbox/non-offer badge |
-| 0:15-0:30 | Travel feed | "This is Ablo for capital. The investor travels to Mexico City and enters Lavanderias CX before any transaction exists." | Mexico City / Lavanderias CX port |
-| 0:30-0:45 | Passport + quote | "Diligence and eligibility produce a signed passport: window id, investor, minimum output, deadline, nonce, and signature." | Passport checks and `1,454.54 LCX` expected output |
-| 0:45-1:05 | Scenario simulator, Approved | "Approved exact-input flow settles through `CapitalWindowRouter`; v4 custom accounting returns LCX from an asset-class-specific capital-window curve." | Approved state and `testPrimaryConversionWindowExecutesCustomAccountingSwap` |
-| 1:05-1:25 | Event reconciliation | "The output becomes an audit trail: `WindowConsumed` plus `CapitalWindowHookSwap` map to CRM, portfolio, issuer reporting, and risk review." | Event reconciliation and mock indexer rows |
-| 1:25-1:45 | Scenario simulator, Generic router | "A valid passport cannot ride the wrong route. The digest binds the passport to `CapitalWindowRouter`, so generic v4 routing reverts." | Generic router state and `InvalidAuthorization` |
-| 1:45-2:00 | Terminal | "The local demo proves one settlement and six blocked paths. The hook is not decoration; it is the market boundary." | `Demo complete: one approved settlement, six blocked paths.` |
+| 0:00-0:09 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting live in different systems." | `Port of Call` hero and sandbox/non-offer badge |
+| 0:09-0:18 | Travel feed | "This is Ablo for capital. The investor travels to Mexico City and enters Lavanderias CX before any transaction exists." | Mexico City / Lavanderias CX port |
+| 0:18-0:28 | Passport + quote | "Diligence and eligibility produce a signed passport: window id, investor, minimum output, deadline, nonce, and signature." | Passport checks and `1,454.54 LCX` expected output |
+| 0:28-0:38 | Scenario simulator, Approved | "Approved exact-input flow settles through `CapitalWindowRouter`; v4 custom accounting returns LCX from an asset-class-specific capital-window curve." | Approved state and `testPrimaryConversionWindowExecutesCustomAccountingSwap` |
+| 0:38-0:47 | Scenario simulator, Generic router | "A valid passport cannot ride the wrong route. The digest binds the passport to `CapitalWindowRouter`, so generic v4 routing reverts." | Generic router state and `InvalidAuthorization` |
+| 0:47-0:55 | Scenario simulator, Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." | Replay state and consumed nonce failure |
+| 0:55-1:05 | Specialized Markets | "The hook turns eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance into market rules." | Specialized Markets claim |
+| 1:05-1:13 | Pricing proof | "The visual curve is backed by Solidity: `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." | Deck pricing graph and exact pricing test name |
+| 1:13-1:21 | Deck close | "Uniswap v4 can host private-market windows without pretending they are public AMMs." | Pitch deck closing line |
+| 1:21-1:36 | Terminal | "The local demo proves one settlement and six blocked paths. The hook is not decoration; it is the market boundary." | `Demo complete: one approved settlement, six blocked paths.` |
 
 ## Terminal markers
 
