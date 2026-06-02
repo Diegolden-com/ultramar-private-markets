@@ -7,7 +7,31 @@ Ultramar.capital is now a single public platform with two product lines:
 
 The public brand is **Ultramar.capital**. “Capital” is the platform layer, not a third sellable product.
 
-Hookathon judges should start with `HOOKATHON_README.md` for the Uniswap v4 Port of Call demo, local commands, and submission map.
+## Uniswap v4 Hookathon: Port of Call
+
+Hookathon judges should start here:
+
+| Item | Link |
+| --- | --- |
+| Product demo | https://ultramar.capital/hookathon/port-of-call |
+| Web pitch deck | https://ultramar.capital/hookathon/port-of-call/deck |
+| Demo video | https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm |
+| Base Sepolia dry-run proof | https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md |
+| Winning scorecard | `docs/HOOKATHON_WINNING_SCORECARD.md` |
+| Judge fast path | `docs/HOOKATHON_JUDGE_FAST_PATH.md` |
+| Full Hookathon README | `HOOKATHON_README.md` |
+
+The one-line claim: **the hook is the market boundary**. Ultramar Port of Call is an Ablo-style private-market discovery flow where eligible investors travel to a local issuer, receive a signed passport stamp, and enter a Uniswap v4 capital window only if the hook verifies route, authorization, cap, nonce, timing, oracle freshness, and deterministic custom-accounting settlement.
+
+Fast verification:
+
+```bash
+corepack yarn hookathon:check
+corepack yarn hookathon:testnet:proof
+corepack yarn hookathon:submission:operator
+```
+
+Current local package status is ready; the only remaining submission work is private Tally input and the final Tally confirmation receipt.
 
 ## Canonical App
 

@@ -101,6 +101,8 @@ const requiredTestnetProofMarkers = [
 ];
 
 const requiredNarrativeMarkers = [
+  ["Root README Hookathon index", "README.md", "Uniswap v4 Hookathon: Port of Call"],
+  ["Root README judge packet", "README.md", "Base Sepolia dry-run proof"],
   ["Tally theme", "docs/HOOKATHON_TALLY_SUBMISSION.md", "UHI8: Specialized Markets"],
   ["Specialized Markets answer", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Yes, my project addresses the theme."],
   ["Judge fast path rubric", "docs/HOOKATHON_JUDGE_FAST_PATH.md", "Uniqueness"],

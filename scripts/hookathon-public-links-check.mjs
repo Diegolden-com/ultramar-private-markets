@@ -19,6 +19,19 @@ const checks = [
     markers: ["ultramar-private-markets"],
   },
   {
+    label: "Raw root README Hookathon index",
+    url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/README.md",
+    markers: [
+      "Uniswap v4 Hookathon: Port of Call",
+      "the hook is the market boundary",
+      "https://ultramar.capital/hookathon/port-of-call",
+      "https://ultramar.capital/hookathon/port-of-call/deck",
+      "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
+      "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
+      "corepack yarn hookathon:submission:operator",
+    ],
+  },
+  {
     label: "Raw Tally submission copy",
     url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/docs/HOOKATHON_TALLY_SUBMISSION.md",
     markers: [
