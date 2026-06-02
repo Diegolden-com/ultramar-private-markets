@@ -113,6 +113,12 @@ Release page with captions:
 https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon-port-of-call-demo-2026-05-31
 ```
 
+Base Sepolia dry-run proof report:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
+```
+
 ### Project link, if there's a front end
 
 ```text
@@ -191,6 +197,7 @@ The most useful parts were the progression from v4 architecture into return-delt
 - Tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 - Local proof: `corepack yarn hookathon:check`
 - Terminal video proof: `corepack yarn hookathon:video:proof`
+- Base Sepolia proof: `corepack yarn hookathon:testnet:proof`
 - Browser capture assets: `corepack yarn hookathon:capture:demo`
 - Captioned review cut: `corepack yarn hookathon:render:video`
 - Public link check: `corepack yarn hookathon:links:check`

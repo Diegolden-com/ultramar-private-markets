@@ -100,6 +100,7 @@ Project demo: https://ultramar.capital/hookathon/port-of-call
 Pitch deck: https://ultramar.capital/hookathon/port-of-call/deck
 Demo video: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
 Video release page: https://github.com/Diegolden-com/ultramar-private-markets/releases/tag/hookathon-port-of-call-demo-2026-05-31
+Base Sepolia dry-run proof: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
 Winning scorecard: docs/HOOKATHON_WINNING_SCORECARD.md
 ```
 
@@ -170,6 +171,12 @@ https://ultramar.capital/hookathon/port-of-call/deck
 
 ```text
 https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
+```
+
+Optional proof link if the form or judge notes allow extra evidence:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
 ```
 
 ### Project link

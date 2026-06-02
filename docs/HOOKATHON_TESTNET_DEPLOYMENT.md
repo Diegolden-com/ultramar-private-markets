@@ -86,6 +86,12 @@ corepack yarn hookathon:testnet:proof
 
 This writes `artifacts/hookathon/testnet-dry-run-latest.md` and validates the official Base Sepolia `PoolManager`, hook permission mask, window id, smoke-swap quote, effective price, deltas, and absence of broadcast markers.
 
+Published proof report:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
+```
+
 The equivalent contracts-workspace command is:
 
 ```bash

@@ -47,6 +47,7 @@ Evidence:
 - Deck marker: `Pre-money ledger -> FX snapshot locked -> Hook step curve`.
 - Solidity test: `testWindowStepCurveQuotesExactPricingExample`.
 - Public captions marker: `testWindowStepCurveQuotesExactPricingExample proves 1,500 USDC returns 1,454.54 LCX at 1.0312 effective`.
+- Base Sepolia dry-run proof: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md`.
 
 ## Judge route
 
@@ -55,8 +56,9 @@ Open in order:
 1. Demo: https://ultramar.capital/hookathon/port-of-call
 2. Deck: https://ultramar.capital/hookathon/port-of-call/deck
 3. Video: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
-4. Fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
-5. Contract tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
+4. Base Sepolia dry-run proof: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
+5. Fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
+6. Contract tests: `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`
 
 Run:
 

@@ -84,6 +84,12 @@ Generate a compact Base Sepolia dry-run proof report:
 corepack yarn hookathon:testnet:proof
 ```
 
+Public proof report:
+
+```text
+https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
+```
+
 Generate a clean terminal proof for the demo video:
 
 ```bash
@@ -271,6 +277,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Public demo route: `https://ultramar.capital/hookathon/port-of-call`
 - Public deck route: `https://ultramar.capital/hookathon/port-of-call/deck`
 - Demo video: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`
+- Public testnet proof: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md`
 - Remaining off-repo work: fill submitter/team/rating fields, submit the form, record the private receipt, and deploy to a public testnet only if the current prize rules require it.
 
 ## Why Uniswap v4

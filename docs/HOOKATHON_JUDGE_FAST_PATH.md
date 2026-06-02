@@ -8,7 +8,8 @@ Purpose: give judges a 10-minute route through the submission without making the
 2. Web deck: https://ultramar.capital/hookathon/port-of-call/deck
 3. Demo video: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm
 4. GitHub branch: https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui
-5. Winning scorecard: `docs/HOOKATHON_WINNING_SCORECARD.md`
+5. Base Sepolia dry-run proof: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
+6. Winning scorecard: `docs/HOOKATHON_WINNING_SCORECARD.md`
 
 One sentence to remember:
 
@@ -89,6 +90,10 @@ Compact Base Sepolia dry-run proof report:
 ```bash
 corepack yarn hookathon:testnet:proof
 ```
+
+Public report: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
+
+It verifies a non-broadcast dry-run against chain `84532`, the official Base Sepolia `PoolManager`, a mined hook address ending in `0xa88`, window `1`, and the same `1,500 USDC -> 1,454.54 LCX` quote shown in the pricing slide.
 
 ## Technical questions
 

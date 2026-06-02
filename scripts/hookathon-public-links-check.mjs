@@ -28,6 +28,7 @@ const checks = [
       "testWindowStepCurveQuotesExactPricingExample",
       "https://ultramar.capital/hookathon/port-of-call",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
+      "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
     ],
   },
   {
@@ -37,6 +38,7 @@ const checks = [
       "The hook is the market boundary",
       "Pre-money ledger -> FX snapshot locked -> Hook step curve",
       "testWindowStepCurveQuotesExactPricingExample",
+      "testnet-dry-run-latest.md",
       "Local package failures are `0`",
     ],
   },
@@ -72,6 +74,18 @@ const checks = [
     url: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.vtt",
     minBytes: 500,
     markers: ["testWindowStepCurveQuotesExactPricingExample", "1.0312 effective"],
+  },
+  {
+    label: "Testnet dry-run proof release asset",
+    url: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
+    minBytes: 5_000,
+    markers: [
+      "Broadcast: no",
+      "PoolManager 0x05E73354cFDd6745C338b50BcFDfA3Aa6fA03408",
+      "CapitalWindowHook permission mask 0xa88",
+      "Smoke swap quoted LCX output 1454545454545454545454",
+      "SIMULATION COMPLETE",
+    ],
   },
   {
     label: "Demo release page",
