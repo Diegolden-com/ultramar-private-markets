@@ -25,6 +25,7 @@ const checks = [
       "Ultramar Port of Call",
       "UHI8: Specialized Markets",
       "1.0312 USDC/LCX",
+      "testWindowStepCurveQuotesExactPricingExample",
       "https://ultramar.capital/hookathon/port-of-call",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
     ],
