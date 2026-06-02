@@ -19,6 +19,8 @@ Hookathon judges should start here:
 | Base Sepolia dry-run proof | https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md |
 | Winning scorecard | `docs/HOOKATHON_WINNING_SCORECARD.md` |
 | Judge fast path | `docs/HOOKATHON_JUDGE_FAST_PATH.md` |
+| Submit-now checklist | `docs/HOOKATHON_SUBMIT_NOW.md` |
+| Final Tally packet | `docs/HOOKATHON_TALLY_FINAL_PACKET.md` |
 | Full Hookathon README | `HOOKATHON_README.md` |
 
 The one-line claim: **the hook is the market boundary**. Ultramar Port of Call is an Ablo-style private-market discovery flow where eligible investors travel to a local issuer, receive a signed passport stamp, and enter a Uniswap v4 capital window only if the hook verifies route, authorization, cap, nonce, timing, oracle freshness, and deterministic custom-accounting settlement.

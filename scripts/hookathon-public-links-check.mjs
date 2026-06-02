@@ -29,6 +29,8 @@ const checks = [
       "https://ultramar.capital/hookathon/port-of-call/deck",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
+      "docs/HOOKATHON_SUBMIT_NOW.md",
+      "docs/HOOKATHON_TALLY_FINAL_PACKET.md",
       "corepack yarn hookathon:submission:operator",
     ],
   },

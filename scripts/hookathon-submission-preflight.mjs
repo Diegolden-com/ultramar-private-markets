@@ -105,6 +105,8 @@ const requiredTestnetProofMarkers = [
 const requiredNarrativeMarkers = [
   ["Root README Hookathon index", "README.md", "Uniswap v4 Hookathon: Port of Call"],
   ["Root README judge packet", "README.md", "Base Sepolia dry-run proof"],
+  ["Root README submit-now checklist", "README.md", "docs/HOOKATHON_SUBMIT_NOW.md"],
+  ["Root README final Tally packet", "README.md", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"],
   ["Submit-now receipt gate", "docs/HOOKATHON_SUBMIT_NOW.md", "Completion evidence is valid only when the readiness report shows a real Tally receipt."],
   ["Tally theme", "docs/HOOKATHON_TALLY_SUBMISSION.md", "UHI8: Specialized Markets"],
   ["Specialized Markets answer", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Yes, my project addresses the theme."],
