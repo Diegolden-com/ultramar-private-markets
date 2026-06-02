@@ -24,6 +24,7 @@ const checks = [
     markers: [
       "Ultramar Port of Call",
       "UHI8: Specialized Markets",
+      "1.0312 USDC/LCX",
       "https://ultramar.capital/hookathon/port-of-call",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
     ],
@@ -36,7 +37,14 @@ const checks = [
   {
     label: "Production deck route",
     url: "https://ultramar.capital/hookathon/port-of-call/deck",
-    markers: ["Port of Call Hookathon Pitch Deck", "Specialized Markets", "Uniswap v4 can host private-market windows"],
+    markers: [
+      "Port of Call Hookathon Pitch Deck",
+      "Specialized Markets",
+      "Pre-money and FX become signed window terms",
+      "Snapshot, then fixed",
+      "1.0312",
+      "Uniswap v4 can host private-market windows",
+    ],
   },
   {
     label: "Demo video release asset",
@@ -89,9 +97,12 @@ async function fetchWithTimeout(url, options) {
     return await fetch(url, {
       redirect: "follow",
       signal: controller.signal,
+      cache: "no-store",
       headers: {
         "user-agent": "Ultramar Hookathon public-link-check/1.0",
         accept: "text/html,application/xhtml+xml,text/plain,*/*",
+        "cache-control": "no-cache",
+        pragma: "no-cache",
       },
       ...options,
     });
