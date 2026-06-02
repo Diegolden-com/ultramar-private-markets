@@ -15,6 +15,8 @@ const publicLinks = {
   pitchDeck: "https://ultramar.capital/hookathon/port-of-call/deck",
   demoVideo:
     "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
+  testnetProof:
+    "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
   winningScorecard:
     "https://github.com/Diegolden-com/ultramar-private-markets/blob/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md",
 };
@@ -140,6 +142,7 @@ ${personalMissing.length > 0 ? personalMissing.map((name) => `- \`${name}\``).jo
 - Project demo: ${publicLinks.projectDemo}
 - Pitch deck: ${publicLinks.pitchDeck}
 - Demo video: ${publicLinks.demoVideo}
+- Base Sepolia dry-run proof: ${publicLinks.testnetProof}
 - Winning scorecard: ${publicLinks.winningScorecard}
 
 ## Final Human Pass
