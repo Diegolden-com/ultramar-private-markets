@@ -136,7 +136,7 @@ Ultramar Port of Call turns that into an Ablo-style discovery loop. The investor
 ### Impact: What makes this project unique? What impact will this make?
 
 ```text
-The project is unique because the hook is not just a permission list or fee tweak. It creates a Specialized Market for private operating-business capital: the pool uses v4 PoolManager settlement, but the hook replaces generic AMM price discovery with a deterministic windowed conversion curve via beforeSwapReturnDelta. Public add/remove liquidity reverts, signed passports are bound to CapitalWindowRouter, stale issuer proofs are rejected, replayed authorizations fail, and successful executions emit reconciliation events for CRM, portfolio, issuer reporting, and risk review.
+The project is unique because the hook is not just a permission list or fee tweak. It creates a Specialized Market for private operating-business capital: the pool uses v4 PoolManager settlement, but the hook replaces generic AMM price discovery with a deterministic windowed conversion curve via beforeSwapReturnDelta. The deck shows the pricing example explicitly: approved pre-money and FX terms produce a fixed `1.00 USDC/LCX` base price, then a `1,000 USDC` step with a `10%` tranche premium returns `1,454.54 LCX` for `1,500 USDC` at `1.0312 USDC/LCX` effective. Public add/remove liquidity reverts, signed passports are bound to CapitalWindowRouter, stale issuer proofs are rejected, replayed authorizations fail, and successful executions emit reconciliation events for CRM, portfolio, issuer reporting, and risk review.
 
 The impact is a new pattern for v4: asset-class-specific markets where legal/product constraints become programmable settlement boundaries without rebuilding a bespoke exchange from scratch.
 ```

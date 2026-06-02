@@ -80,7 +80,24 @@ Mechanism:
 - Custom accounting: `beforeSwapReturnDelta` consumes payment and returns window-priced issuer-token output.
 - Market boundary: public add/remove liquidity reverts.
 
-### 6. Proof Paths
+### 6. Pricing Example
+
+Pre-money and FX become signed window terms, then the hook executes the curve.
+
+Show:
+
+- Pre-money frame: `4.5M USD`.
+- Sandbox fully diluted units: `4.5M LCX`.
+- Base price: `1.00 USDC / LCX`.
+- FX policy: MXN economics use a signed snapshot, then a fixed USDC window price.
+- Curve: first `1,000 USDC` at `1.00`, next `500 USDC` at `1.10`.
+- Result: `1,500 USDC -> 1,454.54 LCX` at `1.0312 USDC/LCX` effective.
+
+Speaker line:
+
+"The hook is not a valuation oracle. Ultramar approves valuation and FX terms before the window opens; v4 custom accounting enforces those terms during settlement."
+
+### 7. Proof Paths
 
 One approved settlement, six blocked paths.
 
@@ -95,12 +112,12 @@ corepack yarn hookathon:testnet:e2e
 
 Evidence:
 
-- Approved settlement: `1,500 USDC -> 1,454.54 LCX`.
+- Approved settlement: `1,500 USDC -> 1,454.54 LCX` at `1.0312 USDC/LCX` effective.
 - Blocked paths: missing passport, generic router, expired, min output, replay, stale oracle.
 - Foundry suite: 26 tests, including hook permission bits and router-bound passport digest.
 - Testnet dry-run: Base Sepolia PoolManager, mined `0xa88` hook mask, window 1 smoke swap.
 
-### 7. Judge Frame
+### 8. Judge Frame
 
 The submission is built around the four scoring questions.
 
@@ -109,7 +126,7 @@ The submission is built around the four scoring questions.
 - Functionality: frontend, simulator, Solidity tests, local demo script, capture script, and testnet dry-run path.
 - Presentation: one sentence carries the story: the hook is the market boundary.
 
-### 8. Boundary And Close
+### 9. Boundary And Close
 
 Sandbox demo only. Not a public securities offer.
 

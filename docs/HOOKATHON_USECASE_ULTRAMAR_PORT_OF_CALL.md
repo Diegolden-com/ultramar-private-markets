@@ -95,6 +95,12 @@ MVP pricing should be a windowed step conversion curve:
 - Oracle data can pause or permit a window, but should not silently reprice the security.
 - Secondary windows can use fixed-price, capped auction, or issuer-approved seller escrow parameters.
 
+Demo example:
+
+- Lavanderias CX uses a sandbox valuation frame of `USD 4.5M` pre-money and `4.5M` fully diluted LCX units, producing a `1.00 USDC/LCX` base price.
+- MXN operating economics should be translated through a signed FX snapshot before the window opens; the hook should execute the resulting USDC terms instead of floating FX inside a swap.
+- The primary window uses `stepSize = 1,000 USDC` and `stepPriceBps = 1,000`, so `1,500 USDC` settles as `1,000 LCX` at `1.00` plus `454.54 LCX` at `1.10`, for `1,454.54 LCX` at `1.0312 USDC/LCX` effective.
+
 ## Demo asset: Lavanderias CX
 
 Lavanderias CX is a better demo than an abstract RWA because it is concrete:

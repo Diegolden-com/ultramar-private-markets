@@ -87,7 +87,7 @@ The demo must say **sandbox/testnet** and must not imply that LCX is currently a
 
 5. **Capital window**
 
-   Enter exact-input USDC. Show expected LCX output, cap remaining, per-investor limit, window timer, and oracle proof age.
+   Enter exact-input USDC. Show expected LCX output, cap remaining, per-investor limit, window timer, and oracle proof age. The pricing example should show how `4.5M USD` pre-money and `4.5M LCX` sandbox units become `1.00 USDC/LCX`, with MXN economics translated through a signed FX snapshot before the window opens.
 
 6. **Execute**
 
