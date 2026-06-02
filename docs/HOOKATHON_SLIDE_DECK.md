@@ -90,6 +90,7 @@ Show:
 - Sandbox fully diluted units: `4.5M LCX`.
 - Base price: `1.00 USDC / LCX`.
 - FX policy: MXN economics use a signed snapshot, then a fixed USDC window price.
+- Fixed/floating rule: the active window stays fixed after the signed FX snapshot; a floating FX policy only refreshes the next window before it opens.
 - Curve: first `1,000 USDC` at `1.00`, next `500 USDC` at `1.10`.
 - Result: `1,500 USDC -> 1,454.54 LCX` at `1.0312 USDC/LCX` effective.
 
@@ -97,6 +98,7 @@ Visual graph:
 
 - Valuation-to-window bridge: pre-money ledger -> FX snapshot locked -> hook step curve.
 - Step curve chart: the first `1,000 USDC` clears at `1.00 USDC/LCX`; the next `500 USDC` clears at `1.10 USDC/LCX`.
+- Policy notes: `Fixed window` and `Floating policy` show that current fills are not repriced after settlement, while future windows can receive a new FX snapshot.
 - The displayed effective price is `1.0312 USDC/LCX`, proving the hook is executing fixed signed terms rather than floating AMM discovery.
 
 Speaker line:

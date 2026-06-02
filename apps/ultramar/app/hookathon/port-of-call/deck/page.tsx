@@ -91,6 +91,11 @@ const valuationTerms = [
   ["FX policy", "Snapshot, then fixed", "MXN economics convert into a USDC window price."],
 ] as const;
 
+const fxPolicyRows = [
+  ["Fixed window", "The active window never reprices filled orders after the FX snapshot is signed."],
+  ["Floating policy", "A new FX snapshot can set the next window; old fills keep their fixed terms."],
+] as const;
+
 const curveRows = [
   ["Tranche 1", "0-1,000 USDC", "1.00 USDC/LCX", "1,000.00 LCX"],
   ["Tranche 2", "1,000-1,500 USDC", "1.10 USDC/LCX", "454.54 LCX"],
@@ -333,6 +338,11 @@ export default function PortOfCallDeckPage() {
               <p className="mt-3 break-words font-serif text-2xl font-semibold leading-tight [overflow-wrap:anywhere]">
                 companyTokenOut = sum(tranchePayment / tranchePrice)
               </p>
+              <div className="mt-4 grid gap-1 bg-surface-container/20 sm:grid-cols-2">
+                {fxPolicyRows.map(([label, body]) => (
+                  <FxPolicyNote key={label} label={label} body={body} />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -535,6 +545,17 @@ function ValuationTerm({ label, value, body }: { label: string; value: string; b
   );
 }
 
+function FxPolicyNote({ label, body }: { label: string; body: string }) {
+  return (
+    <div className="min-w-0 bg-surface-paper p-3">
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-surface-ink">
+        {label}
+      </p>
+      <p className="mt-2 text-xs leading-5 text-surface-container">{body}</p>
+    </div>
+  );
+}
+
 function WindowCurveGraphic() {
   return (
     <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-6">
@@ -556,7 +577,7 @@ function WindowCurveGraphic() {
       </div>
 
       <div
-        className="mt-6 grid min-w-0 gap-1 bg-border-muted lg:grid-cols-3"
+        className="mt-6 grid min-w-0 gap-1 bg-border-muted"
         aria-label="Valuation-to-window bridge showing pre-money terms, fixed FX policy, and hook curve settlement."
       >
         {pricingBridge.map(([step, label, value, body]) => (
@@ -568,7 +589,7 @@ function WindowCurveGraphic() {
         <svg
           viewBox="0 0 560 360"
           role="img"
-          aria-label="Visual pricing graph: pre-money and fixed FX define a 1.00 USDC per LCX base price; the hook then prices 1,000 USDC at 1.00 and the next 500 USDC at 1.10."
+          aria-label="Visual pricing graph: pre-money and fixed FX define a 1.00 USDC per LCX base price; the active window keeps that FX snapshot fixed, and the hook prices 1,000 USDC at 1.00 plus the next 500 USDC at 1.10 for an effective 1.0312 price."
           className="h-auto w-full"
         >
           <rect width="560" height="360" fill="var(--surface)" />
@@ -576,6 +597,7 @@ function WindowCurveGraphic() {
           <path d="M64 54V286" stroke="var(--border-muted)" strokeWidth="2" />
           <path d="M64 214H512M64 134H512M64 74H512" stroke="var(--border-muted)" strokeWidth="1" opacity="0.55" />
 
+          <path d="M64 214H246" stroke="var(--on-surface-variant)" strokeDasharray="8 8" strokeWidth="2" opacity="0.9" />
           <path d="M64 286V214H246V134H337V286Z" fill="var(--status-signal)" opacity="0.14" />
           <rect x="64" y="244" width="182" height="42" fill="var(--status-signal)" opacity="0.9" />
           <rect x="246" y="244" width="91" height="42" fill="#c88f32" opacity="0.92" />
@@ -584,6 +606,13 @@ function WindowCurveGraphic() {
           <path d="M246 62V286" stroke="var(--on-surface-variant)" strokeDasharray="7 7" strokeWidth="2" opacity="0.85" />
           <path d="M337 62V286" stroke="#c88f32" strokeDasharray="7 7" strokeWidth="2" opacity="0.95" />
           <circle cx="337" cy="134" r="8" fill="#c88f32" stroke="var(--surface)" strokeWidth="4" />
+
+          <text x="304" y="352" fill="var(--on-surface-variant)" fontSize="13" fontFamily="monospace" textAnchor="middle">
+            x: USDC committed in signed window
+          </text>
+          <text x="18" y="54" fill="var(--on-surface-variant)" fontSize="13" fontFamily="monospace" transform="rotate(-90 18 54)">
+            y: USDC / LCX
+          </text>
 
           <text x="64" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">0</text>
           <text x="216" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1,000</text>
@@ -597,14 +626,20 @@ function WindowCurveGraphic() {
           <text x="84" y="238" fill="var(--surface-ink)" fontSize="17" fontWeight="700" fontFamily="monospace">
             1,000 LCX
           </text>
-          <text x="258" y="238" fill="var(--surface-ink)" fontSize="17" fontWeight="700" fontFamily="monospace">
-            454.54
+          <text x="253" y="238" fill="var(--surface-ink)" fontSize="15" fontWeight="700" fontFamily="monospace">
+            454.54 LCX
           </text>
-          <text x="360" y="126" fill="var(--on-surface)" fontSize="18" fontWeight="700" fontFamily="monospace">
+          <text x="360" y="124" fill="var(--on-surface)" fontSize="18" fontWeight="700" fontFamily="monospace">
             +10% tranche
           </text>
+          <text x="82" y="204" fill="var(--on-surface)" fontSize="15" fontWeight="700" fontFamily="monospace">
+            base from 4.5M / 4.5M
+          </text>
+          <text x="348" y="180" fill="#c88f32" fontSize="15" fontWeight="700" fontFamily="monospace">
+            effective 1.0312
+          </text>
           <text x="84" y="42" fill="var(--status-signal)" fontSize="15" fontWeight="700" fontFamily="monospace">
-            fixed window curve after signed pre-money + FX
+            pre-money + FX snapshot -&gt; fixed curve
           </text>
         </svg>
       </div>
