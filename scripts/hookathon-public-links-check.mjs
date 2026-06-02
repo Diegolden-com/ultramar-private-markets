@@ -40,6 +40,8 @@ const checks = [
       "UHI8: Specialized Markets",
       "1.0312 USDC/LCX",
       "testWindowStepCurveQuotesExactPricingExample",
+      "active window is fixed after the signed FX snapshot",
+      "floating policy can refresh the next window",
       "https://ultramar.capital/hookathon/port-of-call",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
