@@ -35,7 +35,7 @@ Proof object:
 
 - Theme: Specialized Markets
 - Asset: Lavanderias CX
-- Proof: 26 hook tests
+- Proof: 27 hook tests
 
 ### 2. Problem
 
@@ -114,7 +114,7 @@ Evidence:
 
 - Approved settlement: `1,500 USDC -> 1,454.54 LCX` at `1.0312 USDC/LCX` effective.
 - Blocked paths: missing passport, generic router, expired, min output, replay, stale oracle.
-- Foundry suite: 26 tests, including hook permission bits and router-bound passport digest.
+- Foundry suite: 27 tests, including hook permission bits, router-bound passport digest, and exact step-curve pricing.
 - Testnet dry-run: Base Sepolia PoolManager, mined `0xa88` hook mask, window 1 smoke swap.
 
 ### 8. Judge Frame

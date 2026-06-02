@@ -96,7 +96,7 @@ const curveRows = [
 const proofRows = [
   ["Approved settlement", "1,500 USDC -> 1,454.54 LCX"],
   ["Blocked paths", "missing passport / generic router / expired / min output / replay / stale oracle"],
-  ["Foundry suite", "26 tests, including hook permission bits and router-bound passport digest"],
+  ["Foundry suite", "27 tests, including hook permission bits, router-bound passport digest, and exact step-curve pricing"],
   ["Testnet dry-run", "Base Sepolia PoolManager, mined 0xa88 hook mask, window 1 smoke swap"],
 ] as const;
 
@@ -156,7 +156,7 @@ export default function PortOfCallDeckPage() {
             <div className="mt-10 grid gap-1 bg-border-muted md:grid-cols-3">
               <DeckMetric label="Theme" value="Specialized Markets" />
               <DeckMetric label="Asset" value="Lavanderias CX" />
-              <DeckMetric label="Proof" value="26 hook tests" />
+              <DeckMetric label="Proof" value="27 hook tests" />
             </div>
           </div>
 

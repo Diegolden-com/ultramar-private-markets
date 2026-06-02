@@ -178,6 +178,26 @@ contract CapitalWindowHookTest is Test, Deployers {
         assertNotEq(capitalRouterDigest, genericRouterDigest, "passport must bind to the approved router");
     }
 
+    function testWindowStepCurveQuotesExactPricingExample() public {
+        uint256 windowId = _createWindow(
+            CapitalWindowRegistry.WindowMode.PrimaryConversion,
+            treasury,
+            20_000e18,
+            5_000e18,
+            1e18,
+            1_000e18,
+            1_000
+        );
+
+        uint256 paymentAmount = 1_500e18;
+        uint256 expectedOutput = 1_000e18 + ((500e18 * PRICE_SCALE) / 11e17);
+        (uint256 quoted, uint256 effectivePrice) = registry.quoteCompanyTokens(windowId, paymentAmount);
+
+        assertEq(quoted, expectedOutput, "1,500 USDC should cross the 10% tranche");
+        assertEq(quoted, 1_454_545454545454545454, "deck LCX output");
+        assertEq(effectivePrice, 1_031250000000000000, "deck effective price");
+    }
+
     function testPrimaryConversionWindowExecutesCustomAccountingSwap() public {
         uint256 windowId = _createWindow(
             CapitalWindowRegistry.WindowMode.PrimaryConversion,

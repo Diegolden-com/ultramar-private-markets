@@ -21,7 +21,7 @@ Ultramar Port of Call is an Ablo-style discovery app for private-market capital.
 | --- | --- | --- |
 | Uniqueness | This is not a fee tweak, public RWA pool, or generic permission list. The product turns private operating-business capital formation into a v4 Specialized Market. | `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md`, `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`, `/hookathon/port-of-call` |
 | Impact | The pattern lets asset-class constraints become settlement rules: eligibility, transfer policy, window timing, ticket size, caps, route provenance, and issuer-proof freshness. | `docs/HOOKATHON_SUBMISSION_PACKET.md`, `docs/HOOKATHON_TALLY_SUBMISSION.md` |
-| Functionality | The repo includes a frontend, simulator, v4 hook, router, registry, local demo script, 26 hook tests, video proof, public links, and optional Base Sepolia dry-run path. | `corepack yarn hookathon:check`, `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`, `scripts/hookathon-video-proof.mjs` |
+| Functionality | The repo includes a frontend, simulator, v4 hook, router, registry, local demo script, 27 hook tests, video proof, public links, and optional Base Sepolia dry-run path. | `corepack yarn hookathon:check`, `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`, `scripts/hookathon-video-proof.mjs` |
 | Presentation | The story is legible before the code: travel, guide, passport, capital window. The deck and video then lead into the technical proof. | `docs/HOOKATHON_SLIDE_DECK.md`, `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`, public deck and video |
 
 ## v4 mechanism
