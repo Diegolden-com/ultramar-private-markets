@@ -140,6 +140,13 @@ Closing line:
 
 Uniswap v4 can host private-market windows without pretending they are public AMMs.
 
+Judge packet links:
+
+- Demo video: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`
+- Base Sepolia proof: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md`
+- Winning scorecard: `https://github.com/Diegolden-com/ultramar-private-markets/blob/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md`
+- Source branch: `https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui`
+
 Production boundary:
 
 - Counsel.

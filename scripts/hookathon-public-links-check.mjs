@@ -68,6 +68,9 @@ const checks = [
       "27 hook tests",
       "exact step-curve pricing",
       "Uniswap v4 can host private-market windows",
+      "Base Sepolia proof",
+      "Winning scorecard",
+      "testnet-dry-run-latest.md",
     ],
   },
   {

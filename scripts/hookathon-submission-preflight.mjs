@@ -105,6 +105,7 @@ const requiredNarrativeMarkers = [
   ["Specialized Markets answer", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Yes, my project addresses the theme."],
   ["Judge fast path rubric", "docs/HOOKATHON_JUDGE_FAST_PATH.md", "Uniqueness"],
   ["Winning scorecard core claim", "docs/HOOKATHON_WINNING_SCORECARD.md", "The hook is the market boundary"],
+  ["Deck judge packet", "docs/HOOKATHON_SLIDE_DECK.md", "Judge packet links"],
   ["Ablo loop", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md", "Ablo"],
   ["Custom accounting", "HOOKATHON_README.md", "beforeSwapReturnDelta"],
   ["Non-offer boundary", "HOOKATHON_README.md", "not a public securities offering"],

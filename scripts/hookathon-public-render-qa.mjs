@@ -39,6 +39,10 @@ const pages = [
       "exact step-curve pricing",
       "Uniswap v4 can host private-market windows without pretending they are public AMMs.",
       "Uniqueness",
+      "Demo video",
+      "Base Sepolia proof",
+      "Winning scorecard",
+      "Source branch",
     ],
   },
 ];

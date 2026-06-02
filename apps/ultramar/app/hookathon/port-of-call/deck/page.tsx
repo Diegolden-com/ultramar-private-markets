@@ -10,10 +10,14 @@ import {
   BadgeCheck,
   Calculator,
   DatabaseZap,
+  ExternalLink,
   FileCheck2,
+  FileText,
+  GitBranch,
   Globe2,
   KeyRound,
   Network,
+  PlayCircle,
   Route,
   ShieldCheck,
   Terminal,
@@ -111,6 +115,33 @@ const judgeClaims = [
   ["Impact", "A reusable pattern for asset-class-specific markets where constraints become settlement rules."],
   ["Functionality", "Frontend, simulator, Solidity tests, local demo script, capture script, and testnet dry-run path."],
   ["Presentation", "One sentence carries the story: the hook is the market boundary."],
+] as const;
+
+const judgePacketLinks = [
+  {
+    icon: PlayCircle,
+    label: "Demo video",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
+    body: "Captioned review cut with product loop, pricing proof, and terminal proof.",
+  },
+  {
+    icon: Terminal,
+    label: "Base Sepolia proof",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
+    body: "Dry-run report for official PoolManager, mined 0xa88 hook, window 1, and smoke swap.",
+  },
+  {
+    icon: FileText,
+    label: "Winning scorecard",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/blob/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md",
+    body: "One-page rubric map for uniqueness, functionality, v4 relevance, pricing, and safety.",
+  },
+  {
+    icon: GitBranch,
+    label: "Source branch",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui",
+    body: "Hook, router, registry, tests, proof scripts, deck source, and final Tally packet.",
+  },
 ] as const;
 
 export default function PortOfCallDeckPage() {
@@ -373,6 +404,28 @@ export default function PortOfCallDeckPage() {
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-5xl">
             Uniswap v4 can host private-market windows without pretending they are public AMMs.
           </h2>
+          <div className="mt-8 grid gap-1 bg-surface-container/20 sm:grid-cols-2">
+            {judgePacketLinks.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className={`group min-w-0 bg-surface-paper p-4 text-surface-ink transition hover:bg-surface-ink hover:text-on-surface ${focusVisibleClass}`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <ExternalLink className="h-4 w-4 shrink-0 opacity-60 transition group-hover:opacity-100" aria-hidden="true" />
+                </div>
+                <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+                  {item.label}
+                </p>
+                <p className="mt-3 text-sm leading-5 text-surface-container transition group-hover:text-on-surface-variant">
+                  {item.body}
+                </p>
+              </Link>
+            ))}
+          </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/hookathon/port-of-call"
