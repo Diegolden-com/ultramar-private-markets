@@ -41,6 +41,13 @@ The hook uses the v4 flow as the settlement substrate:
 - `beforeAddLiquidity` and `beforeRemoveLiquidity` block public LP behavior for the demo pool.
 - `CapitalWindowRouter` routes the approved transaction into `PoolManager`, so the demo is not a standalone escrow contract with a Uniswap label.
 
+Pricing is explicit window math, not hidden oracle repricing:
+
+- `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price.
+- MXN operating economics use a signed FX snapshot before the USDC window opens.
+- A `1,000 USDC` step with a `10%` tranche premium returns `1,454.54 LCX` for `1,500 USDC`, or `1.0312 USDC/LCX` effective.
+- The public deck shows this as slide `05 / Pricing example`.
+
 ## Fast local verification
 
 Run the full local package gate:
@@ -82,6 +89,7 @@ corepack yarn hookathon:testnet:e2e
 | --- | --- | --- |
 | Why Uniswap v4? | Hooks and custom accounting let a standard pool become a specialized capital-window market. | `beforeSwap`, `beforeSwapReturnDelta`, `PoolManager` route |
 | Why not a bespoke escrow? | v4 provides the pool interface, singleton settlement, flash accounting, and composable route surface while the hook owns market-specific rules. | `CapitalWindowRouter`, `CapitalWindowHook` |
+| How is price determined? | Approved round and FX terms set the base price before the window opens; the hook applies the configured step curve and emits the effective price. | `CapitalWindowRegistry._quote`, deck slide `05 / Pricing example` |
 | Can a generic router bypass the gate? | No. Passport signatures bind the authorization to `CapitalWindowRouter`; generic-router reuse reverts. | `testGenericRouterWithCapitalPassportReverts` |
 | Can users add public liquidity? | No. Public add/remove liquidity reverts in the demo pool. | `testUnauthorizedLiquidityModificationReverts` |
 | Can a stale issuer proof execute? | No. Oracle freshness is checked before settlement. | `testStaleOracleReverts` |

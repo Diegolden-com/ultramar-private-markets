@@ -14,6 +14,24 @@ The hook is the market boundary:
 - No public LP behavior.
 - Approved exact-input flow settles through v4 custom accounting.
 
+## How pricing works
+
+The hook is not a valuation oracle and it does not read raw accounting data to change price inside a swap. Ultramar approves the capital-window terms before the window opens, then the hook enforces those terms through v4 custom accounting.
+
+Demo terms:
+
+- `4.5M USD` pre-money valuation frame.
+- `4.5M LCX` sandbox fully diluted units.
+- `1.00 USDC/LCX` base price.
+- MXN operating economics are translated through a signed FX snapshot before opening the USDC window.
+- The window curve uses a `1,000 USDC` step and a `10%` tranche premium.
+
+That is why the approved demo settlement is:
+
+```text
+1,500.00 USDC -> 1,454.54 LCX at 1.0312 USDC/LCX effective
+```
+
 ## Try it
 
 Judge fast path:
