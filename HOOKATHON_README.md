@@ -78,6 +78,12 @@ Run the optional Base Sepolia dry-run with official v4 `PoolManager`, mined hook
 corepack yarn hookathon:testnet:e2e
 ```
 
+Generate a compact Base Sepolia dry-run proof report:
+
+```bash
+corepack yarn hookathon:testnet:proof
+```
+
 Generate a clean terminal proof for the demo video:
 
 ```bash
@@ -257,6 +263,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 - Tally fill plan: `artifacts/hookathon/tally-fill-plan-latest.md`
 - Tally browser session pack: `artifacts/hookathon/tally-browser-session-latest.html`
 - Tally browser session QA: `artifacts/hookathon/tally-browser-session-qa-latest.md`
+- Testnet dry-run proof: `artifacts/hookathon/testnet-dry-run-latest.md`
 - Submission readiness report: `artifacts/hookathon/submission-readiness-latest.md`
 - Private personalized Tally packet: `artifacts/hookathon/tally-final-personalized-latest.md`
 - Private Tally submission receipt: `artifacts/hookathon/submission-receipt-latest.md`

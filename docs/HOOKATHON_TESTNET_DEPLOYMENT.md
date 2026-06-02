@@ -78,6 +78,14 @@ End-to-end deployment plus approved smoke swap simulation:
 corepack yarn hookathon:testnet:e2e
 ```
 
+Compact proof artifact for judges:
+
+```bash
+corepack yarn hookathon:testnet:proof
+```
+
+This writes `artifacts/hookathon/testnet-dry-run-latest.md` and validates the official Base Sepolia `PoolManager`, hook permission mask, window id, smoke-swap quote, effective price, deltas, and absence of broadcast markers.
+
 The equivalent contracts-workspace command is:
 
 ```bash

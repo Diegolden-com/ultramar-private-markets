@@ -51,7 +51,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Public frontend deployment | Ready externally | Production routes were redeployed and verified live on June 2, 2026: `https://ultramar.capital/hookathon/port-of-call` and `https://ultramar.capital/hookathon/port-of-call/deck` returned HTTP 200 after Vercel aliased deployment `ultramar-capital-4idbzm35u-pachuco.vercel.app`. The deck route now includes the pricing graph markers `FX snapshot locked` and `Hook step curve`, plus `basePrice = preMoneyUsd / fullyDilutedUnits`. |
 | Formal Hookathon submission | External pending | The copy is ready, but the actual Atrium/Devfolio/Tally submission must be sent outside the repo. After submission, generate `artifacts/hookathon/submission-receipt-latest.md` with `corepack yarn hookathon:submission:receipt`; until that receipt exists with real confirmation evidence, the goal is not complete. |
 | Demo video upload | Ready externally | GitHub release `hookathon-port-of-call-demo-2026-05-31` includes refreshed `final-demo-latest.webm` and captions uploaded on June 2, 2026. The WebM is 5,135,057 bytes and the VTT verifies `testWindowStepCurveQuotesExactPricingExample` plus `1.0312 effective`. Direct video URL: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`. |
-| Testnet deployment | E2E dry-run ready / broadcast pending | Local v4 proof exists. `docs/HOOKATHON_TESTNET_DEPLOYMENT.md`, `DeployCapitalWindowTestnet.s.sol`, and `ExecuteCapitalWindowTestnetSwap.s.sol` define the public-testnet path. A Base Sepolia dry-run succeeded without `--broadcast`, including mined hook deployment, window creation, and an approved exact-input smoke swap through the official `PoolManager`; explorer-verifiable deployment/swap remains external pending. |
+| Testnet deployment | E2E dry-run ready / broadcast pending | Local v4 proof exists. `docs/HOOKATHON_TESTNET_DEPLOYMENT.md`, `DeployCapitalWindowTestnet.s.sol`, and `ExecuteCapitalWindowTestnetSwap.s.sol` define the public-testnet path. `corepack yarn hookathon:testnet:proof` writes `artifacts/hookathon/testnet-dry-run-latest.md` after a Base Sepolia dry-run without `--broadcast`, including mined hook deployment, window creation, and an approved exact-input smoke swap through the official `PoolManager`; explorer-verifiable deployment/swap remains external pending. |
 
 ## Verification gate
 
@@ -65,6 +65,12 @@ Optional networked dry-run against Base Sepolia:
 
 ```bash
 corepack yarn hookathon:testnet:e2e
+```
+
+Compact Base Sepolia dry-run proof:
+
+```bash
+corepack yarn hookathon:testnet:proof
 ```
 
 Clean terminal proof for recording:

@@ -84,6 +84,12 @@ Optional public-testnet simulation, without broadcasting:
 corepack yarn hookathon:testnet:e2e
 ```
 
+Compact Base Sepolia dry-run proof report:
+
+```bash
+corepack yarn hookathon:testnet:proof
+```
+
 ## Technical questions
 
 | Question | Short answer | Proof |

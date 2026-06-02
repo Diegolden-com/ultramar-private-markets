@@ -33,6 +33,7 @@
     "hookathon:tally:session:qa": "node scripts/hookathon-tally-session-qa.mjs",
     "hookathon:tally:session": "node scripts/hookathon-tally-session-pack.mjs",
     "hookathon:video:proof": "node scripts/hookathon-video-proof.mjs",
+    "hookathon:testnet:proof": "node scripts/hookathon-testnet-dry-run-proof.mjs",
     "hookathon:testnet:dry-run": "cd apps/private-equities/contracts && DEPLOYER_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 forge script script/DeployCapitalWindowTestnet.s.sol:DeployCapitalWindowTestnet --rpc-url https://sepolia.base.org -vv",
     "hookathon:testnet:e2e": "cd apps/private-equities/contracts && DEPLOYER_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 CAPITAL_WINDOW_RUN_SMOKE_SWAP=true forge script script/DeployCapitalWindowTestnet.s.sol:DeployCapitalWindowTestnet --rpc-url https://sepolia.base.org -vv"
   },

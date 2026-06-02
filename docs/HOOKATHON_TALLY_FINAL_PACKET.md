@@ -17,6 +17,7 @@ corepack yarn hookathon:tally:live:qa
 corepack yarn hookathon:tally:fill-plan
 corepack yarn hookathon:tally:session
 corepack yarn hookathon:tally:session:qa
+corepack yarn hookathon:testnet:proof
 corepack yarn hookathon:submission:preflight
 corepack yarn hookathon:submission:operator
 corepack yarn hookathon:submission:handoff

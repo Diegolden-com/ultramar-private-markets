@@ -30,6 +30,7 @@ const requiredFiles = [
   ["Local demo script", "apps/private-equities/contracts/script/CapitalWindowDemo.s.sol"],
   ["Testnet deploy script", "apps/private-equities/contracts/script/DeployCapitalWindowTestnet.s.sol"],
   ["Testnet swap script", "apps/private-equities/contracts/script/ExecuteCapitalWindowTestnetSwap.s.sol"],
+  ["Testnet dry-run proof script", "scripts/hookathon-testnet-dry-run-proof.mjs"],
   ["Video proof script", "scripts/hookathon-video-proof.mjs"],
   ["Browser capture script", "scripts/hookathon-capture-demo.mjs"],
   ["Video render script", "scripts/hookathon-render-video.mjs"],
@@ -64,6 +65,7 @@ const requiredArtifacts = [
   ["Final captioned video", "artifacts/hookathon/video/final-demo-latest.webm"],
   ["Final captions", "artifacts/hookathon/video/final-demo-latest.vtt"],
   ["Final video manifest", "artifacts/hookathon/video/final-demo-manifest-latest.md"],
+  ["Testnet dry-run proof", "artifacts/hookathon/testnet-dry-run-latest.md"],
   ["Public link report", "artifacts/hookathon/public-links-latest.md"],
   ["Public render QA report", "artifacts/hookathon/public-render-qa-latest.md"],
   ["Privacy hygiene report", "artifacts/hookathon/privacy-check-latest.md"],
@@ -88,6 +90,16 @@ const requiredProofMarkers = [
   "Demo complete: one approved settlement, six blocked paths.",
 ];
 
+const requiredTestnetProofMarkers = [
+  "Broadcast: no",
+  "chain id 84532",
+  "PoolManager 0x05E73354cFDd6745C338b50BcFDfA3Aa6fA03408",
+  "CapitalWindowHook permission mask 0xa88",
+  "Smoke swap quoted LCX output 1454545454545454545454",
+  "Smoke swap effective price 1031250000000000000",
+  "SIMULATION COMPLETE",
+];
+
 const requiredNarrativeMarkers = [
   ["Tally theme", "docs/HOOKATHON_TALLY_SUBMISSION.md", "UHI8: Specialized Markets"],
   ["Specialized Markets answer", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Yes, my project addresses the theme."],
@@ -106,6 +118,7 @@ const requiredNarrativeMarkers = [
   ["Project URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call"],
   ["Public frontend verification", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Verified live on June 2, 2026"],
   ["Exact pricing test", "docs/HOOKATHON_TALLY_SUBMISSION.md", "testWindowStepCurveQuotesExactPricingExample"],
+  ["Testnet proof command", "HOOKATHON_README.md", "corepack yarn hookathon:testnet:proof"],
   ["Public render QA command", "HOOKATHON_README.md", "corepack yarn hookathon:public:render:qa"],
   ["Final packet pre-submit gate", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:links:check"],
   ["Final packet direct video URL", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm"],
@@ -173,6 +186,16 @@ function checkProofMarkers() {
   return requiredProofMarkers.map((marker) => ({ marker, ok: proof.includes(marker) }));
 }
 
+function checkTestnetProofMarkers() {
+  let proof = "";
+  try {
+    proof = read("artifacts/hookathon/testnet-dry-run-latest.md");
+  } catch {
+    return requiredTestnetProofMarkers.map((marker) => ({ marker, ok: false }));
+  }
+  return requiredTestnetProofMarkers.map((marker) => ({ marker, ok: proof.includes(marker) }));
+}
+
 function checkVideoManifest() {
   try {
     const manifest = read("artifacts/hookathon/video/final-demo-manifest-latest.md");
@@ -224,6 +247,7 @@ const fileRows = checkFiles(requiredFiles);
 const artifactRows = checkFiles(requiredArtifacts);
 const markerRows = checkMarkers(requiredNarrativeMarkers);
 const proofRows = checkProofMarkers();
+const testnetProofRows = checkTestnetProofMarkers();
 const videoManifest = checkVideoManifest();
 const placeholders = findTallyPlaceholders();
 
@@ -232,6 +256,7 @@ const localFailures = [
   ...artifactRows.filter((row) => !row.ok).map((row) => `${row.label}: ${row.path}`),
   ...markerRows.filter((row) => !row.ok).map((row) => `${row.label}: ${row.path}`),
   ...proofRows.filter((row) => !row.ok).map((row) => `Proof marker: ${row.marker}`),
+  ...testnetProofRows.filter((row) => !row.ok).map((row) => `Testnet proof marker: ${row.marker}`),
   ...(videoManifest.ok ? [] : ["Final video manifest is missing, malformed, oversized, or too small"]),
   ...placeholders.filter((row) => row.present && !row.expectedExternal).map((row) => `Unexpected placeholder: ${row.placeholder}`),
 ];
@@ -277,6 +302,12 @@ ${formatMarkerRows(markerRows)}
 | Status | Marker |
 | --- | --- |
 ${proofRows.map((row) => `| ${row.ok ? "Ready" : "Missing"} | \`${row.marker}\` |`).join("\n")}
+
+## Testnet Proof Markers
+
+| Status | Marker |
+| --- | --- |
+${testnetProofRows.map((row) => `| ${row.ok ? "Ready" : "Missing"} | \`${row.marker}\` |`).join("\n")}
 
 ## Final Video
 
