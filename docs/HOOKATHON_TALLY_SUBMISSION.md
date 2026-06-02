@@ -95,7 +95,7 @@ Verified with `gh repo view Diegolden-com/ultramar-private-markets --json visibi
 https://ultramar.capital/hookathon/port-of-call/deck
 ```
 
-Verified live on May 31, 2026. Source deck backup:
+Verified live on June 2, 2026 with production render QA and public link checks. Source deck backup:
 
 ```text
 Source deck: docs/HOOKATHON_SLIDE_DECK.md

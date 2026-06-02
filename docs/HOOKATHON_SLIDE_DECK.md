@@ -2,7 +2,7 @@
 
 Purpose: source narrative for the public web deck at `/hookathon/port-of-call/deck`.
 
-Public deck URL, verified live on May 31, 2026:
+Public deck URL, verified live on June 2, 2026:
 
 ```text
 https://ultramar.capital/hookathon/port-of-call/deck
