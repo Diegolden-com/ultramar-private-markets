@@ -45,7 +45,14 @@ const checks = [
   {
     label: "Production demo route",
     url: "https://ultramar.capital/hookathon/port-of-call",
-    markers: ["Port of Call Hookathon Demo", "Specialized Markets", "custom accounting"],
+    markers: [
+      "Port of Call Hookathon Demo",
+      "Specialized Markets",
+      "custom accounting",
+      "Base Sepolia proof",
+      "Winning scorecard",
+      "testnet-dry-run-latest.md",
+    ],
   },
   {
     label: "Production deck route",

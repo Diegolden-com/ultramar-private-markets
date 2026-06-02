@@ -6,9 +6,13 @@ import {
   BadgeCheck,
   CircleDollarSign,
   DatabaseZap,
+  ExternalLink,
   FileCheck2,
+  FileText,
+  GitBranch,
   Languages,
   LockKeyhole,
+  PlayCircle,
   Route,
   ShieldCheck,
   Terminal,
@@ -154,6 +158,33 @@ const proofMarkers = [
   ["Blocked paths", "missing passport / generic router / expired / min output / replay / stale oracle"],
   ["Mined hook", "0xf4e79FfC08cf1c4325DDCD1d1f38e10E37900a88"],
   ["Smoke delta", "-1500e18 USDC / +1454.54e18 LCX"],
+] as const;
+
+const judgePacketLinks = [
+  {
+    icon: PlayCircle,
+    label: "Demo video",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
+    body: "Captioned review cut with approved path, rejected paths, and pricing proof.",
+  },
+  {
+    icon: Terminal,
+    label: "Base Sepolia proof",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
+    body: "Non-broadcast dry-run with official PoolManager, 0xa88 hook mask, and smoke swap quote.",
+  },
+  {
+    icon: FileText,
+    label: "Winning scorecard",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/blob/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md",
+    body: "One-page rubric map for uniqueness, functionality, v4 relevance, pricing, and safety.",
+  },
+  {
+    icon: GitBranch,
+    label: "Source branch",
+    href: "https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui",
+    body: "Hook, router, registry, tests, proof scripts, public deck source, and Tally packet.",
+  },
 ] as const;
 
 export default function PortOfCallHookathonPage() {
@@ -436,6 +467,28 @@ export default function PortOfCallHookathonPage() {
                     {value}
                   </p>
                 </div>
+              ))}
+            </div>
+            <div className="mt-1 grid min-w-0 gap-1 bg-surface-container/20 md:grid-cols-4">
+              {judgePacketLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`group min-w-0 bg-surface-paper p-4 text-surface-ink transition hover:bg-surface-ink hover:text-on-surface ${focusVisibleClass}`}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    <ExternalLink className="h-4 w-4 shrink-0 opacity-60 transition group-hover:opacity-100" aria-hidden="true" />
+                  </div>
+                  <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+                    {item.label}
+                  </p>
+                  <p className="mt-3 text-sm leading-5 text-surface-container transition group-hover:text-on-surface-variant">
+                    {item.body}
+                  </p>
+                </Link>
               ))}
             </div>
           </div>

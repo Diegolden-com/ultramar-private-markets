@@ -19,6 +19,9 @@ const pages = [
       "The hook is the market boundary.",
       "Specialized Markets",
       "custom accounting",
+      "Base Sepolia proof",
+      "Winning scorecard",
+      "Source branch",
     ],
   },
   {
