@@ -248,6 +248,7 @@ The testnet dry-run should show a hook address ending in the `0xa88` permission 
 
 - Public frontend, contract tests, demo script, copy, captioned video, and run-of-show are ready for submission.
 - Completion audit: `docs/HOOKATHON_COMPLETION_AUDIT.md`
+- Submit-now checklist: `docs/HOOKATHON_SUBMIT_NOW.md`
 - Judge fast path: `docs/HOOKATHON_JUDGE_FAST_PATH.md`
 - Winning scorecard: `docs/HOOKATHON_WINNING_SCORECARD.md`
 - Optional testnet deployment runbook: `docs/HOOKATHON_TESTNET_DEPLOYMENT.md`

@@ -4,6 +4,8 @@ Purpose: single-pass copy order for the official Atrium capstone form at `https:
 
 Use `docs/HOOKATHON_TALLY_SUBMISSION.md` as the canonical long source. This packet is the submitter-facing checklist for the final browser session.
 
+For the shortest final-submit path, use `docs/HOOKATHON_SUBMIT_NOW.md`.
+
 ## Pre-submit gate
 
 Run these from the monorepo root immediately before opening Tally:

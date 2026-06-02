@@ -14,6 +14,7 @@ const requiredFiles = [
   ["Public README", "HOOKATHON_README.md"],
   ["Tally copy", "docs/HOOKATHON_TALLY_SUBMISSION.md"],
   ["Final Tally packet", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"],
+  ["Submit-now checklist", "docs/HOOKATHON_SUBMIT_NOW.md"],
   ["Completion audit", "docs/HOOKATHON_COMPLETION_AUDIT.md"],
   ["Judge fast path", "docs/HOOKATHON_JUDGE_FAST_PATH.md"],
   ["Winning scorecard", "docs/HOOKATHON_WINNING_SCORECARD.md"],
@@ -103,6 +104,7 @@ const requiredTestnetProofMarkers = [
 const requiredNarrativeMarkers = [
   ["Root README Hookathon index", "README.md", "Uniswap v4 Hookathon: Port of Call"],
   ["Root README judge packet", "README.md", "Base Sepolia dry-run proof"],
+  ["Submit-now receipt gate", "docs/HOOKATHON_SUBMIT_NOW.md", "Completion evidence is valid only when the readiness report shows a real Tally receipt."],
   ["Tally theme", "docs/HOOKATHON_TALLY_SUBMISSION.md", "UHI8: Specialized Markets"],
   ["Specialized Markets answer", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Yes, my project addresses the theme."],
   ["Judge fast path rubric", "docs/HOOKATHON_JUDGE_FAST_PATH.md", "Uniqueness"],
@@ -132,6 +134,7 @@ const requiredNarrativeMarkers = [
   ["Final packet direct video URL", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm"],
   ["Final packet testnet proof URL", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md"],
   ["Handoff testnet proof URL", "scripts/hookathon-submission-handoff.mjs", "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md"],
+  ["Handoff submit-now URL", "scripts/hookathon-submission-handoff.mjs", "docs/HOOKATHON_SUBMIT_NOW.md"],
   ["Tally field map command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:field-map"],
   ["Tally live QA command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:live:qa"],
   ["Tally fill plan command", "docs/HOOKATHON_TALLY_FINAL_PACKET.md", "corepack yarn hookathon:tally:fill-plan"],

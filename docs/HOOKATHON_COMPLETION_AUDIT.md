@@ -27,7 +27,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 | Provide a local scripted walkthrough | Ready | `apps/private-equities/contracts/script/CapitalWindowDemo.s.sol` prints one approved settlement and six blocked paths. |
 | Provide submission copy | Ready | `docs/HOOKATHON_SUBMISSION_FORM.md` contains copy/paste fields, demo URL placeholders, repository map, commands, tests, and disclaimer language. |
 | Provide exact Tally answers | Ready | `docs/HOOKATHON_TALLY_SUBMISSION.md` maps every visible Tally field to a concrete answer or required placeholder. |
-| Provide final Tally copy packet | Ready | `docs/HOOKATHON_TALLY_FINAL_PACKET.md` gives a single browser-session copy order, link list, pre-submit gates, and post-submit evidence checklist. |
+| Provide final Tally copy packet | Ready | `docs/HOOKATHON_TALLY_FINAL_PACKET.md` gives a single browser-session copy order, link list, pre-submit gates, and post-submit evidence checklist; `docs/HOOKATHON_SUBMIT_NOW.md` gives the shortest final-submit path. |
 | Provide video/run-of-show | Ready externally | `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md` contains the two-minute recording script, and the public GitHub release includes the rendered WebM plus captions. |
 | Provide recording proof artifact | Ready | `corepack yarn hookathon:video:proof` generates `artifacts/hookathon/terminal-proof-latest.md` with required settlement and revert markers for the final video. |
 | Provide browser capture assets | Ready | `corepack yarn hookathon:capture:demo` captures key demo frames and `artifacts/hookathon/video/demo-flow-latest.webm` for editing/upload prep. |

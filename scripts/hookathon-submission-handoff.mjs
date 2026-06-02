@@ -19,6 +19,8 @@ const publicLinks = {
     "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md",
   winningScorecard:
     "https://github.com/Diegolden-com/ultramar-private-markets/blob/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md",
+  submitNow:
+    "https://github.com/Diegolden-com/ultramar-private-markets/blob/codex/landing-wave-route-ui/docs/HOOKATHON_SUBMIT_NOW.md",
 };
 
 function run(command, args) {
@@ -144,6 +146,7 @@ ${personalMissing.length > 0 ? personalMissing.map((name) => `- \`${name}\``).jo
 - Demo video: ${publicLinks.demoVideo}
 - Base Sepolia dry-run proof: ${publicLinks.testnetProof}
 - Winning scorecard: ${publicLinks.winningScorecard}
+- Submit-now checklist: ${publicLinks.submitNow}
 
 ## Final Human Pass
 

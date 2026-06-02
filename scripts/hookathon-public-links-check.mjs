@@ -56,6 +56,16 @@ const checks = [
     ],
   },
   {
+    label: "Raw submit-now checklist",
+    url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/docs/HOOKATHON_SUBMIT_NOW.md",
+    markers: [
+      "Hookathon submit-now checklist",
+      "Ready for Tally submit: yes",
+      "corepack yarn hookathon:submission:receipt",
+      "Completion evidence is valid only when the readiness report shows a real Tally receipt.",
+    ],
+  },
+  {
     label: "Production demo route",
     url: "https://ultramar.capital/hookathon/port-of-call",
     markers: [
