@@ -153,7 +153,7 @@ export function HookathonScenarioSimulator() {
       <div className="min-w-0 bg-surface p-5 md:p-8">
         <DatabaseZap className="h-5 w-5 text-status-signal" aria-hidden="true" />
         <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Scenario simulator
+          Demo app
         </p>
         <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
           One hook, five judge-visible outcomes.

@@ -112,6 +112,49 @@ const feedPorts = [
   },
 ] as const;
 
+const marketReadinessRows = [
+  [
+    "Walmart lesson",
+    "Markets do not pay only for category. They pay for operating systems that can compound.",
+  ],
+  [
+    "LCX question",
+    "Can a competitive laundry business become investible through administration, omnichannel demand, and margin expansion?",
+  ],
+  [
+    "Ultramar answer",
+    "Create an investment port: data layer, legal instrument, investor passport, and v4 settlement window.",
+  ],
+] as const;
+
+const readinessPillars = [
+  {
+    icon: DatabaseZap,
+    label: "Operating upgrade",
+    title: "Administration becomes alpha.",
+    body: "Machine utilization, route density, pickup and delivery, ticket mix, cash discipline, and store-level reporting make a traditional operator legible to capital.",
+  },
+  {
+    icon: FileCheck2,
+    label: "Verified proof",
+    title: "Private data becomes market claims.",
+    body: "Revenue freshness, liquidity coverage, debt load, covenant status, and data-room readiness can be proven without turning the whole business public.",
+  },
+  {
+    icon: CircleDollarSign,
+    label: "Capital route",
+    title: "Debt or equity can open a window.",
+    body: "This demo settles an equity window. The same port can later support debt covenants, secondary transfers, or step-to-equity instruments.",
+  },
+] as const;
+
+const investmentPortRails = [
+  ["Data layer", "Operating KPIs, financial ratios, reporting freshness"],
+  ["Instrument layer", "Equity, debt, secondary transfer, or convertible terms"],
+  ["Access layer", "Investor eligibility, accreditation, limits, and disclosures"],
+  ["Settlement layer", "Uniswap v4 hook with custom accounting and route controls"],
+] as const;
+
 const demoTrace = [
   ["01", "Investor opens Mexico City port", "Translated diligence and operator context load before any transaction surface."],
   ["02", "Passport stamp is attached", "`hookData` carries the investor, window, minimum output, deadline, nonce, and signature."],
@@ -325,6 +368,58 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
 
+      <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.86fr_1.14fr]">
+        <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
+          <DatabaseZap className="h-5 w-5" aria-hidden="true" />
+          <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+            Market readiness
+          </p>
+          <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight md:text-5xl">
+            The market pays for administration that can absorb capital.
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-surface-container">
+            The Walmart lesson is not a multiple. It is a market signal: valuation follows operating
+            systems, not just industry labels. Ultramar applies that lesson to private companies that
+            are too real to be memes and too small to be public.
+          </p>
+          <div className="mt-8 grid gap-1 bg-surface-container/20">
+            {marketReadinessRows.map(([label, body]) => (
+              <PaperRow key={label} label={label} value={body} />
+            ))}
+          </div>
+        </div>
+
+        <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-3">
+          {readinessPillars.map((item) => (
+            <article key={item.label} className="min-w-0 bg-surface p-5 md:p-6">
+              <item.icon className="h-5 w-5 text-status-signal" aria-hidden="true" />
+              <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                {item.label}
+              </p>
+              <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
+                {item.title}
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.body}</p>
+            </article>
+          ))}
+          <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:col-span-3 md:p-6">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Investment port stack
+            </p>
+            <div className="mt-5 grid min-w-0 gap-1 bg-border-muted md:grid-cols-4">
+              {investmentPortRails.map(([label, value]) => (
+                <div key={label} className="min-w-0 bg-surface-ink p-4">
+                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                    {label}
+                  </p>
+                  <p className="mt-3 text-sm leading-5 text-on-surface-variant">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[1.05fr_0.95fr]">
         <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2">
           <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
@@ -484,6 +579,8 @@ export default function PortOfCallHookathonPage() {
         ))}
       </section>
 
+      <HookathonScenarioSimulator />
+
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.82fr_1.18fr]">
         <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">
           <Terminal className="h-5 w-5 text-status-signal" aria-hidden="true" />
@@ -552,8 +649,6 @@ export default function PortOfCallHookathonPage() {
           </div>
         </div>
       </section>
-
-      <HookathonScenarioSimulator />
 
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.9fr_1.1fr]">
         <div className="min-w-0 bg-surface p-5 md:p-8">

@@ -135,7 +135,7 @@ frames.push(await captureFrame(page, "02-travel-feed", "Ablo-style travel feed a
 await scrollToText(page, "Capital window quote", { exact: true });
 frames.push(await captureFrame(page, "03-passport-and-quote", "Passport checks and expected LCX output."));
 
-await scrollToText(page, "Scenario simulator");
+await scrollToText(page, "Demo app");
 await clickScenarioButton(page, /Approved/i);
 frames.push(await captureFrame(page, "04-approved-scenario", "Approved exact-input custom-accounting path."));
 
