@@ -76,6 +76,11 @@ const checks = [
     markers: [
       "Port of Call Hookathon Demo",
       "Specialized Markets",
+      "Pricing policy",
+      "Fixed price window",
+      "Step curve window",
+      "Most capital windows should be fixed",
+      "effective 1.0312",
       "custom accounting",
       "Base Sepolia proof",
       "Winning scorecard",

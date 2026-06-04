@@ -144,7 +144,7 @@ const proofCommands = [
   {
     label: "Local gate",
     command: "corepack yarn hookathon:check",
-    result: "App lint, typecheck, production build, 26 Foundry tests, and one approved settlement plus six blocked paths.",
+    result: "App lint, typecheck, production build, 27 contract tests, and one approved settlement plus six blocked paths.",
   },
   {
     label: "Base Sepolia dry-run",
@@ -185,6 +185,24 @@ const judgePacketLinks = [
     href: "https://github.com/Diegolden-com/ultramar-private-markets/tree/codex/landing-wave-route-ui",
     body: "Hook, router, registry, tests, proof scripts, public deck source, and Tally packet.",
   },
+] as const;
+
+const pricingSignals = [
+  ["Default stance", "Fixed price active window"],
+  ["Demo stress test", "Step curve optionality"],
+  ["Hard invariant", "Filled orders are never repriced"],
+] as const;
+
+const fixedWindowRows = [
+  ["Price rule", "1.00 USDC / LCX for the full active window"],
+  ["Best use", "Classic private round with pre-approved valuation terms"],
+  ["Hook job", "Enforce eligibility, caps, freshness, and settlement"],
+] as const;
+
+const stepCurveRows = [
+  ["Price rule", "1,000 USDC at 1.00, then next tranche at 1.10"],
+  ["Best use", "Oversubscribed windows or explicit tranche incentives"],
+  ["Demo quote", "1,500 USDC -> 1,454.54 LCX, effective 1.0312"],
 ] as const;
 
 export default function PortOfCallHookathonPage() {
@@ -366,9 +384,10 @@ export default function PortOfCallHookathonPage() {
           </p>
           <div className="mt-4 grid gap-1 bg-border-muted">
             <QuoteRow label="Exact input" value="1,500 USDC" />
+            <QuoteRow label="Base price" value="1.00 USDC/LCX" />
+            <QuoteRow label="Step rule" value="1,000 USDC + 10%" />
             <QuoteRow label="Expected output" value="1,454.54 LCX" />
-            <QuoteRow label="Per-investor cap" value="5,000 USDC" />
-            <QuoteRow label="Window fill" value="27%" />
+            <QuoteRow label="Effective price" value="1.0312 USDC/LCX" />
             <QuoteRow label="Oracle proof age" value="18 minutes" />
           </div>
 
@@ -408,6 +427,45 @@ export default function PortOfCallHookathonPage() {
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.78fr_1.22fr]">
+        <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">
+          <CircleDollarSign className="h-5 w-5 text-status-signal" aria-hidden="true" />
+          <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            Pricing policy
+          </p>
+          <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
+            Most capital windows should be fixed. The step curve is the advanced proof.
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
+            Port of Call is not trying to make private rounds behave like public AMMs. The credible
+            base case is a fixed signed price for the active window; the demo step curve proves that
+            the hook can also enforce explicit tranche economics when the issuer wants them.
+          </p>
+          <div className="mt-8 grid gap-1 bg-border-muted">
+            {pricingSignals.map(([label, value]) => (
+              <PricingSignal key={label} label={label} value={value} />
+            ))}
+          </div>
+        </div>
+
+        <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-2">
+          <PricingCurvePanel
+            eyebrow="Baseline"
+            title="Fixed price window"
+            body="Use this for a normal private-market window: valuation and FX are approved before opening, and every accepted order in that active window clears at the same signed terms."
+            variant="fixed"
+            rows={fixedWindowRows}
+          />
+          <PricingCurvePanel
+            eyebrow="Advanced policy"
+            title="Step curve window"
+            body="Use this only when the issuer intentionally wants tranche pricing. The hook splits an order across boundaries, so the first tranche clears at the base price and later demand pays the premium."
+            variant="step"
+            rows={stepCurveRows}
+          />
         </div>
       </section>
 
@@ -676,6 +734,140 @@ function QuoteRow({ label, value }: { label: string; value: string }) {
       </p>
       <p className="text-right font-mono text-sm font-semibold tabular-nums text-on-surface">{value}</p>
     </div>
+  );
+}
+
+function PricingSignal({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="grid min-w-0 gap-3 bg-surface p-4 sm:grid-cols-[144px_1fr]">
+      <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+        {label}
+      </p>
+      <p className="break-words font-mono text-sm font-semibold text-on-surface">{value}</p>
+    </div>
+  );
+}
+
+function PricingCurvePanel({
+  eyebrow,
+  title,
+  body,
+  variant,
+  rows,
+}: {
+  eyebrow: string;
+  title: string;
+  body: string;
+  variant: "fixed" | "step";
+  rows: readonly (readonly [string, string])[];
+}) {
+  return (
+    <article className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-6">
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+        {eyebrow}
+      </p>
+      <h3 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-4xl">{title}</h3>
+      <p className="mt-4 text-sm leading-6 text-surface-container">{body}</p>
+      <div className="mt-6 border border-surface-container/20 bg-surface-paper">
+        <PriceCurveChart variant={variant} />
+      </div>
+      <div className="mt-5 grid gap-1 bg-surface-container/20">
+        {rows.map(([label, value]) => (
+          <PaperRow key={label} label={label} value={value} />
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
+  const isStep = variant === "step";
+  const title = isStep ? "Step curve price chart" : "Fixed price window chart";
+  const description = isStep
+    ? "Price stays at 1.00 USDC per LCX for the first 1,000 USDC, then steps to 1.10 and 1.20 as committed USDC crosses tranche boundaries."
+    : "Price stays fixed at 1.00 USDC per LCX across the active window as committed USDC increases.";
+  const curvePath = isStep ? "M44 122 H140 V91 H236 V60 H332" : "M44 122 H332";
+  const highlightX = isStep ? 188 : 188;
+
+  return (
+    <svg
+      viewBox="0 0 376 220"
+      role="img"
+      aria-labelledby={`price-chart-title-${variant} price-chart-desc-${variant}`}
+      className="block aspect-[376/220] w-full"
+    >
+      <title id={`price-chart-title-${variant}`}>{title}</title>
+      <desc id={`price-chart-desc-${variant}`}>{description}</desc>
+      <rect width="376" height="220" fill="currentColor" className="text-surface-paper" />
+      <g stroke="currentColor" className="text-surface-container/20" strokeWidth="1">
+        <line x1="44" y1="60" x2="332" y2="60" />
+        <line x1="44" y1="91" x2="332" y2="91" />
+        <line x1="44" y1="122" x2="332" y2="122" />
+        <line x1="44" y1="153" x2="332" y2="153" />
+      </g>
+      <g stroke="currentColor" className="text-surface-container" strokeWidth="1.5">
+        <line x1="44" y1="36" x2="44" y2="164" />
+        <line x1="44" y1="164" x2="340" y2="164" />
+      </g>
+      <g fill="currentColor" className="text-surface-container" fontSize="10" fontFamily="monospace">
+        <text x="8" y="64">1.20</text>
+        <text x="8" y="95">1.10</text>
+        <text x="8" y="126">1.00</text>
+        <text x="44" y="188">0</text>
+        <text x="124" y="188">1k</text>
+        <text x="220" y="188">2k</text>
+        <text x="314" y="188">3k</text>
+      </g>
+      <text
+        x="188"
+        y="208"
+        textAnchor="middle"
+        fill="currentColor"
+        className="text-surface-container"
+        fontSize="10"
+        fontFamily="monospace"
+      >
+        USDC committed in window
+      </text>
+      <text
+        x="18"
+        y="28"
+        fill="currentColor"
+        className="text-surface-container"
+        fontSize="10"
+        fontFamily="monospace"
+      >
+        USDC / LCX
+      </text>
+      <line
+        x1={highlightX}
+        y1="38"
+        x2={highlightX}
+        y2="164"
+        stroke="currentColor"
+        strokeDasharray="4 5"
+        className="text-status-signal"
+        strokeWidth="1.5"
+      />
+      <path
+        d={curvePath}
+        fill="none"
+        stroke="currentColor"
+        className="text-status-signal"
+        strokeLinecap={isStep ? "square" : "round"}
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+      <circle cx={highlightX} cy={isStep ? 91 : 122} r="5" fill="currentColor" className="text-status-signal" />
+      <g fill="currentColor" fontFamily="monospace" fontSize="10">
+        <text x="206" y={isStep ? 82 : 113} className="text-surface-ink">
+          1,500 USDC order
+        </text>
+        <text x="206" y={isStep ? 98 : 129} className="text-surface-container">
+          {isStep ? "effective 1.0312" : "clears at 1.00"}
+        </text>
+      </g>
+    </svg>
   );
 }
 

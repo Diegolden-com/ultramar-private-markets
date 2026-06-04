@@ -17,6 +17,11 @@ const pages = [
     markers: [
       "Port of Call turns local-business capital into a passport-gated v4 window.",
       "The hook is the market boundary.",
+      "Pricing policy",
+      "Fixed price window",
+      "Step curve window",
+      "Most capital windows should be fixed",
+      "effective 1.0312",
       "Specialized Markets",
       "custom accounting",
       "Base Sepolia proof",
