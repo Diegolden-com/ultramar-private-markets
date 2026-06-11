@@ -26,13 +26,13 @@ Final Tally browser-session copy packet lives in `docs/HOOKATHON_TALLY_FINAL_PAC
 
 ## One-liner
 
-An Ablo-style discovery app for private-market capital: investors travel to local businesses, understand diligence in their own language, get eligibility stamped, and choose an equity window, debt covenant preview, secondary transfer, or conversion route enforced by a Uniswap v4 hook.
+An Ablo-style discovery app for private-market capital: investors travel to local businesses, see whether administration has created underwritable claims, get eligibility stamped, and choose an equity window, debt covenant preview, secondary transfer, or conversion route enforced by a Uniswap v4 hook.
 
 ## Thirty-second pitch
 
 Private-market capital does not fail because investors lack appetite. It fails because cross-border trust is expensive: language, diligence, eligibility, legal limits, allocation, settlement, and reporting all live in different systems.
 
-Ultramar Port of Call turns that into one v4-native flow. The app lets an eligible investor discover a local operating business, review translated diligence, receive a signed passport stamp, and choose the financing route the issuer can responsibly open. The current Solidity proof settles the LCX equity window through custom accounting; the demo also previews a debt covenant route where stale coverage proof blocks access before any debt instrument becomes executable.
+Ultramar Port of Call turns that into one v4-native flow. The app lets an eligible investor discover a local operating business, review translated diligence, see whether admin work has become underwriting evidence, receive a signed passport stamp, and choose the financing route the issuer can responsibly open. The current Solidity proof settles the LCX equity window through custom accounting; the demo also previews a debt covenant route where stale coverage proof blocks access before any debt instrument becomes executable.
 
 ## Why this is v4-native
 
@@ -51,6 +51,7 @@ This is not an app that happens to call Uniswap. The hook is the product boundar
 | Travel without leaving home | Explore capital "ports" around the world | Investor opens Mexico City and enters Lavanderias CX |
 | Live translation | Translated diligence and operator Q&A | English investor reads Spanish-source KPI context |
 | Local guide | Issuer/operator room | Store economics, use of funds, risks, and proof state |
+| Administration becomes trust | Operating readiness map | Daily close, margin route, current asset coverage, and reporting freshness |
 | Identity/profile | Investor passport | KYC/KYB, jurisdiction, NDA, allocation, transfer policy |
 | Low-friction connection | Signed authorization | `hookData` carries window id, investor, min output, deadline, nonce, signature |
 | Conversation becomes trust | Onchain capital route | Exact-input equity conversion succeeds only through the hook; debt access opens only with fresh covenant proof |
@@ -77,9 +78,9 @@ The demo must say **sandbox/testnet** and must not imply that LCX is currently a
 
    Show the Port feed. Pick Mexico City. Open Lavanderias CX. The UI feels like travel: location, operator, proof state, translated highlights.
 
-3. **Diligence**
+3. **Operating readiness**
 
-   Show data-room readiness, use of funds, risks, and oracle freshness. The investor is not buying yet; they are learning and getting qualified.
+   Show that administration creates market access: daily close becomes issuer proof, pickup and delivery density supports the equity route, current asset coverage supports the debt route, and reporting freshness controls hook access.
 
 4. **Passport**
 
@@ -134,7 +135,7 @@ sequenceDiagram
 | Is this just a permissioned pool? | No. The hook replaces AMM execution with route-aware settlement: custom equity-window pricing, signed eligibility, caps, oracle freshness, covenant freshness, and window state. |
 | Why use Uniswap v4 instead of a bespoke escrow contract? | v4 gives the standard pool interface, `PoolManager`, flash accounting, composable routing surface, and custom accounting. The hook specializes the market without rebuilding settlement from scratch. |
 | Is it compliant? | It is compliance-aware, not a compliance claim. The demo blocks public purchase and models counsel-gated windows. Production needs counsel, transfer-agent/custody decisions, audit, and jurisdiction review. |
-| Where is the economic value? | Issuers get controlled debt/equity routes and reporting; investors get legible diligence and deterministic execution; the protocol gets a new class of specialized, real-world markets. |
+| Where is the economic value? | Issuers turn operating work into capital access; investors get legible diligence and deterministic execution; the protocol gets a new class of specialized, real-world markets. |
 | Why will people remember it? | "Ablo for capital" is a simple mental model. The v4 hook becomes a passport checkpoint for local-business capital formation. |
 
 ## Prize category fit
@@ -154,7 +155,7 @@ Secondary angles:
 ### P0: demo-day minimum
 
 - Keep the existing `CapitalWindowRegistry`, `CapitalWindowHook`, and `CapitalWindowRouter` tests green.
-- Add or expose a demo page that mirrors the script: port feed, LCX room, passport status, quote, hook-state simulator, execute trace, audit trail. Current route: `/hookathon/port-of-call`.
+- Add or expose a demo page that mirrors the script: port feed, operating readiness map, LCX room, passport status, quote, hook-state simulator, execute trace, audit trail. Current route: `/hookathon/port-of-call`.
 - Add a judge-ready pitch deck route for the optional Tally deck field. Current route: `/hookathon/port-of-call/deck`; source outline: `docs/HOOKATHON_SLIDE_DECK.md`.
 - Add one Foundry script or README section that shows the local demo sequence. Current script: `apps/private-equities/contracts/script/CapitalWindowDemo.s.sol`; current runbook: `apps/private-equities/contracts/README.md`.
 - Record one success path and one revert path. Current tests assert hook permission encoding, router-bound passport digests, successful primary/secondary windows, audit events, missing-passport reverts, generic-router bypass rejection, expired authorization rejection, minimum-output slippage rejection, stale-oracle reverts, and replay reverts. The local demo script prints one approved settlement (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX) and six blocked paths.

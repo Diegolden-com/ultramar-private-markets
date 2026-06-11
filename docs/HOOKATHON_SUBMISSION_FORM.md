@@ -12,7 +12,7 @@ Investment ports for local operating businesses, powered by Uniswap v4 custom ac
 
 ## Short description
 
-Ultramar Port of Call is an Ablo-style private-market discovery app where eligible investors travel to local operating businesses, review translated diligence, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The v4 hook enforces route-bound exact-input execution, investor eligibility, signed allocation, window caps, oracle freshness, covenant freshness, and public-liquidity blocking.
+Ultramar Port of Call is an Ablo-style private-market discovery app where eligible investors travel to local operating businesses, review translated diligence, see whether administration has created underwritable claims, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The v4 hook enforces route-bound exact-input execution, investor eligibility, signed allocation, window caps, oracle freshness, covenant freshness, and public-liquidity blocking.
 
 ## Long description
 
@@ -22,11 +22,12 @@ Ultramar Port of Call turns that into a v4-native flow:
 
 1. An investor opens a global feed of "ports" and enters a local issuer room.
 2. The app presents translated diligence, use of funds, risk notes, and oracle freshness.
-3. Eligibility checks produce a signed passport payload: window id, investor, minimum output, deadline, nonce, and authorizer signature.
-4. Capital-route intake separates the LCX equity window from the debt covenant preview.
-5. `CapitalWindowRouter` routes exact-input USDC into Uniswap v4 `PoolManager` for the equity proof.
-6. `CapitalWindowHook` uses `beforeSwap` and `beforeSwapReturnDelta` custom accounting to consume the equity window and return restricted issuer-token output.
-7. The hook and registry emit reconciliation events for CRM, portfolio, issuer reporting, and audit review.
+3. The operating readiness map turns admin control, omnichannel margin, current asset coverage, and reporting freshness into route-specific claims.
+4. Eligibility checks produce a signed passport payload: window id, investor, minimum output, deadline, nonce, and authorizer signature.
+5. Capital-route intake separates the LCX equity window from the debt covenant preview.
+6. `CapitalWindowRouter` routes exact-input USDC into Uniswap v4 `PoolManager` for the equity proof.
+7. `CapitalWindowHook` uses `beforeSwap` and `beforeSwapReturnDelta` custom accounting to consume the equity window and return restricted issuer-token output.
+8. The hook and registry emit reconciliation events for CRM, portfolio, issuer reporting, and audit review.
 
 The demo asset is Lavanderias CX, a Mexico City operating-business expansion-round sandbox. The implementation is a technical proof and demo only; it is not a public securities offering, audited deployment, or real-money transaction path.
 
@@ -38,6 +39,7 @@ Private-market access is often presented as a marketplace problem, but the real 
 
 Use Uniswap v4 as the programmable settlement layer for controlled investment ports:
 
+- Operating readiness maps business work to market access: admin control supports issuer proof, omnichannel margin supports equity, current asset coverage supports debt, and reporting freshness controls hook access.
 - Primary conversion windows route investor payment to issuer treasury and release restricted issuer tokens.
 - Debt covenant previews open only while creditor eligibility and coverage proof are fresh.
 - Secondary windows route payment to seller escrow or settlement recipients and release controlled inventory to approved buyers.
@@ -74,7 +76,7 @@ Local demo route:
 http://localhost:3000/hookathon/port-of-call
 ```
 
-Production/public route, verified live on June 2, 2026:
+Production/public route, verified live on June 11, 2026:
 
 ```text
 https://ultramar.capital/hookathon/port-of-call
@@ -180,7 +182,7 @@ corepack yarn workspace @ultramar/ultramar build
 - `testExactOutputReverts`: exact-output execution is rejected.
 - `testUnauthorizedLiquidityModificationReverts`: public liquidity modification is blocked.
 
-The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events, and the exact pricing test ties the visual curve to Solidity math. The local demo script prints one approved settlement with human-readable amounts (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price, MXN economics are translated through a signed FX snapshot before the window opens, the active window stays fixed after that snapshot, and a floating FX policy can only refresh the next window. A `1,000 USDC` step with a `10%` premium creates the approved effective price. The demo page includes a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
+The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events, and the exact pricing test ties the visual curve to Solidity math. The local demo script prints one approved settlement with human-readable amounts (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price, MXN economics are translated through a signed FX snapshot before the window opens, the active window stays fixed after that snapshot, and a floating FX policy can only refresh the next window. A `1,000 USDC` step with a `10%` premium creates the approved effective price. The demo page includes an operating readiness map, a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
 
 ## Two-minute video script
 
@@ -188,23 +190,23 @@ The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHoo
 
 "Private-market capital does not fail at the final transfer. It fails earlier: language, diligence, eligibility, allocation, legal restrictions, and reporting are all disconnected."
 
-**0:20 - Product**
+**0:08 - Market readiness**
 
-"Ultramar Port of Call is Ablo for capital. Investors travel to a local business, read diligence in their own language, and get a passport stamp before any transaction is possible."
+"The Walmart lesson becomes an operating-company question: what changed inside LCX that makes equity or debt investible?"
 
-**0:45 - Hook**
+**0:16 - Operating readiness**
 
-"The passport becomes `hookData`. It carries the window id, investor, minimum output, deadline, nonce, and signature into Uniswap v4."
+"Admin work becomes underwriting evidence. Daily close, margin route, current asset coverage, and reporting freshness become route-specific claims."
 
-**1:05 - Success path**
+**0:25 - Success path**
 
 "An approved investor sends exact-input USDC through `CapitalWindowRouter`. The hook verifies the window, oracle freshness, caps, signature, and token direction. Custom accounting returns LCX output from the window curve, not from public AMM price discovery."
 
-**1:30 - Revert path**
+**0:35 - Debt and route proof**
 
-"Now remove the passport or replay the same authorization. The transaction reverts. The hook is the market boundary."
+"A stale coverage proof closes the debt route. A valid passport also cannot ride a generic router. The hook is the market boundary."
 
-**1:50 - Close**
+**1:25 - Close**
 
 "This is not a public securities AMM. It is a v4-native primitive for controlled, auditable private-market investment ports."
 
@@ -212,6 +214,7 @@ The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHoo
 
 - Clear non-generic use case: yes, investment ports for local operating businesses.
 - Ablo-style product loop: yes, global ports, translation, local guide room, passport stamp.
+- Operating readiness thesis: yes, admin work becomes underwriting evidence before any swap.
 - Uniswap v4-native mechanism: yes, hooks, `PoolManager`, flash accounting, custom accounting, return deltas.
 - Tests: yes, success paths, reverts, replay protection, missing passport, stale oracle, exact-output rejection, liquidity blocking, event trail.
 - Brand leverage: yes, Ultramar Private Equities, LCX, issuer workroom, oracle, compliance boundary.
