@@ -2,8 +2,10 @@
 
 import {
   CheckCircle2,
+  CircleDollarSign,
   DatabaseZap,
   FileCheck2,
+  Landmark,
   RefreshCw,
   Route,
   ShieldCheck,
@@ -36,6 +38,81 @@ type Scenario = {
     status: "pass" | "fail" | "idle";
   }>;
 };
+
+type CapitalRoute = {
+  id: string;
+  label: string;
+  state: string;
+  summary: string;
+  icon: typeof CheckCircle2;
+  headline: string;
+  proof: string;
+  window: string;
+  facts: Array<{
+    label: string;
+    value: string;
+  }>;
+};
+
+const capitalRoutes: CapitalRoute[] = [
+  {
+    id: "equity-window",
+    label: "Equity window",
+    state: "Primary",
+    summary: "Omnichannel margin signal",
+    icon: CircleDollarSign,
+    headline: "Omnichannel upgrade opens an LCX equity window.",
+    proof: "Operating data",
+    window: "1,500 USDC order",
+    facts: [
+      {
+        label: "Business signal",
+        value:
+          "Pickup and delivery density, store-level reporting, and admin discipline move the operator from commodity laundry to managed local infrastructure.",
+      },
+      {
+        label: "Verified claim",
+        value: "Revenue freshness under 24h, use-of-funds pack ready, margin expansion target signed.",
+      },
+      {
+        label: "Instrument",
+        value: "Primary LCX equity allocation through the issuer vehicle.",
+      },
+      {
+        label: "Settlement path",
+        value: "Investor passport plus signed window terms settle as USDC -> LCX custom accounting.",
+      },
+    ],
+  },
+  {
+    id: "debt-covenant",
+    label: "Debt covenant preview",
+    state: "Debt",
+    summary: "Current asset coverage gate",
+    icon: Landmark,
+    headline: "Working-capital debt opens only while coverage remains green.",
+    proof: "Coverage ratio",
+    window: "Covenant gate",
+    facts: [
+      {
+        label: "Business signal",
+        value: "Admin takeover reconciles cash, receivables, short-term debt, and route collections daily.",
+      },
+      {
+        label: "Verified claim",
+        value: "Current asset coverage >= 1.50x and liquidity proof fresh enough for the covenant.",
+      },
+      {
+        label: "Instrument",
+        value: "Short-term debt note with investor eligibility, disclosures, and covenant monitoring.",
+      },
+      {
+        label: "Settlement path",
+        value: "The same port can gate secondary transfers or step-to-equity triggers before settlement.",
+      },
+    ],
+  },
+];
 
 const scenarios: Scenario[] = [
   {
@@ -141,11 +218,17 @@ const scenarios: Scenario[] = [
 ];
 
 export function HookathonScenarioSimulator() {
+  const [selectedRouteId, setSelectedRouteId] = useState(capitalRoutes[0].id);
   const [selectedId, setSelectedId] = useState(scenarios[0].id);
+  const capitalRoute = useMemo(
+    () => capitalRoutes.find((item) => item.id === selectedRouteId) ?? capitalRoutes[0],
+    [selectedRouteId],
+  );
   const scenario = useMemo(
     () => scenarios.find((item) => item.id === selectedId) ?? scenarios[0],
     [selectedId],
   );
+  const RouteIcon = capitalRoute.icon;
   const ScenarioIcon = scenario.icon;
 
   return (
@@ -156,22 +239,82 @@ export function HookathonScenarioSimulator() {
           Demo app
         </p>
         <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
-          One hook, five judge-visible outcomes.
+          Choose the capital route before the swap.
         </h2>
         <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
-          The demo toggles the same capital window through the core states asserted by the Solidity
-          suite: approved settlement, missing passport, nonce replay, stale issuer proof, and generic
-          router bypass rejection.
+          First ask what changed inside the business, what claim can be verified, and whether the
+          issuer should open equity or debt. One hook, five judge-visible outcomes.
         </p>
-        <div className="mt-8 grid gap-1 bg-border-muted sm:grid-cols-3">
+
+        <div className="mt-8 grid gap-2">
+          {capitalRoutes.map((item) => {
+            const Icon = item.icon;
+            const active = item.id === capitalRoute.id;
+
+            return (
+              <button
+                key={item.id}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setSelectedRouteId(item.id)}
+                className={`min-w-0 border p-4 text-left transition ${
+                  active
+                    ? "border-status-signal bg-status-signal/10 text-on-surface"
+                    : "border-border-muted bg-surface-ink text-on-surface-variant hover:border-status-signal/60 hover:text-on-surface"
+                } ${focusVisibleClass}`}
+              >
+                <span className="flex min-w-0 items-center justify-between gap-3">
+                  <Icon className="h-4 w-4 shrink-0 text-status-signal" aria-hidden="true" />
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em]">
+                    {item.state}
+                  </span>
+                </span>
+                <span className="mt-4 block break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+                  {item.label}
+                </span>
+                <span className="mt-2 block text-sm leading-5">{item.summary}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-8 grid gap-1 bg-border-muted sm:grid-cols-2">
+          <SimulatorStat label="Proof" value={capitalRoute.proof} />
+          <SimulatorStat label="Window" value={capitalRoute.window} />
           <SimulatorStat label="Guard" value={scenario.guard} />
           <SimulatorStat label="State" value={scenario.state} tone={scenario.tone} />
-          <SimulatorStat label="Fill" value={scenario.fill} />
         </div>
       </div>
 
       <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
-        <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="grid min-w-0 gap-1 bg-surface-container/20 lg:grid-cols-[0.82fr_1.18fr]">
+          <div className="min-w-0 bg-surface-ink p-5 text-on-surface">
+            <div className="flex min-w-0 items-start justify-between gap-4">
+              <div>
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                  Capital route intake
+                </p>
+                <h3 className="mt-3 break-words font-serif text-3xl font-semibold leading-tight">
+                  {capitalRoute.headline}
+                </h3>
+              </div>
+              <RouteIcon className="h-5 w-5 shrink-0 text-status-signal" aria-hidden="true" />
+            </div>
+            <div className="mt-6 border-t border-border-muted pt-4">
+              <p className="break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-on-surface [overflow-wrap:anywhere]">
+                Issuer data -&gt; verified claim -&gt; passport -&gt; v4 hook
+              </p>
+            </div>
+          </div>
+
+          <div className="grid min-w-0 gap-1 bg-surface-container/20">
+            {capitalRoute.facts.map((fact) => (
+              <PaperSignal key={fact.label} label={fact.label} value={fact.value} />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 grid min-w-0 gap-2 sm:grid-cols-2 xl:grid-cols-5">
           {scenarios.map((item) => {
             const Icon = item.icon;
             const active = item.id === scenario.id;
@@ -305,7 +448,7 @@ function SimulatorStat({
 
 function PaperSignal({ label, value }: { label: string; value: string }) {
   return (
-    <div className="grid min-w-0 gap-2 border-t border-surface-container/20 py-3 first:border-t-0 sm:grid-cols-[144px_1fr]">
+    <div className="grid min-w-0 gap-2 border-t border-surface-container/20 p-4 first:border-t-0 sm:grid-cols-[144px_1fr]">
       <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
         {label}
       </p>
