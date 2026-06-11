@@ -111,7 +111,7 @@ const checks = [
       "Debt covenant preview",
       "Current asset coverage gate",
       "Evidence chain",
-      "Operation -> claim -> route -> hook",
+      "Operation -&gt; claim -&gt; route -&gt; hook",
       "Margin expansion target plus fresh revenue proof.",
       "Why this click matters",
       "Disclosure-minimized claim",
