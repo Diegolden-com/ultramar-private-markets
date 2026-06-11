@@ -194,6 +194,50 @@ const capitalReadinessRows = [
   ],
 ] as const;
 
+type OperatingReadinessSignal = {
+  work: string;
+  signal: string;
+  threshold: string;
+  route: string;
+  status: string;
+  score: number;
+};
+
+const operatingReadinessRows: OperatingReadinessSignal[] = [
+  {
+    work: "Admin control",
+    signal: "Daily close ready",
+    threshold: "Cash, utilization, route collections, and ticket mix reconciled.",
+    route: "Issuer proof",
+    status: "Fresh",
+    score: 92,
+  },
+  {
+    work: "Omnichannel margin",
+    signal: "+6.8 pp target",
+    threshold: "Pickup and delivery density can defend better unit economics.",
+    route: "Equity window",
+    status: "Open",
+    score: 78,
+  },
+  {
+    work: "Current asset coverage",
+    signal: "1.62x",
+    threshold: "Current assets cover short-term debt above the 1.50x covenant.",
+    route: "Debt preview",
+    status: "Green",
+    score: 81,
+  },
+  {
+    work: "Reporting freshness",
+    signal: "18 min",
+    threshold: "Operating proof is inside the active-window freshness limit.",
+    route: "Hook access",
+    status: "Allowed",
+    score: 94,
+  },
+];
+
 const readinessPillars = [
   {
     icon: DatabaseZap,
@@ -511,6 +555,27 @@ export default function PortOfCallHookathonPage() {
               <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.body}</p>
             </article>
           ))}
+          <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:col-span-3 md:p-6">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[0.62fr_1.38fr]">
+              <div>
+                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+                  Operating work -&gt; market route
+                </p>
+                <h3 className="mt-3 max-w-xl font-serif text-3xl font-semibold leading-tight md:text-4xl">
+                  Admin work becomes underwriting evidence.
+                </h3>
+                <p className="mt-4 max-w-xl text-sm leading-6 text-surface-container">
+                  The port is not asking the market to believe a story. It converts better operations
+                  into route-specific claims a hook can check before equity or debt access opens.
+                </p>
+              </div>
+              <div className="grid min-w-0 gap-1 bg-surface-container/20">
+                {operatingReadinessRows.map((item) => (
+                  <OperatingReadinessRow key={item.work} item={item} />
+                ))}
+              </div>
+            </div>
+          </div>
           <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:col-span-3 md:p-6">
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
               Investment port stack
@@ -1128,6 +1193,45 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
         </text>
       </g>
     </svg>
+  );
+}
+
+function OperatingReadinessRow({ item }: { item: OperatingReadinessSignal }) {
+  return (
+    <div className="grid min-w-0 gap-3 bg-surface-paper p-4 md:grid-cols-[0.9fr_1.1fr_0.74fr]">
+      <div className="min-w-0">
+        <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+          {item.work}
+        </p>
+        <p className="mt-2 break-words font-mono text-sm font-semibold text-surface-ink">
+          {item.signal}
+        </p>
+      </div>
+      <div className="min-w-0">
+        <p className="text-sm leading-5 text-surface-container">{item.threshold}</p>
+        <div className="mt-3 h-2 bg-surface-container/20" aria-hidden="true">
+          <div className="h-full bg-status-signal" style={{ width: `${item.score}%` }} />
+        </div>
+      </div>
+      <div className="grid min-w-0 gap-2 sm:grid-cols-2 md:grid-cols-1">
+        <div>
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+            Route
+          </p>
+          <p className="mt-1 break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+            {item.route}
+          </p>
+        </div>
+        <div>
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+            State
+          </p>
+          <p className="mt-1 break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-status-signal">
+            {item.status}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
