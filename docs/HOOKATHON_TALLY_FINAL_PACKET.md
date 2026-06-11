@@ -123,7 +123,7 @@ Ultramar Port of Call
 ### 1-2 sentence description
 
 ```text
-Ultramar Port of Call is an Ablo-style private-market discovery app where eligible investors travel to local operating businesses, receive a signed passport stamp, and enter a Uniswap v4 capital window. The v4 hook creates a Specialized Market for private operating-business capital by enforcing router-bound authorization, exact-input windows, oracle freshness, caps, and custom-accounting settlement.
+Ultramar Port of Call creates investment ports for private operating businesses: an Ablo-style discovery app where eligible investors review translated diligence, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The Uniswap v4 hook is the market boundary for those routes, enforcing router-bound authorization, exact-input windows, oracle freshness, caps, and custom-accounting settlement.
 ```
 
 ### Did you integrate any of our partners?
@@ -148,7 +148,7 @@ Yes, my project addresses the theme.
 
 ```text
 Select: RWA, Custom hooks, Custom Routers, KYC, Compliance, Oracle, Illiquid Assets, Private Debt, Price Discovery, Other
-Other text: Specialized Markets, Capital Windows, Custom Accounting, Return Delta Hook, Router-Bound Authorization, Permissioned Liquidity, Liquidity Protection
+Other text: Specialized Markets, Investment Ports, Capital Windows, Debt Covenant Preview, Capital Route Intake, Custom Accounting, Return Delta Hook, Router-Bound Authorization, Permissioned Liquidity, Liquidity Protection
 ```
 
 ### GitHub Repo
@@ -190,15 +190,17 @@ https://ultramar.capital/hookathon/port-of-call
 ### Problem / Background
 
 ```text
-Private-market capital usually breaks before settlement. Cross-border investors struggle with language, diligence, eligibility, legal boundaries, allocation, and reporting; issuers struggle to present operating proof without turning public materials into an uncontrolled offering. A normal public AMM is the wrong primitive for local-business capital windows because the market has asset-specific constraints: who can participate, when a window is open, what price terms apply, what transfer policy is accepted, and whether issuer proof is fresh enough to execute.
+Private-market capital usually breaks before settlement. Cross-border investors struggle with language, diligence, eligibility, legal boundaries, allocation, and reporting; issuers struggle to present operating proof without turning public materials into an uncontrolled offering. The Walmart lesson is that the market pays for administration that can absorb capital: even a competitive operating business can become investable when data, margin strategy, controls, and legal instruments are credible. That is Ultramar's thesis: a traditional business should always be market-ready, able to raise through debt or equity when its operating proof supports the route.
 
-Ultramar Port of Call turns that into an Ablo-style discovery loop. The investor travels to a local operating business, reviews translated diligence, receives a signed passport, and then executes only through a Uniswap v4 hook that enforces the capital-window boundary.
+Ultramar Port of Call turns that into an Ablo-style discovery loop. The investor travels to a local operating business, reviews translated diligence, receives a signed passport, and then chooses a route: equity window, debt covenant preview, secondary transfer, or conversion path. A normal public AMM is the wrong primitive because each route has asset-specific constraints: who can participate, when a window is open, what price terms apply, what covenant coverage is fresh enough, what transfer policy is accepted, and whether issuer proof is fresh enough to execute.
 ```
 
 ### Impact
 
 ```text
-The project is unique because the hook is not just a permission list or fee tweak. It creates a Specialized Market for private operating-business capital: the pool uses v4 PoolManager settlement, but the hook replaces generic AMM price discovery with a deterministic windowed conversion curve via beforeSwapReturnDelta. The deck shows the pricing example explicitly, and `testWindowStepCurveQuotesExactPricingExample` proves the same math in Solidity: approved pre-money and FX terms produce a fixed `1.00 USDC/LCX` base price. The FX rule is explicit: the active window is fixed after the signed FX snapshot, while a floating policy can refresh the next window before it opens; filled orders are never repriced. The hook then applies a `1,000 USDC` step with a `10%` tranche premium and returns `1,454.54 LCX` for `1,500 USDC` at `1.0312 USDC/LCX` effective. Public add/remove liquidity reverts, signed passports are bound to CapitalWindowRouter, stale issuer proofs are rejected, replayed authorizations fail, and successful executions emit reconciliation events for CRM, portfolio, issuer reporting, and risk review.
+The project is unique because the hook is not just a permission list or fee tweak. It creates a Specialized Market for private operating-business capital routes: the product starts with a capital-route intake, then the hook enforces the boundary for the route that is actually open. In the current Solidity proof, the pool uses v4 PoolManager settlement and beforeSwapReturnDelta to replace generic AMM price discovery with deterministic equity-window settlement. In the product demo, the same boundary model is shown for a debt covenant preview: the route opens only while the current asset coverage proof is fresh, and a stale proof blocks access before any debt instrument is treated as executable.
+
+The deck shows the pricing example explicitly, and `testWindowStepCurveQuotesExactPricingExample` proves the same math in Solidity: approved pre-money and FX terms produce a fixed `1.00 USDC/LCX` base price. The FX rule is explicit: the active window is fixed after the signed FX snapshot, while a floating policy can refresh the next window before it opens; filled orders are never repriced. The hook then applies a `1,000 USDC` step with a `10%` tranche premium and returns `1,454.54 LCX` for `1,500 USDC` at `1.0312 USDC/LCX` effective. Public add/remove liquidity reverts, signed passports are bound to CapitalWindowRouter, stale issuer proofs are rejected, replayed authorizations fail, and successful executions emit reconciliation events for CRM, portfolio, issuer reporting, covenant monitoring, and risk review.
 
 The impact is a new pattern for v4: asset-class-specific markets where legal/product constraints become programmable settlement boundaries without rebuilding a bespoke exchange from scratch.
 ```
@@ -230,7 +232,7 @@ Yes :)
 ### Future plans support, if shown
 
 ```text
-Yes. I plan to keep developing Port of Call as an Ultramar Private Equities primitive: a reusable v4 pattern for passport-gated issuer windows, translated diligence, operating-proof freshness, and post-trade reconciliation. The areas where Atrium support would be most useful are hook audits, production-grade router/periphery review, and introductions to teams exploring RWA or specialized-market deployments.
+Yes. I plan to keep developing Port of Call as an Ultramar Private Equities primitive: reusable v4 infrastructure for passport-gated issuer windows, debt covenant routes, translated diligence, operating-proof freshness, and post-trade reconciliation. The areas where Atrium support would be most useful are hook audits, production-grade router/periphery review, and introductions to teams exploring RWA, private credit, or specialized-market deployments.
 ```
 
 ### Course rating

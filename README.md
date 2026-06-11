@@ -23,7 +23,7 @@ Hookathon judges should start here:
 | Final Tally packet | `docs/HOOKATHON_TALLY_FINAL_PACKET.md` |
 | Full Hookathon README | `HOOKATHON_README.md` |
 
-The one-line claim: **the hook is the market boundary**. Ultramar Port of Call is an Ablo-style private-market discovery flow where eligible investors travel to a local issuer, receive a signed passport stamp, and enter a Uniswap v4 capital window only if the hook verifies route, authorization, cap, nonce, timing, oracle freshness, and deterministic custom-accounting settlement.
+The one-line claim: **the hook is the market boundary**. Ultramar Port of Call creates investment ports: an Ablo-style private-market discovery flow where operating data, legal and financial instruments, investor passports, and Uniswap v4 hooks route private companies into equity windows, debt covenant previews, secondary transfers, or conversion paths. An eligible investor enters a route only if the hook verifies route, authorization, cap, nonce, timing, oracle freshness, and deterministic custom-accounting settlement.
 
 Fast verification:
 

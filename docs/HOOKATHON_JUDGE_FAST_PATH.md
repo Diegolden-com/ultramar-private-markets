@@ -15,7 +15,7 @@ One sentence to remember:
 
 > The hook is the market boundary.
 
-Ultramar Port of Call is an Ablo-style discovery app for private-market capital. An eligible investor travels to a local operating business, reads translated diligence, receives a signed passport, and enters a Uniswap v4 capital window only if the hook verifies the route, window, authorization, cap, nonce, and oracle freshness.
+Ultramar Port of Call is an Ablo-style discovery app for private-market capital routes. An eligible investor travels to a local operating business, reads translated diligence, receives a signed passport, and chooses an equity window, debt covenant preview, secondary transfer, or conversion route only if the hook verifies the route, window, authorization, cap, nonce, and oracle freshness.
 
 ## Rubric map
 
@@ -24,7 +24,7 @@ Ultramar Port of Call is an Ablo-style discovery app for private-market capital.
 | Uniqueness | This is not a fee tweak, public RWA pool, or generic permission list. The product turns private operating-business capital formation into a v4 Specialized Market. | `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md`, `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`, `/hookathon/port-of-call` |
 | Impact | The pattern lets asset-class constraints become settlement rules: eligibility, transfer policy, window timing, ticket size, caps, route provenance, and issuer-proof freshness. | `docs/HOOKATHON_SUBMISSION_PACKET.md`, `docs/HOOKATHON_TALLY_SUBMISSION.md` |
 | Functionality | The repo includes a frontend, simulator, v4 hook, router, registry, local demo script, 27 hook tests, video proof, public links, and optional Base Sepolia dry-run path. | `corepack yarn hookathon:check`, `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`, `scripts/hookathon-video-proof.mjs` |
-| Presentation | The story is legible before the code: travel, guide, passport, capital window. The deck and video then lead into the technical proof. | `docs/HOOKATHON_SLIDE_DECK.md`, `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`, public deck and video |
+| Presentation | The story is legible before the code: travel, guide, passport, route intake, equity window, debt covenant preview. The deck and video then lead into the technical proof. | `docs/HOOKATHON_SLIDE_DECK.md`, `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`, public deck and video |
 
 ## v4 mechanism
 
@@ -39,7 +39,8 @@ Inspect these files first:
 The hook uses the v4 flow as the settlement substrate:
 
 - `beforeSwap` verifies approved router provenance, exact-input direction, signed passport, deadline, nonce, cap, window state, and issuer proof freshness.
-- `beforeSwapReturnDelta` performs custom accounting so the pool interaction returns window-priced issuer-token output rather than generic AMM price discovery.
+- `beforeSwapReturnDelta` performs custom accounting so the equity route returns window-priced issuer-token output rather than generic AMM price discovery.
+- The demo's debt route uses the same boundary model for covenant coverage: fresh current-asset proof opens the preview, stale proof blocks it.
 - `beforeAddLiquidity` and `beforeRemoveLiquidity` block public LP behavior for the demo pool.
 - `CapitalWindowRouter` routes the approved transaction into `PoolManager`, so the demo is not a standalone escrow contract with a Uniswap label.
 
@@ -49,7 +50,7 @@ Pricing is explicit window math, not hidden oracle repricing:
 - MXN operating economics use a signed FX snapshot before the USDC window opens.
 - The active window is fixed after that FX snapshot; a floating policy only refreshes the next window before opening, so filled orders are not repriced.
 - A `1,000 USDC` step with a `10%` tranche premium returns `1,454.54 LCX` for `1,500 USDC`, or `1.0312 USDC/LCX` effective.
-- The public deck shows this as slide `05 / Pricing example`, including the visual bridge `Pre-money ledger -> FX snapshot locked -> Hook step curve` plus `Fixed window` and `Floating policy` notes.
+- The public deck shows this as slide `06 / Pricing example`, including the visual bridge `Pre-money ledger -> FX snapshot locked -> Hook step curve` plus `Fixed window` and `Floating policy` notes.
 
 ## Fast local verification
 
@@ -100,9 +101,9 @@ It verifies a non-broadcast dry-run against chain `84532`, the official Base Sep
 
 | Question | Short answer | Proof |
 | --- | --- | --- |
-| Why Uniswap v4? | Hooks and custom accounting let a standard pool become a specialized capital-window market. | `beforeSwap`, `beforeSwapReturnDelta`, `PoolManager` route |
+| Why Uniswap v4? | Hooks and custom accounting let a standard pool become a specialized capital-route market. | `beforeSwap`, `beforeSwapReturnDelta`, `PoolManager` route |
 | Why not a bespoke escrow? | v4 provides the pool interface, singleton settlement, flash accounting, and composable route surface while the hook owns market-specific rules. | `CapitalWindowRouter`, `CapitalWindowHook` |
-| How is price determined? | Approved round and FX terms set the base price before the window opens; the hook applies the configured step curve and emits the effective price. | `CapitalWindowRegistry._quote`, deck slide `05 / Pricing example` |
+| How is price determined? | Approved round and FX terms set the base price before the window opens; the hook applies the configured step curve and emits the effective price. | `CapitalWindowRegistry._quote`, deck slide `06 / Pricing example` |
 | Can a generic router bypass the gate? | No. Passport signatures bind the authorization to `CapitalWindowRouter`; generic-router reuse reverts. | `testGenericRouterWithCapitalPassportReverts` |
 | Can users add public liquidity? | No. Public add/remove liquidity reverts in the demo pool. | `testUnauthorizedLiquidityModificationReverts` |
 | Can a stale issuer proof execute? | No. Oracle freshness is checked before settlement. | `testStaleOracleReverts` |

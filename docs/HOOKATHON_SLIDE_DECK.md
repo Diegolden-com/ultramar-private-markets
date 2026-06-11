@@ -27,7 +27,7 @@ http://localhost:3000/hookathon/port-of-call/deck
 
 ## Slide outline
 
-### 1. Title
+### Title
 
 Ultramar Port of Call makes the hook a passport checkpoint for private-market capital.
 
@@ -37,7 +37,7 @@ Proof object:
 - Asset: Lavanderias CX
 - Proof: 27 hook tests
 
-### 2. Problem
+### 01 / Problem
 
 Private-market capital breaks before settlement.
 
@@ -47,7 +47,7 @@ Key constraints:
 - Eligibility: issuer, jurisdiction, NDA, transfer policy, and caps sit outside settlement.
 - Execution: a public AMM cannot know when a private window is valid or stale.
 
-### 3. Product Loop
+### 02 / Product Loop
 
 Ablo for capital: travel, guide, passport, window.
 
@@ -58,7 +58,18 @@ Sequence:
 - Passport: attach KYC/KYB, jurisdiction, NDA, allocation, and transfer policy checks.
 - Window: execute exact-input USDC only through a v4 hook with custom accounting.
 
-### 4. Specialized Market
+### 03 / Capital Routes
+
+A port can open equity, debt, secondary transfer, or conversion routes.
+
+Sequence:
+
+- Operating signal: issuer data, legal wrapper, reporting cadence, and route eligibility.
+- Equity window: exact-input USDC settles into LCX through v4 custom accounting.
+- Debt covenant preview: current asset coverage must be fresh before the route can open.
+- Secondary / conversion: future routes inherit the same passport and hook boundary.
+
+### 04 / Specialized Market
 
 A generic AMM is the wrong primitive for this asset class.
 
@@ -69,7 +80,7 @@ Submission angle:
 - The official Tally form lists UHI8 Specialized Markets.
 - Port of Call treats the hook as an asset-class-specific market boundary rather than a public liquidity pool.
 
-### 5. v4 Mechanism
+### 05 / v4 Mechanism
 
 The hook is not decoration. It is the market boundary.
 
@@ -77,10 +88,11 @@ Mechanism:
 
 - Router provenance: signed passport binds the order to `CapitalWindowRouter`.
 - Window state: timing, caps, exact-input direction, deadline, and nonce checks execute in `beforeSwap`.
-- Custom accounting: `beforeSwapReturnDelta` consumes payment and returns window-priced issuer-token output.
+- Custom accounting: `beforeSwapReturnDelta` consumes payment and returns window-priced issuer-token output for the equity route.
+- Route boundary: the debt preview uses the same stale-proof gate to show how covenant data can block non-equity access.
 - Market boundary: public add/remove liquidity reverts.
 
-### 6. Pricing Example
+### 06 / Pricing Example
 
 Pre-money and FX become signed window terms, then the hook executes the curve.
 
@@ -105,7 +117,7 @@ Speaker line:
 
 "The hook is not a valuation oracle. Ultramar approves valuation and FX terms before the window opens; v4 custom accounting enforces those terms during settlement."
 
-### 7. Proof Paths
+### 07 / Proof Paths
 
 One approved settlement, six blocked paths.
 
@@ -125,7 +137,7 @@ Evidence:
 - Foundry suite: 27 tests, including hook permission bits, router-bound passport digest, and exact step-curve pricing.
 - Testnet dry-run: Base Sepolia PoolManager, mined `0xa88` hook mask, window 1 smoke swap.
 
-### 8. Judge Frame
+### 08 / Judge Frame
 
 The submission is built around the four scoring questions.
 
@@ -134,7 +146,7 @@ The submission is built around the four scoring questions.
 - Functionality: frontend, simulator, Solidity tests, local demo script, capture script, and testnet dry-run path.
 - Presentation: one sentence carries the story: the hook is the market boundary.
 
-### 9. Boundary And Close
+### Boundary And Close
 
 Sandbox demo only. Not a public securities offer.
 
