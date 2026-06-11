@@ -170,8 +170,8 @@ await clickScenarioButton(page, /Equity window/i);
 await clickScenarioButton(page, /Generic router/i);
 frames.push(await captureFrame(page, "05-generic-router-revert", "Generic router bypass rejection."));
 
-await scrollToText(page, "Pricing policy", { exact: true });
-frames.push(await captureFrame(page, "06-pricing-policy", "Fixed window baseline and step curve advanced policy."));
+await scrollToText(page, "Curve decision rule", { exact: true });
+frames.push(await captureFrame(page, "06-pricing-policy", "Fixed baseline, step curve, and curve decision rule."));
 
 await scrollToText(page, "Submission claim");
 frames.push(await captureFrame(page, "07-specialized-markets-claim", "Primary Specialized Markets claim."));
@@ -243,7 +243,7 @@ ${frames.map((frame) => `- ${frame.name}: ${frame.path}\n  ${frame.note}`).join(
 3. Equity route intake and approved LCX settlement.
 4. Debt covenant preview and stale coverage rejection.
 5. Generic-router rejection.
-6. Pricing policy: fixed baseline and step curve.
+6. Pricing policy: fixed baseline, step curve, and curve decision rule.
 7. Specialized Markets claim.
 8. Deck capital routes.
 9. Pricing proof.

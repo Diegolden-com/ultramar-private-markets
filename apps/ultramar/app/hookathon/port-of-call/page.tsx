@@ -595,12 +595,13 @@ export default function PortOfCallHookathonPage() {
             Pricing policy
           </p>
           <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
-            Most active windows should be fixed. The step curve is the advanced proof.
+            Most active windows should be fixed. Use a step curve only when the terms have tranches.
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
             Port of Call is not trying to make private rounds behave like public AMMs. The credible
-            base case is a fixed signed price for the active window; the demo step curve proves that
-            the hook can also enforce explicit tranche economics when the issuer wants them.
+            base case is a fixed signed price for the active window; the demo step curve exists to
+            prove the hook can enforce explicit tranche economics, not to invent hidden price
+            discovery.
           </p>
           <div className="mt-8 grid gap-1 bg-border-muted">
             {pricingSignals.map(([label, value]) => (

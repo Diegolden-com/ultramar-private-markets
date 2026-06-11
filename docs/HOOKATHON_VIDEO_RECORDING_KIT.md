@@ -133,7 +133,7 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 | 0:38-0:47 | Generic router | "A valid passport cannot ride the wrong route. The hook rejects it before any custom delta is returned." |
 | 0:47-0:55 | Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." |
 | 0:55-1:05 | Specialized market claim | "This is the Specialized Markets angle: private operating-business capital needs eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance inside the market itself." |
-| 1:05-1:13 | Pricing proof | "The deck curve is not decorative. `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
+| 1:05-1:13 | Pricing proof | "Most active windows should be fixed. The step curve is only for signed tranche logic; `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
 | 1:13-1:21 | Deck close | "Uniswap v4 can host private-market investment ports without pretending they are public AMMs." |
 | 1:21-1:36 | Terminal proof | "The local proof shows one approved settlement and six blocked paths. The hook is the market boundary." |
 

@@ -60,9 +60,9 @@ const segments = [
     frame: "06-pricing-policy.png",
     duration: 8,
     eyebrow: "0:45 / Pricing policy",
-    title: "Most active windows should be fixed.",
+    title: "A step curve needs tranche logic.",
     caption:
-      "The step curve is the advanced proof. The credible base case is a fixed signed price inside the active window.",
+      "Most active windows should be fixed. If the issuer cannot explain the tranche logic, the curve should not exist.",
   },
   {
     frame: "07-specialized-markets-claim.png",

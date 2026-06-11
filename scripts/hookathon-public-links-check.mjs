@@ -85,6 +85,7 @@ const checks = [
       "Fixed price window",
       "Step curve window",
       "Curve decision rule",
+      "If the issuer cannot explain the tranche logic, the curve should not exist.",
       "Demo app",
       "Choose the capital route before the swap.",
       "Capital route intake",
@@ -143,6 +144,7 @@ const checks = [
     minBytes: 500,
     markers: [
       "Debt opens only while covenant coverage is fresh.",
+      "If the issuer cannot explain the tranche logic, the curve should not exist.",
       "A port can open equity, debt, secondary transfer, or conversion routes.",
       "Uniswap v4 can host private-market investment ports",
       "testWindowStepCurveQuotesExactPricingExample",
