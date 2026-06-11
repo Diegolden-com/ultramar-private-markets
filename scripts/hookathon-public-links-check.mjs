@@ -136,7 +136,12 @@ const checks = [
     label: "Demo captions release asset",
     url: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.vtt",
     minBytes: 500,
-    markers: ["testWindowStepCurveQuotesExactPricingExample", "1.0312 effective"],
+    markers: [
+      "Debt opens only while covenant coverage is fresh.",
+      "A port can open equity, debt, secondary transfer, or conversion routes.",
+      "testWindowStepCurveQuotesExactPricingExample",
+      "1.0312 effective",
+    ],
   },
   {
     label: "Testnet dry-run proof release asset",

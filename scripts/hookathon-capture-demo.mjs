@@ -44,7 +44,7 @@ async function ensureServer() {
 
   serverProcess = spawn(
     "corepack",
-    ["yarn", "workspace", "@ultramar/ultramar", "dev", "--port", String(port)],
+    ["yarn", "workspace", "@ultramar/ultramar", "dev", "--webpack", "--port", String(port)],
     {
       cwd: repoRoot,
       env: process.env,
@@ -65,12 +65,36 @@ async function captureFrame(page, name, note) {
   return { name, path, note };
 }
 
+async function captureSectionFrame(page, text, name, note) {
+  const path = resolve(frameDir, `${name}.png`);
+  await page.locator("section", { hasText: text }).first().screenshot({ path });
+  return { name, path, note };
+}
+
+async function applyCaptureChrome(page) {
+  await page.addStyleTag({
+    content: `
+      header,
+      .dock,
+      .fab,
+      nextjs-portal,
+      [data-nextjs-devtools],
+      [data-nextjs-toast],
+      [data-nextjs-dialog-overlay],
+      [data-nextjs-devtools-button] {
+        display: none !important;
+      }
+    `,
+  });
+  await page.waitForTimeout(100);
+}
+
 async function scrollToText(page, text, options = {}) {
-  const { exact = false } = options;
+  const { exact = false, block = "center" } = options;
   await page
     .getByText(text, { exact })
     .first()
-    .evaluate((element) => element.scrollIntoView({ block: "center", inline: "nearest" }));
+    .evaluate((element, scrollBlock) => element.scrollIntoView({ block: scrollBlock, inline: "nearest" }), block);
   await page.waitForTimeout(450);
 }
 
@@ -126,37 +150,51 @@ const page = await context.newPage();
 const frames = [];
 
 await page.goto(demoUrl, { waitUntil: "networkidle" });
+await applyCaptureChrome(page);
 await page.waitForTimeout(900);
 frames.push(await captureFrame(page, "01-hero-port-of-call", "Hero with sandbox/non-offer badges."));
 
-await scrollToText(page, "Travel feed");
-frames.push(await captureFrame(page, "02-travel-feed", "Ablo-style travel feed and Lavanderias CX context."));
+await scrollToText(page, "Market readiness");
+frames.push(await captureFrame(page, "02-market-readiness", "Walmart lesson, LCX question, and investment port stack."));
 
-await scrollToText(page, "Capital window quote", { exact: true });
-frames.push(await captureFrame(page, "03-passport-and-quote", "Passport checks and expected LCX output."));
-
-await scrollToText(page, "Demo app");
+await scrollToText(page, "Choose the capital route before the swap.", { exact: true });
+await clickScenarioButton(page, /Equity window/i);
 await clickScenarioButton(page, /Approved/i);
-frames.push(await captureFrame(page, "04-approved-scenario", "Approved exact-input custom-accounting path."));
+frames.push(await captureFrame(page, "03-equity-route-approved", "Equity route intake and approved LCX settlement."));
 
+await clickScenarioButton(page, /Debt covenant preview/i);
+await clickScenarioButton(page, /Stale oracle/i);
+frames.push(await captureFrame(page, "04-debt-covenant-stale", "Debt route preview with stale coverage proof blocked."));
+
+await clickScenarioButton(page, /Equity window/i);
 await clickScenarioButton(page, /Generic router/i);
 frames.push(await captureFrame(page, "05-generic-router-revert", "Generic router bypass rejection."));
 
-await clickScenarioButton(page, /Replay/i);
-frames.push(await captureFrame(page, "06-replay-revert", "Nonce replay rejection."));
+await scrollToText(page, "Pricing policy", { exact: true });
+frames.push(await captureFrame(page, "06-pricing-policy", "Fixed window baseline and step curve advanced policy."));
 
 await scrollToText(page, "Submission claim");
 frames.push(await captureFrame(page, "07-specialized-markets-claim", "Primary Specialized Markets claim."));
 
 await page.goto(deckUrl, { waitUntil: "networkidle" });
+await applyCaptureChrome(page);
 await page.waitForTimeout(600);
+frames.push(
+  await captureSectionFrame(
+    page,
+    "A port can open equity, debt, secondary transfer, or conversion routes.",
+    "08-deck-capital-routes",
+    "Deck capital routes frame for equity, debt, secondary, and conversion paths.",
+  ),
+);
+
 await scrollToVisibleText(page, "FX snapshot locked");
 await scrollToPricingGraph(page);
-frames.push(await captureFrame(page, "08-pricing-proof", "Deck pricing bridge with exact step-curve proof."));
+frames.push(await captureFrame(page, "09-pricing-proof", "Deck pricing bridge with exact step-curve proof."));
 
 await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
 await page.waitForTimeout(450);
-frames.push(await captureFrame(page, "09-pitch-deck-close", "Pitch deck closing claim for Tally deck link."));
+frames.push(await captureFrame(page, "10-pitch-deck-close", "Pitch deck closing claim for Tally deck link."));
 
 await page.close();
 await context.close();
@@ -201,14 +239,16 @@ ${frames.map((frame) => `- ${frame.name}: ${frame.path}\n  ${frame.note}`).join(
 ## Suggested video sequence
 
 1. Hero and non-offer framing.
-2. Travel feed: Ablo-style local-business discovery.
-3. Passport and quote.
-4. Approved scenario.
-5. Generic-router or replay rejection.
-6. Specialized Markets claim.
-7. Pricing proof.
-8. Pitch deck close.
-9. Terminal proof from \`corepack yarn hookathon:video:proof\`.
+2. Market readiness: Walmart lesson, LCX question, investment port stack.
+3. Equity route intake and approved LCX settlement.
+4. Debt covenant preview and stale coverage rejection.
+5. Generic-router rejection.
+6. Pricing policy: fixed baseline and step curve.
+7. Specialized Markets claim.
+8. Deck capital routes.
+9. Pricing proof.
+10. Pitch deck close.
+11. Terminal proof from \`corepack yarn hookathon:video:proof\`.
 `;
 
 writeFileSync(manifestPath, manifest);

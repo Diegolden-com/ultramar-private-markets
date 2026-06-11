@@ -18,80 +18,88 @@ const terminalProofPath = resolve(artifactDir, "terminal-proof-latest.md");
 const segments = [
   {
     frame: "01-hero-port-of-call.png",
-    duration: 9,
+    duration: 8,
     eyebrow: "0:00 / Hookathon thesis",
     title: "Private-market capital breaks before settlement.",
     caption:
       "Language, diligence, eligibility, legal limits, allocation, and reporting are disconnected before a transaction can happen.",
   },
   {
-    frame: "02-travel-feed.png",
+    frame: "02-market-readiness.png",
     duration: 9,
-    eyebrow: "0:09 / Ablo-style discovery",
-    title: "The investor travels to a local capital port.",
+    eyebrow: "0:08 / Market readiness",
+    title: "Markets pay for administration that can absorb capital.",
     caption:
-      "Port of Call starts with place, operator context, and translated diligence instead of a public buy button.",
+      "The Walmart lesson becomes an operating-company question: what changed inside LCX that makes equity or debt investible?",
   },
   {
-    frame: "03-passport-and-quote.png",
+    frame: "03-equity-route-approved.png",
     duration: 10,
-    eyebrow: "0:18 / Passport and quote",
-    title: "Eligibility becomes signed execution context.",
+    eyebrow: "0:17 / Equity route",
+    title: "The port opens an equity window before the swap.",
     caption:
-      "The passport carries window id, investor, minimum output, deadline, nonce, and authorizer signature into hookData.",
+      "Operating data, verified claims, investor passport, and signed window terms settle 1,500 USDC into 1,454.54 LCX.",
   },
   {
-    frame: "04-approved-scenario.png",
+    frame: "04-debt-covenant-stale.png",
     duration: 10,
-    eyebrow: "0:28 / Approved path",
-    title: "Exact-input USDC settles through v4 custom accounting.",
+    eyebrow: "0:27 / Debt route preview",
+    title: "Debt opens only while covenant coverage is fresh.",
     caption:
-      "CapitalWindowRouter calls PoolManager; beforeSwap verifies the passport and beforeSwapReturnDelta returns 1,454.54 LCX.",
+      "The same port can preview creditor eligibility and current asset coverage, then block access when the proof is stale.",
   },
   {
     frame: "05-generic-router-revert.png",
-    duration: 9,
-    eyebrow: "0:38 / Route protection",
+    duration: 8,
+    eyebrow: "0:37 / Route protection",
     title: "A valid stamp cannot ride the wrong route.",
     caption:
       "The signature is bound to CapitalWindowRouter, so generic v4 router bypasses revert before any custom delta is returned.",
   },
   {
-    frame: "06-replay-revert.png",
+    frame: "06-pricing-policy.png",
     duration: 8,
-    eyebrow: "0:47 / Replay protection",
-    title: "The same passport cannot settle twice.",
+    eyebrow: "0:45 / Pricing policy",
+    title: "Most capital windows should be fixed.",
     caption:
-      "Nonce consumption turns replay into an explicit failure and keeps window fill reconcilable.",
+      "The step curve is the advanced proof. The credible base case is a fixed signed price inside the active window.",
   },
   {
     frame: "07-specialized-markets-claim.png",
-    duration: 10,
-    eyebrow: "0:55 / Specialized Markets",
+    duration: 8,
+    eyebrow: "0:53 / Specialized Markets",
     title: "Private operating-business capital needs asset-specific market rules.",
     caption:
       "Eligibility, caps, transfer boundaries, oracle freshness, and router provenance become settlement checks.",
   },
   {
-    frame: "08-pricing-proof.png",
+    frame: "08-deck-capital-routes.png",
     duration: 8,
-    eyebrow: "1:05 / Pricing proof",
+    eyebrow: "1:01 / Capital routes",
+    title: "A port can open equity, debt, secondary transfer, or conversion routes.",
+    caption:
+      "The same issuer data layer and investor passport can support multiple financing rails while the hook stays the market boundary.",
+  },
+  {
+    frame: "09-pricing-proof.png",
+    duration: 8,
+    eyebrow: "1:09 / Pricing proof",
     title: "The deck curve is covered by Solidity.",
     caption:
       "testWindowStepCurveQuotesExactPricingExample proves 1,500 USDC returns 1,454.54 LCX at 1.0312 effective.",
   },
   {
-    frame: "09-pitch-deck-close.png",
+    frame: "10-pitch-deck-close.png",
     duration: 8,
-    eyebrow: "1:13 / Deck close",
+    eyebrow: "1:17 / Deck close",
     title: "Uniswap v4 can host private-market windows without pretending they are public AMMs.",
     caption:
       "The memorable hook is the passport checkpoint. The practical hook is deterministic settlement control.",
   },
   {
     frame: null,
-    duration: 15,
-    eyebrow: "1:21 / Terminal proof",
+    duration: 13,
+    eyebrow: "1:25 / Terminal proof",
     title: "One approved settlement, six blocked paths.",
     caption:
       "The local proof shows the hook boundary: approved settlement plus missing passport, generic router, expired, min output, replay, and stale oracle reverts.",
