@@ -20,6 +20,7 @@ const focusVisibleClass =
 type ScenarioTone = "settled" | "reverted";
 type ScenarioId = "approved" | "missing-passport" | "replay" | "stale-oracle" | "generic-router";
 type CapitalRouteId = "equity-window" | "debt-covenant";
+type CheckStatus = "pass" | "fail" | "idle";
 
 type Scenario = {
   id: ScenarioId;
@@ -41,7 +42,7 @@ type Scenario = {
   rows: Array<{
     label: string;
     value: string;
-    status: "pass" | "fail" | "idle";
+    status: CheckStatus;
   }>;
 };
 
@@ -75,6 +76,16 @@ type ScenarioPresentation = {
   resultLabel: string;
   meaningRows: Scenario["meaningRows"];
   rows: Scenario["rows"];
+};
+
+type RouteConsolePresentation = {
+  headline: string;
+  rails: Array<{
+    label: string;
+    value: string;
+    detail: string;
+    status: CheckStatus;
+  }>;
 };
 
 const capitalRoutes: CapitalRoute[] = [
@@ -512,6 +523,314 @@ function scenarioPresentation(routeId: CapitalRouteId, scenario: Scenario): Scen
   };
 }
 
+function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
+  const byScenario: Record<ScenarioId, RouteConsolePresentation> = {
+    approved: {
+      headline: "Equity route is live under signed window terms.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Revenue + margin proof fresh",
+          detail: "Operating evidence can support the LCX primary window.",
+          status: "pass",
+        },
+        {
+          label: "Instrument",
+          value: "Primary LCX equity",
+          detail: "Allocation remains inside the issuer vehicle.",
+          status: "pass",
+        },
+        {
+          label: "Access",
+          value: "Investor passport active",
+          detail: "Wallet, route, and nonce match the signed authorization.",
+          status: "pass",
+        },
+        {
+          label: "Settlement",
+          value: "USDC -> LCX custom delta",
+          detail: "The hook consumes exact input and returns window output.",
+          status: "pass",
+        },
+      ],
+    },
+    "missing-passport": {
+      headline: "Equity route stops before market state changes.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Claim not reached",
+          detail: "Issuer proof is not evaluated without a passport.",
+          status: "idle",
+        },
+        {
+          label: "Instrument",
+          value: "Primary LCX equity",
+          detail: "Inventory remains untouched.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Passport missing",
+          detail: "Identity, route, and allocation context are absent.",
+          status: "fail",
+        },
+        {
+          label: "Settlement",
+          value: "No delta returned",
+          detail: "The hook rejects before custom accounting.",
+          status: "idle",
+        },
+      ],
+    },
+    replay: {
+      headline: "Equity route rejects the second use of the same stamp.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Revenue + margin proof fresh",
+          detail: "The issuer claim is valid, but not sufficient alone.",
+          status: "pass",
+        },
+        {
+          label: "Instrument",
+          value: "Primary LCX equity locked",
+          detail: "Capacity cannot be consumed twice.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Authorization already used",
+          detail: "Nonce state blocks duplicate private fills.",
+          status: "fail",
+        },
+        {
+          label: "Settlement",
+          value: "No duplicate fill",
+          detail: "The hook returns no custom delta.",
+          status: "idle",
+        },
+      ],
+    },
+    "stale-oracle": {
+      headline: "Equity route pauses when issuer evidence goes stale.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Issuer proof stale",
+          detail: "Old operating data cannot support current access.",
+          status: "fail",
+        },
+        {
+          label: "Instrument",
+          value: "Primary LCX equity paused",
+          detail: "Signed price stays fixed; availability closes.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Passport pending freshness",
+          detail: "The investor stamp waits for a current proof.",
+          status: "idle",
+        },
+        {
+          label: "Settlement",
+          value: "No delta returned",
+          detail: "Freshness gates access without repricing.",
+          status: "idle",
+        },
+      ],
+    },
+    "generic-router": {
+      headline: "Equity route rejects public-router bypass.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Revenue + margin proof fresh",
+          detail: "The issuer claim does not authorize every path.",
+          status: "pass",
+        },
+        {
+          label: "Instrument",
+          value: "Primary LCX equity route",
+          detail: "The instrument is bound to the capital router.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Route binding failed",
+          detail: "A valid stamp cannot ride a generic swap path.",
+          status: "fail",
+        },
+        {
+          label: "Settlement",
+          value: "Public router blocked",
+          detail: "No inventory moves outside the approved route.",
+          status: "idle",
+        },
+      ],
+    },
+  };
+
+  return byScenario[scenario.id];
+}
+
+function debtRouteConsole(scenario: Scenario): RouteConsolePresentation {
+  const byScenario: Record<ScenarioId, RouteConsolePresentation> = {
+    approved: {
+      headline: "Debt route is open while the covenant is green.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Coverage 1.62x green",
+          detail: "Current assets clear the covenant threshold.",
+          status: "pass",
+        },
+        {
+          label: "Instrument",
+          value: "Working-capital note",
+          detail: "Debt access opens without equity settlement.",
+          status: "pass",
+        },
+        {
+          label: "Access",
+          value: "Creditor passport active",
+          detail: "Route-specific document and nonce match.",
+          status: "pass",
+        },
+        {
+          label: "Settlement",
+          value: "Debt route open",
+          detail: "The hook boundary can gate note access or transfer.",
+          status: "pass",
+        },
+      ],
+    },
+    "missing-passport": {
+      headline: "Debt route stops before covenant access opens.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Coverage not reached",
+          detail: "The covenant proof waits behind creditor eligibility.",
+          status: "idle",
+        },
+        {
+          label: "Instrument",
+          value: "Working-capital note",
+          detail: "No creditor rights are exposed.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Creditor passport missing",
+          detail: "The note route needs accredited route context.",
+          status: "fail",
+        },
+        {
+          label: "Settlement",
+          value: "Debt route closed",
+          detail: "No note access or transfer preview appears.",
+          status: "idle",
+        },
+      ],
+    },
+    replay: {
+      headline: "Debt route rejects a reused covenant stamp.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Coverage proof fresh",
+          detail: "The ratio is green, but the instruction is spent.",
+          status: "pass",
+        },
+        {
+          label: "Instrument",
+          value: "Working-capital note held",
+          detail: "Debt capacity cannot be consumed twice.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Covenant stamp reused",
+          detail: "Nonce state blocks duplicate creditor access.",
+          status: "fail",
+        },
+        {
+          label: "Settlement",
+          value: "Debt route closed",
+          detail: "The hook returns no route opening.",
+          status: "idle",
+        },
+      ],
+    },
+    "stale-oracle": {
+      headline: "Debt route closes when coverage proof is stale.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Coverage proof stale",
+          detail: "A green ratio from old books is not credit proof.",
+          status: "fail",
+        },
+        {
+          label: "Instrument",
+          value: "Working-capital note paused",
+          detail: "The debt route waits for current coverage.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Creditor passport pending freshness",
+          detail: "Eligibility alone does not open covenant access.",
+          status: "idle",
+        },
+        {
+          label: "Settlement",
+          value: "Route closed",
+          detail: "No note access while coverage is stale.",
+          status: "fail",
+        },
+      ],
+    },
+    "generic-router": {
+      headline: "Debt route rejects public-router bypass.",
+      rails: [
+        {
+          label: "Claim status",
+          value: "Coverage proof fresh",
+          detail: "The covenant claim does not authorize every path.",
+          status: "pass",
+        },
+        {
+          label: "Instrument",
+          value: "Working-capital note route",
+          detail: "Creditor controls stay attached to the debt route.",
+          status: "idle",
+        },
+        {
+          label: "Access",
+          value: "Route binding failed",
+          detail: "A generic swap path cannot carry creditor rights.",
+          status: "fail",
+        },
+        {
+          label: "Settlement",
+          value: "Debt route closed",
+          detail: "No route opening outside approved context.",
+          status: "idle",
+        },
+      ],
+    },
+  };
+
+  return byScenario[scenario.id];
+}
+
+function routeConsolePresentation(routeId: CapitalRouteId, scenario: Scenario): RouteConsolePresentation {
+  return routeId === "debt-covenant" ? debtRouteConsole(scenario) : equityRouteConsole(scenario);
+}
+
 export function HookathonScenarioSimulator() {
   const [selectedRouteId, setSelectedRouteId] = useState(capitalRoutes[0].id);
   const [selectedId, setSelectedId] = useState(scenarios[0].id);
@@ -525,6 +844,10 @@ export function HookathonScenarioSimulator() {
   );
   const presentation = useMemo(
     () => scenarioPresentation(capitalRoute.id, scenario),
+    [capitalRoute.id, scenario],
+  );
+  const consoleState = useMemo(
+    () => routeConsolePresentation(capitalRoute.id, scenario),
     [capitalRoute.id, scenario],
   );
   const RouteIcon = capitalRoute.icon;
@@ -666,6 +989,22 @@ export function HookathonScenarioSimulator() {
               </button>
             );
           })}
+        </div>
+
+        <div className="mt-6 bg-surface-ink p-4 text-on-surface">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Capital route console
+            </p>
+            <p className="max-w-xl text-sm font-medium leading-5 text-on-surface-variant sm:text-right">
+              {consoleState.headline}
+            </p>
+          </div>
+          <div className="mt-4 grid min-w-0 gap-1 bg-border-muted md:grid-cols-4">
+            {consoleState.rails.map((rail) => (
+              <ConsoleRailCell key={rail.label} rail={rail} />
+            ))}
+          </div>
         </div>
 
         <div className="mt-6 grid min-w-0 gap-1 bg-surface-container/20 lg:grid-cols-3">
@@ -813,7 +1152,31 @@ function EvidenceStep({ step, label, value }: { step: number; label: string; val
   );
 }
 
-function StatusGlyph({ status }: { status: "pass" | "fail" | "idle" }) {
+function ConsoleRailCell({ rail }: { rail: RouteConsolePresentation["rails"][number] }) {
+  const valueClass =
+    rail.status === "pass"
+      ? "text-status-signal"
+      : rail.status === "fail"
+        ? "text-destructive"
+        : "text-on-surface";
+
+  return (
+    <div className="min-w-0 bg-surface-ink p-4">
+      <div className="flex min-w-0 items-start justify-between gap-3">
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+          {rail.label}
+        </p>
+        <StatusGlyph status={rail.status} />
+      </div>
+      <p className={`mt-4 break-words font-mono text-sm font-semibold uppercase tracking-[0.08em] ${valueClass}`}>
+        {rail.value}
+      </p>
+      <p className="mt-3 text-sm leading-5 text-on-surface-variant">{rail.detail}</p>
+    </div>
+  );
+}
+
+function StatusGlyph({ status }: { status: CheckStatus }) {
   if (status === "pass") {
     return <CheckCircle2 className="h-4 w-4 text-status-signal" aria-label="Pass" />;
   }
