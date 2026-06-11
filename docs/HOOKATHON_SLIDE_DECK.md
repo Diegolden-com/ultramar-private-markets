@@ -29,7 +29,7 @@ http://localhost:3000/hookathon/port-of-call/deck
 
 ### Title
 
-Ultramar Port of Call makes the hook a passport checkpoint for private-market capital.
+Ultramar Port of Call turns operating businesses into v4 investment ports.
 
 Proof object:
 
@@ -152,7 +152,7 @@ Sandbox demo only. Not a public securities offer.
 
 Closing line:
 
-Uniswap v4 can host private-market windows without pretending they are public AMMs.
+Uniswap v4 can host private-market investment ports without pretending they are public AMMs.
 
 Judge packet links:
 

@@ -22,17 +22,17 @@ Final Tally browser-session copy packet lives in `docs/HOOKATHON_TALLY_FINAL_PAC
 
 ## Submission title
 
-**Ultramar Port of Call: passport-gated capital windows for local businesses**
+**Ultramar Port of Call: investment ports for local operating businesses**
 
 ## One-liner
 
-An Ablo-style discovery app for private-market capital: investors travel to local businesses, understand diligence in their own language, get eligibility stamped, and enter a Uniswap v4 capital window enforced by a custom-accounting hook.
+An Ablo-style discovery app for private-market capital: investors travel to local businesses, understand diligence in their own language, get eligibility stamped, and choose an equity window, debt covenant preview, secondary transfer, or conversion route enforced by a Uniswap v4 hook.
 
 ## Thirty-second pitch
 
 Private-market capital does not fail because investors lack appetite. It fails because cross-border trust is expensive: language, diligence, eligibility, legal limits, allocation, settlement, and reporting all live in different systems.
 
-Ultramar Port of Call turns that into one v4-native flow. The app lets an eligible investor discover a local operating business, review translated diligence, receive a signed passport stamp, and convert exact-input USDC into a restricted issuer token only during an approved capital window. The Uniswap v4 hook is the control point: no valid passport, no active window, no fresh oracle proof, no swap.
+Ultramar Port of Call turns that into one v4-native flow. The app lets an eligible investor discover a local operating business, review translated diligence, receive a signed passport stamp, and choose the financing route the issuer can responsibly open. The current Solidity proof settles the LCX equity window through custom accounting; the demo also previews a debt covenant route where stale coverage proof blocks access before any debt instrument becomes executable.
 
 ## Why this is v4-native
 
@@ -53,7 +53,7 @@ This is not an app that happens to call Uniswap. The hook is the product boundar
 | Local guide | Issuer/operator room | Store economics, use of funds, risks, and proof state |
 | Identity/profile | Investor passport | KYC/KYB, jurisdiction, NDA, allocation, transfer policy |
 | Low-friction connection | Signed authorization | `hookData` carries window id, investor, min output, deadline, nonce, signature |
-| Conversation becomes trust | Onchain capital window | Exact-input USDC conversion succeeds only through the hook |
+| Conversation becomes trust | Onchain capital route | Exact-input equity conversion succeeds only through the hook; debt access opens only with fresh covenant proof |
 
 ## Demo asset
 
@@ -85,9 +85,9 @@ The demo must say **sandbox/testnet** and must not imply that LCX is currently a
 
    Toggle or show completed checks: eligibility, NDA, allocation, transfer-policy acceptance, signed authorization. Explain that the passport becomes `hookData`.
 
-5. **Capital window**
+5. **Capital route**
 
-   Enter exact-input USDC. Show expected LCX output, cap remaining, per-investor limit, window timer, and oracle proof age. The pricing example should show how `4.5M USD` pre-money and `4.5M LCX` sandbox units become `1.00 USDC/LCX`, with MXN economics translated through a signed FX snapshot before the window opens.
+   Choose equity or debt. For equity, enter exact-input USDC and show expected LCX output, cap remaining, per-investor limit, window timer, and oracle proof age. For debt, show current asset coverage and covenant freshness. The pricing example should show how `4.5M USD` pre-money and `4.5M LCX` sandbox units become `1.00 USDC/LCX`, with MXN economics translated through a signed FX snapshot before the equity window opens.
 
 6. **Execute**
 
@@ -131,17 +131,17 @@ sequenceDiagram
 
 | Judge concern | Answer |
 | --- | --- |
-| Is this just a permissioned pool? | No. The hook replaces AMM execution with a custom capital-window curve and enforces signed eligibility, caps, oracle freshness, and window state. |
+| Is this just a permissioned pool? | No. The hook replaces AMM execution with route-aware settlement: custom equity-window pricing, signed eligibility, caps, oracle freshness, covenant freshness, and window state. |
 | Why use Uniswap v4 instead of a bespoke escrow contract? | v4 gives the standard pool interface, `PoolManager`, flash accounting, composable routing surface, and custom accounting. The hook specializes the market without rebuilding settlement from scratch. |
 | Is it compliant? | It is compliance-aware, not a compliance claim. The demo blocks public purchase and models counsel-gated windows. Production needs counsel, transfer-agent/custody decisions, audit, and jurisdiction review. |
-| Where is the economic value? | Issuers get controlled capital windows and reporting; investors get legible diligence and deterministic execution; the protocol gets a new class of specialized, real-world markets. |
+| Where is the economic value? | Issuers get controlled debt/equity routes and reporting; investors get legible diligence and deterministic execution; the protocol gets a new class of specialized, real-world markets. |
 | Why will people remember it? | "Ablo for capital" is a simple mental model. The v4 hook becomes a passport checkpoint for local-business capital formation. |
 
 ## Prize category fit
 
 Primary submission angle:
 
-**Specialized Markets** - the official Tally form currently asks for UHI8 Specialized Markets. Port of Call creates asset-class-specific liquidity for private operating-business capital windows: eligibility, transfer policy, ticket size, timing, allocation caps, oracle freshness, and router provenance are enforced by the hook instead of treated as offchain paperwork.
+**Specialized Markets** - the official Tally form currently asks for UHI8 Specialized Markets. Port of Call creates asset-class-specific liquidity for private operating-business investment ports: route selection, eligibility, transfer policy, ticket size, timing, allocation caps, covenant coverage, oracle freshness, and router provenance are enforced by the hook instead of treated as offchain paperwork.
 
 Secondary angles:
 

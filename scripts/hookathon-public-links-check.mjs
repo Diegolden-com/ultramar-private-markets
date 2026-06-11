@@ -120,7 +120,7 @@ const checks = [
       "effective 1.0312",
       "27 hook tests",
       "exact step-curve pricing",
-      "Uniswap v4 can host private-market windows",
+      "Uniswap v4 can host private-market investment ports",
       "Base Sepolia proof",
       "Winning scorecard",
       "testnet-dry-run-latest.md",
@@ -139,6 +139,7 @@ const checks = [
     markers: [
       "Debt opens only while covenant coverage is fresh.",
       "A port can open equity, debt, secondary transfer, or conversion routes.",
+      "Uniswap v4 can host private-market investment ports",
       "testWindowStepCurveQuotesExactPricingExample",
       "1.0312 effective",
     ],

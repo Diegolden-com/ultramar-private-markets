@@ -134,7 +134,7 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 | 0:47-0:55 | Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." |
 | 0:55-1:05 | Specialized market claim | "This is the Specialized Markets angle: private operating-business capital needs eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance inside the market itself." |
 | 1:05-1:13 | Pricing proof | "The deck curve is not decorative. `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
-| 1:13-1:21 | Deck close | "Uniswap v4 can host private-market windows without pretending they are public AMMs." |
+| 1:13-1:21 | Deck close | "Uniswap v4 can host private-market investment ports without pretending they are public AMMs." |
 | 1:21-1:36 | Terminal proof | "The local proof shows one approved settlement and six blocked paths. The hook is the market boundary." |
 
 ## Required visual beats
@@ -155,13 +155,13 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 Title:
 
 ```text
-Ultramar Port of Call - Specialized Markets for Uniswap v4 Capital Windows
+Ultramar Port of Call - Specialized Markets for Uniswap v4 Investment Ports
 ```
 
 Description:
 
 ```text
-Ultramar Port of Call is an Ablo-style private-market discovery demo for the Uniswap v4 Hookathon. Investors travel to a local business, receive a signed eligibility passport, and enter a v4 capital window. The hook creates a Specialized Market for private operating-business capital by enforcing eligibility, ticket size, caps, transfer boundaries, router provenance, oracle freshness, and exact-input custom-accounting settlement.
+Ultramar Port of Call is an Ablo-style private-market discovery demo for the Uniswap v4 Hookathon. Investors travel to a local business, receive a signed eligibility passport, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The hook creates a Specialized Market for private operating-business capital by enforcing route, eligibility, ticket size, caps, transfer boundaries, router provenance, oracle freshness, and exact-input custom-accounting settlement.
 
 Sandbox/testnet technical demo only. Not an offer, investment advice, custody, broker-dealer activity, or a live production transaction path.
 ```

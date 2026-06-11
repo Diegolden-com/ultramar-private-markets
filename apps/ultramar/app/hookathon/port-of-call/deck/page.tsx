@@ -31,7 +31,7 @@ import Link from "next/link";
 
 const path = "/hookathon/port-of-call/deck";
 const description =
-  "Pitch deck for Ultramar Port of Call, a Uniswap v4 Specialized Markets hookathon demo for passport-gated private-market capital windows.";
+  "Pitch deck for Ultramar Port of Call, a Uniswap v4 Specialized Markets hookathon demo for investment ports, capital-route intake, debt covenant previews, and custom-accounting equity settlement.";
 const focusVisibleClass =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
 
@@ -44,7 +44,10 @@ export const metadata = createSeoMetadata({
   keywords: [
     "Uniswap v4 Hookathon pitch deck",
     "Specialized Markets",
-    "private-market capital windows",
+    "investment ports",
+    "capital routes",
+    "debt covenants",
+    "private-market investment ports",
     "custom accounting hook",
     "Ultramar Capital",
   ],
@@ -53,14 +56,14 @@ export const metadata = createSeoMetadata({
 const problemRows = [
   ["Language", "Investors cannot inspect local operating proof with enough context."],
   ["Eligibility", "Issuer, jurisdiction, NDA, transfer policy, and caps sit outside settlement."],
-  ["Execution", "A public AMM cannot know when a private window is valid or stale."],
+  ["Execution", "A public AMM cannot know which private route is valid, fresh, or closed."],
 ] as const;
 
 const abloLoop = [
   ["Travel", "Open a capital port and meet the issuer before the transaction surface."],
   ["Guide", "Translate diligence, store economics, use of funds, and risk notes."],
   ["Passport", "Attach KYC/KYB, jurisdiction, NDA, allocation, and transfer policy checks."],
-  ["Window", "Execute exact-input USDC only through a v4 hook with custom accounting."],
+  ["Route", "Choose equity, debt covenant preview, secondary transfer, or conversion path."],
 ] as const;
 
 const capitalRouteRows = [
@@ -104,12 +107,12 @@ const v4Mechanics = [
   {
     icon: DatabaseZap,
     label: "Custom accounting",
-    body: "beforeSwapReturnDelta consumes the payment side and returns window-priced issuer-token output.",
+    body: "beforeSwapReturnDelta consumes the payment side and returns window-priced issuer-token output for the equity route.",
   },
   {
     icon: ShieldCheck,
     label: "Market boundary",
-    body: "Public add/remove liquidity reverts; the pool is a specialized capital window, not a public AMM.",
+    body: "Public add/remove liquidity reverts; the pool is a specialized investment-port boundary, not a public AMM.",
   },
 ] as const;
 
@@ -216,12 +219,12 @@ export default function PortOfCallDeckPage() {
                 Ultramar Capital
               </p>
               <h1 className="mt-3 max-w-5xl break-words font-serif text-4xl font-bold leading-[1.02] text-on-surface [overflow-wrap:anywhere] md:text-6xl xl:text-7xl">
-                Port of Call makes the hook a passport checkpoint for private-market capital.
+                Port of Call turns operating businesses into v4 investment ports.
               </h1>
               <p className="mt-6 max-w-3xl text-pretty text-lg leading-7 text-on-surface-variant md:text-xl">
                 An Ablo-style product loop wrapped around a real Uniswap v4 hook: investors travel
-                to a local business, receive a signed passport, and settle only inside a specialized
-                capital window.
+                to a local business, receive a signed passport, choose an equity or debt route, and
+                cross the market boundary only when the hook verifies the route.
               </p>
             </div>
 
@@ -247,7 +250,7 @@ export default function PortOfCallDeckPage() {
                 Demo thesis
               </p>
               <p className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
-                The memorable product is travel. The durable mechanism is settlement control.
+                The memorable product is travel. The durable mechanism is route control.
               </p>
             </div>
           </div>
@@ -274,8 +277,8 @@ export default function PortOfCallDeckPage() {
 
       <DeckSlide
         eyebrow="02 / Product loop"
-        title="Ablo for capital: travel, guide, passport, window."
-        body="The investor enters a capital port before any buy button appears. The app makes private-market context legible, then turns eligibility into signed execution context."
+        title="Ablo for capital: travel, guide, passport, route."
+        body="The investor enters a capital port before any buy button appears. The app makes private-market context legible, then turns eligibility and operating proof into route-specific execution context."
         icon={KeyRound}
         paper
       >
@@ -319,7 +322,7 @@ export default function PortOfCallDeckPage() {
       <DeckSlide
         eyebrow="04 / Specialized market"
         title="A generic AMM is the wrong primitive for this asset class."
-        body="Private operating-business capital has discrete eligibility, ticket size, timing, issuer-proof freshness, and transfer constraints. The market needs those rules inside settlement."
+        body="Private operating-business investment ports have discrete eligibility, ticket size, timing, issuer-proof freshness, covenant coverage, and transfer constraints. The market needs those route rules inside settlement."
         icon={Network}
       >
         <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-[0.85fr_1.15fr]">
@@ -464,7 +467,7 @@ export default function PortOfCallDeckPage() {
             Closing line
           </p>
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-5xl">
-            Uniswap v4 can host private-market windows without pretending they are public AMMs.
+            Uniswap v4 can host private-market investment ports without pretending they are public AMMs.
           </h2>
           <div className="mt-8 grid gap-1 bg-surface-container/20 sm:grid-cols-2">
             {judgePacketLinks.map((item) => (

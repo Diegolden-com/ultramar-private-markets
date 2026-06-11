@@ -46,7 +46,7 @@ const pages = [
     name: "deck",
     url: `${baseUrl}/hookathon/port-of-call/deck`,
     markers: [
-      "Port of Call makes the hook a passport checkpoint for private-market capital.",
+      "Port of Call turns operating businesses into v4 investment ports.",
       "UHI8 Specialized Markets",
       "A port can open equity, debt, secondary transfer, or conversion routes.",
       "Debt covenant preview",
@@ -61,7 +61,7 @@ const pages = [
       "effective 1.0312",
       "27 hook tests",
       "exact step-curve pricing",
-      "Uniswap v4 can host private-market windows without pretending they are public AMMs.",
+      "Uniswap v4 can host private-market investment ports without pretending they are public AMMs.",
       "Uniqueness",
       "Demo video",
       "Base Sepolia proof",

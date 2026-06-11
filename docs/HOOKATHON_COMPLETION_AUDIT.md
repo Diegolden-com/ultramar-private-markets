@@ -12,7 +12,7 @@ The broader goal is not fully complete until the Tally form is submitted and, if
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
-| Design a memorable use case | Ready | `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md` defines Ultramar Port of Call: Ablo-style private-market discovery plus passport-gated v4 capital windows. |
+| Design a memorable use case | Ready | `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md` defines Ultramar Port of Call: Ablo-style private-market discovery plus passport-gated v4 investment ports. |
 | Leverage Ultramar Capital branding | Ready | `/hookathon/port-of-call` uses Ultramar Private Equities, Lavanderias CX, LCX, capital ports, issuer workroom, and compliance-aware boundaries. |
 | Make it Ablo-esque | Ready | The product loop is travel feed -> local guide room -> translated diligence -> passport stamp -> capital window -> return ticket. |
 | Align with Atrium course arc | Ready | `docs/HOOKATHON_ATRIUM_ALIGNMENT.md` maps the Safari Atrium outline to return-delta hooks, routers/periphery, hook security, and capstone packaging. |

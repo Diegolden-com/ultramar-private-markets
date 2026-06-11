@@ -8,11 +8,11 @@ Ultramar Port of Call
 
 ## Tagline
 
-Passport-gated capital windows for local businesses, powered by Uniswap v4 custom accounting.
+Investment ports for local operating businesses, powered by Uniswap v4 custom accounting.
 
 ## Short description
 
-Ultramar Port of Call is an Ablo-style private-market discovery app where eligible investors travel to local operating businesses, review translated diligence, receive a signed passport stamp, and enter a Uniswap v4 capital window. The v4 hook enforces exact-input execution, investor eligibility, signed allocation, window caps, oracle freshness, and public-liquidity blocking.
+Ultramar Port of Call is an Ablo-style private-market discovery app where eligible investors travel to local operating businesses, review translated diligence, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The v4 hook enforces route-bound exact-input execution, investor eligibility, signed allocation, window caps, oracle freshness, covenant freshness, and public-liquidity blocking.
 
 ## Long description
 
@@ -23,25 +23,27 @@ Ultramar Port of Call turns that into a v4-native flow:
 1. An investor opens a global feed of "ports" and enters a local issuer room.
 2. The app presents translated diligence, use of funds, risk notes, and oracle freshness.
 3. Eligibility checks produce a signed passport payload: window id, investor, minimum output, deadline, nonce, and authorizer signature.
-4. `CapitalWindowRouter` routes exact-input USDC into Uniswap v4 `PoolManager`.
-5. `CapitalWindowHook` uses `beforeSwap` and `beforeSwapReturnDelta` custom accounting to consume the capital window and return restricted issuer-token output.
-6. The hook and registry emit reconciliation events for CRM, portfolio, issuer reporting, and audit review.
+4. Capital-route intake separates the LCX equity window from the debt covenant preview.
+5. `CapitalWindowRouter` routes exact-input USDC into Uniswap v4 `PoolManager` for the equity proof.
+6. `CapitalWindowHook` uses `beforeSwap` and `beforeSwapReturnDelta` custom accounting to consume the equity window and return restricted issuer-token output.
+7. The hook and registry emit reconciliation events for CRM, portfolio, issuer reporting, and audit review.
 
 The demo asset is Lavanderias CX, a Mexico City operating-business expansion-round sandbox. The implementation is a technical proof and demo only; it is not a public securities offering, audited deployment, or real-money transaction path.
 
 ## Problem
 
-Private-market access is often presented as a marketplace problem, but the real bottleneck is trust and controlled execution. A normal public AMM is the wrong primitive for private company capital windows because participation, timing, price terms, transfer rights, data freshness, and legal gates are not continuous public variables.
+Private-market access is often presented as a marketplace problem, but the real bottleneck is trust and controlled execution. A normal public AMM is the wrong primitive for private company investment ports because route selection, participation, timing, price terms, covenant coverage, transfer rights, data freshness, and legal gates are not continuous public variables.
 
 ## Solution
 
-Use Uniswap v4 as the programmable settlement layer for controlled capital windows:
+Use Uniswap v4 as the programmable settlement layer for controlled investment ports:
 
 - Primary conversion windows route investor payment to issuer treasury and release restricted issuer tokens.
+- Debt covenant previews open only while creditor eligibility and coverage proof are fresh.
 - Secondary windows route payment to seller escrow or settlement recipients and release controlled inventory to approved buyers.
 - The public website remains informational.
 - The gated app creates signed passport context.
-- The hook enforces the window at execution time.
+- The hook enforces the selected route at execution time.
 
 ## Why Uniswap v4
 
@@ -55,7 +57,7 @@ Uniswap v4 matters because hooks and custom accounting let a pool become a speci
 
 ## Hook permissions
 
-The demo hook uses the minimal permissions needed for the capital-window flow:
+The demo hook uses the minimal permissions needed for the capital-route flow:
 
 - `beforeSwap`
 - `beforeSwapReturnDelta`
@@ -167,7 +169,7 @@ corepack yarn workspace @ultramar/ultramar build
 - `testHookAddressEncodesOnlyCapitalWindowPermissions`: hook address encodes only the required v4 permissions.
 - `testAuthorizationDigestBindsPassportToCapitalRouter`: passport signatures are bound to the approved router address.
 - `testWindowStepCurveQuotesExactPricingExample`: the window curve quotes `1,500 USDC -> 1,454.54 LCX` at the deck's `1.0312 USDC/LCX` effective price.
-- `testPrimaryConversionWindowExecutesCustomAccountingSwap`: approved primary capital window succeeds.
+- `testPrimaryConversionWindowExecutesCustomAccountingSwap`: approved primary equity window succeeds.
 - `testSecondaryLiquidityWindowRoutesCashToEscrow`: approved secondary window routes cash to escrow.
 - `testMissingPassportHookDataReverts`: no passport payload, no swap.
 - `testGenericRouterWithCapitalPassportReverts`: a valid passport signed for `CapitalWindowRouter` cannot be reused through a generic v4 swap router.
@@ -204,11 +206,11 @@ The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHoo
 
 **1:50 - Close**
 
-"This is not a public securities AMM. It is a v4-native primitive for controlled, auditable private-market capital windows."
+"This is not a public securities AMM. It is a v4-native primitive for controlled, auditable private-market investment ports."
 
 ## Judge checklist
 
-- Clear non-generic use case: yes, capital windows for local operating businesses.
+- Clear non-generic use case: yes, investment ports for local operating businesses.
 - Ablo-style product loop: yes, global ports, translation, local guide room, passport stamp.
 - Uniswap v4-native mechanism: yes, hooks, `PoolManager`, flash accounting, custom accounting, return deltas.
 - Tests: yes, success paths, reverts, replay protection, missing passport, stale oracle, exact-output rejection, liquidity blocking, event trail.
@@ -219,7 +221,7 @@ The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHoo
 
 Primary:
 
-**Specialized Markets** - private-market capital windows are asset-class-specific liquidity. The hook models investor eligibility, transfer boundaries, ticket size, caps, window timing, oracle freshness, and router provenance, which a generic public AMM does not model.
+**Specialized Markets** - private-market investment ports are asset-class-specific liquidity. The hook models route selection, investor eligibility, transfer boundaries, ticket size, caps, window timing, covenant coverage, oracle freshness, and router provenance, which a generic public AMM does not model.
 
 Secondary:
 

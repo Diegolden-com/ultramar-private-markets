@@ -47,7 +47,7 @@ forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv
 | 0:47-0:55 | Scenario simulator, Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." | Replay state and consumed nonce failure |
 | 0:55-1:05 | Specialized Markets | "The hook turns eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance into market rules." | Specialized Markets claim |
 | 1:05-1:13 | Pricing proof | "The visual curve is backed by Solidity: `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." | Deck pricing graph and exact pricing test name |
-| 1:13-1:21 | Deck close | "Uniswap v4 can host private-market windows without pretending they are public AMMs." | Pitch deck closing line |
+| 1:13-1:21 | Deck close | "Uniswap v4 can host private-market investment ports without pretending they are public AMMs." | Pitch deck closing line |
 | 1:21-1:36 | Terminal | "The local demo proves one settlement and six blocked paths. The hook is not decoration; it is the market boundary." | `Demo complete: one approved settlement, six blocked paths.` |
 
 ## Terminal markers

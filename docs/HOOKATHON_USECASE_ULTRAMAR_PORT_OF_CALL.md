@@ -9,12 +9,12 @@ Companion artifacts:
 
 ## Verdict
 
-Build **Ultramar Port of Call**: an Ablo-style cross-border capital discovery experience where eligible investors meet local operating businesses, review translated diligence, and can enter a counsel-gated capital window through a Uniswap v4 hook.
+Build **Ultramar Port of Call**: an Ablo-style cross-border capital discovery experience where eligible investors meet local operating businesses, review translated diligence, and can enter counsel-gated investment ports through a Uniswap v4 hook.
 
-The underlying hook is not a generic DEX listing. It is a controlled settlement primitive for timeboxed primary and secondary windows:
+The underlying hook is not a generic DEX listing. It is a controlled settlement primitive for route-aware private-market access:
 
-- USDC in.
-- Restricted issuer asset token out.
+- Equity route: USDC in, restricted issuer asset token out.
+- Debt route: fresh covenant proof before access can open.
 - Exact-input only.
 - Eligible investors only.
 - Active windows only.
@@ -28,7 +28,7 @@ The demo asset should be **Lavanderias CX**, because the repo already models it 
 
 Most hook demos compete on fee logic, LP optimization, or MEV variants. Those are valid, but crowded. Ultramar can make the hook feel like a new market category:
 
-> Uniswap v4 as programmable capital-window infrastructure for private-market assets, not as another public RWA exchange.
+> Uniswap v4 as programmable investment-port infrastructure for private-market assets, not as another public RWA exchange.
 
 The hook adds value in a way judges can inspect:
 
@@ -40,7 +40,7 @@ The hook adds value in a way judges can inspect:
 
 The product story is simple enough for non-technical judges:
 
-> "Travel to a local business, meet the operator, read diligence in your language, get eligibility stamped, then enter the capital window. The hook is the border control."
+> "Travel to a local business, meet the operator, read diligence in your language, get eligibility stamped, then choose the capital route. The hook is the border control."
 
 ## Ablo-style product loop
 
@@ -58,9 +58,9 @@ Ablo's memorable loop was global discovery plus translation: meet someone elsewh
 
    The investor completes KYC/KYB, jurisdiction, suitability, NDA, and transfer-policy checks. Ultramar issues a signed authorization payload for a specific window, amount, recipient, deadline, and nonce.
 
-4. **Capital window**
+4. **Capital route**
 
-   The v4 hook accepts exact-input USDC only if the passport stamp is valid and the window is open. It returns the restricted asset token from issuer or escrow inventory according to the configured window curve.
+   The v4 hook accepts exact-input USDC for the equity route only if the passport stamp is valid and the window is open. It returns the restricted asset token from issuer or escrow inventory according to the configured window curve. A debt route can use the same passport and freshness boundary to gate covenant access before a live debt instrument is issued.
 
 5. **Return ticket**
 
@@ -144,7 +144,7 @@ Add a focused demo surface, separate from public production pages:
 - "Ports" feed with Lavanderias CX as the featured port.
 - Translated diligence/Q&A mock panel.
 - Passport stamp status: eligibility, NDA, allocation, signature, oracle freshness.
-- Capital window quote: exact USDC input, expected LCX output, window fill, cap remaining.
+- Capital route intake: equity quote with exact USDC input and expected LCX output, plus debt covenant preview with current asset coverage.
 - Scenario simulator for Approved, Missing passport, Replay, Stale oracle, and Generic router states, each tied to a Foundry test.
 - Testnet transaction button only after all demo gates pass.
 - Audit trail panel showing hook events after swap and mapping them to CRM, portfolio, issuer reporting, and risk review rows.
@@ -155,20 +155,20 @@ Add a focused demo surface, separate from public production pages:
 2. Show the Ablo-style feed: an investor "travels" to Mexico City and meets Lavanderias CX.
 3. Show translated diligence and oracle freshness.
 4. Stamp eligibility.
-5. Execute the v4 window through the hook.
+5. Execute the equity window through the hook, then show the debt covenant preview.
 6. Try an ineligible swap and show it revert.
-7. Close with the thesis: Uniswap v4 can host specialized, compliance-aware capital windows without pretending every private asset is a public AMM.
+7. Close with the thesis: Uniswap v4 can host specialized, compliance-aware investment ports without pretending every private asset is a public AMM.
 
 ## Prize positioning
 
 As of the published Atrium 2026 roadmap, the strongest fit depends on the current cohort:
 
-- **UHI8 - Specialized Markets:** frame the hook as asset-class-specific liquidity for private operating-business capital windows. Eligibility, transfer policy, ticket size, timing, allocation caps, oracle freshness, and router provenance are market structure, not generic AMM parameters.
+- **UHI8 - Specialized Markets:** frame the hook as asset-class-specific liquidity for private operating-business investment ports. Route selection, eligibility, transfer policy, ticket size, timing, allocation caps, covenant coverage, oracle freshness, and router provenance are market structure, not generic AMM parameters.
 - **UHI9 - Yield-Protected AMM:** frame the hook as a protected conversion market where the liquidity side avoids passive LP impermanent-loss exposure. Public LP deposits are blocked; issuer or escrow inventory is consumed only inside signed, capped, oracle-gated windows. Yield comes from reviewed real-world round terms and reporting, not toxic AMM inventory risk.
 - **UHI10 - Fair Flow Frontier:** frame it as fair-flow infrastructure: signed order intent, exact-input windows, caps, delayed/scheduled fills, no toxic public routing, and audit-grade order provenance.
 - **UHI11 - Curated Liquidity:** frame it as a curated-liquidity network where local guides/operators, diligence reviewers, and approved curators earn reputation by bringing high-quality issuer windows onchain.
 
-As of May 31, 2026, the official Tally form linked from Atrium Capstone says the current theme is **UHI8 Specialized Markets**. Use **Specialized Markets for private-market capital windows** as the immediate pitch, with yield protection and fair-flow controls as proof.
+As of May 31, 2026, the official Tally form linked from Atrium Capstone says the current theme is **UHI8 Specialized Markets**. Use **Specialized Markets for private-market investment ports** as the immediate pitch, with yield protection and fair-flow controls as proof.
 
 ## What not to build
 

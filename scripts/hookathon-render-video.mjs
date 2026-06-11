@@ -60,7 +60,7 @@ const segments = [
     frame: "06-pricing-policy.png",
     duration: 8,
     eyebrow: "0:45 / Pricing policy",
-    title: "Most capital windows should be fixed.",
+    title: "Most active windows should be fixed.",
     caption:
       "The step curve is the advanced proof. The credible base case is a fixed signed price inside the active window.",
   },
@@ -92,7 +92,7 @@ const segments = [
     frame: "10-pitch-deck-close.png",
     duration: 8,
     eyebrow: "1:17 / Deck close",
-    title: "Uniswap v4 can host private-market windows without pretending they are public AMMs.",
+    title: "Uniswap v4 can host private-market investment ports without pretending they are public AMMs.",
     caption:
       "The memorable hook is the passport checkpoint. The practical hook is deterministic settlement control.",
   },
