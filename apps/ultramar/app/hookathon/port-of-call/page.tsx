@@ -91,6 +91,51 @@ const hookControls = [
   },
 ] as const;
 
+const hookDecisionRows = [
+  {
+    icon: Route,
+    label: "Router-bound passport",
+    decision: "Authorization is signed for CapitalWindowRouter, not any public v4 path.",
+    reason: "The route is part of the market boundary; a valid investor stamp should not become a generic swap credential.",
+    proof: "Generic router reverts before a custom delta is returned.",
+  },
+  {
+    icon: ShieldCheck,
+    label: "beforeSwap gate",
+    decision: "Eligibility, cap, nonce, deadline, token direction, timing, and proof freshness are checked before settlement.",
+    reason: "Private-market failures should reject before inventory, cash, or accounting state changes.",
+    proof: "Missing passport, replay, stale oracle, expired authorization, and min-output paths all fail.",
+  },
+  {
+    icon: DatabaseZap,
+    label: "Return delta accounting",
+    decision: "beforeSwapReturnDelta returns window-priced LCX for the equity route.",
+    reason: "The hook enforces reviewed terms; it does not pretend a private round is continuous AMM price discovery.",
+    proof: "testWindowStepCurveQuotesExactPricingExample proves the 1.0312 effective quote.",
+  },
+  {
+    icon: XCircle,
+    label: "No public LP surface",
+    decision: "Public add/remove liquidity is blocked for the demo pool.",
+    reason: "Opaque issuer inventory should sit behind issuer/escrow controls, not passive public LP shares.",
+    proof: "Unauthorized liquidity modification reverts.",
+  },
+  {
+    icon: Timer,
+    label: "Proof gates, not repricing",
+    decision: "Fresh operating or covenant proof opens access; stale proof closes the route.",
+    reason: "Issuer data should answer whether a route is allowed, not silently rewrite filled terms.",
+    proof: "Stale oracle blocks equity; stale coverage blocks the debt covenant preview.",
+  },
+  {
+    icon: CircleDollarSign,
+    label: "Fixed-first pricing",
+    decision: "The normal active window is fixed; the step curve is explicit tranche optionality.",
+    reason: "Most private rounds need stable signed terms. A curve only makes sense when the issuer intentionally prices capacity by tranche.",
+    proof: "The pricing chart and Solidity test match the same step math.",
+  },
+] as const;
+
 const feedPorts = [
   {
     city: "Mexico City",
@@ -580,6 +625,44 @@ export default function PortOfCallHookathonPage() {
             <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.body}</p>
           </article>
         ))}
+      </section>
+
+      <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.72fr_1.28fr]">
+        <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
+          <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+          <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+            Hook design decisions
+          </p>
+          <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight md:text-5xl">
+            The hook is opinionated because private markets are not neutral routing.
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-surface-container">
+            Each rule exists to keep the port legible: who may enter, which route is open, whether
+            proof is fresh, and what settlement math is allowed. The tradeoff is intentional: less
+            generic AMM freedom, more auditable capital formation.
+          </p>
+        </div>
+
+        <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-3">
+          {hookDecisionRows.map((item) => (
+            <article key={item.label} className="min-w-0 bg-surface p-5 md:p-6">
+              <item.icon className="h-5 w-5 text-status-signal" aria-hidden="true" />
+              <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                {item.label}
+              </p>
+              <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
+                {item.decision}
+              </h3>
+              <p className="mt-4 text-sm leading-6 text-on-surface-variant">{item.reason}</p>
+              <div className="mt-5 border-t border-border-muted pt-4">
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                  Proof
+                </p>
+                <p className="mt-2 text-sm leading-5 text-on-surface-variant">{item.proof}</p>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <HookathonScenarioSimulator />
