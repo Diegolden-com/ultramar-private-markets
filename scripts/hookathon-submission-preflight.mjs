@@ -135,7 +135,7 @@ const requiredNarrativeMarkers = [
   ],
   ["Deck URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call/deck"],
   ["Project URL", "docs/HOOKATHON_TALLY_SUBMISSION.md", "https://ultramar.capital/hookathon/port-of-call"],
-  ["Public frontend verification", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Verified live on June 2, 2026"],
+  ["Public frontend verification", "docs/HOOKATHON_TALLY_SUBMISSION.md", "Verified live on June 11, 2026"],
   ["Exact pricing test", "docs/HOOKATHON_TALLY_SUBMISSION.md", "testWindowStepCurveQuotesExactPricingExample"],
   ["Fixed FX Tally copy", "docs/HOOKATHON_TALLY_SUBMISSION.md", "active window is fixed after the signed FX snapshot"],
   ["Floating FX Tally copy", "docs/HOOKATHON_TALLY_SUBMISSION.md", "floating policy can refresh the next window"],

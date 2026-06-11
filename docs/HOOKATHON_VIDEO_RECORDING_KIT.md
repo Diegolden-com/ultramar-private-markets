@@ -97,7 +97,7 @@ Use the testnet command only if the video or submission needs a Base Sepolia dry
 - Optional deck: `http://localhost:3000/hookathon/port-of-call/deck`
 - Browser zoom: `90%` or `100%`, whichever keeps the hero and right-side asset visible.
 - Terminal font: 14-16 pt.
-- Screen: record the browser full-width for the first 100 seconds, then switch to terminal proof for the final 20 seconds.
+- Screen: record the browser full-width through the deck close, then switch to terminal proof for the final 13 seconds.
 - Recording tool: QuickTime, OBS, Loom, or the platform recorder. Export 1080p if available.
 
 Start the app:
@@ -126,26 +126,30 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 
 | Time | Screen | Voiceover |
 | --- | --- | --- |
-| 0:00-0:09 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting are disconnected." |
-| 0:09-0:18 | Travel feed | "Ultramar Port of Call is Ablo for capital. The investor travels to Mexico City and enters Lavanderias CX before any transaction exists." |
-| 0:18-0:28 | Passport and quote | "The diligence room creates a signed passport: window id, investor, minimum output, deadline, nonce, and authorizer signature." |
-| 0:28-0:38 | Approved simulator | "Why this click matters: omnichannel operations are credible enough to open primary equity, then the hook settles signed window terms." |
-| 0:38-0:47 | Debt stale or generic router | "A green ratio from stale books is not credit risk proof; stale covenant data closes the debt route before settlement. A valid passport also cannot ride the wrong route." |
-| 0:47-0:55 | Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." |
-| 0:55-1:05 | Specialized market claim | "This is the Specialized Markets angle: private operating-business capital needs eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance inside the market itself." |
-| 1:05-1:13 | Pricing proof | "Most active windows should be fixed. The step curve is only for signed tranche logic; `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
-| 1:13-1:21 | Deck close | "Uniswap v4 can host private-market investment ports without pretending they are public AMMs." |
-| 1:21-1:36 | Terminal proof | "The local proof shows one approved settlement and six blocked paths. The hook is the market boundary." |
+| 0:00-0:08 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting are disconnected." |
+| 0:08-0:16 | Market readiness | "The Walmart lesson becomes an operating-company question: what changed inside LCX that makes equity or debt investible?" |
+| 0:16-0:25 | Operating readiness map | "Admin work becomes underwriting evidence: daily close, margin route, current asset coverage, and reporting freshness become route-specific claims." |
+| 0:25-0:35 | Equity route approved | "Why this click matters: omnichannel operations are credible enough to open primary equity, then the hook settles signed window terms." |
+| 0:35-0:45 | Debt covenant stale | "A green ratio from stale books is not credit risk proof; stale covenant data closes the debt route before settlement." |
+| 0:45-0:53 | Generic router revert | "A valid passport cannot ride the wrong route. The signature is bound to `CapitalWindowRouter`, so generic v4 routing reverts." |
+| 0:53-1:01 | Pricing policy | "Most active windows should be fixed. If the issuer cannot explain the tranche logic, the curve should not exist." |
+| 1:01-1:09 | Specialized market claim | "Private operating-business capital needs eligibility, caps, transfer boundaries, oracle freshness, and router provenance inside settlement." |
+| 1:09-1:17 | Deck capital routes | "A port can open equity, debt, secondary transfer, or conversion routes while the hook stays the market boundary." |
+| 1:17-1:25 | Pricing proof | "`testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
+| 1:25-1:33 | Deck close | "Uniswap v4 can host private-market investment ports without pretending they are public AMMs." |
+| 1:33-1:46 | Terminal proof | "The local proof shows one approved settlement and six blocked paths. The hook is the market boundary." |
 
 ## Required visual beats
 
 - `Uniswap v4 Hookathon` and `Sandbox / non-offer` badges.
 - `Specialized Markets` as the primary angle.
+- Operating readiness map: `Admin work becomes underwriting evidence.`
+- Route-specific signals: daily close, margin route, current asset coverage, and reporting freshness.
 - `1,454.54 LCX` expected output.
 - Pricing proof: `testWindowStepCurveQuotesExactPricingExample`.
 - `27 hook tests` if using the deck route.
 - Scenario simulator `Approved`.
-- Scenario simulator `Debt covenant preview` with stale coverage, plus `Generic router` or `Replay`.
+- Scenario simulator `Debt covenant preview` with stale coverage, plus `Generic router`.
 - `Why this click matters` panel.
 - Audit/indexer event panel.
 - Pricing example and pitch deck closing line if using the optional deck route.
