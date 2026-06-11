@@ -91,7 +91,8 @@ const capitalRoutes: CapitalRoute[] = [
       },
       {
         label: "Verified claim",
-        value: "Revenue freshness under 24h, use-of-funds pack ready, margin expansion target signed.",
+        value:
+          "Disclosure-minimized claim: revenue freshness under 24h, use-of-funds pack ready, margin expansion target signed.",
       },
       {
         label: "Instrument",
@@ -119,7 +120,8 @@ const capitalRoutes: CapitalRoute[] = [
       },
       {
         label: "Verified claim",
-        value: "Current asset coverage >= 1.50x and liquidity proof fresh enough for the covenant.",
+        value:
+          "Disclosure-minimized claim: current asset coverage >= 1.50x and liquidity proof fresh enough for the covenant.",
       },
       {
         label: "Instrument",

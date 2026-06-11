@@ -185,8 +185,8 @@ const readinessPillars = [
   {
     icon: FileCheck2,
     label: "Verified proof",
-    title: "Private data becomes market claims.",
-    body: "Revenue freshness, liquidity coverage, debt load, covenant status, and data-room readiness can be proven without turning the whole business public.",
+    title: "Private data becomes disclosure-minimized claims.",
+    body: "Revenue freshness, liquidity coverage, debt load, covenant status, and data-room readiness can be attested now and later proven with ZK-style circuits without exposing full books.",
   },
   {
     icon: CircleDollarSign,
@@ -198,6 +198,7 @@ const readinessPillars = [
 
 const investmentPortRails = [
   ["Data layer", "Operating KPIs, financial ratios, reporting freshness"],
+  ["Proof privacy", "Disclosure-minimized claims: freshness, coverage, covenant status"],
   ["Instrument layer", "Equity, debt, secondary transfer, or convertible terms"],
   ["Access layer", "Investor eligibility, accreditation, limits, and disclosures"],
   ["Settlement layer", "Uniswap v4 hook with custom accounting and route controls"],
@@ -485,7 +486,7 @@ export default function PortOfCallHookathonPage() {
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
               Investment port stack
             </p>
-            <div className="mt-5 grid min-w-0 gap-1 bg-border-muted md:grid-cols-4">
+            <div className="mt-5 grid min-w-0 gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-5">
               {investmentPortRails.map(([label, value]) => (
                 <div key={label} className="min-w-0 bg-surface-ink p-4">
                   <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">

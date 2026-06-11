@@ -86,6 +86,18 @@ const capitalRouteRows = [
     body: "The demo now previews a working-capital debt route using current asset coverage, liquidity freshness, creditor eligibility, and covenant-gated access.",
   },
   {
+    icon: FileCheck2,
+    label: "Proof privacy",
+    title: "Private books become disclosure-minimized claims.",
+    body: "Revenue freshness, coverage ratios, covenant status, and data-room readiness can be attested without exposing raw issuer books to every market participant.",
+  },
+  {
+    icon: FileText,
+    label: "Legal wrapper",
+    title: "The route points to an instrument, not a public offer.",
+    body: "Equity, debt, secondary transfer, or conversion terms still need the issuer vehicle, documents, eligibility rules, and transfer controls before settlement.",
+  },
+  {
     icon: Route,
     label: "Secondary / conversion",
     title: "Later markets reuse the same port.",
