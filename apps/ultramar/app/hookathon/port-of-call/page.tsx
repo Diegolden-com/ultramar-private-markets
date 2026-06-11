@@ -194,6 +194,52 @@ const capitalReadinessRows = [
   ],
 ] as const;
 
+type CapitalStoryBeat = {
+  step: string;
+  label: string;
+  title: string;
+  body: string;
+  proof: string;
+};
+
+const capitalStoryBeats: CapitalStoryBeat[] = [
+  {
+    step: "01",
+    label: "Walmart lesson",
+    title: "Markets fund operating systems.",
+    body: "A valuation is not only a category multiple. It is the market saying the company can absorb capital and compound operations.",
+    proof: "Market signal",
+  },
+  {
+    step: "02",
+    label: "LCX administration",
+    title: "A competitive laundry can become financeable.",
+    body: "Daily close, route density, utilization, and ticket mix turn a commodity service into an operating system investors can underwrite.",
+    proof: "Admin proof",
+  },
+  {
+    step: "03",
+    label: "Capital route",
+    title: "Debt and equity are market routes.",
+    body: "Equity opens when expansion evidence is credible. Debt opens while current asset coverage and creditor controls stay green.",
+    proof: "Instrument choice",
+  },
+  {
+    step: "04",
+    label: "v4 hook",
+    title: "The hook enforces the route.",
+    body: "Passport, eligibility, cap, proof freshness, token direction, and exact-input settlement become one programmable boundary.",
+    proof: "Custom accounting",
+  },
+  {
+    step: "05",
+    label: "Audit trail",
+    title: "Settlement becomes operating memory.",
+    body: "Events reconcile CRM, portfolio, issuer reporting, and risk review so the market can remember what actually happened.",
+    proof: "Event record",
+  },
+];
+
 type OperatingReadinessSignal = {
   work: string;
   signal: string;
@@ -591,6 +637,33 @@ export default function PortOfCallHookathonPage() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.74fr_1.26fr]">
+        <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">
+          <Route className="h-5 w-5 text-status-signal" aria-hidden="true" />
+          <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            Product storyline
+          </p>
+          <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
+            The thesis in one route.
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
+            Ultramar is not pitching laundries as a meme asset. It is asking whether better
+            administration can create underwritable claims, then giving those claims a debt or equity
+            route enforced by a v4 hook.
+          </p>
+          <div className="mt-8 border border-status-signal/40 bg-status-signal/10 p-4">
+            <p className="break-words font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal [overflow-wrap:anywhere]">
+              Walmart lesson -&gt; LCX administration -&gt; capital route -&gt; v4 hook -&gt; audit trail
+            </p>
+          </div>
+        </div>
+        <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-5">
+          {capitalStoryBeats.map((beat) => (
+            <CapitalStoryBeatCard key={beat.step} beat={beat} />
+          ))}
         </div>
       </section>
 
@@ -1023,6 +1096,28 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function CapitalStoryBeatCard({ beat }: { beat: CapitalStoryBeat }) {
+  return (
+    <article className="min-w-0 bg-surface p-5 md:p-6">
+      <div className="flex min-w-0 items-center justify-between gap-3">
+        <span className="font-mono text-3xl font-semibold tabular-nums text-status-signal">
+          {beat.step}
+        </span>
+        <span className="break-words text-right font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
+          {beat.proof}
+        </span>
+      </div>
+      <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+        {beat.label}
+      </p>
+      <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
+        {beat.title}
+      </h3>
+      <p className="mt-4 text-sm leading-6 text-on-surface-variant">{beat.body}</p>
+    </article>
   );
 }
 
