@@ -15,13 +15,13 @@ const pages = [
     name: "demo",
     url: `${baseUrl}/hookathon/port-of-call`,
     markers: [
-      "Port of Call turns local-business capital into a passport-gated v4 window.",
+      "Port of Call turns operating businesses into v4 investment ports.",
       "The hook is the market boundary.",
       "Market readiness",
       "Walmart lesson",
       "The market pays for administration that can absorb capital.",
       "Investment port stack",
-      "Debt or equity can open a window.",
+      "Debt or equity can open a route.",
       "Pricing policy",
       "Fixed price window",
       "Step curve window",
@@ -33,7 +33,7 @@ const pages = [
       "Current asset coverage gate",
       "Issuer data -> verified claim -> passport -> v4 hook",
       "One hook, five judge-visible outcomes.",
-      "Most capital windows should be fixed",
+      "Most active windows should be fixed",
       "effective 1.0312",
       "Specialized Markets",
       "custom accounting",
@@ -76,6 +76,41 @@ const viewports = [
   { name: "mobile", width: 390, height: 1000 },
 ];
 
+async function waitForVisibleImages(page) {
+  await page
+    .waitForFunction(
+      () =>
+        Array.from(document.images)
+          .filter((image) => {
+            const rect = image.getBoundingClientRect();
+            const style = window.getComputedStyle(image);
+            return (
+              rect.width > 16 &&
+              rect.height > 16 &&
+              rect.bottom >= 0 &&
+              rect.top <= window.innerHeight &&
+              style.visibility !== "hidden" &&
+              style.display !== "none"
+            );
+          })
+          .every((image) => image.complete && image.naturalWidth > 0),
+      undefined,
+      { timeout: 10_000 },
+    )
+    .catch(() => {});
+}
+
+async function clickAndWaitPressed(page, locator) {
+  await locator.scrollIntoViewIfNeeded();
+  await locator.click();
+  for (let attempt = 0; attempt < 30; attempt += 1) {
+    if ((await locator.getAttribute("aria-pressed")) === "true") {
+      return;
+    }
+    await page.waitForTimeout(100);
+  }
+}
+
 function row(status, item, evidence) {
   return `| ${status ? "Ready" : "Fail"} | ${item} | ${evidence} |`;
 }
@@ -99,6 +134,7 @@ try {
       try {
         const response = await page.goto(target.url, { waitUntil: "domcontentloaded", timeout: 45_000 });
         await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => {});
+        await waitForVisibleImages(page);
         await page.screenshot({ path: screenshotPath, fullPage: true });
 
         const screenshotBytes = statSync(screenshotPath).size;
@@ -165,14 +201,14 @@ try {
         if (target.name === "demo" && viewport.name === "desktop") {
           const demoSection = page.locator("section", { hasText: "Choose the capital route before the swap." }).first();
           await demoSection.scrollIntoViewIfNeeded();
-          await page.getByRole("button", { name: /Debt covenant preview/i }).click();
-          await page.getByRole("button", { name: /Stale oracle/i }).click();
+          const debtButton = demoSection.getByRole("button", { name: /Debt covenant preview/i });
+          const staleButton = demoSection.getByRole("button", { name: /Stale oracle/i });
+          await clickAndWaitPressed(page, debtButton);
+          await clickAndWaitPressed(page, staleButton);
 
           const debtText = (await demoSection.innerText()).toLowerCase();
-          const debtPressed = await page
-            .getByRole("button", { name: /Debt covenant preview/i })
-            .getAttribute("aria-pressed");
-          const stalePressed = await page.getByRole("button", { name: /Stale oracle/i }).getAttribute("aria-pressed");
+          const debtPressed = await debtButton.getAttribute("aria-pressed");
+          const stalePressed = await staleButton.getAttribute("aria-pressed");
           const debtScreenshotPath = resolve(screenshotDir, `${target.name}-${viewport.name}-debt-route.png`);
           await demoSection.screenshot({ path: debtScreenshotPath });
           const debtScreenshotBytes = statSync(debtScreenshotPath).size;

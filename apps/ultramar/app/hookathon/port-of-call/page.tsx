@@ -30,7 +30,7 @@ import {
 
 const path = "/hookathon/port-of-call";
 const description =
-  "Ultramar Port of Call is a Uniswap v4 Hookathon demo for passport-gated capital windows, Ablo-style private-market discovery, and custom-accounting settlement.";
+  "Ultramar Port of Call is a Uniswap v4 Hookathon demo for investment ports, capital-route intake, debt covenant previews, and custom-accounting equity settlement.";
 const featuredDeal = deals.find((deal) => deal.ticker === "lcx") ?? deals[0];
 const featuredRaise = featuredDeal.capitalRaise;
 const targetRaise = featuredRaise?.targetRaise ?? featuredDeal.valuation;
@@ -47,6 +47,9 @@ export const metadata = createSeoMetadata({
     "Uniswap v4 hooks",
     "Uniswap v4 custom accounting",
     "Hookathon",
+    "investment ports",
+    "capital route intake",
+    "debt covenants",
     "capital windows",
     "permissioned liquidity",
     "RWA liquidity",
@@ -143,7 +146,7 @@ const readinessPillars = [
   {
     icon: CircleDollarSign,
     label: "Capital route",
-    title: "Debt or equity can open a window.",
+    title: "Debt or equity can open a route.",
     body: "This demo settles an equity window. The same port can later support debt covenants, secondary transfers, or step-to-equity instruments.",
   },
 ] as const;
@@ -282,19 +285,19 @@ export default function PortOfCallHookathonPage() {
                 </span>
               </div>
               <h1 className="mt-5 max-w-5xl break-words font-serif text-4xl font-bold leading-[1.02] text-on-surface [overflow-wrap:anywhere] md:text-6xl xl:text-7xl">
-                Port of Call turns local-business capital into a passport-gated v4 window.
+                Port of Call turns operating businesses into v4 investment ports.
               </h1>
               <p className="mt-6 max-w-3xl text-pretty text-lg leading-7 text-on-surface-variant md:text-xl">
                 An Ablo-style discovery loop for private markets: travel to the issuer, read diligence
-                in your language, receive an eligibility stamp, then execute through a Uniswap v4
-                custom-accounting hook.
+                in your language, receive an eligibility stamp, choose a debt or equity route, then
+                let the Uniswap v4 hook enforce the market boundary.
               </p>
             </div>
 
             <div className="mt-10 grid gap-1 bg-border-muted md:grid-cols-3">
               <HeroStat label="Demo asset" value={featuredDeal.name} body={featuredDeal.location} />
-              <HeroStat label="Window target" value={formatCurrency(targetRaise)} body="Sandbox raise context" />
-              <HeroStat label="Hook stance" value="Specialized" body="Private-market window rules" />
+              <HeroStat label="Port target" value={formatCurrency(targetRaise)} body="Sandbox route context" />
+              <HeroStat label="Hook stance" value="Route-gated" body="Investment-port rules" />
             </div>
           </div>
 
@@ -318,14 +321,14 @@ export default function PortOfCallHookathonPage() {
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-6 text-on-surface-variant">
                   {featuredRaise?.summary ??
-                    "Representative local operating business used for a controlled v4 capital-window demo."}
+                    "Representative local operating business used for a controlled v4 investment-port demo."}
                 </p>
               </div>
             </div>
 
             <div className="grid gap-1 border-t border-border-muted bg-border-muted md:grid-cols-3">
               <SignalCell label="Input" value="USDC" />
-              <SignalCell label="Output" value="LCX" />
+              <SignalCell label="Route output" value="LCX or gate" />
               <SignalCell label="Pool behavior" value="Custom delta" />
             </div>
           </div>
@@ -475,7 +478,7 @@ export default function PortOfCallHookathonPage() {
 
         <div className="min-w-0 bg-surface p-5 md:p-8">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Capital window quote
+            Equity window quote
           </p>
           <div className="mt-4 grid gap-1 bg-border-muted">
             <QuoteRow label="Exact input" value="1,500 USDC" />
@@ -490,7 +493,7 @@ export default function PortOfCallHookathonPage() {
             <div className="flex items-center gap-3">
               <LockKeyhole className="h-5 w-5 text-status-signal" aria-hidden="true" />
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                Ready path
+                Equity path
               </p>
             </div>
             <p className="mt-4 text-sm leading-6 text-on-surface-variant">
@@ -532,7 +535,7 @@ export default function PortOfCallHookathonPage() {
             Pricing policy
           </p>
           <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
-            Most capital windows should be fixed. The step curve is the advanced proof.
+            Most active windows should be fixed. The step curve is the advanced proof.
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
             Port of Call is not trying to make private rounds behave like public AMMs. The credible
@@ -738,7 +741,7 @@ export default function PortOfCallHookathonPage() {
             Revert proof
           </p>
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
-            A capital window should fail loudly when context is missing.
+            A capital route should fail loudly when context is missing.
           </h2>
           <div className="mt-8 grid gap-1 bg-border-muted">
             {rejectionRows.map(([caseName, errorName, body]) => (
@@ -761,7 +764,7 @@ export default function PortOfCallHookathonPage() {
             Submission claim
           </p>
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-4xl">
-            Uniswap v4 can host specialized private-market windows without pretending they are public AMMs.
+            Uniswap v4 can host specialized private-market investment ports without pretending they are public AMMs.
           </h2>
           <p className="mt-4 text-sm leading-6 text-surface-container">
             The memorable hook is the passport checkpoint. The practical hook turns private-market

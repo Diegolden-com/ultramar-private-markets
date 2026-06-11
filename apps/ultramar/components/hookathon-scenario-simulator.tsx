@@ -135,7 +135,7 @@ const scenarios: Scenario[] = [
     state: "Settled",
     tone: "settled",
     icon: CheckCircle2,
-    headline: "Window settles at the issuer price.",
+    headline: "Equity window settles at the issuer price.",
     guard: "beforeSwap",
     result: "WindowConsumed + CapitalWindowHookSwap",
     test: "testPrimaryConversionWindowExecutesCustomAccountingSwap",
@@ -195,7 +195,7 @@ const scenarios: Scenario[] = [
     state: "Reverted",
     tone: "reverted",
     icon: Timer,
-    headline: "A stale issuer proof cannot price the window.",
+    headline: "A stale issuer proof cannot price the equity window.",
     guard: "StaleOracle",
     result: "Registry consumption is blocked",
     test: "testStaleOracleReverts",
@@ -237,7 +237,7 @@ function debtPresentation(scenario: Scenario): ScenarioPresentation {
       { label: "Passport", value: "creditor passport signed for debt route", status: "pass" },
       { label: "Coverage", value: "current asset coverage 1.62x inside covenant", status: "pass" },
       { label: "Nonce", value: "fresh covenant authorization", status: "pass" },
-      { label: "Route", value: "debt window can open; no token settlement in preview", status: "pass" },
+      { label: "Route", value: "debt route can open; no token settlement in preview", status: "pass" },
     ],
     "missing-passport": [
       { label: "Passport", value: "creditor passport absent", status: "fail" },
@@ -274,7 +274,7 @@ function debtPresentation(scenario: Scenario): ScenarioPresentation {
   };
 
   const outputs: Record<ScenarioId, string> = {
-    approved: "Debt window open",
+    approved: "Debt route open",
     "missing-passport": "Access blocked",
     replay: "Access blocked",
     "stale-oracle": "Access blocked",
@@ -387,7 +387,7 @@ export function HookathonScenarioSimulator() {
 
         <div className="mt-8 grid gap-1 bg-border-muted sm:grid-cols-2">
           <SimulatorStat label="Proof" value={capitalRoute.proof} />
-          <SimulatorStat label="Window" value={capitalRoute.window} />
+          <SimulatorStat label="Route term" value={capitalRoute.window} />
           <SimulatorStat label="Guard" value={scenario.guard} />
           <SimulatorStat label="State" value={scenario.state} tone={scenario.tone} />
         </div>
