@@ -240,6 +240,15 @@ const capitalStoryBeats: CapitalStoryBeat[] = [
   },
 ];
 
+const portObjectFields = [
+  ["Issuer", "Lavanderias CX operating company plus issuer vehicle context."],
+  ["Verified claim", "Fresh revenue, margin route, or current asset coverage without exposing full books."],
+  ["Instrument", "Equity window or debt covenant route, not a generic token listing."],
+  ["Passport", "Investor eligibility, allocation, route, deadline, nonce, and signature."],
+  ["Route rule", "The hook checks which capital route is open before settlement."],
+  ["Settlement record", "Events reconcile CRM, portfolio, issuer reporting, and risk review."],
+] as const;
+
 type OperatingReadinessSignal = {
   work: string;
   signal: string;
@@ -664,6 +673,23 @@ export default function PortOfCallHookathonPage() {
           {capitalStoryBeats.map((beat) => (
             <CapitalStoryBeatCard key={beat.step} beat={beat} />
           ))}
+          <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:col-span-2 md:p-6 xl:col-span-5">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[0.44fr_1.56fr]">
+              <div className="min-w-0">
+                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+                  Port object
+                </p>
+                <h3 className="mt-3 max-w-xl font-serif text-3xl font-semibold leading-tight md:text-4xl">
+                  The product is a route-aware market object.
+                </h3>
+              </div>
+              <div className="grid min-w-0 gap-x-6 border-t border-surface-container/20 md:grid-cols-3 lg:border-l lg:border-t-0 lg:pl-6">
+                {portObjectFields.map(([label, value]) => (
+                  <ProductObjectField key={label} label={label} value={value} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1118,6 +1144,17 @@ function CapitalStoryBeatCard({ beat }: { beat: CapitalStoryBeat }) {
       </h3>
       <p className="mt-4 text-sm leading-6 text-on-surface-variant">{beat.body}</p>
     </article>
+  );
+}
+
+function ProductObjectField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0 border-b border-surface-container/20 py-4">
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-ink">
+        {label}
+      </p>
+      <p className="mt-2 text-sm leading-5 text-surface-container">{value}</p>
+    </div>
   );
 }
 
