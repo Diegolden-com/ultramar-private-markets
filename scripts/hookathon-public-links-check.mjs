@@ -166,6 +166,8 @@ const checks = [
     url: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.vtt",
     minBytes: 500,
     markers: [
+      "Admin work becomes underwriting evidence.",
+      "Daily close, margin route, current asset coverage",
       "Equity opens when operations become investible.",
       "omnichannel operations are credible enough to open primary equity",
       "A green ratio from stale books is not credit risk proof.",

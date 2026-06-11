@@ -26,72 +26,80 @@ const segments = [
   },
   {
     frame: "02-market-readiness.png",
-    duration: 9,
+    duration: 8,
     eyebrow: "0:08 / Market readiness",
     title: "Markets pay for administration that can absorb capital.",
     caption:
       "The Walmart lesson becomes an operating-company question: what changed inside LCX that makes equity or debt investible?",
   },
   {
-    frame: "03-equity-route-approved.png",
+    frame: "03-operating-readiness-map.png",
+    duration: 9,
+    eyebrow: "0:16 / Operating readiness",
+    title: "Admin work becomes underwriting evidence.",
+    caption:
+      "Daily close, margin route, current asset coverage, and reporting freshness become route-specific claims the hook can check.",
+  },
+  {
+    frame: "04-equity-route-approved.png",
     duration: 10,
-    eyebrow: "0:17 / Equity route",
+    eyebrow: "0:25 / Equity route",
     title: "Equity opens when operations become investible.",
     caption:
       "Why this click matters: omnichannel operations are credible enough to open primary equity, then the hook settles signed window terms.",
   },
   {
-    frame: "04-debt-covenant-stale.png",
+    frame: "05-debt-covenant-stale.png",
     duration: 10,
-    eyebrow: "0:27 / Debt route preview",
+    eyebrow: "0:35 / Debt route preview",
     title: "A green ratio from stale books is not credit risk proof.",
     caption:
       "The debt route shows covenant logic: current asset coverage can open a note route, but stale proof blocks access before settlement.",
   },
   {
-    frame: "05-generic-router-revert.png",
+    frame: "06-generic-router-revert.png",
     duration: 8,
-    eyebrow: "0:37 / Route protection",
+    eyebrow: "0:45 / Route protection",
     title: "A valid stamp cannot ride the wrong route.",
     caption:
       "Private-market access is route-specific. The signature is bound to CapitalWindowRouter, so generic v4 routing reverts before any custom delta returns.",
   },
   {
-    frame: "06-pricing-policy.png",
+    frame: "07-pricing-policy.png",
     duration: 8,
-    eyebrow: "0:45 / Pricing policy",
+    eyebrow: "0:53 / Pricing policy",
     title: "A step curve needs tranche logic.",
     caption:
       "Most active windows should be fixed. If the issuer cannot explain the tranche logic, the curve should not exist.",
   },
   {
-    frame: "07-specialized-markets-claim.png",
+    frame: "08-specialized-markets-claim.png",
     duration: 8,
-    eyebrow: "0:53 / Specialized Markets",
+    eyebrow: "1:01 / Specialized Markets",
     title: "Private operating-business capital needs asset-specific market rules.",
     caption:
       "Eligibility, caps, transfer boundaries, oracle freshness, and router provenance become settlement checks.",
   },
   {
-    frame: "08-deck-capital-routes.png",
+    frame: "09-deck-capital-routes.png",
     duration: 8,
-    eyebrow: "1:01 / Capital routes",
+    eyebrow: "1:09 / Capital routes",
     title: "A port can open equity, debt, secondary transfer, or conversion routes.",
     caption:
       "The same issuer data layer and investor passport can support multiple financing rails while the hook stays the market boundary.",
   },
   {
-    frame: "09-pricing-proof.png",
+    frame: "10-pricing-proof.png",
     duration: 8,
-    eyebrow: "1:09 / Pricing proof",
+    eyebrow: "1:17 / Pricing proof",
     title: "The deck curve is covered by Solidity.",
     caption:
       "testWindowStepCurveQuotesExactPricingExample proves 1,500 USDC returns 1,454.54 LCX at 1.0312 effective.",
   },
   {
-    frame: "10-pitch-deck-close.png",
+    frame: "11-pitch-deck-close.png",
     duration: 8,
-    eyebrow: "1:17 / Deck close",
+    eyebrow: "1:25 / Deck close",
     title: "Uniswap v4 can host private-market investment ports without pretending they are public AMMs.",
     caption:
       "The memorable hook is the passport checkpoint. The practical hook is deterministic settlement control.",
@@ -99,7 +107,7 @@ const segments = [
   {
     frame: null,
     duration: 13,
-    eyebrow: "1:25 / Terminal proof",
+    eyebrow: "1:33 / Terminal proof",
     title: "One approved settlement, six blocked paths.",
     caption:
       "The local proof shows the hook boundary: approved settlement plus missing passport, generic router, expired, min output, replay, and stale oracle reverts.",

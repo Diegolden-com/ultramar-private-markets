@@ -157,27 +157,36 @@ frames.push(await captureFrame(page, "01-hero-port-of-call", "Hero with sandbox/
 await scrollToText(page, "Market readiness");
 frames.push(await captureFrame(page, "02-market-readiness", "Walmart lesson, LCX question, and investment port stack."));
 
+await scrollToText(page, "Admin work becomes underwriting evidence.", { exact: true });
+frames.push(
+  await captureFrame(
+    page,
+    "03-operating-readiness-map",
+    "Operating work mapped to issuer proof, equity, debt, and hook access.",
+  ),
+);
+
 await scrollToText(page, "Choose the capital route before the swap.", { exact: true });
 await clickScenarioButton(page, /Equity window/i);
 await clickScenarioButton(page, /Approved/i);
 await scrollToText(page, "Why this click matters", { exact: true });
-frames.push(await captureFrame(page, "03-equity-route-approved", "Equity route meaning and approved LCX settlement."));
+frames.push(await captureFrame(page, "04-equity-route-approved", "Equity route meaning and approved LCX settlement."));
 
 await clickScenarioButton(page, /Debt covenant preview/i);
 await clickScenarioButton(page, /Stale oracle/i);
 await scrollToText(page, "Why this click matters", { exact: true });
-frames.push(await captureFrame(page, "04-debt-covenant-stale", "Debt route meaning with stale coverage proof blocked."));
+frames.push(await captureFrame(page, "05-debt-covenant-stale", "Debt route meaning with stale coverage proof blocked."));
 
 await clickScenarioButton(page, /Equity window/i);
 await clickScenarioButton(page, /Generic router/i);
 await scrollToText(page, "Why this click matters", { exact: true });
-frames.push(await captureFrame(page, "05-generic-router-revert", "Generic router bypass rejection."));
+frames.push(await captureFrame(page, "06-generic-router-revert", "Generic router bypass rejection."));
 
 await scrollToText(page, "Curve decision rule", { exact: true });
-frames.push(await captureFrame(page, "06-pricing-policy", "Fixed baseline, step curve, and curve decision rule."));
+frames.push(await captureFrame(page, "07-pricing-policy", "Fixed baseline, step curve, and curve decision rule."));
 
 await scrollToText(page, "Submission claim");
-frames.push(await captureFrame(page, "07-specialized-markets-claim", "Primary Specialized Markets claim."));
+frames.push(await captureFrame(page, "08-specialized-markets-claim", "Primary Specialized Markets claim."));
 
 await page.goto(deckUrl, { waitUntil: "networkidle" });
 await applyCaptureChrome(page);
@@ -186,18 +195,18 @@ frames.push(
   await captureSectionFrame(
     page,
     "A port can open equity, debt, secondary transfer, or conversion routes.",
-    "08-deck-capital-routes",
+    "09-deck-capital-routes",
     "Deck capital routes frame for equity, debt, secondary, and conversion paths.",
   ),
 );
 
 await scrollToVisibleText(page, "FX snapshot locked");
 await scrollToPricingGraph(page);
-frames.push(await captureFrame(page, "09-pricing-proof", "Deck pricing bridge with exact step-curve proof."));
+frames.push(await captureFrame(page, "10-pricing-proof", "Deck pricing bridge with exact step-curve proof."));
 
 await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
 await page.waitForTimeout(450);
-frames.push(await captureFrame(page, "10-pitch-deck-close", "Pitch deck closing claim for Tally deck link."));
+frames.push(await captureFrame(page, "11-pitch-deck-close", "Pitch deck closing claim for Tally deck link."));
 
 await page.close();
 await context.close();
@@ -243,15 +252,16 @@ ${frames.map((frame) => `- ${frame.name}: ${frame.path}\n  ${frame.note}`).join(
 
 1. Hero and non-offer framing.
 2. Market readiness: Walmart lesson, LCX question, investment port stack.
-3. Equity route meaning and approved LCX settlement.
-4. Debt route meaning and stale coverage rejection.
-5. Generic-router route-binding rejection.
-6. Pricing policy: fixed baseline, step curve, and curve decision rule.
-7. Specialized Markets claim.
-8. Deck capital routes.
-9. Pricing proof.
-10. Pitch deck close.
-11. Terminal proof from \`corepack yarn hookathon:video:proof\`.
+3. Operating readiness: admin work, margin route, coverage, and reporting freshness.
+4. Equity route meaning and approved LCX settlement.
+5. Debt route meaning and stale coverage rejection.
+6. Generic-router route-binding rejection.
+7. Pricing policy: fixed baseline, step curve, and curve decision rule.
+8. Specialized Markets claim.
+9. Deck capital routes.
+10. Pricing proof.
+11. Pitch deck close.
+12. Terminal proof from \`corepack yarn hookathon:video:proof\`.
 `;
 
 writeFileSync(manifestPath, manifest);
