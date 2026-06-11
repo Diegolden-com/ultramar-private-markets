@@ -42,7 +42,7 @@ forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv
 | 0:00-0:09 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting live in different systems." | `Port of Call` hero and sandbox/non-offer badge |
 | 0:09-0:18 | Travel feed | "This is Ablo for capital. The investor travels to Mexico City and enters Lavanderias CX before any transaction exists." | Mexico City / Lavanderias CX port |
 | 0:18-0:28 | Passport + quote | "Diligence and eligibility produce a signed passport: window id, investor, minimum output, deadline, nonce, and signature." | Passport checks and `1,454.54 LCX` expected output |
-| 0:28-0:38 | Scenario simulator, Approved | "Approved exact-input flow settles through `CapitalWindowRouter`; v4 custom accounting returns LCX from an asset-class-specific capital-window curve." | Approved state and `testPrimaryConversionWindowExecutesCustomAccountingSwap` |
+| 0:28-0:38 | Scenario simulator, Approved | "Why this click matters: omnichannel operations are credible enough to open primary equity, then the hook settles signed window terms." | Approved state, `Why this click matters`, and `testPrimaryConversionWindowExecutesCustomAccountingSwap` |
 | 0:38-0:47 | Scenario simulator, Generic router | "A valid passport cannot ride the wrong route. The digest binds the passport to `CapitalWindowRouter`, so generic v4 routing reverts." | Generic router state and `InvalidAuthorization` |
 | 0:47-0:55 | Scenario simulator, Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." | Replay state and consumed nonce failure |
 | 0:55-1:05 | Specialized Markets | "The hook turns eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance into market rules." | Specialized Markets claim |
@@ -104,6 +104,10 @@ The protected side is the liquidity/inventory side. Public LP deposits are block
 **"How does this fit Specialized Markets?"**
 
 Private operating-business capital is not a generic continuous AMM market. Eligibility, timing, ticket size, caps, transfer policy, issuer proof freshness, and router provenance are part of the market structure, and the hook enforces them at settlement.
+
+**"Why show the debt route if the onchain settlement demo is equity?"**
+
+Because the product is an investment port, not a single equity buy button. Equity proves signed custom-accounting settlement. Debt proves the same data layer can gate creditor access with covenant logic; a green ratio from stale books is not credit risk proof.
 
 **"Why not just build escrow?"**
 

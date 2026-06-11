@@ -160,14 +160,17 @@ frames.push(await captureFrame(page, "02-market-readiness", "Walmart lesson, LCX
 await scrollToText(page, "Choose the capital route before the swap.", { exact: true });
 await clickScenarioButton(page, /Equity window/i);
 await clickScenarioButton(page, /Approved/i);
-frames.push(await captureFrame(page, "03-equity-route-approved", "Equity route intake and approved LCX settlement."));
+await scrollToText(page, "Why this click matters", { exact: true });
+frames.push(await captureFrame(page, "03-equity-route-approved", "Equity route meaning and approved LCX settlement."));
 
 await clickScenarioButton(page, /Debt covenant preview/i);
 await clickScenarioButton(page, /Stale oracle/i);
-frames.push(await captureFrame(page, "04-debt-covenant-stale", "Debt route preview with stale coverage proof blocked."));
+await scrollToText(page, "Why this click matters", { exact: true });
+frames.push(await captureFrame(page, "04-debt-covenant-stale", "Debt route meaning with stale coverage proof blocked."));
 
 await clickScenarioButton(page, /Equity window/i);
 await clickScenarioButton(page, /Generic router/i);
+await scrollToText(page, "Why this click matters", { exact: true });
 frames.push(await captureFrame(page, "05-generic-router-revert", "Generic router bypass rejection."));
 
 await scrollToText(page, "Curve decision rule", { exact: true });
@@ -240,9 +243,9 @@ ${frames.map((frame) => `- ${frame.name}: ${frame.path}\n  ${frame.note}`).join(
 
 1. Hero and non-offer framing.
 2. Market readiness: Walmart lesson, LCX question, investment port stack.
-3. Equity route intake and approved LCX settlement.
-4. Debt covenant preview and stale coverage rejection.
-5. Generic-router rejection.
+3. Equity route meaning and approved LCX settlement.
+4. Debt route meaning and stale coverage rejection.
+5. Generic-router route-binding rejection.
 6. Pricing policy: fixed baseline, step curve, and curve decision rule.
 7. Specialized Markets claim.
 8. Deck capital routes.

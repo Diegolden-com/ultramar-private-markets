@@ -146,7 +146,9 @@ const checks = [
     url: "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.vtt",
     minBytes: 500,
     markers: [
-      "Debt opens only while covenant coverage is fresh.",
+      "Equity opens when operations become investible.",
+      "omnichannel operations are credible enough to open primary equity",
+      "A green ratio from stale books is not credit risk proof.",
       "If the issuer cannot explain the tranche logic, the curve should not exist.",
       "A port can open equity, debt, secondary transfer, or conversion routes.",
       "Uniswap v4 can host private-market investment ports",

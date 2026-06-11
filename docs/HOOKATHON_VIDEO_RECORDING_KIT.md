@@ -129,8 +129,8 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 | 0:00-0:09 | Hero | "Private-market capital breaks before settlement: language, diligence, eligibility, legal limits, allocation, and reporting are disconnected." |
 | 0:09-0:18 | Travel feed | "Ultramar Port of Call is Ablo for capital. The investor travels to Mexico City and enters Lavanderias CX before any transaction exists." |
 | 0:18-0:28 | Passport and quote | "The diligence room creates a signed passport: window id, investor, minimum output, deadline, nonce, and authorizer signature." |
-| 0:28-0:38 | Approved simulator | "The approved flow sends exact-input USDC through `CapitalWindowRouter`. The hook verifies the passport and returns LCX through v4 custom accounting." |
-| 0:38-0:47 | Generic router | "A valid passport cannot ride the wrong route. The hook rejects it before any custom delta is returned." |
+| 0:28-0:38 | Approved simulator | "Why this click matters: omnichannel operations are credible enough to open primary equity, then the hook settles signed window terms." |
+| 0:38-0:47 | Debt stale or generic router | "A green ratio from stale books is not credit risk proof; stale covenant data closes the debt route before settlement. A valid passport also cannot ride the wrong route." |
 | 0:47-0:55 | Replay | "The same passport cannot settle twice; nonce consumption makes replay an explicit failure." |
 | 0:55-1:05 | Specialized market claim | "This is the Specialized Markets angle: private operating-business capital needs eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance inside the market itself." |
 | 1:05-1:13 | Pricing proof | "Most active windows should be fixed. The step curve is only for signed tranche logic; `testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
@@ -145,7 +145,8 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 - Pricing proof: `testWindowStepCurveQuotesExactPricingExample`.
 - `27 hook tests` if using the deck route.
 - Scenario simulator `Approved`.
-- Scenario simulator `Generic router` or `Replay`.
+- Scenario simulator `Debt covenant preview` with stale coverage, plus `Generic router` or `Replay`.
+- `Why this click matters` panel.
 - Audit/indexer event panel.
 - Pricing example and pitch deck closing line if using the optional deck route.
 - Terminal marker: `Demo complete: one approved settlement, six blocked paths.`

@@ -36,17 +36,17 @@ const segments = [
     frame: "03-equity-route-approved.png",
     duration: 10,
     eyebrow: "0:17 / Equity route",
-    title: "The port opens an equity window before the swap.",
+    title: "Equity opens when operations become investible.",
     caption:
-      "Operating data, verified claims, investor passport, and signed window terms settle 1,500 USDC into 1,454.54 LCX.",
+      "Why this click matters: omnichannel operations are credible enough to open primary equity, then the hook settles signed window terms.",
   },
   {
     frame: "04-debt-covenant-stale.png",
     duration: 10,
     eyebrow: "0:27 / Debt route preview",
-    title: "Debt opens only while covenant coverage is fresh.",
+    title: "A green ratio from stale books is not credit risk proof.",
     caption:
-      "The same port can preview creditor eligibility and current asset coverage, then block access when the proof is stale.",
+      "The debt route shows covenant logic: current asset coverage can open a note route, but stale proof blocks access before settlement.",
   },
   {
     frame: "05-generic-router-revert.png",
@@ -54,7 +54,7 @@ const segments = [
     eyebrow: "0:37 / Route protection",
     title: "A valid stamp cannot ride the wrong route.",
     caption:
-      "The signature is bound to CapitalWindowRouter, so generic v4 router bypasses revert before any custom delta is returned.",
+      "Private-market access is route-specific. The signature is bound to CapitalWindowRouter, so generic v4 routing reverts before any custom delta returns.",
   },
   {
     frame: "06-pricing-policy.png",
