@@ -7,6 +7,7 @@ const artifactDir = resolve(repoRoot, "artifacts/hookathon");
 const reportPath = resolve(artifactDir, "public-links-latest.md");
 const timeoutMs = 30_000;
 const maxAttempts = 3;
+const runId = Date.now().toString(36);
 
 const checks = [
   {
@@ -22,6 +23,7 @@ const checks = [
   {
     label: "Raw root README Hookathon index",
     url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/README.md",
+    cacheBust: true,
     markers: [
       "Uniswap v4 Hookathon: Port of Call",
       "the hook is the market boundary",
@@ -39,6 +41,7 @@ const checks = [
   {
     label: "Raw Tally submission copy",
     url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/docs/HOOKATHON_TALLY_SUBMISSION.md",
+    cacheBust: true,
     markers: [
       "Ultramar Port of Call",
       "UHI8: Specialized Markets",
@@ -54,6 +57,7 @@ const checks = [
   {
     label: "Raw winning scorecard",
     url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md",
+    cacheBust: true,
     markers: [
       "The hook is the market boundary",
       "capital readiness gate",
@@ -67,6 +71,7 @@ const checks = [
   {
     label: "Raw submit-now checklist",
     url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/docs/HOOKATHON_SUBMIT_NOW.md",
+    cacheBust: true,
     markers: [
       "Hookathon submit-now checklist",
       "Ready for Tally submit: yes",
@@ -240,13 +245,28 @@ function sleep(ms) {
 function shouldRetry(result) {
   if (result.ok) return false;
   if (result.status === "error") return true;
+  if (
+    result.cacheBust &&
+    result.status === 200 &&
+    result.markerResults.some((marker) => !marker.ok)
+  ) {
+    return true;
+  }
   return result.status === 429 || (Number.isInteger(result.status) && result.status >= 500);
+}
+
+function effectiveUrl(check, attempt) {
+  if (!check.cacheBust) return check.url;
+  const url = new URL(check.url);
+  url.searchParams.set("_ultramar_check", `${runId}-${attempt}`);
+  return url.toString();
 }
 
 async function runCheckOnce(check, attempt) {
   const method = check.method ?? "GET";
+  const url = effectiveUrl(check, attempt);
   try {
-    const response = await fetchWithTimeout(check.url, { method });
+    const response = await fetchWithTimeout(url, { method });
     const contentType = normalizeHeader(response.headers, "content-type");
     const contentLength = Number(normalizeHeader(response.headers, "content-length"));
     const body = method === "HEAD" ? "" : await response.text();
