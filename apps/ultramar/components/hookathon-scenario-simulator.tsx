@@ -18,9 +18,11 @@ const focusVisibleClass =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
 
 type ScenarioTone = "settled" | "reverted";
+type ScenarioId = "approved" | "missing-passport" | "replay" | "stale-oracle" | "generic-router";
+type CapitalRouteId = "equity-window" | "debt-covenant";
 
 type Scenario = {
-  id: string;
+  id: ScenarioId;
   label: string;
   state: string;
   tone: ScenarioTone;
@@ -40,7 +42,7 @@ type Scenario = {
 };
 
 type CapitalRoute = {
-  id: string;
+  id: CapitalRouteId;
   label: string;
   state: string;
   summary: string;
@@ -52,6 +54,18 @@ type CapitalRoute = {
     label: string;
     value: string;
   }>;
+};
+
+type ScenarioPresentation = {
+  headline: string;
+  result: string;
+  test: string;
+  inputLabel: string;
+  input: string;
+  outputLabel: string;
+  output: string;
+  resultLabel: string;
+  rows: Scenario["rows"];
 };
 
 const capitalRoutes: CapitalRoute[] = [
@@ -217,6 +231,95 @@ const scenarios: Scenario[] = [
   },
 ];
 
+function debtPresentation(scenario: Scenario): ScenarioPresentation {
+  const rowsByScenario: Record<ScenarioId, Scenario["rows"]> = {
+    approved: [
+      { label: "Passport", value: "creditor passport signed for debt route", status: "pass" },
+      { label: "Coverage", value: "current asset coverage 1.62x inside covenant", status: "pass" },
+      { label: "Nonce", value: "fresh covenant authorization", status: "pass" },
+      { label: "Route", value: "debt window can open; no token settlement in preview", status: "pass" },
+    ],
+    "missing-passport": [
+      { label: "Passport", value: "creditor passport absent", status: "fail" },
+      { label: "Coverage", value: "not reached", status: "idle" },
+      { label: "Nonce", value: "not consumed", status: "idle" },
+      { label: "Route", value: "debt access never opens", status: "idle" },
+    ],
+    replay: [
+      { label: "Passport", value: "signature matches creditor wallet", status: "pass" },
+      { label: "Coverage", value: "fresh covenant proof", status: "pass" },
+      { label: "Nonce", value: "already marked used", status: "fail" },
+      { label: "Route", value: "debt access never opens", status: "idle" },
+    ],
+    "stale-oracle": [
+      { label: "Passport", value: "creditor passport signed for debt route", status: "pass" },
+      { label: "Coverage", value: "coverage ratio proof exceeds staleness limit", status: "fail" },
+      { label: "Nonce", value: "not consumed", status: "idle" },
+      { label: "Route", value: "covenant gate stays closed", status: "idle" },
+    ],
+    "generic-router": [
+      { label: "Passport", value: "signed for CapitalWindowRouter", status: "pass" },
+      { label: "Route", value: "sender is generic PoolSwapTest", status: "fail" },
+      { label: "Nonce", value: "not consumed", status: "idle" },
+      { label: "Covenant", value: "debt access never opens", status: "idle" },
+    ],
+  };
+
+  const headlines: Record<ScenarioId, string> = {
+    approved: "Coverage covenant keeps the debt route open.",
+    "missing-passport": "The debt route rejects a missing creditor passport.",
+    replay: "A covenant stamp cannot be reused.",
+    "stale-oracle": "A stale coverage proof closes the debt route.",
+    "generic-router": "The wrong route cannot bypass creditor controls.",
+  };
+
+  const outputs: Record<ScenarioId, string> = {
+    approved: "Debt window open",
+    "missing-passport": "Access blocked",
+    replay: "Access blocked",
+    "stale-oracle": "Access blocked",
+    "generic-router": "Access blocked",
+  };
+
+  const results: Record<ScenarioId, string> = {
+    approved: "CovenantVerified + CapitalRouteOpened",
+    "missing-passport": "No covenant route opened",
+    replay: "Consumed covenant nonce blocks access",
+    "stale-oracle": "Coverage proof rejected",
+    "generic-router": "Router-bound creditor gate rejects bypass",
+  };
+
+  return {
+    headline: headlines[scenario.id],
+    result: results[scenario.id],
+    test: "Debt preview: covenant gates map to the same hook boundary model",
+    inputLabel: "Debt request",
+    input: "Working-capital note",
+    outputLabel: "Route output",
+    output: outputs[scenario.id],
+    resultLabel: "Preview result",
+    rows: rowsByScenario[scenario.id],
+  };
+}
+
+function scenarioPresentation(routeId: CapitalRouteId, scenario: Scenario): ScenarioPresentation {
+  if (routeId === "debt-covenant") {
+    return debtPresentation(scenario);
+  }
+
+  return {
+    headline: scenario.headline,
+    result: scenario.result,
+    test: scenario.test,
+    inputLabel: "Exact input",
+    input: scenario.payment,
+    outputLabel: "Custom delta output",
+    output: scenario.output,
+    resultLabel: "Emitted result",
+    rows: scenario.rows,
+  };
+}
+
 export function HookathonScenarioSimulator() {
   const [selectedRouteId, setSelectedRouteId] = useState(capitalRoutes[0].id);
   const [selectedId, setSelectedId] = useState(scenarios[0].id);
@@ -227,6 +330,10 @@ export function HookathonScenarioSimulator() {
   const scenario = useMemo(
     () => scenarios.find((item) => item.id === selectedId) ?? scenarios[0],
     [selectedId],
+  );
+  const presentation = useMemo(
+    () => scenarioPresentation(capitalRoute.id, scenario),
+    [capitalRoute.id, scenario],
   );
   const RouteIcon = capitalRoute.icon;
   const ScenarioIcon = scenario.icon;
@@ -372,22 +479,22 @@ export function HookathonScenarioSimulator() {
                   {scenario.state}
                 </p>
                 <h3 className="mt-1 break-words font-serif text-3xl font-semibold leading-tight text-surface-ink">
-                  {scenario.headline}
+                  {presentation.headline}
                 </h3>
               </div>
             </div>
 
             <div className="mt-8 grid gap-1 bg-surface-container/20">
-              <PaperSignal label="Exact input" value={scenario.payment} />
-              <PaperSignal label="Custom delta output" value={scenario.output} />
-              <PaperSignal label="Emitted result" value={scenario.result} />
+              <PaperSignal label={presentation.inputLabel} value={presentation.input} />
+              <PaperSignal label={presentation.outputLabel} value={presentation.output} />
+              <PaperSignal label={presentation.resultLabel} value={presentation.result} />
             </div>
 
             <div className="mt-6 border-t border-surface-container/25 pt-4">
               <div className="flex min-w-0 items-start gap-3">
                 <FileCheck2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                 <p className="min-w-0 break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container [overflow-wrap:anywhere]">
-                  {scenario.test}
+                  {presentation.test}
                 </p>
               </div>
             </div>
@@ -401,7 +508,7 @@ export function HookathonScenarioSimulator() {
               <ShieldCheck className="h-4 w-4 text-status-signal" aria-hidden="true" />
             </div>
             <div className="mt-5 grid gap-1 bg-border-muted">
-              {scenario.rows.map((row) => (
+              {presentation.rows.map((row) => (
                 <div
                   key={row.label}
                   className="grid min-w-0 gap-3 bg-surface-ink p-4 sm:grid-cols-[128px_28px_1fr]"

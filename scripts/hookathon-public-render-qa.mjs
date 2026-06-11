@@ -157,6 +157,41 @@ try {
           };
         }, target.markers);
 
+        const interactiveResults = [];
+
+        if (target.name === "demo" && viewport.name === "desktop") {
+          const demoSection = page.locator("section", { hasText: "Choose the capital route before the swap." }).first();
+          await demoSection.scrollIntoViewIfNeeded();
+          await page.getByRole("button", { name: /Debt covenant preview/i }).click();
+          await page.getByRole("button", { name: /Stale oracle/i }).click();
+
+          const debtText = (await demoSection.innerText()).toLowerCase();
+          const debtPressed = await page
+            .getByRole("button", { name: /Debt covenant preview/i })
+            .getAttribute("aria-pressed");
+          const stalePressed = await page.getByRole("button", { name: /Stale oracle/i }).getAttribute("aria-pressed");
+          const debtScreenshotPath = resolve(screenshotDir, `${target.name}-${viewport.name}-debt-route.png`);
+          await demoSection.screenshot({ path: debtScreenshotPath });
+          const debtScreenshotBytes = statSync(debtScreenshotPath).size;
+
+          interactiveResults.push(
+            [
+              "Debt route click state",
+              debtPressed === "true" && stalePressed === "true",
+              `debt=${debtPressed}, stale=${stalePressed}`,
+            ],
+            [
+              "Debt route copy switches output",
+              debtText.includes("a stale coverage proof closes the debt route.") &&
+                debtText.includes("access blocked") &&
+                debtText.includes("coverage ratio proof exceeds staleness limit") &&
+                debtText.includes("debt preview: covenant gates map to the same hook boundary model"),
+              "stale covenant preview markers",
+            ],
+            ["Debt route screenshot captured", debtScreenshotBytes > 50_000, `${relative(debtScreenshotPath)} ${debtScreenshotBytes} bytes`],
+          );
+        }
+
         const results = [
           ["HTTP 2xx", Boolean(response?.ok()), String(response?.status() ?? "no response")],
           ["Page title present", metrics.title.length > 0, metrics.title],
@@ -178,6 +213,7 @@ try {
           ],
           ["Screenshot captured", screenshotBytes > 50_000, `${screenshotBytes} bytes`],
           ["No page-level horizontal overflow", metrics.bodyScrollWidth <= metrics.bodyClientWidth + 1, `${metrics.bodyScrollWidth}/${metrics.bodyClientWidth}`],
+          ...interactiveResults,
         ];
 
         checks.push({
