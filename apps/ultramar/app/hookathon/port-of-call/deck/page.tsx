@@ -9,6 +9,7 @@ import {
   ArrowRight,
   BadgeCheck,
   Calculator,
+  CircleDollarSign,
   DatabaseZap,
   ExternalLink,
   FileCheck2,
@@ -16,6 +17,7 @@ import {
   GitBranch,
   Globe2,
   KeyRound,
+  Landmark,
   Network,
   PlayCircle,
   Route,
@@ -59,6 +61,33 @@ const abloLoop = [
   ["Guide", "Translate diligence, store economics, use of funds, and risk notes."],
   ["Passport", "Attach KYC/KYB, jurisdiction, NDA, allocation, and transfer policy checks."],
   ["Window", "Execute exact-input USDC only through a v4 hook with custom accounting."],
+] as const;
+
+const capitalRouteRows = [
+  {
+    icon: DatabaseZap,
+    label: "Operating signal",
+    title: "Administration becomes market context.",
+    body: "Omnichannel demand, store-level reporting, route density, cash discipline, and margin expansion make a traditional operator legible to capital.",
+  },
+  {
+    icon: CircleDollarSign,
+    label: "Equity window",
+    title: "Primary capital can settle as issuer-token output.",
+    body: "The current demo proves the LCX equity route: a signed passport plus window terms settle USDC into window-priced LCX through custom accounting.",
+  },
+  {
+    icon: Landmark,
+    label: "Debt covenant preview",
+    title: "Debt opens only while financial coverage is green.",
+    body: "The demo now previews a working-capital debt route using current asset coverage, liquidity freshness, creditor eligibility, and covenant-gated access.",
+  },
+  {
+    icon: Route,
+    label: "Secondary / conversion",
+    title: "Later markets reuse the same port.",
+    body: "The same data, passport, and hook boundary can gate secondary transfers or step-to-equity triggers before settlement.",
+  },
 ] as const;
 
 const v4Mechanics = [
@@ -110,6 +139,7 @@ const pricingBridge = [
 
 const proofRows = [
   ["Approved settlement", "1,500 USDC -> 1,454.54 LCX"],
+  ["Debt route preview", "Current asset coverage gate switches route output between open and blocked"],
   ["Blocked paths", "missing passport / generic router / expired / min output / replay / stale oracle"],
   ["Foundry suite", "27 tests, including hook permission bits, router-bound passport digest, and exact step-curve pricing"],
   ["Testnet dry-run", "Base Sepolia PoolManager, mined 0xa88 hook mask, window 1 smoke swap"],
@@ -117,8 +147,8 @@ const proofRows = [
 
 const judgeClaims = [
   ["Uniqueness", "Ablo for capital is easy to remember, but the mechanism is concrete v4 custom accounting."],
-  ["Impact", "A reusable pattern for asset-class-specific markets where constraints become settlement rules."],
-  ["Functionality", "Frontend, simulator, Solidity tests, local demo script, capture script, and testnet dry-run path."],
+  ["Impact", "A reusable pattern for equity, debt, secondary transfers, and conversion routes where constraints become market rules."],
+  ["Functionality", "Frontend route intake, simulator, Solidity tests, local demo script, capture script, and testnet dry-run path."],
   ["Presentation", "One sentence carries the story: the hook is the market boundary."],
 ] as const;
 
@@ -265,7 +295,29 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="03 / Specialized market"
+        eyebrow="03 / Capital routes"
+        title="A port can open equity, debt, secondary transfer, or conversion routes."
+        body="The same issuer data layer and investor passport can support multiple financing rails. The hook remains the boundary where market access becomes enforceable execution."
+        icon={Route}
+      >
+        <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2">
+          {capitalRouteRows.map((item) => (
+            <article key={item.label} className="min-w-0 bg-surface p-5 md:p-6">
+              <item.icon className="h-5 w-5 text-status-signal" aria-hidden="true" />
+              <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                {item.label}
+              </p>
+              <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
+                {item.title}
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </DeckSlide>
+
+      <DeckSlide
+        eyebrow="04 / Specialized market"
         title="A generic AMM is the wrong primitive for this asset class."
         body="Private operating-business capital has discrete eligibility, ticket size, timing, issuer-proof freshness, and transfer constraints. The market needs those rules inside settlement."
         icon={Network}
@@ -293,7 +345,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="04 / v4 mechanism"
+        eyebrow="05 / v4 mechanism"
         title="The hook is not decoration. It is the market boundary."
         body="Every demo state maps to a v4 callback, router rule, or event proof that judges can inspect in code."
         icon={ShieldCheck}
@@ -313,7 +365,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="05 / Pricing example"
+        eyebrow="06 / Pricing example"
         title="Pre-money and FX become signed window terms, then the hook executes the curve."
         body="The hook is not a valuation oracle. Ultramar approves the valuation frame and FX policy before the window opens; v4 custom accounting only enforces those terms at settlement."
         icon={Calculator}
@@ -351,7 +403,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="06 / Proof paths"
+        eyebrow="07 / Proof paths"
         title="One approved settlement, six blocked paths."
         body="The product story is backed by tests, a local Foundry demo script, browser capture assets, and a Base Sepolia dry-run path using the official v4 PoolManager."
         icon={Terminal}
@@ -372,7 +424,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="07 / Judge frame"
+        eyebrow="08 / Judge frame"
         title="The submission is built around the four scoring questions."
         body="The story stays crisp for non-technical judges, while the code gives technical reviewers enough surface to verify the mechanism."
         icon={FileCheck2}

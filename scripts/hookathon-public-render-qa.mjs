@@ -48,6 +48,9 @@ const pages = [
     markers: [
       "Port of Call makes the hook a passport checkpoint for private-market capital.",
       "UHI8 Specialized Markets",
+      "A port can open equity, debt, secondary transfer, or conversion routes.",
+      "Debt covenant preview",
+      "Current asset coverage gate switches route output",
       "Pre-money and FX become signed window terms",
       "Snapshot, then fixed",
       "Fixed window",
