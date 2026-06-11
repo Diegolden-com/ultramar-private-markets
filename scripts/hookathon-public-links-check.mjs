@@ -93,7 +93,7 @@ const checks = [
       "Capital readiness gate",
       "Admin control",
       "Margin route",
-      "Operating work -> market route",
+      "Operating work",
       "Admin work becomes underwriting evidence.",
       "Current asset coverage",
       "Proof privacy",
