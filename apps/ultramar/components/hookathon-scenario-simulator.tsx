@@ -58,6 +58,10 @@ type CapitalRoute = {
     label: string;
     value: string;
   }>;
+  evidenceChain: Array<{
+    label: string;
+    value: string;
+  }>;
 };
 
 type ScenarioPresentation = {
@@ -103,6 +107,24 @@ const capitalRoutes: CapitalRoute[] = [
         value: "Investor passport plus signed window terms settle as USDC -> LCX custom accounting.",
       },
     ],
+    evidenceChain: [
+      {
+        label: "Operating work",
+        value: "Route density, ticket mix, utilization, and daily close.",
+      },
+      {
+        label: "Verified claim",
+        value: "Margin expansion target plus fresh revenue proof.",
+      },
+      {
+        label: "Capital route",
+        value: "Primary equity window for expansion inventory.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Eligibility, cap, freshness, and exact-input settlement.",
+      },
+    ],
   },
   {
     id: "debt-covenant",
@@ -130,6 +152,24 @@ const capitalRoutes: CapitalRoute[] = [
       {
         label: "Settlement path",
         value: "The same port can gate secondary transfers or step-to-equity triggers before settlement.",
+      },
+    ],
+    evidenceChain: [
+      {
+        label: "Operating work",
+        value: "Cash, receivables, route collections, and short-term liabilities reconciled.",
+      },
+      {
+        label: "Verified claim",
+        value: "Current asset coverage stays at or above the covenant threshold.",
+      },
+      {
+        label: "Capital route",
+        value: "Working-capital debt preview with creditor controls.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Coverage freshness opens or closes route access.",
       },
     ],
   },
@@ -576,6 +616,22 @@ export function HookathonScenarioSimulator() {
           </div>
         </div>
 
+        <div className="mt-6 bg-surface-ink p-4 text-on-surface">
+          <div className="flex min-w-0 items-center justify-between gap-3">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Evidence chain
+            </p>
+            <p className="break-words text-right font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+              Operation -&gt; claim -&gt; route -&gt; hook
+            </p>
+          </div>
+          <div className="mt-4 grid min-w-0 gap-1 bg-border-muted md:grid-cols-4">
+            {capitalRoute.evidenceChain.map((item, index) => (
+              <EvidenceStep key={item.label} step={index + 1} label={item.label} value={item.value} />
+            ))}
+          </div>
+        </div>
+
         <div className="mt-6 grid min-w-0 gap-2 sm:grid-cols-2 xl:grid-cols-5">
           {scenarios.map((item) => {
             const Icon = item.icon;
@@ -737,6 +793,22 @@ function MeaningCell({ label, value }: { label: string; value: string }) {
         {label}
       </p>
       <p className="mt-3 text-sm font-medium leading-5 text-surface-ink">{value}</p>
+    </div>
+  );
+}
+
+function EvidenceStep({ step, label, value }: { step: number; label: string; value: string }) {
+  return (
+    <div className="min-w-0 bg-surface-ink p-4">
+      <div className="flex min-w-0 items-center justify-between gap-3">
+        <span className="grid h-7 w-7 shrink-0 place-items-center border border-status-signal/50 font-mono text-[10px] font-semibold text-status-signal">
+          {String(step).padStart(2, "0")}
+        </span>
+        <p className="text-right font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
+          {label}
+        </p>
+      </div>
+      <p className="mt-4 text-sm font-medium leading-5 text-on-surface">{value}</p>
     </div>
   );
 }
