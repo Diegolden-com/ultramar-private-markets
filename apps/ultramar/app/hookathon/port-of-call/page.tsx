@@ -352,9 +352,25 @@ export default function PortOfCallHookathonPage() {
                 in your language, receive an eligibility stamp, choose a debt or equity route, then
                 let the Uniswap v4 hook enforce the market boundary.
               </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="#demo-app"
+                  className={`btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-52 ${focusVisibleClass}`}
+                >
+                  Open demo app
+                  <PlayCircle className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <Link
+                  href="/hookathon/port-of-call/deck"
+                  className={`btn btn-ghost justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-primary sm:min-w-52 ${focusVisibleClass}`}
+                >
+                  Open pitch deck
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </div>
             </div>
 
-            <div className="mt-10 grid gap-1 bg-border-muted md:grid-cols-3">
+            <div className="mt-10 hidden gap-1 bg-border-muted md:grid md:grid-cols-3">
               <HeroStat label="Demo asset" value={featuredDeal.name} body={featuredDeal.location} />
               <HeroStat label="Port target" value={formatCurrency(targetRaise)} body="Sandbox route context" />
               <HeroStat label="Hook stance" value="Route-gated" body="Investment-port rules" />
@@ -482,6 +498,8 @@ export default function PortOfCallHookathonPage() {
           </div>
         </div>
       </section>
+
+      <HookathonScenarioSimulator />
 
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[1.05fr_0.95fr]">
         <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2">
@@ -697,8 +715,6 @@ export default function PortOfCallHookathonPage() {
           ))}
         </div>
       </section>
-
-      <HookathonScenarioSimulator />
 
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.82fr_1.18fr]">
         <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">

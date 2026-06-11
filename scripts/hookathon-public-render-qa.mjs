@@ -17,6 +17,7 @@ const pages = [
     markers: [
       "Port of Call turns operating businesses into v4 investment ports.",
       "The hook is the market boundary.",
+      "Open demo app",
       "Market readiness",
       "Walmart lesson",
       "The market pays for administration that can absorb capital.",

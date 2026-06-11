@@ -76,6 +76,7 @@ const checks = [
     markers: [
       "Port of Call Hookathon Demo",
       "Specialized Markets",
+      "Open demo app",
       "Market readiness",
       "Walmart lesson",
       "The market pays for administration that can absorb capital.",

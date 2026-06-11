@@ -339,7 +339,10 @@ export function HookathonScenarioSimulator() {
   const ScenarioIcon = scenario.icon;
 
   return (
-    <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.78fr_1.22fr]">
+    <section
+      id="demo-app"
+      className="scroll-mt-6 grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.78fr_1.22fr]"
+    >
       <div className="min-w-0 bg-surface p-5 md:p-8">
         <DatabaseZap className="h-5 w-5 text-status-signal" aria-hidden="true" />
         <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
