@@ -25,6 +25,8 @@ const checks = [
     markers: [
       "Uniswap v4 Hookathon: Port of Call",
       "the hook is the market boundary",
+      "capital readiness gate",
+      "disclosure-minimized claims",
       "https://ultramar.capital/hookathon/port-of-call",
       "https://ultramar.capital/hookathon/port-of-call/deck",
       "https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm",
@@ -54,6 +56,8 @@ const checks = [
     url: "https://raw.githubusercontent.com/Diegolden-com/ultramar-private-markets/codex/landing-wave-route-ui/docs/HOOKATHON_WINNING_SCORECARD.md",
     markers: [
       "The hook is the market boundary",
+      "capital readiness gate",
+      "Disclosure-minimized claims",
       "Pre-money ledger -> FX snapshot locked -> Hook step curve",
       "testWindowStepCurveQuotesExactPricingExample",
       "testnet-dry-run-latest.md",

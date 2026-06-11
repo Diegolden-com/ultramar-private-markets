@@ -8,29 +8,33 @@ Ultramar Port of Call turns Uniswap v4 hooks into the market boundary for privat
 
 The memorable product is Ablo for capital: travel to a local issuer, read translated diligence, receive a passport stamp, then choose the capital route the business can responsibly open.
 
+The business thesis is concrete: even a competitive operating company can become investible when administration creates underwritable claims. Port of Call shows that as a capital readiness gate: admin control, margin route, debt route, and equity route.
+
 The technical hook is concrete: `beforeSwap` verifies authorization, route, window, cap, nonce, and oracle freshness; `beforeSwapReturnDelta` proves deterministic equity-window settlement through v4 custom accounting. The demo also shows how the same market-boundary model extends to debt covenant previews before a live debt instrument is issued.
 
 ## Scorecard
 
 | Criterion | Why it should score | Proof |
 | --- | --- | --- |
-| Uniqueness | The project is not a fee hook, a generic allowlist, or a public RWA AMM. It uses v4 to define an asset-class-specific Specialized Market where private-market constraints become settlement rules. | `CapitalWindowHook`, `CapitalWindowRouter`, `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`, public demo |
+| Uniqueness | The project is not a fee hook, a generic allowlist, or a public RWA AMM. It uses v4 to define an asset-class-specific Specialized Market where capital readiness, disclosure-minimized claims, and private-market constraints become settlement rules. | `CapitalWindowHook`, `CapitalWindowRouter`, `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`, public demo |
 | Functionality | The package includes a live frontend, capital-route intake, debt covenant preview, public deck, scenario simulator, v4 hook, router, registry, local Foundry script, 27 hook tests, capture pipeline, captioned video, and optional Base Sepolia dry-run path. | `corepack yarn hookathon:check`, `corepack yarn hookathon:testnet:proof`, `corepack yarn hookathon:submission:operator` |
 | Technical depth | The hook validates router-bound signed passports, exact-input direction, window timing, caps, nonce replay, deadline, issuer proof freshness, minimum output, and public LP reverts. | `apps/private-equities/contracts/test/CapitalWindowHook.t.sol` |
 | v4 relevance | The demo uses `PoolManager` settlement and return-delta custom accounting rather than a standalone escrow with a Uniswap label. | `beforeSwap`, `beforeSwapReturnDelta`, `CapitalWindowRouter.unlockCallback` |
 | Pricing clarity | The deck explains how pre-money and FX become signed terms before the window opens, then the hook executes the step curve. | Public deck slide `06 / Pricing example`; `testWindowStepCurveQuotesExactPricingExample` |
-| Presentation | Judges can understand the product before reading Solidity: travel, guide, passport, route intake, capital window or debt covenant preview, audit trail. | `https://ultramar.capital/hookathon/port-of-call`, video, `docs/HOOKATHON_JUDGE_FAST_PATH.md` |
+| Presentation | Judges can understand the product before reading Solidity: travel, guide, passport, capital readiness gate, route intake, capital window or debt covenant preview, audit trail. | `https://ultramar.capital/hookathon/port-of-call`, video, `docs/HOOKATHON_JUDGE_FAST_PATH.md` |
 | Safety boundary | The demo stays a sandbox. It does not claim a public securities offer, live investment access, custody, broker-dealer operation, or production compliance. | Demo badges, `HOOKATHON_README.md`, `docs/HOOKATHON_COMPLETION_AUDIT.md` |
 
-## Seven proof points to mention
+## Nine proof points to mention
 
 1. The hook is the market boundary, not decoration.
 2. A port can open equity, debt, secondary transfer, or conversion routes, so the product is broader than one LCX sale.
-3. The passport is bound to `CapitalWindowRouter`, so a generic router cannot reuse a valid signature.
-4. Public add/remove liquidity reverts because the pool is a specialized capital route boundary, not a public AMM.
-5. Pricing is deterministic signed window math, not hidden oracle repricing.
-6. The debt covenant preview blocks stale coverage proof, showing how operating data can gate non-equity routes.
-7. Successful settlement emits reconciliation events for CRM, portfolio, issuer reporting, and risk review.
+3. The capital readiness gate explains how administration becomes market access: admin control, margin route, debt route, equity route.
+4. Disclosure-minimized claims let private data support market decisions without exposing full issuer books.
+5. The passport is bound to `CapitalWindowRouter`, so a generic router cannot reuse a valid signature.
+6. Public add/remove liquidity reverts because the pool is a specialized capital route boundary, not a public AMM.
+7. Pricing is deterministic signed window math, not hidden oracle repricing.
+8. The debt covenant preview blocks stale coverage proof, showing how operating data can gate non-equity routes.
+9. Successful settlement emits reconciliation events for CRM, portfolio, issuer reporting, and risk review.
 
 ## Pricing proof
 
