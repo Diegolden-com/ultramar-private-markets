@@ -34,6 +34,10 @@ type Scenario = {
   payment: string;
   output: string;
   fill: string;
+  meaningRows: Array<{
+    label: string;
+    value: string;
+  }>;
   rows: Array<{
     label: string;
     value: string;
@@ -65,6 +69,7 @@ type ScenarioPresentation = {
   outputLabel: string;
   output: string;
   resultLabel: string;
+  meaningRows: Scenario["meaningRows"];
   rows: Scenario["rows"];
 };
 
@@ -142,6 +147,20 @@ const scenarios: Scenario[] = [
     payment: "1,500 USDC",
     output: "1,454.54 LCX",
     fill: "27% -> 29%",
+    meaningRows: [
+      {
+        label: "Market read",
+        value: "Omnichannel operations are credible enough to open primary equity.",
+      },
+      {
+        label: "Investor action",
+        value: "Subscribe at signed window terms instead of chasing a floating public quote.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Settle once, emit the fill, and reduce remaining capacity deterministically.",
+      },
+    ],
     rows: [
       { label: "Passport", value: "0x4444 signed for window 1", status: "pass" },
       { label: "Oracle", value: "18 min proof inside max staleness", status: "pass" },
@@ -162,6 +181,20 @@ const scenarios: Scenario[] = [
     payment: "1,500 USDC",
     output: "0 LCX",
     fill: "unchanged",
+    meaningRows: [
+      {
+        label: "Market read",
+        value: "Interest is not eligibility; private-market access starts before settlement.",
+      },
+      {
+        label: "Investor action",
+        value: "Complete identity, jurisdiction, NDA, and allocation before submitting an order.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Reject before registry consumption, inventory movement, or token output.",
+      },
+    ],
     rows: [
       { label: "Passport", value: "hookData absent", status: "fail" },
       { label: "Oracle", value: "not reached", status: "idle" },
@@ -182,6 +215,20 @@ const scenarios: Scenario[] = [
     payment: "1,500 USDC",
     output: "0 LCX",
     fill: "unchanged",
+    meaningRows: [
+      {
+        label: "Market read",
+        value: "A signed passport is a one-time capital instruction, not a reusable credential.",
+      },
+      {
+        label: "Investor action",
+        value: "Request a new authorization for any new order or allocation change.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Consumed nonce prevents duplicate fills against the same private allocation.",
+      },
+    ],
     rows: [
       { label: "Passport", value: "signature matches wallet", status: "pass" },
       { label: "Oracle", value: "fresh proof", status: "pass" },
@@ -202,6 +249,20 @@ const scenarios: Scenario[] = [
     payment: "1,500 USDC",
     output: "0 LCX",
     fill: "unchanged",
+    meaningRows: [
+      {
+        label: "Market read",
+        value: "Old issuer data cannot support current access to equity inventory.",
+      },
+      {
+        label: "Investor action",
+        value: "Wait for fresh reporting before the port accepts a subscription.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Freshness gates access without silently repricing approved terms.",
+      },
+    ],
     rows: [
       { label: "Passport", value: "0x4444 signed for window 1", status: "pass" },
       { label: "Oracle", value: "proof exceeds staleness limit", status: "fail" },
@@ -222,6 +283,20 @@ const scenarios: Scenario[] = [
     payment: "1,000 USDC",
     output: "0 LCX",
     fill: "unchanged",
+    meaningRows: [
+      {
+        label: "Market read",
+        value: "Private-market access is route-specific; a passport is not a generic swap ticket.",
+      },
+      {
+        label: "Investor action",
+        value: "Use the capital route that counsel, issuer, and allocation approved.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Sender binding blocks public-router bypass before any custom delta returns.",
+      },
+    ],
     rows: [
       { label: "Passport", value: "signed for CapitalWindowRouter", status: "pass" },
       { label: "Route", value: "sender is generic PoolSwapTest", status: "fail" },
@@ -289,6 +364,79 @@ function debtPresentation(scenario: Scenario): ScenarioPresentation {
     "generic-router": "Router-bound creditor gate rejects bypass",
   };
 
+  const meaningRowsByScenario: Record<ScenarioId, Scenario["meaningRows"]> = {
+    approved: [
+      {
+        label: "Market read",
+        value: "Working-capital debt is investible while current assets cover short-term obligations.",
+      },
+      {
+        label: "Investor action",
+        value: "Enter the creditor route while coverage, identity, and disclosures remain fresh.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Open the debt route only while the covenant proof is green.",
+      },
+    ],
+    "missing-passport": [
+      {
+        label: "Market read",
+        value: "A creditor market still needs investor accreditation and route-specific documents.",
+      },
+      {
+        label: "Investor action",
+        value: "Attach the creditor passport before requesting covenant access.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Close the route before any note access or settlement preview appears.",
+      },
+    ],
+    replay: [
+      {
+        label: "Market read",
+        value: "Debt capacity should not be consumed twice by the same covenant stamp.",
+      },
+      {
+        label: "Investor action",
+        value: "Request a fresh covenant authorization for a new creditor instruction.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Nonce state protects the issuer from duplicate creditor access.",
+      },
+    ],
+    "stale-oracle": [
+      {
+        label: "Market read",
+        value: "A green ratio from stale books is not credit risk proof.",
+      },
+      {
+        label: "Investor action",
+        value: "Wait for a fresh current-asset coverage attestation before entering the note route.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Coverage freshness closes debt access without touching equity pricing.",
+      },
+    ],
+    "generic-router": [
+      {
+        label: "Market read",
+        value: "Creditor controls belong to the debt route, not a generic swap path.",
+      },
+      {
+        label: "Investor action",
+        value: "Use the approved router that carries covenant context into the hook.",
+      },
+      {
+        label: "Hook boundary",
+        value: "Route binding keeps creditor rights from leaking into public settlement.",
+      },
+    ],
+  };
+
   return {
     headline: headlines[scenario.id],
     result: results[scenario.id],
@@ -298,6 +446,7 @@ function debtPresentation(scenario: Scenario): ScenarioPresentation {
     outputLabel: "Route output",
     output: outputs[scenario.id],
     resultLabel: "Preview result",
+    meaningRows: meaningRowsByScenario[scenario.id],
     rows: rowsByScenario[scenario.id],
   };
 }
@@ -316,6 +465,7 @@ function scenarioPresentation(routeId: CapitalRouteId, scenario: Scenario): Scen
     outputLabel: "Custom delta output",
     output: scenario.output,
     resultLabel: "Emitted result",
+    meaningRows: scenario.meaningRows,
     rows: scenario.rows,
   };
 }
@@ -341,7 +491,7 @@ export function HookathonScenarioSimulator() {
   return (
     <section
       id="demo-app"
-      className="scroll-mt-6 grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.78fr_1.22fr]"
+      className="scroll-mt-28 grid min-w-0 gap-1 border-b border-border-muted bg-border-muted md:scroll-mt-20 xl:grid-cols-[0.78fr_1.22fr]"
     >
       <div className="min-w-0 bg-surface p-5 md:p-8">
         <DatabaseZap className="h-5 w-5 text-status-signal" aria-hidden="true" />
@@ -460,6 +610,17 @@ export function HookathonScenarioSimulator() {
           })}
         </div>
 
+        <div className="mt-6 grid min-w-0 gap-1 bg-surface-container/20 lg:grid-cols-3">
+          <div className="min-w-0 bg-surface-ink p-4 text-on-surface lg:col-span-3">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Why this click matters
+            </p>
+          </div>
+          {presentation.meaningRows.map((row) => (
+            <MeaningCell key={row.label} label={row.label} value={row.value} />
+          ))}
+        </div>
+
         <div className="mt-6 grid min-w-0 gap-1 bg-surface-container/20 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="min-w-0 bg-surface-paper p-5">
             <div className="flex min-w-0 items-center gap-3">
@@ -563,6 +724,17 @@ function PaperSignal({ label, value }: { label: string; value: string }) {
         {label}
       </p>
       <p className="break-words text-sm font-medium leading-5 text-surface-ink">{value}</p>
+    </div>
+  );
+}
+
+function MeaningCell({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0 bg-surface-paper p-4">
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+        {label}
+      </p>
+      <p className="mt-3 text-sm font-medium leading-5 text-surface-ink">{value}</p>
     </div>
   );
 }

@@ -34,6 +34,8 @@ const pages = [
       "Equity window",
       "Debt covenant preview",
       "Current asset coverage gate",
+      "Why this click matters",
+      "Omnichannel operations are credible enough to open primary equity.",
       "Issuer data -> verified claim -> passport -> v4 hook",
       "Hook design decisions",
       "Router-bound passport",
@@ -231,6 +233,7 @@ try {
               "Debt route copy switches output",
               debtText.includes("a stale coverage proof closes the debt route.") &&
                 debtText.includes("access blocked") &&
+                debtText.includes("a green ratio from stale books is not credit risk proof.") &&
                 debtText.includes("coverage ratio proof exceeds staleness limit") &&
                 debtText.includes("debt preview: covenant gates map to the same hook boundary model"),
               "stale covenant preview markers",

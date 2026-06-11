@@ -93,6 +93,8 @@ const checks = [
       "Equity window",
       "Debt covenant preview",
       "Current asset coverage gate",
+      "Why this click matters",
+      "Omnichannel operations are credible enough to open primary equity.",
       "Hook design decisions",
       "Router-bound passport",
       "beforeSwap gate",
