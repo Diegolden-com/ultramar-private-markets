@@ -175,6 +175,25 @@ const marketReadinessRows = [
   ],
 ] as const;
 
+const capitalReadinessRows = [
+  [
+    "Admin control",
+    "Daily cash, machine utilization, route collections, and ticket mix become the operating system investors can underwrite.",
+  ],
+  [
+    "Margin route",
+    "Pickup and delivery density plus omnichannel demand explain why a commodity laundry can defend better margins.",
+  ],
+  [
+    "Debt route",
+    "Current assets versus short-term debt becomes a covenant gate before creditor access opens.",
+  ],
+  [
+    "Equity route",
+    "Fresh revenue, signed use of funds, and expansion discipline become the case for primary allocation.",
+  ],
+] as const;
+
 const readinessPillars = [
   {
     icon: DatabaseZap,
@@ -466,6 +485,16 @@ export default function PortOfCallHookathonPage() {
             {marketReadinessRows.map(([label, body]) => (
               <PaperRow key={label} label={label} value={body} />
             ))}
+          </div>
+          <div className="mt-8 border-t border-surface-container/20 pt-6">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+              Capital readiness gate
+            </p>
+            <div className="mt-4 grid gap-1 bg-surface-container/20">
+              {capitalReadinessRows.map(([label, body]) => (
+                <PaperRow key={label} label={label} value={body} />
+              ))}
+            </div>
           </div>
         </div>
 
