@@ -17,14 +17,16 @@ One sentence to remember:
 
 Ultramar Port of Call is an Ablo-style discovery app for private-market capital routes. An eligible investor travels to a local operating business, reads translated diligence, receives a signed passport, and chooses an equity window, debt covenant preview, secondary transfer, or conversion route only if the hook verifies the route, window, authorization, cap, nonce, and oracle freshness.
 
+The business thesis is just as important: admin work becomes underwriting evidence. The demo maps daily close, omnichannel margin, current asset coverage, and reporting freshness into route-specific claims before any swap is available.
+
 ## Rubric map
 
 | Scoring area | What to look for | Evidence |
 | --- | --- | --- |
-| Uniqueness | This is not a fee tweak, public RWA pool, or generic permission list. The product turns private operating-business capital formation into a v4 Specialized Market. | `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md`, `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`, `/hookathon/port-of-call` |
-| Impact | The pattern lets asset-class constraints become settlement rules: eligibility, transfer policy, window timing, ticket size, caps, route provenance, and issuer-proof freshness. | `docs/HOOKATHON_SUBMISSION_PACKET.md`, `docs/HOOKATHON_TALLY_SUBMISSION.md` |
+| Uniqueness | This is not a fee tweak, public RWA pool, or generic permission list. The product turns operating readiness and private-market constraints into a v4 Specialized Market. | `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md`, `docs/HOOKATHON_ACTIVE_THEME_STRATEGY.md`, `/hookathon/port-of-call` |
+| Impact | The pattern lets business work become settlement rules: admin control, margin route, current asset coverage, eligibility, transfer policy, caps, route provenance, and issuer-proof freshness. | `docs/HOOKATHON_SUBMISSION_PACKET.md`, `docs/HOOKATHON_TALLY_SUBMISSION.md` |
 | Functionality | The repo includes a frontend, simulator, v4 hook, router, registry, local demo script, 27 hook tests, video proof, public links, and optional Base Sepolia dry-run path. | `corepack yarn hookathon:check`, `apps/private-equities/contracts/test/CapitalWindowHook.t.sol`, `scripts/hookathon-video-proof.mjs` |
-| Presentation | The story is legible before the code: travel, guide, passport, route intake, equity window, debt covenant preview. The deck and video then lead into the technical proof. | `docs/HOOKATHON_SLIDE_DECK.md`, `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`, public deck and video |
+| Presentation | The story is legible before the code: market readiness, operating readiness map, passport, route intake, equity window, debt covenant preview. The deck and video then lead into the technical proof. | `docs/HOOKATHON_SLIDE_DECK.md`, `docs/HOOKATHON_DEMO_RUN_OF_SHOW.md`, public deck and video |
 
 ## v4 mechanism
 

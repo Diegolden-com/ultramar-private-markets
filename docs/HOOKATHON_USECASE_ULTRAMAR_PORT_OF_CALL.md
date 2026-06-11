@@ -9,7 +9,7 @@ Companion artifacts:
 
 ## Verdict
 
-Build **Ultramar Port of Call**: an Ablo-style cross-border capital discovery experience where eligible investors meet local operating businesses, review translated diligence, and can enter counsel-gated investment ports through a Uniswap v4 hook.
+Build **Ultramar Port of Call**: an Ablo-style cross-border capital discovery experience where eligible investors meet local operating businesses, review translated diligence, and can enter counsel-gated investment ports through a Uniswap v4 hook. The product thesis is that administration becomes market access: better operating control, omnichannel margin work, current asset coverage, and reporting freshness become route-specific claims the hook can enforce.
 
 The underlying hook is not a generic DEX listing. It is a controlled settlement primitive for route-aware private-market access:
 
@@ -23,6 +23,19 @@ The underlying hook is not a generic DEX listing. It is a controlled settlement 
 - Public liquidity modification blocked.
 
 The demo asset should be **Lavanderias CX**, because the repo already models it as a Mexico City operating-business expansion round with a target raise, use of funds, data-room status, investor process, risk factors, and oracle readiness.
+
+## Operating readiness thesis
+
+The Walmart lesson is not "retail deserves a high multiple." The lesson is that markets pay for operating systems that can absorb capital. A competitive local business can become investible when administration creates underwritable claims.
+
+For Lavanderias CX, the readiness map is the product bridge:
+
+- **Admin control:** daily close, machine utilization, route collections, and ticket mix become issuer proof.
+- **Omnichannel margin:** pickup and delivery density can defend better unit economics and open the equity route.
+- **Current asset coverage:** current assets covering short-term debt can open a debt preview while covenant proof is fresh.
+- **Reporting freshness:** operating proof inside the active-window limit allows the hook route to stay open.
+
+This is why the demo starts before the swap. Port of Call first asks what changed inside the business, then converts that answer into disclosure-minimized claims, investor passports, capital routes, and v4 settlement rules.
 
 ## Why this should win
 
@@ -40,7 +53,7 @@ The hook adds value in a way judges can inspect:
 
 The product story is simple enough for non-technical judges:
 
-> "Travel to a local business, meet the operator, read diligence in your language, get eligibility stamped, then choose the capital route. The hook is the border control."
+> "Travel to a local business, see the administration that makes it investible, get eligibility stamped, then choose the capital route. The hook is the market boundary."
 
 ## Ablo-style product loop
 
@@ -54,15 +67,19 @@ Ablo's memorable loop was global discovery plus translation: meet someone elsewh
 
    The investor enters a live diligence room. Operator updates, Q&A, data-room summaries, and KPI explanations are translated into the investor's language. The room feels conversational, but every claim links back to a controlled diligence object.
 
-3. **Passport stamp**
+3. **Capital readiness gate**
+
+   The app maps operating work to market routes: admin control becomes issuer proof, margin expansion supports equity, current asset coverage supports debt, and reporting freshness controls hook access.
+
+4. **Passport stamp**
 
    The investor completes KYC/KYB, jurisdiction, suitability, NDA, and transfer-policy checks. Ultramar issues a signed authorization payload for a specific window, amount, recipient, deadline, and nonce.
 
-4. **Capital route**
+5. **Capital route**
 
    The v4 hook accepts exact-input USDC for the equity route only if the passport stamp is valid and the window is open. It returns the restricted asset token from issuer or escrow inventory according to the configured window curve. A debt route can use the same passport and freshness boundary to gate covenant access before a live debt instrument is issued.
 
-5. **Return ticket**
+6. **Return ticket**
 
    If counsel and issuer policy allow secondary liquidity, a company-sponsored secondary window lets approved sellers and buyers settle through the same hook constraints. No uncontrolled peer-to-peer transfer and no public market promise.
 
@@ -143,6 +160,7 @@ Add a focused demo surface, separate from public production pages:
 
 - "Ports" feed with Lavanderias CX as the featured port.
 - Translated diligence/Q&A mock panel.
+- Operating readiness map: admin control, margin route, current asset coverage, and reporting freshness.
 - Passport stamp status: eligibility, NDA, allocation, signature, oracle freshness.
 - Capital route intake: equity quote with exact USDC input and expected LCX output, plus debt covenant preview with current asset coverage.
 - Scenario simulator for Approved, Missing passport, Replay, Stale oracle, and Generic router states, each tied to a Foundry test.
@@ -152,11 +170,11 @@ Add a focused demo surface, separate from public production pages:
 ### Pitch video flow
 
 1. Start with the problem: cross-border capital for local businesses dies in language, trust, compliance, and settlement gaps.
-2. Show the Ablo-style feed: an investor "travels" to Mexico City and meets Lavanderias CX.
-3. Show translated diligence and oracle freshness.
-4. Stamp eligibility.
-5. Execute the equity window through the hook, then show the debt covenant preview.
-6. Try an ineligible swap and show it revert.
+2. Show market readiness: the Walmart lesson becomes a question about what changed inside LCX.
+3. Show the operating readiness map: admin work becomes underwriting evidence.
+4. Execute the equity window through the hook, then show the debt covenant preview with stale coverage blocked.
+5. Try the generic router path and show it revert.
+6. Show pricing policy: fixed active windows first; step curves only with explicit tranche logic.
 7. Close with the thesis: Uniswap v4 can host specialized, compliance-aware investment ports without pretending every private asset is a public AMM.
 
 ## Prize positioning
