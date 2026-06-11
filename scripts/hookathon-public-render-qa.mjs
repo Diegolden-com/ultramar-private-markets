@@ -25,6 +25,8 @@ const pages = [
       "Pricing policy",
       "Fixed price window",
       "Step curve window",
+      "Curve decision rule",
+      "If the issuer cannot explain the tranche logic, the curve should not exist.",
       "Demo app",
       "Choose the capital route before the swap.",
       "Capital route intake",

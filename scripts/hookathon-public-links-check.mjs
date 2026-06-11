@@ -84,6 +84,7 @@ const checks = [
       "Pricing policy",
       "Fixed price window",
       "Step curve window",
+      "Curve decision rule",
       "Demo app",
       "Choose the capital route before the swap.",
       "Capital route intake",

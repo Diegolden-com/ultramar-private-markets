@@ -296,6 +296,21 @@ const stepCurveRows = [
   ["Demo quote", "1,500 USDC -> 1,454.54 LCX, effective 1.0312"],
 ] as const;
 
+const curveDecisionRows = [
+  [
+    "Default",
+    "Use a fixed active window when the issuer already approved valuation and FX terms. This is the normal private-round case.",
+  ],
+  [
+    "Use step curve",
+    "Use it only when capacity itself is part of the term sheet: early tranche incentives, oversubscription discipline, or explicit demand ladders.",
+  ],
+  [
+    "Do not use",
+    "Do not use the curve for hidden oracle repricing, floating FX during an active fill, or pretending private securities have continuous public AMM discovery.",
+  ],
+] as const;
+
 export default function PortOfCallHookathonPage() {
   return (
     <main id="main-content" className="overflow-x-hidden bg-surface-ink text-on-surface">
@@ -609,6 +624,23 @@ export default function PortOfCallHookathonPage() {
             variant="step"
             rows={stepCurveRows}
           />
+          <div className="min-w-0 bg-surface-paper p-5 text-surface-ink lg:col-span-2 md:p-6">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+              Curve decision rule
+            </p>
+            <h3 className="mt-3 max-w-3xl font-serif text-3xl font-semibold leading-tight md:text-4xl">
+              If the issuer cannot explain the tranche logic, the curve should not exist.
+            </h3>
+            <p className="mt-4 max-w-3xl text-sm leading-6 text-surface-container">
+              The custom curve is not the product thesis. It is a hook proof that v4 can enforce
+              signed, non-AMM settlement math when the investment port needs it.
+            </p>
+            <div className="mt-6 grid gap-1 bg-surface-container/20">
+              {curveDecisionRows.map(([label, value]) => (
+                <PaperRow key={label} label={label} value={value} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
