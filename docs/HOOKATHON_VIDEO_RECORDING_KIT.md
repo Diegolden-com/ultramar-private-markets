@@ -6,7 +6,7 @@ Purpose: make the final two-minute demo fast to record, easy to verify, and alig
 
 Ship one concise video that proves three things:
 
-1. The product is memorable: Ablo-style travel into a local-business capital port.
+1. The product is memorable: Abloh-inspired travel into a local-business capital port.
 2. The hook is v4-native: `PoolManager`, router-bound `hookData`, `beforeSwap`, and `beforeSwapReturnDelta`.
 3. The Specialized Markets angle is real: private operating-business capital needs asset-class-specific eligibility, caps, transfer boundaries, oracle freshness, and router provenance.
 
@@ -166,7 +166,7 @@ Ultramar Port of Call - Specialized Markets for Uniswap v4 Investment Ports
 Description:
 
 ```text
-Ultramar Port of Call is an Ablo-style private-market discovery demo for the Uniswap v4 Hookathon. Investors travel to a local business, receive a signed eligibility passport, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The hook creates a Specialized Market for private operating-business capital by enforcing route, eligibility, ticket size, caps, transfer boundaries, router provenance, oracle freshness, and exact-input custom-accounting settlement.
+Ultramar Port of Call is an Abloh-inspired private-market discovery demo for the Uniswap v4 Hookathon. Investors travel to a local business, receive a signed eligibility passport, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The hook creates a Specialized Market for private operating-business capital by enforcing route, eligibility, ticket size, caps, transfer boundaries, router provenance, oracle freshness, and exact-input custom-accounting settlement.
 
 Sandbox/testnet technical demo only. Not an offer, investment advice, custody, broker-dealer activity, or a live production transaction path.
 ```

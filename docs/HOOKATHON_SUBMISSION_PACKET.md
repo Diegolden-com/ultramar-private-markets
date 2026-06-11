@@ -26,7 +26,7 @@ Final Tally browser-session copy packet lives in `docs/HOOKATHON_TALLY_FINAL_PAC
 
 ## One-liner
 
-An Ablo-style discovery app for private-market capital: investors travel to local businesses, see whether administration has created underwritable claims, get eligibility stamped, and choose an equity window, debt covenant preview, secondary transfer, or conversion route enforced by a Uniswap v4 hook.
+An Abloh-inspired discovery app for private-market capital: investors travel to local businesses, see whether administration has created underwritable claims, get eligibility stamped, and choose an equity window, debt covenant preview, secondary transfer, or conversion route enforced by a Uniswap v4 hook.
 
 ## Thirty-second pitch
 
@@ -44,9 +44,9 @@ This is not an app that happens to call Uniswap. The hook is the product boundar
 - The singleton `PoolManager` gives the demo an actual v4 settlement path instead of a standalone custom AMM.
 - Flash-accounting deltas let the router settle exact input and take output without intermediate transfer noise.
 
-## Ablo mapping
+## Abloh-inspired mapping
 
-| Ablo pattern | Ultramar version | Demo expression |
+| Abloh-inspired pattern | Ultramar version | Demo expression |
 | --- | --- | --- |
 | Travel without leaving home | Explore capital "ports" around the world | Investor opens Mexico City and enters Lavanderias CX |
 | Live translation | Translated diligence and operator Q&A | English investor reads Spanish-source KPI context |
@@ -136,7 +136,7 @@ sequenceDiagram
 | Why use Uniswap v4 instead of a bespoke escrow contract? | v4 gives the standard pool interface, `PoolManager`, flash accounting, composable routing surface, and custom accounting. The hook specializes the market without rebuilding settlement from scratch. |
 | Is it compliant? | It is compliance-aware, not a compliance claim. The demo blocks public purchase and models counsel-gated windows. Production needs counsel, transfer-agent/custody decisions, audit, and jurisdiction review. |
 | Where is the economic value? | Issuers turn operating work into capital access; investors get legible diligence and deterministic execution; the protocol gets a new class of specialized, real-world markets. |
-| Why will people remember it? | "Ablo for capital" is a simple mental model. The v4 hook becomes a passport checkpoint for local-business capital formation. |
+| Why will people remember it? | "Abloh for capital" is a simple mental model. The v4 hook becomes a passport checkpoint for local-business capital formation. |
 
 ## Prize category fit
 

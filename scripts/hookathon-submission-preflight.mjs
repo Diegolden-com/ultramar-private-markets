@@ -116,7 +116,7 @@ const requiredNarrativeMarkers = [
   ["Judge fast path operating readiness", "docs/HOOKATHON_JUDGE_FAST_PATH.md", "admin work becomes underwriting evidence"],
   ["Winning scorecard core claim", "docs/HOOKATHON_WINNING_SCORECARD.md", "The hook is the market boundary"],
   ["Deck judge packet", "docs/HOOKATHON_SLIDE_DECK.md", "Judge packet links"],
-  ["Ablo loop", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md", "Ablo"],
+  ["Abloh loop", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md", "Abloh"],
   ["Use case operating readiness", "docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md", "Operating readiness thesis"],
   ["Atrium capstone final Tally path", "docs/HOOKATHON_ATRIUM_ALIGNMENT.md", "docs/HOOKATHON_TALLY_FINAL_PACKET.md"],
   ["Submission form submit-now path", "docs/HOOKATHON_SUBMISSION_FORM.md", "docs/HOOKATHON_SUBMIT_NOW.md"],

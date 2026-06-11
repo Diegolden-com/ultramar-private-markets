@@ -15,7 +15,7 @@ One sentence to remember:
 
 > The hook is the market boundary.
 
-Ultramar Port of Call is an Ablo-style discovery app for private-market capital routes. An eligible investor travels to a local operating business, reads translated diligence, receives a signed passport, and chooses an equity window, debt covenant preview, secondary transfer, or conversion route only if the hook verifies the route, window, authorization, cap, nonce, and oracle freshness.
+Ultramar Port of Call is an Abloh-inspired discovery app for private-market capital routes. An eligible investor travels to a local operating business, reads translated diligence, receives a signed passport, and chooses an equity window, debt covenant preview, secondary transfer, or conversion route only if the hook verifies the route, window, authorization, cap, nonce, and oracle freshness.
 
 The business thesis is just as important: admin work becomes underwriting evidence. The demo maps daily close, omnichannel margin, current asset coverage, and reporting freshness into route-specific claims before any swap is available.
 

@@ -8,7 +8,7 @@ This is an internal judge-prep document. The public submission should cite the p
 
 | Atrium module | What the course is pushing toward | Ultramar Port of Call evidence |
 | --- | --- | --- |
-| Course Introduction | A capstone-worthy v4 hook should be understandable, memorable, and investor-presentable. | The use case is "Ablo for capital": local-business discovery, translated diligence, passport stamp, and a capital window. See `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md` and `/hookathon/port-of-call`. |
+| Course Introduction | A capstone-worthy v4 hook should be understandable, memorable, and investor-presentable. | The use case is "Abloh for capital": local-business discovery, translated diligence, passport stamp, and a capital window. See `docs/HOOKATHON_USECASE_ULTRAMAR_PORT_OF_CALL.md` and `/hookathon/port-of-call`. |
 | Intro to v4 | Use v4 as the settlement substrate, not as a logo. | `CapitalWindowRouter` routes through `PoolManager`; `CapitalWindowHook` is installed as the pool hook; the docs explain singleton settlement and flash-accounting deltas. |
 | Uniswap Math | Know which price mechanism the hook is changing. | The demo intentionally replaces public AMM price discovery with a deterministic capital-window conversion curve. The approved demo settles `1500.00` USDC into `1454.54` LCX at `1.0312` USDC/LCX. |
 | Dynamic Fees | Dynamic fees are useful when fees are the product lever; they are not mandatory. | This demo does not use dynamic fees. That restraint matters: the permission bitmap only includes `beforeSwap`, `beforeSwapReturnDelta`, `beforeAddLiquidity`, and `beforeRemoveLiquidity`. |
@@ -31,7 +31,7 @@ That maps cleanly to the course arc:
 2. return deltas let the hook own the execution curve.
 3. router/periphery design makes the product path real.
 4. hook security makes the demo defensible.
-5. the Ablo-like product metaphor makes the capstone memorable.
+5. the Abloh-like product metaphor makes the capstone memorable.
 
 ## What to emphasize in the video
 

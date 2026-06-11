@@ -17,7 +17,7 @@ http://localhost:3000/hookathon/port-of-call/deck
 ## Claim spine
 
 1. Private-market capital breaks before settlement.
-2. The product loop is Ablo for capital: travel, guide, passport, window.
+2. The product loop is Abloh for capital: travel, guide, passport, window.
 3. The official Tally framing is UHI8 Specialized Markets.
 4. A generic AMM is the wrong primitive for private operating-business capital.
 5. The v4 hook is the market boundary.
@@ -49,7 +49,7 @@ Key constraints:
 
 ### 02 / Product Loop
 
-Ablo for capital: travel, guide, passport, window.
+Abloh for capital: travel, guide, passport, window.
 
 Sequence:
 
@@ -141,7 +141,7 @@ Evidence:
 
 The submission is built around the four scoring questions.
 
-- Uniqueness: Ablo for capital is easy to remember, but the mechanism is concrete v4 custom accounting.
+- Uniqueness: Abloh for capital is easy to remember, but the mechanism is concrete v4 custom accounting.
 - Impact: a reusable pattern for asset-class-specific markets where constraints become settlement rules.
 - Functionality: frontend, simulator, Solidity tests, local demo script, capture script, and testnet dry-run path.
 - Presentation: one sentence carries the story: the hook is the market boundary.

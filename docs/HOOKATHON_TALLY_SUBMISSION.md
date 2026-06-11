@@ -39,7 +39,7 @@ Ultramar Port of Call
 ### 1-2 sentence description of your project
 
 ```text
-Ultramar Port of Call creates investment ports for private operating businesses: an Ablo-style discovery app where eligible investors review translated diligence, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The Uniswap v4 hook is the market boundary for those routes, enforcing router-bound authorization, exact-input windows, oracle freshness, caps, and custom-accounting settlement.
+Ultramar Port of Call creates investment ports for private operating businesses: an Abloh-inspired discovery app where eligible investors review translated diligence, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The Uniswap v4 hook is the market boundary for those routes, enforcing router-bound authorization, exact-input windows, oracle freshness, caps, and custom-accounting settlement.
 ```
 
 ### Did you integrate any of our partners?
@@ -136,7 +136,7 @@ Local route: http://localhost:3000/hookathon/port-of-call
 ```text
 Private-market capital usually breaks before settlement. Cross-border investors struggle with language, diligence, eligibility, legal boundaries, allocation, and reporting; issuers struggle to present operating proof without turning public materials into an uncontrolled offering. The Walmart lesson is that the market pays for administration that can absorb capital: even a competitive operating business can become investable when data, margin strategy, controls, and legal instruments are credible. That is Ultramar's thesis: a traditional business should always be market-ready, able to raise through debt or equity when its operating proof supports the route. Port of Call expresses that as a capital readiness gate: admin control and omnichannel margin strategy can support equity, while current asset coverage and covenant freshness can support debt.
 
-Ultramar Port of Call turns that into an Ablo-style discovery loop. The investor travels to a local operating business, reviews translated diligence, receives a signed passport, and then chooses a route: equity window, debt covenant preview, secondary transfer, or conversion path. A normal public AMM is the wrong primitive because each route has asset-specific constraints: who can participate, when a window is open, what price terms apply, what disclosure-minimized claim is fresh enough, what transfer policy is accepted, and whether issuer proof is fresh enough to execute.
+Ultramar Port of Call turns that into an Abloh-inspired discovery loop. The investor travels to a local operating business, reviews translated diligence, receives a signed passport, and then chooses a route: equity window, debt covenant preview, secondary transfer, or conversion path. A normal public AMM is the wrong primitive because each route has asset-specific constraints: who can participate, when a window is open, what price terms apply, what disclosure-minimized claim is fresh enough, what transfer policy is accepted, and whether issuer proof is fresh enough to execute.
 ```
 
 ### Impact: What makes this project unique? What impact will this make?
@@ -152,7 +152,7 @@ The impact is a new pattern for v4: asset-class-specific markets where legal/pro
 ### Challenges: What was challenging about building this project?
 
 ```text
-The hard part was making the hook feel like a real v4 market instead of a standalone escrow contract with a Uniswap label. The implementation had to bind passport signatures to the intended router, use v4 custom accounting correctly, encode the hook permission mask, block generic router bypasses, reject exact-output paths, protect signed minimum output, handle replay/deadline checks, model oracle freshness, and keep public LP behavior out of the demo pool. A second challenge was packaging the product so judges can understand the Ablo-like workflow first and then verify the hook behavior through tests, local scripts, and a Base Sepolia dry-run path.
+The hard part was making the hook feel like a real v4 market instead of a standalone escrow contract with a Uniswap label. The implementation had to bind passport signatures to the intended router, use v4 custom accounting correctly, encode the hook permission mask, block generic router bypasses, reject exact-output paths, protect signed minimum output, handle replay/deadline checks, model oracle freshness, and keep public LP behavior out of the demo pool. A second challenge was packaging the product so judges can understand the Abloh-like workflow first and then verify the hook behavior through tests, local scripts, and a Base Sepolia dry-run path.
 ```
 
 ### Did you work with a team?

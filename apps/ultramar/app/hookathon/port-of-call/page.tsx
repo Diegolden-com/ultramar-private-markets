@@ -458,9 +458,9 @@ export default function PortOfCallHookathonPage() {
                 Port of Call turns operating businesses into v4 investment ports.
               </h1>
               <p className="mt-6 max-w-3xl text-pretty text-lg leading-7 text-on-surface-variant md:text-xl">
-                An Ablo-style discovery loop for private markets: travel to the issuer, read diligence
-                in your language, receive an eligibility stamp, choose a debt or equity route, then
-                let the Uniswap v4 hook enforce the market boundary.
+                An Abloh-inspired market object for private markets: travel to the issuer, read
+                diligence in your language, receive an eligibility stamp, choose a debt or equity
+                route, then let the Uniswap v4 hook enforce the market boundary.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link

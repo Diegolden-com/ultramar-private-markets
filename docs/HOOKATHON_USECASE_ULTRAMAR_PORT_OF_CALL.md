@@ -1,6 +1,6 @@
 # Ultramar Port-of-Call Hookathon use case
 
-Working objective: win the Uniswap v4 Hookathon with a use case that combines Ultramar's private-market brand, an Ablo-style discovery loop, and a technically credible v4 hook.
+Working objective: win the Uniswap v4 Hookathon with a use case that combines Ultramar's private-market brand, an Abloh-inspired product vocabulary, and a technically credible v4 hook.
 
 Companion artifacts:
 
@@ -9,7 +9,7 @@ Companion artifacts:
 
 ## Verdict
 
-Build **Ultramar Port of Call**: an Ablo-style cross-border capital discovery experience where eligible investors meet local operating businesses, review translated diligence, and can enter counsel-gated investment ports through a Uniswap v4 hook. The product thesis is that administration becomes market access: better operating control, omnichannel margin work, current asset coverage, and reporting freshness become route-specific claims the hook can enforce.
+Build **Ultramar Port of Call**: an Abloh-inspired cross-border capital discovery experience where eligible investors meet local operating businesses, review translated diligence, and can enter counsel-gated investment ports through a Uniswap v4 hook. The product thesis is that administration becomes market access: better operating control, omnichannel margin work, current asset coverage, and reporting freshness become route-specific claims the hook can enforce.
 
 The underlying hook is not a generic DEX listing. It is a controlled settlement primitive for route-aware private-market access:
 
@@ -55,9 +55,9 @@ The product story is simple enough for non-technical judges:
 
 > "Travel to a local business, see the administration that makes it investible, get eligibility stamped, then choose the capital route. The hook is the market boundary."
 
-## Ablo-style product loop
+## Abloh-inspired product loop
 
-Ablo's memorable loop was global discovery plus translation: meet someone elsewhere, understand them instantly, and feel like you traveled there. Ultramar adapts that loop to capital formation.
+The inspiration is not a celebrity reference pasted onto finance. It is a design method: make the hidden system visible, turn functional objects into cultural signals, and let the user feel the route before the transaction. Ultramar adapts that method to capital formation.
 
 1. **Travel feed**
 
@@ -203,4 +203,4 @@ As of May 31, 2026, the official Tally form linked from Atrium Capstone says the
 - Uniswap v4 custom accounting docs: https://developers.uniswap.org/docs/protocols/v4/guides/custom-accounting
 - Atrium 2026 hookathon themes: https://blog.atrium.academy/uniswap-hook-incubator-2025-wrapped
 - Atrium course outline: https://atrium.academy/uniswap/course
-- Ablo inspiration: global discovery, live translation, and remote cultural exploration.
+- Abloh inspiration: system visibility, cultural translation, and functional objects that become memorable symbols.

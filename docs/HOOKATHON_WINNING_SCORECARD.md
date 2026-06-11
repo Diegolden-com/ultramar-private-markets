@@ -6,7 +6,7 @@ Purpose: one-page judge scorecard for why this submission should rank highly, wi
 
 Ultramar Port of Call turns Uniswap v4 hooks into the market boundary for private operating-business investment ports.
 
-The memorable product is Ablo for capital: travel to a local issuer, read translated diligence, receive a passport stamp, then choose the capital route the business can responsibly open.
+The memorable product is Abloh for capital: make the market system visible, travel to a local issuer, read translated diligence, receive a passport stamp, then choose the capital route the business can responsibly open.
 
 The business thesis is concrete: even a competitive operating company can become investible when administration creates underwritable claims. Port of Call shows that as a capital readiness gate: admin control, margin route, debt route, and equity route.
 

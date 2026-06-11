@@ -161,7 +161,7 @@ const proofRows = [
 ] as const;
 
 const judgeClaims = [
-  ["Uniqueness", "Ablo for capital is easy to remember, but the mechanism is concrete v4 custom accounting."],
+  ["Uniqueness", "Abloh for capital is easy to remember, but the mechanism is concrete v4 custom accounting."],
   ["Impact", "A reusable pattern for equity, debt, secondary transfers, and conversion routes where constraints become market rules."],
   ["Functionality", "Frontend route intake, simulator, Solidity tests, local demo script, capture script, and testnet dry-run path."],
   ["Presentation", "One sentence carries the story: the hook is the market boundary."],
@@ -234,9 +234,9 @@ export default function PortOfCallDeckPage() {
                 Port of Call turns operating businesses into v4 investment ports.
               </h1>
               <p className="mt-6 max-w-3xl text-pretty text-lg leading-7 text-on-surface-variant md:text-xl">
-                An Ablo-style product loop wrapped around a real Uniswap v4 hook: investors travel
-                to a local business, receive a signed passport, choose an equity or debt route, and
-                cross the market boundary only when the hook verifies the route.
+                An Abloh-inspired product object wrapped around a real Uniswap v4 hook: investors
+                travel to a local business, receive a signed passport, choose an equity or debt route,
+                and cross the market boundary only when the hook verifies the route.
               </p>
             </div>
 
@@ -289,7 +289,7 @@ export default function PortOfCallDeckPage() {
 
       <DeckSlide
         eyebrow="02 / Product loop"
-        title="Ablo for capital: travel, guide, passport, route."
+        title="Abloh for capital: travel, guide, passport, route."
         body="The investor enters a capital port before any buy button appears. The app makes private-market context legible, then turns eligibility and operating proof into route-specific execution context."
         icon={KeyRound}
         paper

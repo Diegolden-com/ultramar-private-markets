@@ -84,6 +84,7 @@ const checks = [
     url: "https://ultramar.capital/hookathon/port-of-call",
     markers: [
       "Port of Call Hookathon Demo",
+      "Abloh-inspired market object",
       "Specialized Markets",
       "Open demo app",
       "Market readiness",
@@ -147,6 +148,7 @@ const checks = [
     url: "https://ultramar.capital/hookathon/port-of-call/deck",
     markers: [
       "Port of Call Hookathon Pitch Deck",
+      "Abloh-inspired product object",
       "Specialized Markets",
       "A port can open equity, debt, secondary transfer, or conversion routes.",
       "Private books become disclosure-minimized claims.",

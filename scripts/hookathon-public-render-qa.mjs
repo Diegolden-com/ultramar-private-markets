@@ -16,6 +16,7 @@ const pages = [
     url: `${baseUrl}/hookathon/port-of-call`,
     markers: [
       "Port of Call turns operating businesses into v4 investment ports.",
+      "Abloh-inspired market object",
       "The hook is the market boundary.",
       "Open demo app",
       "Market readiness",
@@ -80,6 +81,7 @@ const pages = [
     url: `${baseUrl}/hookathon/port-of-call/deck`,
     markers: [
       "Port of Call turns operating businesses into v4 investment ports.",
+      "Abloh-inspired product object",
       "UHI8 Specialized Markets",
       "A port can open equity, debt, secondary transfer, or conversion routes.",
       "Private books become disclosure-minimized claims.",

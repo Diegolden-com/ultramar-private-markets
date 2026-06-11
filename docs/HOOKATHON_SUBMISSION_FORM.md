@@ -12,7 +12,7 @@ Investment ports for local operating businesses, powered by Uniswap v4 custom ac
 
 ## Short description
 
-Ultramar Port of Call is an Ablo-style private-market discovery app where eligible investors travel to local operating businesses, review translated diligence, see whether administration has created underwritable claims, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The v4 hook enforces route-bound exact-input execution, investor eligibility, signed allocation, window caps, oracle freshness, covenant freshness, and public-liquidity blocking.
+Ultramar Port of Call is an Abloh-inspired private-market discovery app where eligible investors travel to local operating businesses, review translated diligence, see whether administration has created underwritable claims, receive a signed passport stamp, and choose an equity window, debt covenant preview, secondary transfer, or conversion route. The v4 hook enforces route-bound exact-input execution, investor eligibility, signed allocation, window caps, oracle freshness, covenant freshness, and public-liquidity blocking.
 
 ## Long description
 
@@ -213,7 +213,7 @@ The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHoo
 ## Judge checklist
 
 - Clear non-generic use case: yes, investment ports for local operating businesses.
-- Ablo-style product loop: yes, global ports, translation, local guide room, passport stamp.
+- Abloh-inspired product loop: yes, global ports, translation, local guide room, passport stamp.
 - Operating readiness thesis: yes, admin work becomes underwriting evidence before any swap.
 - Uniswap v4-native mechanism: yes, hooks, `PoolManager`, flash accounting, custom accounting, return deltas.
 - Tests: yes, success paths, reverts, replay protection, missing passport, stale oracle, exact-output rejection, liquidity blocking, event trail.
