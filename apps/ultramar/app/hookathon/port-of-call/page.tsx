@@ -241,12 +241,12 @@ const capitalStoryBeats: CapitalStoryBeat[] = [
 ];
 
 const portObjectFields = [
-  ["Issuer", "LCX operator plus issuer vehicle context."],
-  ["Verified claim", "Revenue, margin route, or coverage proof."],
-  ["Instrument", "Equity window or debt covenant, not a token listing."],
-  ["Passport", "Eligibility, allocation, route, deadline, nonce."],
-  ["Route rule", "The hook checks which capital route is open before settlement."],
-  ["Settlement record", "CRM, portfolio, issuer, and risk events."],
+  ["Port", "Issuer workspace: operator, vehicle, documents, and operating proof."],
+  ["Claim", "Disclosure-minimized admin proof: revenue, margin route, or coverage."],
+  ["Route", "Capital path: equity, debt, secondary transfer, or conversion."],
+  ["Window", "Signed period and terms for settlement inside one route."],
+  ["Passport", "Wallet-bound authorization: eligibility, allocation, deadline, nonce."],
+  ["Hook", "v4 market boundary: check route, return delta, emit audit record."],
 ] as const;
 
 type OperatingReadinessSignal = {
@@ -678,10 +678,10 @@ export default function PortOfCallHookathonPage() {
             <div className="grid min-w-0 gap-4 lg:grid-cols-[0.36fr_1.64fr]">
               <div className="min-w-0">
                 <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
-                  Port object
+                  Product grammar
                 </p>
                 <h3 className="mt-2 max-w-xl font-serif text-2xl font-semibold leading-tight md:text-3xl">
-                  The product is a route-aware market object.
+                  Port, claim, route, window, passport, hook.
                 </h3>
               </div>
               <div className="grid min-w-0 grid-cols-2 gap-x-4 border-t border-surface-container/20 md:grid-cols-3 lg:border-l lg:border-t-0 lg:pl-6">

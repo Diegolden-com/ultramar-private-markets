@@ -75,6 +75,15 @@ Sequence:
 - Passport: attach KYC/KYB, jurisdiction, NDA, allocation, and transfer policy checks.
 - Route: choose equity, debt covenant preview, secondary transfer, or conversion path.
 
+Product grammar:
+
+- Port: issuer workspace with the operator, issuer vehicle, documents, and operating proof.
+- Claim: disclosure-minimized admin proof such as revenue freshness, margin route, current asset coverage, or covenant status.
+- Route: capital path: equity, debt, secondary transfer, or conversion.
+- Window: signed settlement period and terms inside one route.
+- Passport: wallet-bound authorization carrying eligibility, allocation, route, deadline, and nonce.
+- Hook: v4 market boundary that checks the route, returns custom accounting when appropriate, and emits the audit record.
+
 ### 04 / Capital Routes
 
 A port can open equity, debt, secondary transfer, or conversion routes.

@@ -24,6 +24,15 @@ The underlying hook is not a generic DEX listing. It is a controlled settlement 
 
 The demo asset should be **Lavanderias CX**, because the repo already models it as a Mexico City operating-business expansion round with a target raise, use of funds, data-room status, investor process, risk factors, and oracle readiness.
 
+## Product grammar
+
+- **Port:** issuer workspace with the operator, issuer vehicle, documents, and operating proof.
+- **Claim:** disclosure-minimized admin proof such as revenue freshness, margin route, current asset coverage, or covenant status.
+- **Route:** capital path: equity, debt, secondary transfer, or conversion.
+- **Window:** signed settlement period and terms inside one route.
+- **Passport:** wallet-bound authorization carrying eligibility, allocation, route, deadline, and nonce.
+- **Hook:** v4 market boundary that checks the route, returns custom accounting when appropriate, and emits the audit record.
+
 ## Operating readiness thesis
 
 The Walmart lesson is not "retail deserves a high multiple." The lesson is that markets pay for operating systems that can absorb capital. A competitive local business can become investible when administration creates underwritable claims.
