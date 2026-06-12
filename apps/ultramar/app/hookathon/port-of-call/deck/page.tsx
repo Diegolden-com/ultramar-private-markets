@@ -128,6 +128,34 @@ const capitalRouteRows = [
   },
 ] as const;
 
+const demoWalkthroughRows = [
+  [
+    "00:00",
+    "Frame the market",
+    "Walmart shows markets fund operating systems. LCX asks whether administration can make a crowded laundry financeable.",
+  ],
+  [
+    "00:18",
+    "Submit eligible order",
+    "Omnichannel margin and fresh revenue open the signed sandbox equity window.",
+  ],
+  [
+    "00:36",
+    "Switch to debt route",
+    "Current asset coverage decides whether creditor access can open.",
+  ],
+  [
+    "00:54",
+    "Use stale books",
+    "Stale proof closes the route without repricing signed terms or moving issuer inventory.",
+  ],
+  [
+    "01:12",
+    "Send via generic router",
+    "A passport is not a public swap ticket. The approved route is the market boundary.",
+  ],
+] as const;
+
 const v4Mechanics = [
   {
     icon: Route,
@@ -384,6 +412,30 @@ export default function PortOfCallDeckPage() {
               <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.body}</p>
             </article>
           ))}
+          <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:col-span-2 md:p-6">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+              90-second walkthrough
+            </p>
+            <h3 className="mt-3 max-w-3xl font-serif text-3xl font-semibold leading-tight md:text-4xl">
+              Every demo click proves one product claim.
+            </h3>
+            <div className="mt-6 grid gap-1 bg-surface-container/20">
+              {demoWalkthroughRows.map(([time, action, line]) => (
+                <div
+                  key={time}
+                  className="grid min-w-0 gap-3 border-t border-surface-container/20 py-4 first:border-t-0 md:grid-cols-[72px_180px_1fr]"
+                >
+                  <p className="font-mono text-[11px] font-semibold tabular-nums text-surface-ink">
+                    {time}
+                  </p>
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+                    {action}
+                  </p>
+                  <p className="text-sm font-medium leading-5 text-surface-ink">{line}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </DeckSlide>
 

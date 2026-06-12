@@ -103,10 +103,12 @@ Demo thesis:
 
 90-second walkthrough:
 
+Every demo click proves one product claim.
+
 - 00:00 frame the market: Walmart shows markets fund operating systems; LCX asks whether administration can make a crowded laundry financeable.
-- 00:18 submit eligible order: omnichannel margin and fresh revenue open the equity window.
+- 00:18 submit eligible order: omnichannel margin and fresh revenue open the signed sandbox equity window.
 - 00:36 switch to debt route: current asset coverage decides creditor access.
-- 00:54 use stale books: stale proof closes the route without repricing signed terms.
+- 00:54 use stale books: stale proof closes the route without repricing signed terms or moving issuer inventory.
 - 01:12 send via generic router: a passport is not a public swap ticket; the approved route is the market boundary.
 
 ### 05 / Specialized Market
