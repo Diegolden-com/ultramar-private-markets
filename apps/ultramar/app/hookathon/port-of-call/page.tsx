@@ -664,9 +664,21 @@ export default function PortOfCallHookathonPage() {
             administration can create underwritable claims, then giving those claims a debt or equity
             route enforced by a v4 hook.
           </p>
-          <div className="mt-8 border border-status-signal/40 bg-status-signal/10 p-4">
-            <p className="break-words font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal [overflow-wrap:anywhere]">
-              Walmart lesson -&gt; LCX administration -&gt; capital route -&gt; v4 hook -&gt; audit trail
+          <div className="mt-8 border border-status-signal/40 bg-status-signal/10 p-5">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Route formation
+            </p>
+            <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
+              Operating control turns proof into market access.
+            </h3>
+            <p className="mt-4 text-sm leading-6 text-on-surface-variant">
+              In LCX, the administration takeover is not a slogan: daily close, utilization, route
+              density, ticket mix, and current asset coverage become proof. The issuer/SPV/legal
+              wrapper turns that proof into equity, debt, secondary, or conversion instruments. The
+              passport selects the route; the v4 hook opens or blocks market access.
+            </p>
+            <p className="mt-4 break-words font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal [overflow-wrap:anywhere]">
+              Administration takeover -&gt; issuer/SPV wrapper -&gt; instrument -&gt; route -&gt; v4 hook
             </p>
           </div>
         </div>

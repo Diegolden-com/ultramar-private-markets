@@ -58,11 +58,15 @@ Sequence:
 - LCX administration: daily close, utilization, route density, and ticket mix make a crowded laundry business underwritable.
 - Omnichannel margin: pickup and delivery density plus store-level reporting create the margin route.
 - Capital route: coverage proof can open a creditor route; margin and use-of-funds proof can open an equity window.
-- Bridge line: `Walmart lesson -> LCX administration -> omnichannel margin -> debt/equity route`.
+- Route formation: `Administration takeover -> issuer/SPV wrapper -> instrument -> route -> v4 hook`.
 
 Speaker line:
 
 "The Walmart lesson is not the multiple. It is the market signal: capital becomes available when administration turns operations into compounding infrastructure."
+
+Route formation:
+
+"Operating control turns proof into market access. In LCX, the administration takeover is not a slogan: daily close, utilization, route density, ticket mix, and current asset coverage become proof. The issuer/SPV/legal wrapper turns that proof into equity, debt, secondary, or conversion instruments. The passport selects the route; the v4 hook opens or blocks market access."
 
 ### 03 / Product Loop
 

@@ -357,9 +357,21 @@ export default function PortOfCallDeckPage() {
               The investment port is the product answer: capture the operating claim, bind it to a
               legal route, and let the hook enforce whether debt or equity can open.
             </p>
-            <div className="mt-6 border border-surface-container/25 bg-surface-container/10 p-4">
-              <p className="break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-ink [overflow-wrap:anywhere]">
-                Walmart lesson -&gt; LCX administration -&gt; omnichannel margin -&gt; debt/equity route
+            <div className="mt-6 border border-surface-container/25 bg-surface-container/10 p-5">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+                Route formation
+              </p>
+              <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-surface-ink">
+                Operating control turns proof into market access.
+              </h3>
+              <p className="mt-4 text-sm leading-6 text-surface-container">
+                In LCX, the administration takeover is not a slogan: daily close, utilization, route
+                density, ticket mix, and current asset coverage become proof. The issuer/SPV/legal
+                wrapper turns that proof into equity, debt, secondary, or conversion instruments. The
+                passport selects the route; the v4 hook opens or blocks market access.
+              </p>
+              <p className="mt-4 break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-ink [overflow-wrap:anywhere]">
+                Administration takeover -&gt; issuer/SPV wrapper -&gt; instrument -&gt; route -&gt; v4 hook
               </p>
             </div>
           </div>

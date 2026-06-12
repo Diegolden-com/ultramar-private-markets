@@ -46,6 +46,14 @@ For Lavanderias CX, the readiness map is the product bridge:
 
 This is why the demo starts before the swap. Port of Call first asks what changed inside the business, then converts that answer into disclosure-minimized claims, investor passports, capital routes, and v4 settlement rules.
 
+### Route formation
+
+Operating control turns proof into market access.
+
+In LCX, the administration takeover is not a slogan: daily close, utilization, route density, ticket mix, and current asset coverage become proof. The issuer/SPV/legal wrapper turns that proof into equity, debt, secondary, or conversion instruments. The passport selects the route; the v4 hook opens or blocks market access.
+
+`Administration takeover -> issuer/SPV wrapper -> instrument -> route -> v4 hook`
+
 ## Why this should win
 
 Most hook demos compete on fee logic, LP optimization, or MEV variants. Those are valid, but crowded. Ultramar can make the hook feel like a new market category:
