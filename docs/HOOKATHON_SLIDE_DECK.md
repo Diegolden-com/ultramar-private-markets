@@ -95,6 +95,12 @@ Sequence:
 - Debt covenant preview: current asset coverage must be fresh before the route can open.
 - Secondary / conversion: future routes inherit the same passport and hook boundary.
 
+Demo thesis:
+
+- Market signal: the Walmart lesson becomes a product test for LCX administration.
+- Route choice: omnichannel margin opens equity; current asset coverage opens a debt covenant preview.
+- Hook proof: output appears only when passport, route, proof freshness, and signed terms agree.
+
 ### 05 / Specialized Market
 
 A generic AMM is the wrong primitive for this asset class.

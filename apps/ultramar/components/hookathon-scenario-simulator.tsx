@@ -107,6 +107,21 @@ const routeStatusRows = [
   ["Future pattern", "Secondary and conversion windows reuse the same boundary."],
 ] as const;
 
+const demoThesisRows = [
+  [
+    "Market signal",
+    "The Walmart lesson becomes a product test: can LCX administration turn a competitive laundry into an investible operating system?",
+  ],
+  [
+    "Route choice",
+    "Omnichannel margin opens equity; current asset coverage opens a debt covenant preview.",
+  ],
+  [
+    "Hook proof",
+    "The v4 hook returns output only when passport, route, proof freshness, and signed window terms agree.",
+  ],
+] as const;
+
 const capitalRoutes: CapitalRoute[] = [
   {
     id: "equity-window",
@@ -1014,6 +1029,22 @@ export function HookathonScenarioSimulator() {
           First ask what changed inside the business, what claim can be verified, and whether the
           issuer should open equity or debt. One hook, five route-visible outcomes.
         </p>
+
+        <div className="mt-6 grid gap-1 bg-border-muted">
+          <div className="bg-surface-ink p-4">
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              Demo thesis
+            </p>
+          </div>
+          {demoThesisRows.map(([label, value]) => (
+            <div key={label} className="grid min-w-0 gap-2 bg-surface-ink p-4 sm:grid-cols-[132px_1fr]">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface">
+                {label}
+              </p>
+              <p className="text-sm leading-5 text-on-surface-variant">{value}</p>
+            </div>
+          ))}
+        </div>
 
         <div className="mt-6 border border-status-signal/40 bg-status-signal/10 p-4">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">

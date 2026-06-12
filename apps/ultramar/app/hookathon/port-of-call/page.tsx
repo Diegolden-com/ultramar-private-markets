@@ -694,21 +694,20 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
 
-      <HookathonScenarioSimulator />
-
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[1.05fr_0.95fr]">
         <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2">
           <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
             <Languages className="h-5 w-5" aria-hidden="true" />
             <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-              Local guide room
+              Inputs to the route
             </p>
             <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-4xl">
-              Diligence in the investor&apos;s language.
+              Guide, passport, and quote arrive before the click.
             </h2>
             <p className="mt-4 text-sm leading-6 text-surface-container">
               Store economics, use of funds, data-room status, and risk notes become a translated
-              issuer room. The output is understanding, not public solicitation.
+              issuer room. The simulator starts here: understanding first, then route eligibility,
+              then settlement.
             </p>
             <div className="mt-8 grid gap-2">
               {(featuredRaise?.useOfFunds ?? []).slice(0, 4).map((item) => (
@@ -751,7 +750,11 @@ export default function PortOfCallHookathonPage() {
 
         <div className="min-w-0 bg-surface p-5 md:p-8">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Equity window quote
+            Demo route fixture
+          </p>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">
+            These are the signed sandbox terms the simulator will execute. The quote is a fixture
+            for the route proof, not a live offer or public price feed.
           </p>
           <div className="mt-4 grid gap-1 bg-border-muted">
             <QuoteRow label="Output token" value="LCX sandbox restricted issuer token" />
@@ -804,6 +807,8 @@ export default function PortOfCallHookathonPage() {
           </div>
         </div>
       </section>
+
+      <HookathonScenarioSimulator />
 
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.78fr_1.22fr]">
         <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">

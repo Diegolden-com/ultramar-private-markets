@@ -171,6 +171,7 @@ Add a focused demo surface, separate from public production pages:
 - Translated diligence/Q&A mock panel.
 - Operating readiness map: admin control, margin route, current asset coverage, and reporting freshness.
 - Passport stamp status: eligibility, NDA, allocation, signature, oracle freshness.
+- Demo thesis rail: Walmart lesson as market signal, route choice between omnichannel equity and coverage-gated debt, and hook proof that output appears only when passport, route, proof freshness, and signed terms agree.
 - Capital route intake: equity quote with exact demo USDC input and expected restricted LCX sandbox output, plus debt covenant preview with current asset coverage.
 - Scenario simulator for Approved, Missing passport, Replay, Stale oracle, and Generic router states, each tied to a Foundry test.
 - Testnet transaction button only after all demo gates pass.
