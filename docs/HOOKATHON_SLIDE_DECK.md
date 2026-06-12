@@ -22,7 +22,7 @@ http://localhost:3000/hookathon/port-of-call/deck
 4. A generic AMM is the wrong primitive for private operating-business capital.
 5. The v4 hook is the market boundary.
 6. Proof matters: one approved demo settlement, six blocked paths.
-7. The submission maps cleanly to uniqueness, impact, functionality, and presentation.
+7. The route proof maps cleanly to uniqueness, impact, functionality, and presentation.
 8. The boundary stays explicit: sandbox demo only, not a public securities offer.
 
 ## Slide outline
@@ -73,12 +73,11 @@ Sequence:
 
 A generic AMM is the wrong primitive for this asset class.
 
-Submission angle:
+Market boundary:
 
 - Primary: Specialized Markets.
 - Secondary: Yield-Protected AMM.
-- The official Tally form lists UHI8 Specialized Markets.
-- Port of Call treats the hook as an asset-class-specific market boundary rather than a public liquidity pool.
+- Port of Call fits Specialized Markets because the hook is an asset-class-specific market boundary rather than a public liquidity pool.
 
 ### 05 / v4 Mechanism
 
@@ -137,9 +136,9 @@ Evidence:
 - Foundry suite: 27 tests, including hook permission bits, router-bound passport digest, and exact signed demo term settlement.
 - Testnet dry-run: Base Sepolia PoolManager, mined `0xa88` hook mask, window 1 smoke swap.
 
-### 08 / Judge Frame
+### 08 / Route Proof
 
-The submission is built around the four scoring questions.
+The product can be verified from four claims.
 
 - Uniqueness: Abloh for capital is easy to remember, but the mechanism is concrete v4 custom accounting.
 - Impact: a reusable pattern for asset-class-specific markets where constraints become settlement rules.
@@ -154,7 +153,7 @@ Closing line:
 
 Uniswap v4 can host private-market investment ports without pretending they are public AMMs.
 
-Judge packet links:
+Evidence links:
 
 - Demo video: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/final-demo-latest.webm`
 - Base Sepolia proof: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md`

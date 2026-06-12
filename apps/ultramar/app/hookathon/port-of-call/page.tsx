@@ -919,7 +919,7 @@ export default function PortOfCallHookathonPage() {
         <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">
           <Terminal className="h-5 w-5 text-status-signal" aria-hidden="true" />
           <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Judge reproducibility
+            Protocol proof
           </p>
           <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
             Two commands prove the product is on real v4 rails.
@@ -994,8 +994,8 @@ export default function PortOfCallHookathonPage() {
             The hook is the market boundary.
           </h2>
           <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-            This demo is strongest when shown twice: one approved path, then one rejected path. Judges
-            can see that the v4 hook is carrying real mechanism design, not brand theater.
+            Run the route twice: one approved path, then one rejected path. The v4 hook is carrying
+            real mechanism design, not brand theater.
           </p>
         </div>
 
@@ -1092,7 +1092,7 @@ export default function PortOfCallHookathonPage() {
         <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
           <FileCheck2 className="h-5 w-5" aria-hidden="true" />
           <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-            Submission claim
+            Market boundary
           </p>
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-4xl">
             Uniswap v4 can host specialized private-market investment ports without pretending they are public AMMs.

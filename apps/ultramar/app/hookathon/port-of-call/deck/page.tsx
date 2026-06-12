@@ -340,14 +340,14 @@ export default function PortOfCallDeckPage() {
         <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-[0.85fr_1.15fr]">
           <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-6">
             <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-              Submission angle
+              Market boundary
             </p>
             <h3 className="mt-4 font-serif text-3xl font-semibold leading-tight">
               Specialized Markets, with Yield-Protected AMM as secondary proof.
             </h3>
             <p className="mt-4 text-sm leading-6 text-surface-container">
-              The official Tally form lists UHI8 Specialized Markets. Port of Call treats the hook
-              as an asset-class-specific market boundary rather than a public liquidity pool.
+              Port of Call fits Specialized Markets because the hook is an asset-class-specific
+              market boundary rather than a public liquidity pool.
             </p>
           </div>
           <div className="grid min-w-0 gap-1 bg-border-muted sm:grid-cols-2">
@@ -362,7 +362,7 @@ export default function PortOfCallDeckPage() {
       <DeckSlide
         eyebrow="05 / v4 mechanism"
         title="The hook is not decoration. It is the market boundary."
-        body="Every demo state maps to a v4 callback, router rule, or event proof that judges can inspect in code."
+        body="Every demo state maps to a v4 callback, router rule, or event proof that a technical reviewer can inspect in code."
         icon={ShieldCheck}
         paper
       >
@@ -439,9 +439,9 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="08 / Judge frame"
-        title="The submission is built around the four scoring questions."
-        body="The story stays crisp for non-technical judges, while the code gives technical reviewers enough surface to verify the mechanism."
+        eyebrow="08 / Route proof"
+        title="The product can be verified from four claims."
+        body="The story stays crisp at the product layer, while the code gives technical reviewers enough surface to verify the mechanism."
         icon={FileCheck2}
         paper
       >

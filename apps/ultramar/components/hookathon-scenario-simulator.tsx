@@ -89,6 +89,18 @@ type RouteConsolePresentation = {
   }>;
 };
 
+type SettlementMathPresentation = {
+  headline: string;
+  summary: string;
+  tone: ScenarioTone;
+  rows: Array<{
+    label: string;
+    value: string;
+    detail: string;
+    status: CheckStatus;
+  }>;
+};
+
 const routeStatusRows = [
   ["Implemented", "Restricted LCX sandbox equity window settles demo USDC -> sandbox restricted LCX."],
   ["Previewed", "Debt covenant gate opens only with fresh coverage proof."],
@@ -843,6 +855,122 @@ function routeConsolePresentation(routeId: CapitalRouteId, scenario: Scenario): 
   return routeId === "debt-covenant" ? debtRouteConsole(scenario) : equityRouteConsole(scenario);
 }
 
+function settlementMathPresentation(routeId: CapitalRouteId, scenario: Scenario): SettlementMathPresentation {
+  if (routeId === "debt-covenant") {
+    if (scenario.id === "approved") {
+      return {
+        headline: "Debt route opens; no token curve runs.",
+        summary:
+          "For debt, the hook is proving covenant access. The math is coverage freshness, not sandbox LCX output.",
+        tone: "settled",
+        rows: [
+          {
+            label: "Coverage",
+            value: "1.62x current asset coverage",
+            detail: "Above the 1.50x covenant threshold.",
+            status: "pass",
+          },
+          {
+            label: "Route output",
+            value: "Working-capital debt route open",
+            detail: "Creditor access can proceed while proof is fresh.",
+            status: "pass",
+          },
+          {
+            label: "Curve",
+            value: "No sandbox LCX settlement",
+            detail: "The custom curve belongs to the equity window, not this debt preview.",
+            status: "idle",
+          },
+        ],
+      };
+    }
+
+    return {
+      headline: "Debt route math is not reached.",
+      summary:
+        "The hook closes the creditor route before note access because one route precondition failed.",
+      tone: "reverted",
+      rows: [
+        {
+          label: "Gate",
+          value: scenario.guard,
+          detail: "The selected scenario fails before debt access opens.",
+          status: "fail",
+        },
+        {
+          label: "Coverage",
+          value: "No covenant route output",
+          detail: "No note access, no transfer preview, and no token settlement.",
+          status: "idle",
+        },
+        {
+          label: "Curve",
+          value: "Not applicable",
+          detail: "Debt preview uses covenant gating instead of tranche pricing.",
+          status: "idle",
+        },
+      ],
+    };
+  }
+
+  if (scenario.id === "approved") {
+    return {
+      headline: "Curve executed inside the approved equity window.",
+      summary:
+        "The route passed passport, proof, nonce, and router checks, so the hook can split the exact input across signed tranches.",
+      tone: "settled",
+      rows: [
+        {
+          label: "Base tranche",
+          value: "1,000 demo USDC / 1.00",
+          detail: "Returns 1,000.00 restricted LCX at the signed base term.",
+          status: "pass",
+        },
+        {
+          label: "Premium tranche",
+          value: "500 demo USDC / 1.10",
+          detail: "Returns 454.54 restricted LCX because the order crosses the tranche boundary.",
+          status: "pass",
+        },
+        {
+          label: "Custom delta",
+          value: "1,454.54 sandbox restricted LCX",
+          detail: "Effective term: 1.0312 demo USDC/restricted LCX. No public AMM price discovery.",
+          status: "pass",
+        },
+      ],
+    };
+  }
+
+  return {
+    headline: "Curve not executed.",
+    summary:
+      "The hook rejects before custom accounting, so the signed tranche math cannot move inventory or consume capacity.",
+    tone: "reverted",
+    rows: [
+      {
+        label: "Gate",
+        value: scenario.guard,
+        detail: "The scenario fails before the equity window can settle.",
+        status: "fail",
+      },
+      {
+        label: "Input",
+        value: scenario.payment,
+        detail: "The attempted order never reaches window accounting.",
+        status: "idle",
+      },
+      {
+        label: "Output",
+        value: "0 restricted LCX",
+        detail: "No return delta, no fill, and no capacity consumption.",
+        status: "idle",
+      },
+    ],
+  };
+}
+
 export function HookathonScenarioSimulator() {
   const [selectedRouteId, setSelectedRouteId] = useState(capitalRoutes[0].id);
   const [selectedId, setSelectedId] = useState(scenarios[0].id);
@@ -860,6 +988,10 @@ export function HookathonScenarioSimulator() {
   );
   const consoleState = useMemo(
     () => routeConsolePresentation(capitalRoute.id, scenario),
+    [capitalRoute.id, scenario],
+  );
+  const settlementMath = useMemo(
+    () => settlementMathPresentation(capitalRoute.id, scenario),
     [capitalRoute.id, scenario],
   );
   const RouteIcon = capitalRoute.icon;
@@ -880,7 +1012,7 @@ export function HookathonScenarioSimulator() {
         </h2>
         <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
           First ask what changed inside the business, what claim can be verified, and whether the
-          issuer should open equity or debt. One hook, five judge-visible outcomes.
+          issuer should open equity or debt. One hook, five route-visible outcomes.
         </p>
 
         <div className="mt-6 border border-status-signal/40 bg-status-signal/10 p-4">
@@ -1032,6 +1164,23 @@ export function HookathonScenarioSimulator() {
           <div className="mt-4 grid min-w-0 gap-1 bg-border-muted md:grid-cols-4">
             {consoleState.rails.map((rail) => (
               <ConsoleRailCell key={rail.label} rail={rail} />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 grid min-w-0 gap-1 bg-surface-container/20 lg:grid-cols-[0.82fr_1.18fr]">
+          <div className="min-w-0 bg-surface-paper p-4 text-surface-ink">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+              Settlement math
+            </p>
+            <h3 className="mt-3 break-words font-serif text-3xl font-semibold leading-tight">
+              {settlementMath.headline}
+            </h3>
+            <p className="mt-4 text-sm leading-6 text-surface-container">{settlementMath.summary}</p>
+          </div>
+          <div className="grid min-w-0 gap-1 bg-surface-container/20">
+            {settlementMath.rows.map((row) => (
+              <SettlementMathRow key={row.label} row={row} />
             ))}
           </div>
         </div>
@@ -1201,6 +1350,30 @@ function ConsoleRailCell({ rail }: { rail: RouteConsolePresentation["rails"][num
         {rail.value}
       </p>
       <p className="mt-3 text-sm leading-5 text-on-surface-variant">{rail.detail}</p>
+    </div>
+  );
+}
+
+function SettlementMathRow({ row }: { row: SettlementMathPresentation["rows"][number] }) {
+  const valueClass =
+    row.status === "pass"
+      ? "text-status-signal"
+      : row.status === "fail"
+        ? "text-destructive"
+        : "text-on-surface";
+
+  return (
+    <div className="grid min-w-0 gap-3 bg-surface-paper p-4 text-surface-ink sm:grid-cols-[132px_28px_1fr]">
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+        {row.label}
+      </p>
+      <StatusGlyph status={row.status} />
+      <div className="min-w-0">
+        <p className={`break-words font-mono text-sm font-semibold uppercase tracking-[0.08em] ${valueClass}`}>
+          {row.value}
+        </p>
+        <p className="mt-2 text-sm leading-5 text-surface-container">{row.detail}</p>
+      </div>
     </div>
   );
 }
