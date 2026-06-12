@@ -183,6 +183,7 @@ Add a focused demo surface, separate from public production pages:
 - Demo thesis rail: Walmart lesson as market signal, route choice between omnichannel equity and coverage-gated debt, and hook proof that output appears only when passport, route, proof freshness, and signed terms agree.
 - 90-second walkthrough rail: frame the market, submit the approved equity order, switch to debt, use stale books, and try the generic router path.
 - Capital route intake: equity quote with exact demo USDC input and expected restricted LCX sandbox output, plus debt covenant preview with current asset coverage.
+- Before-swap receipt: selected route summarizes `admin proof -> verified claim -> route -> v4 hook` before any scenario can settle.
 - Scenario simulator for Approved, Missing passport, Replay, Stale oracle, and Generic router states, each tied to a Foundry test.
 - Testnet transaction button only after all demo gates pass.
 - Audit trail panel showing hook events after swap and mapping them to CRM, portfolio, issuer reporting, and risk review rows.

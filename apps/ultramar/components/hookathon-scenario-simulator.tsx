@@ -16,6 +16,7 @@ import { useMemo, useState } from "react";
 
 const focusVisibleClass =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
+const canonicalRouteChain = "Admin proof -> verified claim -> route -> v4 hook";
 
 type ScenarioTone = "settled" | "reverted";
 type ScenarioId = "approved" | "missing-passport" | "replay" | "stale-oracle" | "generic-router";
@@ -56,6 +57,11 @@ type CapitalRoute = {
   headline: string;
   proof: string;
   window: string;
+  receiptHeadline: string;
+  receiptRows: Array<{
+    label: string;
+    value: string;
+  }>;
   facts: Array<{
     label: string;
     value: string;
@@ -160,6 +166,25 @@ const capitalRoutes: CapitalRoute[] = [
     headline: "Omnichannel upgrade opens a restricted LCX sandbox equity window.",
     proof: "Operating data",
     window: "1,500 demo USDC order",
+    receiptHeadline: "Admin proof becomes an equity route when verified claim, route, and v4 hook agree.",
+    receiptRows: [
+      {
+        label: "Admin proof",
+        value: "Daily close, route density, ticket mix, and utilization.",
+      },
+      {
+        label: "Verified claim",
+        value: "Fresh revenue plus signed margin expansion target.",
+      },
+      {
+        label: "Route",
+        value: "Primary restricted LCX sandbox equity through the issuer vehicle.",
+      },
+      {
+        label: "v4 hook",
+        value: "Passport, cap, oracle freshness, and exact-input settlement.",
+      },
+    ],
     facts: [
       {
         label: "Business signal",
@@ -182,7 +207,7 @@ const capitalRoutes: CapitalRoute[] = [
     ],
     evidenceChain: [
       {
-        label: "Operating work",
+        label: "Admin proof",
         value: "Route density, ticket mix, utilization, and daily close.",
       },
       {
@@ -190,11 +215,11 @@ const capitalRoutes: CapitalRoute[] = [
         value: "Margin expansion target plus fresh revenue proof.",
       },
       {
-        label: "Capital route",
+        label: "Route",
         value: "Primary equity window for expansion inventory.",
       },
       {
-        label: "Hook boundary",
+        label: "v4 hook",
         value: "Eligibility, cap, freshness, and exact-input settlement.",
       },
     ],
@@ -208,6 +233,25 @@ const capitalRoutes: CapitalRoute[] = [
     headline: "Working-capital debt opens only while coverage remains green.",
     proof: "Coverage ratio",
     window: "Covenant gate",
+    receiptHeadline: "Admin proof becomes a creditor route only while coverage and documents stay fresh.",
+    receiptRows: [
+      {
+        label: "Admin proof",
+        value: "Cash, receivables, collections, and liabilities reconciled daily.",
+      },
+      {
+        label: "Verified claim",
+        value: "Current asset coverage >= 1.50x.",
+      },
+      {
+        label: "Route",
+        value: "Working-capital note covenant preview.",
+      },
+      {
+        label: "v4 hook",
+        value: "Creditor passport, covenant freshness, and route binding.",
+      },
+    ],
     facts: [
       {
         label: "Business signal",
@@ -229,7 +273,7 @@ const capitalRoutes: CapitalRoute[] = [
     ],
     evidenceChain: [
       {
-        label: "Operating work",
+        label: "Admin proof",
         value: "Cash, receivables, route collections, and short-term liabilities reconciled.",
       },
       {
@@ -237,11 +281,11 @@ const capitalRoutes: CapitalRoute[] = [
         value: "Current asset coverage stays at or above the covenant threshold.",
       },
       {
-        label: "Capital route",
+        label: "Route",
         value: "Working-capital debt preview with creditor controls.",
       },
       {
-        label: "Hook boundary",
+        label: "v4 hook",
         value: "Coverage freshness opens or closes route access.",
       },
     ],
@@ -596,27 +640,27 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Equity route is live under signed window terms.",
       rails: [
         {
-          label: "Claim status",
-          value: "Revenue + margin proof fresh",
+          label: "Admin proof",
+          value: "Daily close + route density fresh",
           detail: "Operating evidence can support the LCX primary window.",
           status: "pass",
         },
         {
-          label: "Instrument",
+          label: "Verified claim",
+          value: "Revenue + margin proof fresh",
+          detail: "The disclosure-minimized claim supports primary equity.",
+          status: "pass",
+        },
+        {
+          label: "Route",
           value: "Primary restricted LCX sandbox equity",
           detail: "Allocation remains inside the issuer vehicle.",
           status: "pass",
         },
         {
-          label: "Access",
-          value: "Investor passport active",
-          detail: "Wallet, route, and nonce match the signed authorization.",
-          status: "pass",
-        },
-        {
-          label: "Settlement",
-          value: "demo USDC -> sandbox restricted LCX custom delta",
-          detail: "The hook consumes exact input and returns window output.",
+          label: "v4 hook",
+          value: "Passport active; custom delta returned",
+          detail: "Wallet, route, nonce, and exact input match the signed authorization.",
           status: "pass",
         },
       ],
@@ -625,25 +669,25 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Equity route stops before market state changes.",
       rails: [
         {
-          label: "Claim status",
+          label: "Admin proof",
+          value: "Not evaluated",
+          detail: "Issuer proof waits behind investor eligibility.",
+          status: "idle",
+        },
+        {
+          label: "Verified claim",
           value: "Claim not reached",
           detail: "Issuer proof is not evaluated without a passport.",
           status: "idle",
         },
         {
-          label: "Instrument",
-          value: "Primary restricted LCX sandbox equity",
-          detail: "Inventory remains untouched.",
-          status: "idle",
-        },
-        {
-          label: "Access",
+          label: "Route",
           value: "Passport missing",
           detail: "Identity, route, and allocation context are absent.",
           status: "fail",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "No delta returned",
           detail: "The hook rejects before custom accounting.",
           status: "idle",
@@ -654,25 +698,25 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Equity route rejects the second use of the same stamp.",
       rails: [
         {
-          label: "Claim status",
-          value: "Revenue + margin proof fresh",
-          detail: "The issuer claim is valid, but not sufficient alone.",
+          label: "Admin proof",
+          value: "Operating proof fresh",
+          detail: "The issuer proof is valid, but not sufficient alone.",
           status: "pass",
         },
         {
-          label: "Instrument",
-          value: "Primary restricted LCX sandbox equity locked",
-          detail: "Capacity cannot be consumed twice.",
+          label: "Verified claim",
+          value: "Revenue + margin proof fresh",
+          detail: "The claim can support equity, but the instruction is spent.",
           status: "idle",
         },
         {
-          label: "Access",
+          label: "Route",
           value: "Authorization already used",
           detail: "Nonce state blocks duplicate private fills.",
           status: "fail",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "No duplicate fill",
           detail: "The hook returns no custom delta.",
           status: "idle",
@@ -683,25 +727,25 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Equity route pauses when issuer evidence goes stale.",
       rails: [
         {
-          label: "Claim status",
+          label: "Admin proof",
           value: "Issuer proof stale",
           detail: "Old operating data cannot support current access.",
           status: "fail",
         },
         {
-          label: "Instrument",
-          value: "Primary restricted LCX sandbox equity paused",
+          label: "Verified claim",
+          value: "Claim freshness failed",
           detail: "Signed price stays fixed; availability closes.",
           status: "idle",
         },
         {
-          label: "Access",
+          label: "Route",
           value: "Passport pending freshness",
           detail: "The investor stamp waits for a current proof.",
           status: "idle",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "No delta returned",
           detail: "Freshness gates access without repricing.",
           status: "idle",
@@ -712,25 +756,25 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Equity route rejects public-router bypass.",
       rails: [
         {
-          label: "Claim status",
-          value: "Revenue + margin proof fresh",
-          detail: "The issuer claim does not authorize every path.",
+          label: "Admin proof",
+          value: "Operating proof fresh",
+          detail: "The issuer proof does not authorize every path.",
           status: "pass",
         },
         {
-          label: "Instrument",
-          value: "Primary restricted LCX sandbox equity route",
-          detail: "The instrument is bound to the capital router.",
+          label: "Verified claim",
+          value: "Revenue + margin proof fresh",
+          detail: "The claim is route-ready, but path-specific.",
           status: "idle",
         },
         {
-          label: "Access",
+          label: "Route",
           value: "Route binding failed",
           detail: "A valid stamp cannot ride a generic swap path.",
           status: "fail",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "Public router blocked",
           detail: "No inventory moves outside the approved route.",
           status: "idle",
@@ -748,27 +792,27 @@ function debtRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Debt route is open while the covenant is green.",
       rails: [
         {
-          label: "Claim status",
+          label: "Admin proof",
+          value: "Cash + receivables reconciled",
+          detail: "Daily operating books support creditor review.",
+          status: "pass",
+        },
+        {
+          label: "Verified claim",
           value: "Coverage 1.62x green",
           detail: "Current assets clear the covenant threshold.",
           status: "pass",
         },
         {
-          label: "Instrument",
+          label: "Route",
           value: "Working-capital note",
           detail: "Debt access opens without equity settlement.",
           status: "pass",
         },
         {
-          label: "Access",
+          label: "v4 hook",
           value: "Creditor passport active",
-          detail: "Route-specific document and nonce match.",
-          status: "pass",
-        },
-        {
-          label: "Settlement",
-          value: "Debt route open",
-          detail: "The hook boundary can gate note access or transfer.",
+          detail: "Route-specific document, covenant proof, and nonce match.",
           status: "pass",
         },
       ],
@@ -777,25 +821,25 @@ function debtRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Debt route stops before covenant access opens.",
       rails: [
         {
-          label: "Claim status",
-          value: "Coverage not reached",
+          label: "Admin proof",
+          value: "Not evaluated",
           detail: "The covenant proof waits behind creditor eligibility.",
           status: "idle",
         },
         {
-          label: "Instrument",
-          value: "Working-capital note",
-          detail: "No creditor rights are exposed.",
+          label: "Verified claim",
+          value: "Coverage not reached",
+          detail: "No current-asset claim is exposed without a passport.",
           status: "idle",
         },
         {
-          label: "Access",
+          label: "Route",
           value: "Creditor passport missing",
           detail: "The note route needs accredited route context.",
           status: "fail",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "Debt route closed",
           detail: "No note access or transfer preview appears.",
           status: "idle",
@@ -806,25 +850,25 @@ function debtRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Debt route rejects a reused covenant stamp.",
       rails: [
         {
-          label: "Claim status",
-          value: "Coverage proof fresh",
-          detail: "The ratio is green, but the instruction is spent.",
+          label: "Admin proof",
+          value: "Operating proof fresh",
+          detail: "The books support the covenant, but the instruction is spent.",
           status: "pass",
         },
         {
-          label: "Instrument",
-          value: "Working-capital note held",
-          detail: "Debt capacity cannot be consumed twice.",
+          label: "Verified claim",
+          value: "Coverage proof fresh",
+          detail: "The ratio is green, but the creditor stamp was used.",
           status: "idle",
         },
         {
-          label: "Access",
+          label: "Route",
           value: "Covenant stamp reused",
           detail: "Nonce state blocks duplicate creditor access.",
           status: "fail",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "Debt route closed",
           detail: "The hook returns no route opening.",
           status: "idle",
@@ -835,25 +879,25 @@ function debtRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Debt route closes when coverage proof is stale.",
       rails: [
         {
-          label: "Claim status",
+          label: "Admin proof",
           value: "Coverage proof stale",
           detail: "A green ratio from old books is not credit proof.",
           status: "fail",
         },
         {
-          label: "Instrument",
-          value: "Working-capital note paused",
+          label: "Verified claim",
+          value: "Coverage freshness failed",
           detail: "The debt route waits for current coverage.",
           status: "idle",
         },
         {
-          label: "Access",
+          label: "Route",
           value: "Creditor passport pending freshness",
           detail: "Eligibility alone does not open covenant access.",
           status: "idle",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "Route closed",
           detail: "No note access while coverage is stale.",
           status: "fail",
@@ -864,25 +908,25 @@ function debtRouteConsole(scenario: Scenario): RouteConsolePresentation {
       headline: "Debt route rejects public-router bypass.",
       rails: [
         {
-          label: "Claim status",
-          value: "Coverage proof fresh",
-          detail: "The covenant claim does not authorize every path.",
+          label: "Admin proof",
+          value: "Operating proof fresh",
+          detail: "The covenant proof does not authorize every path.",
           status: "pass",
         },
         {
-          label: "Instrument",
-          value: "Working-capital note route",
+          label: "Verified claim",
+          value: "Coverage proof fresh",
           detail: "Creditor controls stay attached to the debt route.",
           status: "idle",
         },
         {
-          label: "Access",
+          label: "Route",
           value: "Route binding failed",
           detail: "A generic swap path cannot carry creditor rights.",
           status: "fail",
         },
         {
-          label: "Settlement",
+          label: "v4 hook",
           value: "Debt route closed",
           detail: "No route opening outside approved context.",
           status: "idle",
@@ -902,7 +946,7 @@ function settlementMathPresentation(routeId: CapitalRouteId, scenario: Scenario)
   if (routeId === "debt-covenant") {
     if (scenario.id === "approved") {
       return {
-        headline: "Debt route opens; no token curve runs.",
+        headline: "Debt route opens; no token settlement schedule runs.",
         summary:
           "For debt, the hook is proving covenant access. The math is coverage freshness, not sandbox LCX output.",
         tone: "settled",
@@ -920,9 +964,9 @@ function settlementMathPresentation(routeId: CapitalRouteId, scenario: Scenario)
             status: "pass",
           },
           {
-            label: "Curve",
+            label: "Hook accounting",
             value: "No sandbox LCX settlement",
-            detail: "The custom curve belongs to the equity window, not this debt preview.",
+            detail: "The signed settlement schedule belongs to the equity window, not this debt preview.",
             status: "idle",
           },
         ],
@@ -948,7 +992,7 @@ function settlementMathPresentation(routeId: CapitalRouteId, scenario: Scenario)
           status: "idle",
         },
         {
-          label: "Curve",
+          label: "Hook accounting",
           value: "Not applicable",
           detail: "Debt preview uses covenant gating instead of tranche pricing.",
           status: "idle",
@@ -987,7 +1031,7 @@ function settlementMathPresentation(routeId: CapitalRouteId, scenario: Scenario)
   }
 
   return {
-    headline: "Curve not executed.",
+    headline: "Settlement schedule not reached.",
     summary:
       "The hook rejects before custom accounting, so the signed tranche math cannot move inventory or consume capacity.",
     tone: "reverted",
@@ -1147,6 +1191,25 @@ export function HookathonScenarioSimulator() {
           })}
         </div>
 
+        <div className="mt-6 border border-border-muted bg-surface-ink p-4">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            Before-swap receipt
+          </p>
+          <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
+            {capitalRoute.receiptHeadline}
+          </h3>
+          <div className="mt-4 grid gap-1 bg-border-muted">
+            {capitalRoute.receiptRows.map((row) => (
+              <div key={row.label} className="grid min-w-0 gap-2 bg-surface-ink p-3 sm:grid-cols-[116px_1fr]">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface">
+                  {row.label}
+                </p>
+                <p className="text-sm leading-5 text-on-surface-variant">{row.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="mt-8 grid gap-1 bg-border-muted sm:grid-cols-2">
           <SimulatorStat label="Proof" value={capitalRoute.proof} />
           <SimulatorStat label="Route term" value={capitalRoute.window} />
@@ -1171,7 +1234,7 @@ export function HookathonScenarioSimulator() {
             </div>
             <div className="mt-6 border-t border-border-muted pt-4">
               <p className="break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-on-surface [overflow-wrap:anywhere]">
-                Issuer data -&gt; verified claim -&gt; passport -&gt; v4 hook
+                {canonicalRouteChain}
               </p>
             </div>
           </div>
@@ -1189,7 +1252,7 @@ export function HookathonScenarioSimulator() {
               Evidence chain
             </p>
             <p className="break-words text-right font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
-              Operation -&gt; claim -&gt; route -&gt; hook
+              {canonicalRouteChain}
             </p>
           </div>
           <div className="mt-4 grid min-w-0 gap-1 bg-border-muted md:grid-cols-4">
