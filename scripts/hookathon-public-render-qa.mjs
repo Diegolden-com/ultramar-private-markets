@@ -50,6 +50,12 @@ const pages = [
       "If the issuer cannot explain the tranche logic, the curve should not exist.",
       "Demo app",
       "Choose the capital route before the swap.",
+      "Route status",
+      "LCX equity window settles USDC -> restricted LCX.",
+      "Debt covenant gate opens only with fresh coverage proof.",
+      "Submit eligible order",
+      "Use stale books",
+      "Send via generic router",
       "Capital route intake",
       "Equity window",
       "Debt covenant preview",
@@ -244,7 +250,7 @@ try {
           const demoSection = page.locator("section", { hasText: "Choose the capital route before the swap." }).first();
           await demoSection.scrollIntoViewIfNeeded();
           const debtButton = demoSection.getByRole("button", { name: /Debt covenant preview/i });
-          const staleButton = demoSection.getByRole("button", { name: /Stale oracle/i });
+          const staleButton = demoSection.getByRole("button", { name: /Use stale books/i });
           await clickAndWaitPressed(page, debtButton);
           await clickAndWaitPressed(page, staleButton);
 

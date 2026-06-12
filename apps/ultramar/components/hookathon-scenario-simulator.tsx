@@ -25,6 +25,7 @@ type CheckStatus = "pass" | "fail" | "idle";
 type Scenario = {
   id: ScenarioId;
   label: string;
+  actionLabel: string;
   state: string;
   tone: ScenarioTone;
   icon: typeof CheckCircle2;
@@ -87,6 +88,12 @@ type RouteConsolePresentation = {
     status: CheckStatus;
   }>;
 };
+
+const routeStatusRows = [
+  ["Implemented", "LCX equity window settles USDC -> restricted LCX."],
+  ["Previewed", "Debt covenant gate opens only with fresh coverage proof."],
+  ["Future pattern", "Secondary and conversion windows reuse the same boundary."],
+] as const;
 
 const capitalRoutes: CapitalRoute[] = [
   {
@@ -190,6 +197,7 @@ const scenarios: Scenario[] = [
   {
     id: "approved",
     label: "Approved",
+    actionLabel: "Submit eligible order",
     state: "Settled",
     tone: "settled",
     icon: CheckCircle2,
@@ -224,6 +232,7 @@ const scenarios: Scenario[] = [
   {
     id: "missing-passport",
     label: "Missing passport",
+    actionLabel: "Submit without passport",
     state: "Reverted",
     tone: "reverted",
     icon: XCircle,
@@ -258,6 +267,7 @@ const scenarios: Scenario[] = [
   {
     id: "replay",
     label: "Replay",
+    actionLabel: "Reuse signed stamp",
     state: "Reverted",
     tone: "reverted",
     icon: RefreshCw,
@@ -292,6 +302,7 @@ const scenarios: Scenario[] = [
   {
     id: "stale-oracle",
     label: "Stale oracle",
+    actionLabel: "Use stale books",
     state: "Reverted",
     tone: "reverted",
     icon: Timer,
@@ -326,6 +337,7 @@ const scenarios: Scenario[] = [
   {
     id: "generic-router",
     label: "Generic router",
+    actionLabel: "Send via generic router",
     state: "Reverted",
     tone: "reverted",
     icon: Route,
@@ -871,6 +883,22 @@ export function HookathonScenarioSimulator() {
           issuer should open equity or debt. One hook, five judge-visible outcomes.
         </p>
 
+        <div className="mt-6 border border-status-signal/40 bg-status-signal/10 p-4">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            Route status
+          </p>
+          <div className="mt-3 grid gap-3">
+            {routeStatusRows.map(([label, value]) => (
+              <div key={label} className="grid min-w-0 gap-2 sm:grid-cols-[112px_1fr]">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface">
+                  {label}
+                </p>
+                <p className="text-sm leading-5 text-on-surface-variant">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="mt-8 grid gap-2">
           {capitalRoutes.map((item) => {
             const Icon = item.icon;
@@ -966,7 +994,7 @@ export function HookathonScenarioSimulator() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setSelectedId(item.id)}
-                className={`min-h-24 min-w-0 border p-3 text-left transition ${
+                className={`min-h-20 min-w-0 border p-3 text-left transition sm:min-h-24 ${
                   active
                     ? "border-surface-ink bg-surface-ink text-on-surface"
                     : "border-surface-container/30 bg-surface-container/10 text-surface-container hover:border-surface-ink/60 hover:bg-surface-container/20"
@@ -984,8 +1012,9 @@ export function HookathonScenarioSimulator() {
                   </span>
                 </div>
                 <span className="mt-4 block break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-                  {item.label}
+                  {item.actionLabel}
                 </span>
+                <span className="sr-only">{item.label}</span>
               </button>
             );
           })}

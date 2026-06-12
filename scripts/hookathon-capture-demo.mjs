@@ -168,17 +168,17 @@ frames.push(
 
 await scrollToText(page, "Choose the capital route before the swap.", { exact: true });
 await clickScenarioButton(page, /Equity window/i);
-await clickScenarioButton(page, /Approved/i);
+await clickScenarioButton(page, /Submit eligible order/i);
 await scrollToText(page, "Why this click matters", { exact: true });
 frames.push(await captureFrame(page, "04-equity-route-approved", "Equity route meaning and approved LCX settlement."));
 
 await clickScenarioButton(page, /Debt covenant preview/i);
-await clickScenarioButton(page, /Stale oracle/i);
+await clickScenarioButton(page, /Use stale books/i);
 await scrollToText(page, "Why this click matters", { exact: true });
 frames.push(await captureFrame(page, "05-debt-covenant-stale", "Debt route meaning with stale coverage proof blocked."));
 
 await clickScenarioButton(page, /Equity window/i);
-await clickScenarioButton(page, /Generic router/i);
+await clickScenarioButton(page, /Send via generic router/i);
 await scrollToText(page, "Why this click matters", { exact: true });
 frames.push(await captureFrame(page, "06-generic-router-revert", "Generic router bypass rejection."));
 
