@@ -122,6 +122,34 @@ const demoThesisRows = [
   ],
 ] as const;
 
+const demoWalkthroughRows = [
+  {
+    time: "00:00",
+    action: "Frame the market",
+    line: "Walmart shows markets fund operating systems. LCX asks whether administration can make a crowded laundry financeable.",
+  },
+  {
+    time: "00:18",
+    action: "Submit eligible order",
+    line: "The equity route opens because omnichannel margin and fresh revenue support the signed sandbox window.",
+  },
+  {
+    time: "00:36",
+    action: "Switch to debt route",
+    line: "Debt is a different market route: current asset coverage decides whether creditor access can open.",
+  },
+  {
+    time: "00:54",
+    action: "Use stale books",
+    line: "Stale proof closes the route without repricing the signed terms or moving issuer inventory.",
+  },
+  {
+    time: "01:12",
+    action: "Send via generic router",
+    line: "A passport is not a public swap ticket. The approved route is the market boundary.",
+  },
+] as const;
+
 const capitalRoutes: CapitalRoute[] = [
   {
     id: "equity-window",
@@ -1042,6 +1070,31 @@ export function HookathonScenarioSimulator() {
                 {label}
               </p>
               <p className="text-sm leading-5 text-on-surface-variant">{value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 grid gap-1 bg-border-muted">
+          <div className="bg-surface-paper p-4 text-surface-ink">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+              90-second walkthrough
+            </p>
+            <p className="mt-3 text-sm font-medium leading-5 text-surface-ink">
+              Use this sequence to make every click prove one product claim.
+            </p>
+          </div>
+          {demoWalkthroughRows.map((item) => (
+            <div
+              key={item.time}
+              className="grid min-w-0 gap-3 bg-surface-ink p-4 sm:grid-cols-[64px_132px_1fr]"
+            >
+              <p className="font-mono text-[11px] font-semibold tabular-nums text-status-signal">
+                {item.time}
+              </p>
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface">
+                {item.action}
+              </p>
+              <p className="text-sm leading-5 text-on-surface-variant">{item.line}</p>
             </div>
           ))}
         </div>

@@ -172,12 +172,13 @@ Add a focused demo surface, separate from public production pages:
 - Operating readiness map: admin control, margin route, current asset coverage, and reporting freshness.
 - Passport stamp status: eligibility, NDA, allocation, signature, oracle freshness.
 - Demo thesis rail: Walmart lesson as market signal, route choice between omnichannel equity and coverage-gated debt, and hook proof that output appears only when passport, route, proof freshness, and signed terms agree.
+- 90-second walkthrough rail: frame the market, submit the approved equity order, switch to debt, use stale books, and try the generic router path.
 - Capital route intake: equity quote with exact demo USDC input and expected restricted LCX sandbox output, plus debt covenant preview with current asset coverage.
 - Scenario simulator for Approved, Missing passport, Replay, Stale oracle, and Generic router states, each tied to a Foundry test.
 - Testnet transaction button only after all demo gates pass.
 - Audit trail panel showing hook events after swap and mapping them to CRM, portfolio, issuer reporting, and risk review rows.
 
-### Pitch video flow
+### Extended pitch video flow
 
 1. Start with the problem: cross-border capital for local businesses dies in language, trust, compliance, and settlement gaps.
 2. Show market readiness: the Walmart lesson becomes a question about what changed inside LCX.
@@ -186,6 +187,14 @@ Add a focused demo surface, separate from public production pages:
 5. Try the generic router path and show it revert.
 6. Show pricing policy: fixed active windows first; step curves only with explicit tranche logic.
 7. Close with the thesis: Uniswap v4 can host specialized, compliance-aware investment ports without pretending every private asset is a public AMM.
+
+### 90-second demo walkthrough
+
+- **00:00 Frame the market:** Walmart shows markets fund operating systems. LCX asks whether administration can make a crowded laundry financeable.
+- **00:18 Submit eligible order:** the equity route opens because omnichannel margin and fresh revenue support the signed sandbox window.
+- **00:36 Switch to debt route:** debt is a different market route; current asset coverage decides whether creditor access can open.
+- **00:54 Use stale books:** stale proof closes the route without repricing the signed terms or moving issuer inventory.
+- **01:12 Send via generic router:** a passport is not a public swap ticket. The approved route is the market boundary.
 
 ## Prize positioning
 
