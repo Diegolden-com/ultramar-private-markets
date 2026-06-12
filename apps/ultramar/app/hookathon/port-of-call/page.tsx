@@ -467,9 +467,10 @@ export default function PortOfCallHookathonPage() {
                 Port of Call turns operating businesses into v4 investment ports.
               </h1>
               <p className="mt-6 max-w-3xl text-pretty text-lg leading-7 text-on-surface-variant md:text-xl">
-                An Abloh-inspired market object for private markets: travel to the issuer, read
-                diligence in your language, receive an eligibility stamp, choose a debt or equity
-                route, then let the Uniswap v4 hook enforce the market boundary.
+                Private-market capital for local businesses breaks before settlement: diligence,
+                eligibility, allocation, legal limits, and reporting live in different systems. Port
+                of Call turns that fracture into an Abloh-inspired market object enforced by a
+                Uniswap v4 hook.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
@@ -753,12 +754,14 @@ export default function PortOfCallHookathonPage() {
             Equity window quote
           </p>
           <div className="mt-4 grid gap-1 bg-border-muted">
-            <QuoteRow label="Exact input" value="1,500 USDC" />
-            <QuoteRow label="Base price" value="1.00 USDC/LCX" />
-            <QuoteRow label="Step rule" value="1,000 USDC + 10%" />
+            <QuoteRow label="Output token" value="LCX sandbox restricted issuer token" />
+            <QuoteRow label="Exact input" value="1,500 demo USDC" />
+            <QuoteRow label="Quote basis" value="Signed sandbox window terms" />
+            <QuoteRow label="Step math" value="1,000 USDC at 1.00 + 500 at 1.10" />
             <QuoteRow label="Expected output" value="1,454.54 LCX" />
             <QuoteRow label="Effective price" value="1.0312 USDC/LCX" />
             <QuoteRow label="Oracle proof age" value="18 minutes" />
+            <QuoteRow label="Boundary" value="Not a public listing or live offer" />
           </div>
 
           <div className="mt-8 border border-status-signal/40 bg-status-signal/10 p-5">
@@ -769,8 +772,10 @@ export default function PortOfCallHookathonPage() {
               </p>
             </div>
             <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-              <span className="break-words">`CapitalWindowRouter.swapExactInput`</span> calls the v4 `PoolManager`, then the hook consumes
-              the signed window and returns the custom accounting delta.
+              LCX is a sandbox restricted issuer token, not a public trading asset.{" "}
+              <span className="break-words">`CapitalWindowRouter.swapExactInput`</span> calls the
+              v4 `PoolManager`; the hook consumes the signed demo window and returns a custom
+              accounting delta. Oracle proof gates access, not repricing.
             </p>
           </div>
 
