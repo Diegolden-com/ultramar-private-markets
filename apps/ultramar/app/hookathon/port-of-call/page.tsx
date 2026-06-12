@@ -113,140 +113,34 @@ const hookDecisionRows = [
     reason: "The hook enforces reviewed terms; it does not pretend a private round is continuous AMM price discovery.",
     proof: "testWindowStepCurveQuotesExactPricingExample proves the 1.0312 effective quote.",
   },
+] as const;
+
+
+
+const readinessPillars = [
   {
-    icon: XCircle,
-    label: "No public LP surface",
-    decision: "Public add/remove liquidity is blocked for the demo pool.",
-    reason: "Opaque issuer inventory should sit behind issuer/escrow controls, not passive public LP shares.",
-    proof: "Unauthorized liquidity modification reverts.",
+    icon: DatabaseZap,
+    label: "Operating upgrade",
+    title: "Administration becomes alpha.",
   },
   {
-    icon: Timer,
-    label: "Proof gates, not repricing",
-    decision: "Fresh operating or covenant proof opens access; stale proof closes the route.",
-    reason: "Issuer data should answer whether a route is allowed, not silently rewrite filled terms.",
-    proof: "Stale oracle blocks equity; stale coverage blocks the debt covenant preview.",
+    icon: FileCheck2,
+    label: "Verified proof",
+    title: "Private data becomes disclosure-minimized claims.",
   },
   {
     icon: CircleDollarSign,
-    label: "Fixed-first pricing",
-    decision: "The normal active window is fixed; the step curve is explicit tranche optionality.",
-    reason: "Most private rounds need stable signed terms. A curve only makes sense when the issuer intentionally prices capacity by tranche.",
-    proof: "The pricing chart and Solidity test match the same step math.",
-  },
-] as const;
-
-const feedPorts = [
-  {
-    city: "Mexico City",
-    asset: "Lavanderias CX",
-    status: "Window sandbox",
-    metric: formatCurrency(targetRaise),
-    body: "Operating-business expansion round with data-room readiness and store-level proof context.",
-  },
-  {
-    city: "Sao Paulo",
-    asset: "Nexus Logistics",
-    status: "Issuer scouting",
-    metric: "Route ops",
-    body: "Last-mile operator used as a future port for localized diligence and capital-window intake.",
-  },
-  {
-    city: "Austin",
-    asset: "Vertex Realty Core",
-    status: "Secondary study",
-    metric: "Transfer view",
-    body: "Real-estate asset profile kept separate from the LCX sandbox execution path.",
-  },
-] as const;
-
-const marketReadinessRows = [
-  [
-    "Walmart lesson",
-    "Markets do not pay only for category. They pay for operating systems that can compound.",
-  ],
-  [
-    "LCX question",
-    "Can a competitive laundry business become investible through administration, omnichannel demand, and margin expansion?",
-  ],
-  [
-    "Ultramar answer",
-    "Create an investment port: data layer, legal instrument, investor passport, and v4 settlement window.",
-  ],
-] as const;
-
-const capitalReadinessRows = [
-  [
-    "Admin control",
-    "Daily cash, machine utilization, route collections, and ticket mix become the operating system investors can underwrite.",
-  ],
-  [
-    "Margin route",
-    "Pickup and delivery density plus omnichannel demand explain why a commodity laundry can defend better margins.",
-  ],
-  [
-    "Debt route",
-    "Current assets versus short-term debt becomes a covenant gate before creditor access opens.",
-  ],
-  [
-    "Equity route",
-    "Fresh revenue, signed use of funds, and expansion discipline become the case for primary allocation.",
-  ],
-] as const;
-
-type CapitalStoryBeat = {
-  step: string;
-  label: string;
-  title: string;
-  body: string;
-  proof: string;
-};
-
-const capitalStoryBeats: CapitalStoryBeat[] = [
-  {
-    step: "01",
-    label: "Walmart lesson",
-    title: "Markets fund operating systems.",
-    body: "A valuation is not only a category multiple. It is the market saying the company can absorb capital and compound operations.",
-    proof: "Market signal",
-  },
-  {
-    step: "02",
-    label: "LCX administration",
-    title: "A competitive laundry can become financeable.",
-    body: "Daily close, route density, utilization, and ticket mix turn a commodity service into an operating system investors can underwrite.",
-    proof: "Admin proof",
-  },
-  {
-    step: "03",
     label: "Capital route",
-    title: "Debt and equity are market routes.",
-    body: "Equity opens when expansion evidence is credible. Debt opens while current asset coverage and creditor controls stay green.",
-    proof: "Instrument choice",
+    title: "Debt or equity can open a route.",
   },
-  {
-    step: "04",
-    label: "v4 hook",
-    title: "The hook enforces the route.",
-    body: "Passport, eligibility, cap, proof freshness, token direction, and exact-input settlement become one programmable boundary.",
-    proof: "Custom accounting",
-  },
-  {
-    step: "05",
-    label: "Audit trail",
-    title: "Settlement becomes operating memory.",
-    body: "Events reconcile CRM, portfolio, issuer reporting, and risk review so the market can remember what actually happened.",
-    proof: "Event record",
-  },
-];
+] as const;
 
-const portObjectFields = [
-  ["Port", "Issuer workspace: operator, vehicle, documents, and operating proof."],
-  ["Claim", "Disclosure-minimized admin proof: revenue, margin route, or coverage."],
-  ["Route", "Capital path: equity, debt, secondary transfer, or conversion."],
-  ["Window", "Signed period and terms for settlement inside one route."],
-  ["Passport", "Wallet-bound authorization: eligibility, allocation, deadline, nonce."],
-  ["Hook", "v4 market boundary: check route, return delta, emit audit record."],
+const investmentPortRails = [
+  ["Data layer", "Operating KPIs, financial ratios, reporting freshness"],
+  ["Proof privacy", "Disclosure-minimized claims: freshness, coverage, covenant status"],
+  ["Instrument layer", "Equity, debt, secondary transfer, or convertible terms"],
+  ["Access layer", "Investor eligibility, accreditation, limits, and disclosures"],
+  ["Settlement layer", "Uniswap v4 hook with custom accounting and route controls"],
 ] as const;
 
 type OperatingReadinessSignal = {
@@ -293,35 +187,6 @@ const operatingReadinessRows: OperatingReadinessSignal[] = [
   },
 ];
 
-const readinessPillars = [
-  {
-    icon: DatabaseZap,
-    label: "Operating upgrade",
-    title: "Administration becomes alpha.",
-    body: "Machine utilization, route density, pickup and delivery, ticket mix, cash discipline, and store-level reporting make a traditional operator legible to capital.",
-  },
-  {
-    icon: FileCheck2,
-    label: "Verified proof",
-    title: "Private data becomes disclosure-minimized claims.",
-    body: "Revenue freshness, liquidity coverage, debt load, covenant status, and data-room readiness can be attested now and later proven with ZK-style circuits without exposing full books.",
-  },
-  {
-    icon: CircleDollarSign,
-    label: "Capital route",
-    title: "Debt or equity can open a route.",
-    body: "This demo settles an equity window. The same port can later support debt covenants, secondary transfers, or step-to-equity instruments.",
-  },
-] as const;
-
-const investmentPortRails = [
-  ["Data layer", "Operating KPIs, financial ratios, reporting freshness"],
-  ["Proof privacy", "Disclosure-minimized claims: freshness, coverage, covenant status"],
-  ["Instrument layer", "Equity, debt, secondary transfer, or convertible terms"],
-  ["Access layer", "Investor eligibility, accreditation, limits, and disclosures"],
-  ["Settlement layer", "Uniswap v4 hook with custom accounting and route controls"],
-] as const;
-
 const demoTrace = [
   ["01", "Investor opens Mexico City port", "Translated diligence and operator context load before any transaction surface."],
   ["02", "Passport stamp is attached", "`hookData` carries the investor, window, minimum output, deadline, nonce, and signature."],
@@ -335,19 +200,6 @@ const rejectionRows = [
   ["Expired deadline", "AuthorizationExpired", "Signature cannot be replayed after the permitted time"],
   ["Stale issuer proof", "StaleOracle", "Accounting proof is too old for the window"],
   ["Exact-output attempt", "ExactInputOnly", "Window settlement accepts deterministic exact input only"],
-] as const;
-
-const eventFacts = [
-  ["Registry", "WindowConsumed", "window id, investor, mode, payment, output, fill"],
-  ["Hook", "CapitalWindowHookSwap", "pool id, router, payment, output, effective price"],
-  ["Indexer", "Derived audit rows", "CRM stage, portfolio units, issuer cash receipt"],
-] as const;
-
-const auditTrailRows = [
-  ["CRM", "Allocation closed", "WindowConsumed", "Investor 0x4444 filled 1,500 demo USDC in window 1"],
-  ["Portfolio", "Restricted LCX position opened", "CapitalWindowHookSwap", "1,454.54 sandbox restricted LCX delivered to the passport wallet"],
-  ["Issuer reporting", "Treasury receipt", "WindowConsumed", "Primary conversion cash routes to issuer treasury"],
-  ["Risk review", "Window capacity updated", "WindowConsumed", "Filled amount and per-investor capacity stay reconcilable"],
 ] as const;
 
 const proofCommands = [
@@ -404,12 +256,6 @@ const pricingSignals = [
   ["Hard invariant", "Filled orders are never repriced"],
 ] as const;
 
-const fixedWindowRows = [
-  ["Price rule", "1.00 demo USDC / restricted LCX for the full active window"],
-  ["Best use", "Classic private round with pre-approved valuation terms"],
-  ["Hook job", "Enforce eligibility, caps, freshness, and settlement"],
-] as const;
-
 const stepCurveRows = [
   ["Price rule", "1,000 demo USDC at 1.00, then next tranche at 1.10"],
   ["Best use", "Oversubscribed windows or explicit tranche incentives"],
@@ -417,19 +263,12 @@ const stepCurveRows = [
   ["Demo quote", "1,500 demo USDC -> 1,454.54 sandbox restricted LCX, effective 1.0312"],
 ] as const;
 
-const curveDecisionRows = [
-  [
-    "Default",
-    "Use a fixed active window when the issuer already approved valuation and FX terms. This is the normal private-round case.",
-  ],
-  [
-    "Use step curve",
-    "Use it only when capacity itself is part of the term sheet: early tranche incentives, oversubscription discipline, or explicit demand ladders.",
-  ],
-  [
-    "Do not use",
-    "Do not use the curve for hidden oracle repricing, floating FX during an active fill, or pretending private securities have continuous public AMM discovery.",
-  ],
+const timelineNodes = [
+  { icon: BadgeCheck, label: "Market signal", step: "01" },
+  { icon: DatabaseZap, label: "Admin proof", step: "02" },
+  { icon: Route, label: "Capital route", step: "03" },
+  { icon: Terminal, label: "v4 hook", step: "04" },
+  { icon: Timer, label: "Audit trail", step: "05" },
 ] as const;
 
 export default function PortOfCallHookathonPage() {
@@ -451,6 +290,7 @@ export default function PortOfCallHookathonPage() {
         ]}
       />
 
+      {/* HERO */}
       <section className="relative min-w-0 min-h-[calc(100vh-96px)] overflow-hidden border-b border-border-muted bg-surface">
         <div className="terminal-grid-2d absolute inset-0 opacity-50" />
         <div className="hatch-pattern-blue absolute inset-x-0 top-0 h-24 opacity-20" />
@@ -468,12 +308,23 @@ export default function PortOfCallHookathonPage() {
               <h1 className="mt-5 max-w-5xl break-words font-serif text-4xl font-bold leading-[1.02] text-on-surface [overflow-wrap:anywhere] md:text-6xl xl:text-7xl">
                 Port of Call turns operating businesses into v4 investment ports.
               </h1>
-              <p className="mt-6 max-w-3xl text-pretty text-lg leading-7 text-on-surface-variant md:text-xl">
-                Private-market capital for local businesses breaks before settlement: diligence,
-                eligibility, allocation, legal limits, and reporting live in different systems. Port
-                of Call turns that fracture into an Abloh-inspired market object enforced by a
-                Uniswap v4 hook.
+              <p className="mt-4 max-w-3xl font-mono text-lg font-semibold tracking-wide text-on-surface-variant md:text-xl">
+                The hook is the market boundary.
               </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <span className="inline-flex items-center gap-1.5 rounded border border-status-signal/40 bg-status-signal/10 px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                  <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                  Passport gated
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded border border-status-signal/40 bg-status-signal/10 px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                  <Route className="h-3.5 w-3.5" aria-hidden="true" />
+                  Router-bound
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded border border-status-signal/40 bg-status-signal/10 px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                  <CircleDollarSign className="h-3.5 w-3.5" aria-hidden="true" />
+                  Custom delta
+                </span>
+              </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="#demo-app"
@@ -533,42 +384,9 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
 
-      <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.9fr_1.1fr]">
-        <div className="min-w-0 bg-surface p-5 md:p-8">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Travel feed
-          </p>
-          <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
-            Discover capital ports before a transaction exists.
-          </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
-            The memorable product loop is not a public buy button. It is a guided trip from local
-            business context to eligibility, allocation, and deterministic settlement.
-          </p>
-        </div>
-        <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-3">
-          {feedPorts.map((port) => (
-            <article key={port.asset} className="min-w-0 bg-surface p-5">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                {port.city}
-              </p>
-              <h3 className="mt-3 min-h-16 font-serif text-2xl font-semibold leading-tight text-on-surface">
-                {port.asset}
-              </h3>
-              <div className="mt-5 border-y border-border-muted py-3">
-                <p className="font-mono text-xl font-semibold tabular-nums text-on-surface">
-                  {port.metric}
-                </p>
-                <p className="mt-1 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                  {port.status}
-                </p>
-              </div>
-              <p className="mt-4 text-sm leading-6 text-on-surface-variant">{port.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* TRAVEL FEED — removed for video pacing. See commit history for the original 3-port-card section */}
 
+      {/* MARKET READINESS */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.86fr_1.14fr]">
         <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
           <DatabaseZap className="h-5 w-5" aria-hidden="true" />
@@ -583,21 +401,6 @@ export default function PortOfCallHookathonPage() {
             systems, not just industry labels. Ultramar applies that lesson to private companies that
             are too real to be memes and too small to be public.
           </p>
-          <div className="mt-8 grid gap-1 bg-surface-container/20">
-            {marketReadinessRows.map(([label, body]) => (
-              <PaperRow key={label} label={label} value={body} />
-            ))}
-          </div>
-          <div className="mt-8 border-t border-surface-container/20 pt-6">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-              Capital readiness gate
-            </p>
-            <div className="mt-4 grid gap-1 bg-surface-container/20">
-              {capitalReadinessRows.map(([label, body]) => (
-                <PaperRow key={label} label={label} value={body} />
-              ))}
-            </div>
-          </div>
         </div>
 
         <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-3">
@@ -610,7 +413,6 @@ export default function PortOfCallHookathonPage() {
               <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
                 {item.title}
               </h3>
-              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{item.body}</p>
             </article>
           ))}
           <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:col-span-3 md:p-6">
@@ -638,13 +440,13 @@ export default function PortOfCallHookathonPage() {
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
               Investment port stack
             </p>
-            <div className="mt-5 grid min-w-0 gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-5">
+            <div className="mt-5 flex flex-col gap-px overflow-hidden rounded border border-border-muted bg-border-muted">
               {investmentPortRails.map(([label, value]) => (
-                <div key={label} className="min-w-0 bg-surface-ink p-4">
-                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
+                <div key={label} className="flex flex-col gap-2 bg-surface-ink px-4 py-3 sm:flex-row sm:items-center sm:gap-6">
+                  <p className="min-w-40 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                     {label}
                   </p>
-                  <p className="mt-3 text-sm leading-5 text-on-surface-variant">{value}</p>
+                  <p className="text-sm leading-5 text-on-surface-variant">{value}</p>
                 </div>
               ))}
             </div>
@@ -652,6 +454,7 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
 
+      {/* PRODUCT STORYLINE — timeline graphic */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.74fr_1.26fr]">
         <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">
           <Route className="h-5 w-5 text-status-signal" aria-hidden="true" />
@@ -675,39 +478,66 @@ export default function PortOfCallHookathonPage() {
             </h3>
             <p className="mt-4 text-sm leading-6 text-on-surface-variant">
               In LCX, the administration takeover is not a slogan: daily close, utilization, route
-              density, ticket mix, and current asset coverage become proof. The issuer/SPV/legal
-              wrapper turns that proof into equity, debt, secondary, or conversion instruments. The
-              passport selects the route; the v4 hook opens or blocks market access.
+              density, ticket mix, and current asset coverage become proof. The passport selects the
+              route; the v4 hook opens or blocks market access.
             </p>
             <p className="mt-4 break-words font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal [overflow-wrap:anywhere]">
               Administration takeover -&gt; issuer/SPV wrapper -&gt; instrument -&gt; route -&gt; v4 hook
             </p>
           </div>
         </div>
-        <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2 xl:grid-cols-5">
-          {capitalStoryBeats.map((beat) => (
-            <CapitalStoryBeatCard key={beat.step} beat={beat} />
-          ))}
-          <div className="min-w-0 bg-surface-paper p-4 text-surface-ink md:col-span-2 md:p-5 xl:col-span-5">
-            <div className="grid min-w-0 gap-4 lg:grid-cols-[0.36fr_1.64fr]">
-              <div className="min-w-0">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
-                  Product grammar
-                </p>
-                <h3 className="mt-2 max-w-xl font-serif text-2xl font-semibold leading-tight md:text-3xl">
-                  Port, claim, route, window, passport, hook.
-                </h3>
-              </div>
-              <div className="grid min-w-0 grid-cols-2 gap-x-4 border-t border-surface-container/20 md:grid-cols-3 lg:border-l lg:border-t-0 lg:pl-6">
-                {portObjectFields.map(([label, value]) => (
-                  <ProductObjectField key={label} label={label} value={value} />
+        <div className="min-w-0 bg-surface p-5 md:p-8">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+            Capital story
+          </p>
+          <div className="mt-6">
+            <div className="relative">
+              <svg
+                viewBox="0 0 900 120"
+                className="hidden w-full sm:block"
+                role="img"
+                aria-label="Five-step capital story timeline"
+              >
+                <line x1="30" y1="40" x2="870" y2="40" stroke="currentColor" className="text-border-muted" strokeWidth="2" strokeDasharray="6 4" />
+                {timelineNodes.map((node, i) => {
+                  const x = 60 + i * 195;
+                  return (
+                    <g key={node.step}>
+                      <circle cx={x} cy="40" r="14" fill="none" stroke="currentColor" strokeWidth="2" className="text-status-signal" />
+                      <circle cx={x} cy="40" r="12" fill="currentColor" className="text-surface" />
+                      <text x={x} y="44" textAnchor="middle" fill="currentColor" className="text-status-signal" fontSize="10" fontFamily="monospace" fontWeight="700">
+                        {node.step}
+                      </text>
+                      <text x={x} y="72" textAnchor="middle" fill="currentColor" className="text-on-surface" fontSize="11" fontFamily="monospace" fontWeight="600" letterSpacing="0.08em">
+                        {node.label}
+                      </text>
+                    </g>
+                  );
+                })}
+              </svg>
+              <div className="grid grid-cols-5 gap-2 sm:hidden">
+                {timelineNodes.map((node) => (
+                  <div key={node.step} className="flex flex-col items-center gap-1 text-center">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-status-signal bg-surface text-[10px] font-bold text-status-signal">
+                      {node.step}
+                    </span>
+                    <node.icon className="mt-1 h-4 w-4 text-status-signal" aria-hidden="true" />
+                    <span className="font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-on-surface-variant">
+                      {node.label}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
+          <p className="mt-6 text-sm leading-6 text-on-surface-variant">
+            Five beats from market signal to settlement memory. The hook is the inflection point
+            where eligibility, route, and terms converge into one programmatic boundary.
+          </p>
         </div>
       </section>
 
+      {/* INPUTS TO THE ROUTE */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[1.05fr_0.95fr]">
         <div className="grid min-w-0 gap-1 bg-border-muted md:grid-cols-2">
           <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
@@ -723,19 +553,6 @@ export default function PortOfCallHookathonPage() {
               issuer room. The simulator starts here: understanding first, then route eligibility,
               then settlement.
             </p>
-            <div className="mt-8 grid gap-2">
-              {(featuredRaise?.useOfFunds ?? []).slice(0, 4).map((item) => (
-                <div key={item.label} className="grid grid-cols-[56px_1fr] gap-4 border-t border-surface-container/25 py-3">
-                  <span className="font-mono text-sm font-semibold tabular-nums">{item.percent}%</span>
-                  <div>
-                    <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-                      {item.label}
-                    </p>
-                    <p className="mt-1 text-sm leading-5 text-surface-container">{item.body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="min-w-0 bg-surface p-5 md:p-8">
@@ -824,6 +641,7 @@ export default function PortOfCallHookathonPage() {
 
       <HookathonScenarioSimulator />
 
+      {/* PRICING POLICY */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.78fr_1.22fr]">
         <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">
           <CircleDollarSign className="h-5 w-5 text-status-signal" aria-hidden="true" />
@@ -831,13 +649,12 @@ export default function PortOfCallHookathonPage() {
             Pricing policy
           </p>
           <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
-            Most active windows should be fixed. Use a step curve only when the terms have tranches.
+            The step curve proves the hook can enforce tranched settlement math.
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
-            Port of Call is not trying to make private rounds behave like public AMMs. The credible
-            base case is a fixed signed price for the active window; the demo step curve exists to
-            prove the hook can split exact input across disclosed tranche terms, not to invent
-            hidden price discovery.
+            The credible base case is a fixed signed price for an active window. The demo step curve
+            exists to prove the hook can split exact input across disclosed tranche terms — not to
+            pretend private rounds are continuous AMM price discovery.
           </p>
           <div className="mt-8 grid gap-1 bg-border-muted">
             {pricingSignals.map(([label, value]) => (
@@ -846,43 +663,17 @@ export default function PortOfCallHookathonPage() {
           </div>
         </div>
 
-        <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-2">
-          <PricingCurvePanel
-            eyebrow="Baseline"
-            title="Fixed price window"
-            body="Use this for a normal private-market window: valuation and FX are approved before opening, and every accepted order in that active window clears at the same signed terms."
-            variant="fixed"
-            rows={fixedWindowRows}
-          />
+        <div className="min-w-0 bg-border-muted">
           <PricingCurvePanel
             eyebrow="Advanced policy"
             title="Step curve window"
-            body="Use this only when the signed term sheet says capacity gets more expensive after a threshold. The hook splits an order across boundaries, so the first tranche clears at the base price and later demand pays the premium."
-            variant="step"
+            body="Use this when the signed term sheet says capacity gets more expensive after a threshold. The hook splits an order across boundaries, so the first tranche clears at the base price and later demand pays the premium."
             rows={stepCurveRows}
           />
-          <div className="min-w-0 bg-surface-paper p-5 text-surface-ink lg:col-span-2 md:p-6">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
-              Curve decision rule
-            </p>
-            <h3 className="mt-3 max-w-3xl font-serif text-3xl font-semibold leading-tight md:text-4xl">
-              If the issuer cannot explain the tranche logic, the curve should not exist.
-            </h3>
-            <p className="mt-4 max-w-3xl text-sm leading-6 text-surface-container">
-              The custom curve is not the product thesis. It is a hook proof that v4 can enforce
-              signed, non-AMM settlement math when the investment port needs it. Read the chart as a
-              settlement schedule: x-axis is committed demo USDC, y-axis is the signed USDC/LCX term,
-              and the line only moves at disclosed tranche boundaries.
-            </p>
-            <div className="mt-6 grid gap-1 bg-surface-container/20">
-              {curveDecisionRows.map(([label, value]) => (
-                <PaperRow key={label} label={label} value={value} />
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
+      {/* HOOK CONTROLS */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted lg:grid-cols-4">
         {hookControls.map((item) => (
           <article key={item.label} className="min-w-0 bg-surface p-5 md:p-6">
@@ -898,6 +689,7 @@ export default function PortOfCallHookathonPage() {
         ))}
       </section>
 
+      {/* HOOK DESIGN DECISIONS */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.72fr_1.28fr]">
         <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
           <ShieldCheck className="h-5 w-5" aria-hidden="true" />
@@ -909,8 +701,7 @@ export default function PortOfCallHookathonPage() {
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-surface-container">
             Each rule exists to keep the port legible: who may enter, which route is open, whether
-            proof is fresh, and what settlement math is allowed. The tradeoff is intentional: less
-            generic AMM freedom, more auditable capital formation.
+            proof is fresh, and what settlement math is allowed.
           </p>
         </div>
 
@@ -936,6 +727,7 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
 
+      {/* PROTOCOL PROOF */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.82fr_1.18fr]">
         <div className="min-w-0 bg-surface-ink p-5 text-on-surface md:p-8">
           <Terminal className="h-5 w-5 text-status-signal" aria-hidden="true" />
@@ -1005,6 +797,7 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
 
+      {/* EXECUTION TRACE */}
       <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.9fr_1.1fr]">
         <div className="min-w-0 bg-surface p-5 md:p-8">
           <Timer className="h-5 w-5 text-status-signal" aria-hidden="true" />
@@ -1037,55 +830,7 @@ export default function PortOfCallHookathonPage() {
         </div>
       </section>
 
-      <section className="grid min-w-0 gap-1 border-b border-border-muted bg-border-muted xl:grid-cols-[0.95fr_1.05fr]">
-        <div className="min-w-0 bg-surface p-5 md:p-8">
-          <FileCheck2 className="h-5 w-5 text-status-signal" aria-hidden="true" />
-          <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-            Event reconciliation
-          </p>
-          <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-5xl">
-            Swap output becomes an audit trail, not a screenshot.
-          </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
-            The tests assert the event pair that a production indexer would map into CRM, portfolio,
-            issuer reporting, and risk review surfaces.
-          </p>
-          <div className="mt-8 grid gap-1 bg-border-muted">
-            {eventFacts.map(([source, eventName, payload]) => (
-              <div key={eventName} className="grid min-w-0 gap-3 bg-surface-ink p-4 md:grid-cols-[112px_220px_1fr]">
-                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                  {source}
-                </p>
-                <p className="break-words font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-                  {eventName}
-                </p>
-                <p className="text-sm leading-5 text-on-surface-variant">{payload}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-8">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-            Mock indexer output
-          </p>
-          <div className="mt-5 grid gap-1 bg-surface-container/20">
-            {auditTrailRows.map(([surface, status, eventName, body]) => (
-              <div key={`${surface}-${status}`} className="grid min-w-0 gap-3 border-t border-surface-container/20 py-4 first:border-t-0 md:grid-cols-[150px_180px_1fr]">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">{surface}</p>
-                <div>
-                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">{status}</p>
-                  <p className="mt-1 break-words font-mono text-[10px] uppercase tracking-[0.08em] text-surface-container">
-                    {eventName}
-                  </p>
-                </div>
-                <p className="text-sm leading-5 text-surface-container">{body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      {/* REVERT PROOF + MARKET BOUNDARY */}
       <section className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-[1fr_1fr]">
         <div className="min-w-0 bg-surface p-5 md:p-8">
           <XCircle className="h-5 w-5 text-destructive" aria-hidden="true" />
@@ -1116,7 +861,7 @@ export default function PortOfCallHookathonPage() {
             Market boundary
           </p>
           <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-4xl">
-            Uniswap v4 can host specialized private-market investment ports without pretending they are public AMMs.
+            Uniswap v4 can host specialized private-market investment ports.
           </h2>
           <p className="mt-4 text-sm leading-6 text-surface-container">
             The memorable hook is the passport checkpoint. The practical hook turns private-market
@@ -1124,7 +869,6 @@ export default function PortOfCallHookathonPage() {
           </p>
           <div className="mt-8 grid gap-1 bg-surface-container/20">
             <PaperRow label="Primary angle" value="Specialized Markets" />
-            <PaperRow label="Secondary angle" value="Yield-Protected AMM" />
             <PaperRow label="Fair-flow proof" value="Router-bound signed exact input" />
             <PaperRow label="Demo chain target" value="Base Sepolia or Sepolia" />
             <PaperRow label="Production boundary" value="Counsel-gated, audited, and non-public" />
@@ -1151,38 +895,7 @@ export default function PortOfCallHookathonPage() {
   );
 }
 
-function CapitalStoryBeatCard({ beat }: { beat: CapitalStoryBeat }) {
-  return (
-    <article className="min-w-0 bg-surface p-5 md:p-6">
-      <div className="flex min-w-0 items-center justify-between gap-3">
-        <span className="font-mono text-3xl font-semibold tabular-nums text-status-signal">
-          {beat.step}
-        </span>
-        <span className="break-words text-right font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-          {beat.proof}
-        </span>
-      </div>
-      <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-        {beat.label}
-      </p>
-      <h3 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
-        {beat.title}
-      </h3>
-      <p className="mt-4 text-sm leading-6 text-on-surface-variant">{beat.body}</p>
-    </article>
-  );
-}
-
-function ProductObjectField({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="min-w-0 border-b border-surface-container/20 py-3">
-      <p className="break-words font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-surface-ink">
-        {label}
-      </p>
-      <p className="mt-2 text-xs leading-5 text-surface-container md:text-sm">{value}</p>
-    </div>
-  );
-}
+// ─── Inline components ──────────────────────────────────────────────
 
 function HeroStat({ label, value, body }: { label: string; value: string; body: string }) {
   return (
@@ -1235,13 +948,11 @@ function PricingCurvePanel({
   eyebrow,
   title,
   body,
-  variant,
   rows,
 }: {
   eyebrow: string;
   title: string;
   body: string;
-  variant: "fixed" | "step";
   rows: readonly (readonly [string, string])[];
 }) {
   return (
@@ -1252,7 +963,7 @@ function PricingCurvePanel({
       <h3 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-4xl">{title}</h3>
       <p className="mt-4 text-sm leading-6 text-surface-container">{body}</p>
       <div className="mt-6 border border-surface-container/20 bg-surface-paper">
-        <PriceCurveChart variant={variant} />
+        <PriceCurveChart />
       </div>
       <div className="mt-5 grid gap-1 bg-surface-container/20">
         {rows.map(([label, value]) => (
@@ -1263,24 +974,18 @@ function PricingCurvePanel({
   );
 }
 
-function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
-  const isStep = variant === "step";
-  const title = isStep ? "Step curve price chart" : "Fixed price window chart";
-  const description = isStep
-    ? "Price stays at 1.00 demo USDC per restricted LCX for the first 1,000 demo USDC, then steps to 1.10 as committed demo USDC crosses the disclosed tranche boundary."
-    : "Price stays fixed at 1.00 demo USDC per restricted LCX across the active window as committed demo USDC increases.";
-  const curvePath = isStep ? "M44 122 H140 V91 H332" : "M44 122 H332";
-  const highlightX = isStep ? 188 : 188;
-
+function PriceCurveChart() {
   return (
     <svg
       viewBox="0 0 376 220"
       role="img"
-      aria-labelledby={`price-chart-title-${variant} price-chart-desc-${variant}`}
+      aria-labelledby="price-chart-title-step price-chart-desc-step"
       className="block aspect-[376/220] w-full"
     >
-      <title id={`price-chart-title-${variant}`}>{title}</title>
-      <desc id={`price-chart-desc-${variant}`}>{description}</desc>
+      <title id="price-chart-title-step">Step curve price chart</title>
+      <desc id="price-chart-desc-step">
+        Price stays at 1.00 demo USDC per restricted LCX for the first 1,000 demo USDC, then steps to 1.10 as committed demo USDC crosses the disclosed tranche boundary.
+      </desc>
       <rect width="376" height="220" fill="currentColor" className="text-surface-paper" />
       <g stroke="currentColor" className="text-surface-container/20" strokeWidth="1">
         <line x1="44" y1="60" x2="332" y2="60" />
@@ -1322,9 +1027,9 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
         demo USDC / restricted LCX
       </text>
       <line
-        x1={highlightX}
+        x1="188"
         y1="38"
-        x2={highlightX}
+        x2="188"
         y2="164"
         stroke="currentColor"
         strokeDasharray="4 5"
@@ -1332,21 +1037,21 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
         strokeWidth="1.5"
       />
       <path
-        d={curvePath}
+        d="M44 122 H140 V91 H332"
         fill="none"
         stroke="currentColor"
         className="text-status-signal"
-        strokeLinecap={isStep ? "square" : "round"}
+        strokeLinecap="square"
         strokeLinejoin="round"
         strokeWidth="4"
       />
-      <circle cx={highlightX} cy={isStep ? 91 : 122} r="5" fill="currentColor" className="text-status-signal" />
+      <circle cx="188" cy="91" r="5" fill="currentColor" className="text-status-signal" />
       <g fill="currentColor" fontFamily="monospace" fontSize="10">
-        <text x="206" y={isStep ? 82 : 113} className="text-surface-ink">
+        <text x="206" y="82" className="text-surface-ink">
           1,500 demo USDC order
         </text>
-        <text x="206" y={isStep ? 98 : 129} className="text-surface-container">
-          {isStep ? "effective 1.0312" : "clears at 1.00"}
+        <text x="206" y="98" className="text-surface-container">
+          effective 1.0312
         </text>
       </g>
     </svg>

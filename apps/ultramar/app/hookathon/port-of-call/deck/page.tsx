@@ -63,22 +63,22 @@ const marketSystemRows = [
   [
     "Walmart lesson",
     "Markets fund operating systems, not category labels.",
-    "A valuation is the market saying that administration can absorb capital and compound operations.",
+    "Administration that can absorb capital and compound operations attracts market funding.",
   ],
   [
     "LCX administration",
     "Daily close, utilization, route density, ticket mix.",
-    "A crowded laundry category becomes underwritable when operating control produces claims investors can check.",
+    "Operating control turns a crowded laundry category into an underwritable claim set.",
   ],
   [
     "Omnichannel margin",
     "+6.8 pp target",
-    "Pickup and delivery density plus store-level reporting create the margin route, not a meme narrative.",
+    "Pickup and delivery density plus store-level reporting create the margin route.",
   ],
   [
     "Capital route",
     "Debt or equity",
-    "Coverage proof can open a creditor route; margin and use-of-funds proof can open an equity window.",
+    "Coverage proof opens a creditor route; margin proof opens an equity window.",
   ],
 ] as const;
 
@@ -94,37 +94,25 @@ const capitalRouteRows = [
     icon: DatabaseZap,
     label: "Operating signal",
     title: "Administration becomes market context.",
-    body: "Omnichannel demand, store-level reporting, route density, cash discipline, and margin expansion make a traditional operator legible to capital.",
+    body: "Route density, cash discipline, and store-level reporting make a traditional operator legible to capital.",
   },
   {
     icon: CircleDollarSign,
     label: "Equity window",
-    title: "Primary capital can settle as issuer-token output.",
-    body: "The current demo proves the restricted LCX sandbox equity route: a signed passport plus window terms convert demo USDC into sandbox restricted LCX output through custom accounting.",
+    title: "Primary capital settles as issuer-token output.",
+    body: "A signed passport plus window terms convert demo USDC into sandbox restricted LCX output through custom accounting.",
   },
   {
     icon: Landmark,
     label: "Debt covenant preview",
-    title: "Debt opens only while financial coverage is green.",
-    body: "The demo now previews a working-capital debt route using current asset coverage, liquidity freshness, creditor eligibility, and covenant-gated access.",
+    title: "Debt opens only while coverage is green.",
+    body: "Current asset coverage, liquidity freshness, and creditor eligibility gate the debt route.",
   },
   {
     icon: FileCheck2,
     label: "Proof privacy",
     title: "Private books become disclosure-minimized claims.",
-    body: "Revenue freshness, coverage ratios, covenant status, and data-room readiness can be attested without exposing raw issuer books to every market participant.",
-  },
-  {
-    icon: FileText,
-    label: "Legal wrapper",
-    title: "The route points to an instrument, not a public offer.",
-    body: "Equity, debt, secondary transfer, or conversion terms still need the issuer vehicle, documents, eligibility rules, and transfer controls before settlement.",
-  },
-  {
-    icon: Route,
-    label: "Secondary / conversion",
-    title: "Later markets reuse the same port.",
-    body: "The same data, passport, and hook boundary can gate secondary transfers or step-to-equity triggers before settlement.",
+    body: "Revenue freshness and covenant status can be attested without exposing raw issuer books.",
   },
 ] as const;
 
@@ -285,9 +273,8 @@ export default function PortOfCallDeckPage() {
                 Port of Call turns operating businesses into v4 investment ports.
               </h1>
               <p className="mt-6 max-w-3xl text-pretty text-lg leading-7 text-on-surface-variant md:text-xl">
-                An Abloh-inspired product object wrapped around a real Uniswap v4 hook: investors
-                travel to a local business, receive a signed passport, choose an equity or debt route,
-                and cross the market boundary only when the hook verifies the route.
+                Investors travel to a local business, receive a signed passport, choose a route,
+                and cross the market boundary only when the v4 hook verifies the path.
               </p>
             </div>
 
@@ -347,17 +334,7 @@ export default function PortOfCallDeckPage() {
       >
         <div className="grid min-w-0 gap-1 bg-surface-container/20 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="min-w-0 bg-surface-paper p-5 md:p-6">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
-              Administration thesis
-            </p>
-            <h3 className="mt-4 max-w-2xl font-serif text-3xl font-semibold leading-tight text-surface-ink md:text-5xl">
-              A traditional company becomes financeable when its admin layer becomes inspectable.
-            </h3>
-            <p className="mt-4 text-sm leading-6 text-surface-container">
-              The investment port is the product answer: capture the operating claim, bind it to a
-              legal route, and let the hook enforce whether debt or equity can open.
-            </p>
-            <div className="mt-6 border border-surface-container/25 bg-surface-container/10 p-5">
+            <div className="border border-surface-container/25 bg-surface-container/10 p-5">
               <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
                 Route formation
               </p>
