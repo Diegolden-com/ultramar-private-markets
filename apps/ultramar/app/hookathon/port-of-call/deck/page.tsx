@@ -200,7 +200,7 @@ const curveRows = [
 const pricingBridge = [
   ["01", "Pre-money ledger", "4.5M USD / 4.5M restricted LCX", "1.00 demo USDC/restricted LCX"],
   ["02", "FX snapshot locked", "MXN economics signed into USDC terms", "fixed during the window"],
-  ["03", "Hook step curve", "1,000 @ 1.00 + 500 @ 1.10", "1,454.54 restricted LCX output"],
+  ["03", "Disclosed step schedule", "1,000 @ 1.00 + 500 @ 1.10", "1,454.54 restricted LCX output"],
 ] as const;
 
 const proofRows = [
@@ -768,6 +768,11 @@ function WindowCurveGraphic() {
           <h3 className="mt-3 max-w-xl font-serif text-3xl font-semibold leading-tight">
             Sandbox window example returns 1,454.54 restricted LCX for 1,500 demo USDC without public AMM price discovery.
           </h3>
+          <p className="mt-4 max-w-xl text-sm leading-6 text-on-surface-variant">
+            This is a settlement schedule, not a valuation chart: x-axis is committed demo USDC,
+            y-axis is the signed USDC/LCX term, and the step only appears because the demo term sheet
+            discloses a tranche boundary.
+          </p>
         </div>
         <div className="border border-border-muted bg-surface px-4 py-3">
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-on-surface-variant">
@@ -802,7 +807,7 @@ function WindowCurveGraphic() {
           <path d="M64 286V214H246V134H337V286Z" fill="var(--status-signal)" opacity="0.14" />
           <rect x="64" y="244" width="182" height="42" fill="var(--status-signal)" opacity="0.9" />
           <rect x="246" y="244" width="91" height="42" fill="#c88f32" opacity="0.92" />
-          <path d="M64 214H246V134H428V74" fill="none" stroke="var(--status-signal)" strokeWidth="5" strokeLinecap="square" />
+          <path d="M64 214H246V134H428" fill="none" stroke="var(--status-signal)" strokeWidth="5" strokeLinecap="square" />
 
           <path d="M246 62V286" stroke="var(--on-surface-variant)" strokeDasharray="7 7" strokeWidth="2" opacity="0.85" />
           <path d="M337 62V286" stroke="#c88f32" strokeDasharray="7 7" strokeWidth="2" opacity="0.95" />
@@ -822,8 +827,6 @@ function WindowCurveGraphic() {
 
           <text x="18" y="219" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.00</text>
           <text x="18" y="139" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.10</text>
-          <text x="18" y="79" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.20</text>
-
           <text x="84" y="238" fill="var(--surface-ink)" fontSize="17" fontWeight="700" fontFamily="monospace">
             1,000 restricted LCX
           </text>
@@ -840,7 +843,7 @@ function WindowCurveGraphic() {
             effective 1.0312
           </text>
           <text x="84" y="42" fill="var(--status-signal)" fontSize="15" fontWeight="700" fontFamily="monospace">
-            pre-money + FX snapshot -&gt; fixed curve
+            base term + disclosed tranche schedule
           </text>
         </svg>
       </div>

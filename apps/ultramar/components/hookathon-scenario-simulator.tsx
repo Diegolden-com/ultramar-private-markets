@@ -361,7 +361,7 @@ const scenarios: Scenario[] = [
     state: "Reverted",
     tone: "reverted",
     icon: Timer,
-    headline: "A stale issuer proof cannot price the equity window.",
+    headline: "A stale issuer proof cannot open the equity window.",
     guard: "StaleOracle",
     result: "Registry consumption is blocked",
     test: "testStaleOracleReverts",
@@ -959,9 +959,9 @@ function settlementMathPresentation(routeId: CapitalRouteId, scenario: Scenario)
 
   if (scenario.id === "approved") {
     return {
-      headline: "Curve executed inside the approved equity window.",
+      headline: "Signed settlement schedule executed inside the approved equity window.",
       summary:
-        "The route passed passport, proof, nonce, and router checks, so the hook can split the exact input across signed tranches.",
+        "The route passed passport, proof, nonce, and router checks, so the hook can split exact input across disclosed signed tranches.",
       tone: "settled",
       rows: [
         {

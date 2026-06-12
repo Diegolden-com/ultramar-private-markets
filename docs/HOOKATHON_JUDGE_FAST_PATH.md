@@ -52,7 +52,7 @@ Pricing is explicit window math, not hidden oracle repricing:
 - MXN operating economics use a signed FX snapshot before the demo USDC sandbox window opens.
 - The active window is fixed after that FX snapshot; a floating policy only refreshes the next window before opening, so filled orders are not repriced.
 - A `1,000 demo USDC` step with a `10%` tranche premium returns `1,454.54 sandbox restricted LCX` for `1,500 demo USDC`, or `1.0312 demo USDC/restricted LCX` effective.
-- The public deck shows this as slide `06 / Signed demo term`, including the visual bridge `Pre-money ledger -> FX snapshot locked -> Hook step curve` plus `Fixed window` and `Floating policy` notes.
+- The public deck shows this as slide `06 / Signed demo term`, including the visual bridge `Pre-money ledger -> FX snapshot locked -> Disclosed step schedule` plus `Fixed window` and `Floating policy` notes.
 
 ## Fast local verification
 

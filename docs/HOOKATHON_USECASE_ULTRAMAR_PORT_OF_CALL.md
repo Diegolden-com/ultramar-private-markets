@@ -62,7 +62,7 @@ Most hook demos compete on fee logic, LP optimization, or MEV variants. Those ar
 
 The hook adds value in a way judges can inspect:
 
-- **Custom accounting** turns a pool interaction into a windowed conversion curve instead of public AMM price discovery.
+- **Custom accounting** turns a pool interaction into a signed window settlement schedule instead of public AMM price discovery.
 - **beforeSwap** enforces eligibility, authorization, caps, window timing, oracle freshness, and route policy.
 - **beforeAddLiquidity / beforeRemoveLiquidity** prevent public LP behavior that would break the legal/product boundary.
 - **Singleton and flash accounting** let the routed transaction settle inside v4's architecture while the hook controls the business logic.
@@ -122,10 +122,11 @@ Use the existing architecture direction in `docs/UNISWAP_V4_PERMISSIONED_LIQUIDI
 
 ### Quote model
 
-MVP pricing should be a windowed step conversion curve:
+Pricing should be fixed-first, with optional step curves only when the signed terms disclose tranches:
 
-- Base price comes from approved round terms.
-- The hook applies configured step premiums as scheduled tranches fill.
+- The normal active window uses a fixed signed price from approved round terms.
+- The hook can apply configured step premiums only when scheduled tranches are part of the term sheet.
+- A step curve splits exact input across disclosed price shelves; it is not a live valuation feed.
 - Oracle data can pause or permit a window, but should not silently reprice the security.
 - Secondary windows can use fixed-price, capped auction, or issuer-approved seller escrow parameters.
 

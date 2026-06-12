@@ -39,7 +39,7 @@ Ultramar Port of Call turns that into one v4-native flow. The app lets an eligib
 This is not an app that happens to call Uniswap. The hook is the product boundary.
 
 - `beforeSwap` verifies route, investor, window, signature, cap, ticket size, deadline, nonce, token direction, and oracle freshness.
-- `beforeSwapReturnDelta` uses custom accounting to replace generic AMM price discovery with a windowed conversion curve.
+- `beforeSwapReturnDelta` uses custom accounting to replace generic AMM price discovery with a signed window settlement schedule.
 - `beforeAddLiquidity` and `beforeRemoveLiquidity` block public LP behavior for the demo pool.
 - The singleton `PoolManager` gives the demo an actual v4 settlement path instead of a standalone custom AMM.
 - Flash-accounting deltas let the router settle exact input and take output without intermediate transfer noise.

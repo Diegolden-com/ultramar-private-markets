@@ -90,7 +90,7 @@ export const pressArticles: PressArticle[] = [
     ],
     takeaways: [
       "The design treats a Uniswap v4 pool as the final conversion step for approved capital activity, not as an open public exchange.",
-      "The hook uses `beforeSwapReturnDelta` custom accounting to replace generic AMM execution with a windowed step conversion curve.",
+      "The hook uses `beforeSwapReturnDelta` custom accounting to replace generic AMM execution with a signed window settlement schedule.",
       "Primary conversion and secondary liquidity are both supported, but only through scheduled windows with signed authorization, investor caps, oracle freshness, and exact-input routing.",
     ],
     sections: [

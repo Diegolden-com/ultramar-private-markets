@@ -400,6 +400,7 @@ const judgePacketLinks = [
 const pricingSignals = [
   ["Default stance", "Fixed price active window"],
   ["Demo stress test", "Step curve optionality"],
+  ["Curve job", "Split exact input across disclosed tranches"],
   ["Hard invariant", "Filled orders are never repriced"],
 ] as const;
 
@@ -412,6 +413,7 @@ const fixedWindowRows = [
 const stepCurveRows = [
   ["Price rule", "1,000 demo USDC at 1.00, then next tranche at 1.10"],
   ["Best use", "Oversubscribed windows or explicit tranche incentives"],
+  ["Hook job", "Split one exact-input order across disclosed price shelves"],
   ["Demo quote", "1,500 demo USDC -> 1,454.54 sandbox restricted LCX, effective 1.0312"],
 ] as const;
 
@@ -834,8 +836,8 @@ export default function PortOfCallHookathonPage() {
           <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
             Port of Call is not trying to make private rounds behave like public AMMs. The credible
             base case is a fixed signed price for the active window; the demo step curve exists to
-            prove the hook can enforce explicit tranche economics, not to invent hidden price
-            discovery.
+            prove the hook can split exact input across disclosed tranche terms, not to invent
+            hidden price discovery.
           </p>
           <div className="mt-8 grid gap-1 bg-border-muted">
             {pricingSignals.map(([label, value]) => (
@@ -855,7 +857,7 @@ export default function PortOfCallHookathonPage() {
           <PricingCurvePanel
             eyebrow="Advanced policy"
             title="Step curve window"
-            body="Use this only when the issuer intentionally wants tranche pricing. The hook splits an order across boundaries, so the first tranche clears at the base price and later demand pays the premium."
+            body="Use this only when the signed term sheet says capacity gets more expensive after a threshold. The hook splits an order across boundaries, so the first tranche clears at the base price and later demand pays the premium."
             variant="step"
             rows={stepCurveRows}
           />
@@ -868,7 +870,9 @@ export default function PortOfCallHookathonPage() {
             </h3>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-surface-container">
               The custom curve is not the product thesis. It is a hook proof that v4 can enforce
-              signed, non-AMM settlement math when the investment port needs it.
+              signed, non-AMM settlement math when the investment port needs it. Read the chart as a
+              settlement schedule: x-axis is committed demo USDC, y-axis is the signed USDC/LCX term,
+              and the line only moves at disclosed tranche boundaries.
             </p>
             <div className="mt-6 grid gap-1 bg-surface-container/20">
               {curveDecisionRows.map(([label, value]) => (
@@ -1263,9 +1267,9 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
   const isStep = variant === "step";
   const title = isStep ? "Step curve price chart" : "Fixed price window chart";
   const description = isStep
-    ? "Price stays at 1.00 demo USDC per restricted LCX for the first 1,000 demo USDC, then steps to 1.10 and 1.20 as committed demo USDC crosses tranche boundaries."
+    ? "Price stays at 1.00 demo USDC per restricted LCX for the first 1,000 demo USDC, then steps to 1.10 as committed demo USDC crosses the disclosed tranche boundary."
     : "Price stays fixed at 1.00 demo USDC per restricted LCX across the active window as committed demo USDC increases.";
-  const curvePath = isStep ? "M44 122 H140 V91 H236 V60 H332" : "M44 122 H332";
+  const curvePath = isStep ? "M44 122 H140 V91 H332" : "M44 122 H332";
   const highlightX = isStep ? 188 : 188;
 
   return (
@@ -1289,7 +1293,6 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
         <line x1="44" y1="164" x2="340" y2="164" />
       </g>
       <g fill="currentColor" className="text-surface-container" fontSize="10" fontFamily="monospace">
-        <text x="8" y="64">1.20</text>
         <text x="8" y="95">1.10</text>
         <text x="8" y="126">1.00</text>
         <text x="44" y="188">0</text>

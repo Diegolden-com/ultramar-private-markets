@@ -52,7 +52,7 @@ Use Uniswap v4 as the programmable settlement layer for controlled investment po
 Uniswap v4 matters because hooks and custom accounting let a pool become a specialized market instead of a generic price curve.
 
 - `beforeSwap` validates route, investor, authorization, cap, ticket, deadline, nonce, window timing, token direction, and oracle freshness.
-- `beforeSwapReturnDelta` replaces generic AMM execution with a windowed conversion curve.
+- `beforeSwapReturnDelta` replaces generic AMM execution with a signed window settlement schedule.
 - `beforeAddLiquidity` and `beforeRemoveLiquidity` reject public liquidity modification.
 - The singleton `PoolManager` and flash-accounting model keep the demo on actual v4 rails.
 - Hook and registry events create a reconciliation trail.

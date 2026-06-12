@@ -16,7 +16,7 @@ The right direction is:
 - Replace `SimpleAMM` as the long-term liquidity primitive with Capital Windows: scheduled primary conversion windows and company-sponsored secondary windows.
 - Enforce eligibility and transfer controls through both the restricted `AssetToken` and a Uniswap v4 Hook.
 - Use an Ultramar-controlled router/gated app path; reject generic public routes unless they carry approved eligibility context.
-- Use custom accounting for the hackathon demo to replace generic AMM price discovery with a windowed step conversion curve.
+- Use custom accounting for the hackathon demo to replace generic AMM price discovery with fixed signed window terms, plus optional disclosed tranche steps when the term sheet requires them.
 
 ## Official v4 premises
 
@@ -34,7 +34,7 @@ Links rechecked on May 13, 2026:
 Implemented locally on May 28, 2026 in `apps/private-equities/contracts`:
 
 - `CapitalWindowRegistry`: schedules primary and secondary windows with caps, investor limits, signed authorization, and oracle freshness checks.
-- `CapitalWindowHook`: uses `beforeSwap` plus `beforeSwapReturnDelta` custom accounting to replace generic AMM execution with the windowed conversion curve.
+- `CapitalWindowHook`: uses `beforeSwap` plus `beforeSwapReturnDelta` custom accounting to replace generic AMM execution with a signed window settlement schedule.
 - `CapitalWindowRouter`: pre-settles exact-input investor payment into `PoolManager`, routes through the hook, and delivers company-token output to the approved recipient.
 - `CapitalWindowHook.t.sol`: tests hook-address permission encoding, router-bound passport digests, primary conversion, secondary liquidity, audit-trail event emission, missing-passport rejection, generic-router bypass rejection, expired authorization rejection, authorization replay rejection, minimum-output slippage rejection, outside-window rejection, total-cap rejection, per-investor-cap rejection, stale oracle rejection, unapproved investor rejection, invalid signature rejection, exact-output rejection, and unauthorized liquidity modification rejection.
 
@@ -118,7 +118,7 @@ Capital Windows are the v4 primitive for the hackathon implementation. They are 
 
 Each window defines start/end time, payment token, company token, cash recipient, total cap, per-investor cap, min/max ticket, base conversion price, optional step increments, oracle freshness, and active/paused/closed status.
 
-The v1 curve is a windowed step conversion curve. The approved round or window terms set the base price. As payment fills scheduled tranches, the hook can apply a configured step premium. Oracle data gates availability and freshness; it does not silently reprice the asset.
+The v1 pricing policy is fixed-first. The approved round or window terms set the base price for the active window. Optional step increments are used only when the signed terms disclose scheduled tranches; in that case the hook splits exact input across those price shelves. Oracle data gates availability and freshness; it does not silently reprice the asset.
 
 ### `CapitalWindowHook`
 

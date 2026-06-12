@@ -156,7 +156,7 @@ Visual graph:
 - Valuation-to-window bridge: sandbox pre-money ledger -> FX snapshot locked -> signed demo term.
 - Signed demo settlement chart: the first `1,000 demo USDC` clears at `1.00 demo USDC/restricted LCX`; the next `500 demo USDC` clears at `1.10 demo USDC/restricted LCX`.
 - Policy notes: `Fixed demo window` and `Floating policy` show that current fills are not repriced after settlement, while future demo windows can receive a new FX snapshot.
-- The displayed effective term is `1.0312 demo USDC/restricted LCX`, proving the hook is executing fixed signed demo terms rather than floating AMM discovery.
+- The displayed effective term is `1.0312 demo USDC/restricted LCX`, proving the hook is executing pre-signed non-floating window terms; this demo uses a disclosed step schedule rather than floating AMM discovery.
 
 Speaker line:
 
