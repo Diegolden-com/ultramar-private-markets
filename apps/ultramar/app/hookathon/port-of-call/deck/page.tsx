@@ -59,6 +59,29 @@ const problemRows = [
   ["Execution", "A public AMM cannot know which private route is valid, fresh, or closed."],
 ] as const;
 
+const marketSystemRows = [
+  [
+    "Walmart lesson",
+    "Markets fund operating systems, not category labels.",
+    "A valuation is the market saying that administration can absorb capital and compound operations.",
+  ],
+  [
+    "LCX administration",
+    "Daily close, utilization, route density, ticket mix.",
+    "A crowded laundry category becomes underwritable when operating control produces claims investors can check.",
+  ],
+  [
+    "Omnichannel margin",
+    "+6.8 pp target",
+    "Pickup and delivery density plus store-level reporting create the margin route, not a meme narrative.",
+  ],
+  [
+    "Capital route",
+    "Debt or equity",
+    "Coverage proof can open a creditor route; margin and use-of-funds proof can open an equity window.",
+  ],
+] as const;
+
 const abloLoop = [
   ["Travel", "Open a capital port and meet the issuer before the transaction surface."],
   ["Guide", "Translate diligence, store economics, use of funds, and risk notes."],
@@ -288,7 +311,40 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="02 / Product loop"
+        eyebrow="02 / Market readiness"
+        title="Markets pay for operating systems."
+        body="The Walmart lesson is not the multiple. It is the market signal: when administration turns operations into compounding infrastructure, capital becomes available. Port of Call applies that lesson to a competitive laundry operator before any swap surface appears."
+        icon={DatabaseZap}
+        paper
+      >
+        <div className="grid min-w-0 gap-1 bg-surface-container/20 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="min-w-0 bg-surface-paper p-5 md:p-6">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+              Administration thesis
+            </p>
+            <h3 className="mt-4 max-w-2xl font-serif text-3xl font-semibold leading-tight text-surface-ink md:text-5xl">
+              A traditional company becomes financeable when its admin layer becomes inspectable.
+            </h3>
+            <p className="mt-4 text-sm leading-6 text-surface-container">
+              The investment port is the product answer: capture the operating claim, bind it to a
+              legal route, and let the hook enforce whether debt or equity can open.
+            </p>
+            <div className="mt-6 border border-surface-container/25 bg-surface-container/10 p-4">
+              <p className="break-words font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-surface-ink [overflow-wrap:anywhere]">
+                Walmart lesson -&gt; LCX administration -&gt; omnichannel margin -&gt; debt/equity route
+              </p>
+            </div>
+          </div>
+          <div className="grid min-w-0 gap-1 bg-surface-container/20 md:grid-cols-2">
+            {marketSystemRows.map(([label, value, body]) => (
+              <MarketSystemCard key={label} label={label} value={value} body={body} />
+            ))}
+          </div>
+        </div>
+      </DeckSlide>
+
+      <DeckSlide
+        eyebrow="03 / Product loop"
         title="Abloh for capital: travel, guide, passport, route."
         body="The investor enters a capital port before any buy button appears. The app makes private-market context legible, then turns eligibility and operating proof into route-specific execution context."
         icon={KeyRound}
@@ -310,7 +366,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="03 / Capital routes"
+        eyebrow="04 / Capital routes"
         title="A port can open equity, debt, secondary transfer, or conversion routes."
         body="The same issuer data layer and investor passport can support multiple financing rails. The hook remains the boundary where market access becomes enforceable execution."
         icon={Route}
@@ -332,7 +388,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="04 / Specialized market"
+        eyebrow="05 / Specialized market"
         title="A generic AMM is the wrong primitive for this asset class."
         body="Private operating-business investment ports have discrete eligibility, ticket size, timing, issuer-proof freshness, covenant coverage, and transfer constraints. The market needs those route rules inside settlement."
         icon={Network}
@@ -360,7 +416,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="05 / v4 mechanism"
+        eyebrow="06 / v4 mechanism"
         title="The hook is not decoration. It is the market boundary."
         body="Every demo state maps to a v4 callback, router rule, or event proof that a technical reviewer can inspect in code."
         icon={ShieldCheck}
@@ -380,7 +436,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="06 / Signed demo term"
+        eyebrow="07 / Signed demo term"
         title="Sandbox pre-money and FX become a signed demo term, then the hook executes restricted settlement."
         body="The hook is not a valuation oracle or public listing surface. Ultramar approves the sandbox valuation frame and FX policy before the demo window opens; v4 custom accounting only enforces those terms at restricted settlement."
         icon={Calculator}
@@ -418,7 +474,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="07 / Proof paths"
+        eyebrow="08 / Proof paths"
         title="One approved settlement, six blocked paths."
         body="The product story is backed by tests, a local Foundry demo script, browser capture assets, and a Base Sepolia dry-run path using the official v4 PoolManager."
         icon={Terminal}
@@ -439,7 +495,7 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="08 / Route proof"
+        eyebrow="09 / Route proof"
         title="The product can be verified from four claims."
         body="The story stays crisp at the product layer, while the code gives technical reviewers enough surface to verify the mechanism."
         icon={FileCheck2}
@@ -582,6 +638,20 @@ function DeckMetric({ label, value }: { label: string; value: string }) {
         {value}
       </p>
     </div>
+  );
+}
+
+function MarketSystemCard({ label, value, body }: { label: string; value: string; body: string }) {
+  return (
+    <article className="min-w-0 bg-surface-paper p-4">
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-surface-container">
+        {label}
+      </p>
+      <h3 className="mt-4 break-words font-serif text-2xl font-semibold leading-tight text-surface-ink">
+        {value}
+      </h3>
+      <p className="mt-3 text-sm leading-6 text-surface-container">{body}</p>
+    </article>
   );
 }
 
