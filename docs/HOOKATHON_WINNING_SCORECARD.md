@@ -10,7 +10,7 @@ The memorable product is Abloh for capital: make the market system visible, trav
 
 The business thesis is concrete: even a competitive operating company can become investible when administration creates underwritable claims. Port of Call shows that as a capital readiness gate: admin control, margin route, debt route, and equity route.
 
-The technical hook is concrete: `beforeSwap` verifies authorization, route, window, cap, nonce, and oracle freshness; `beforeSwapReturnDelta` proves deterministic equity-window settlement through v4 custom accounting. The demo also shows how the same market-boundary model extends to debt covenant previews before a live debt instrument is issued.
+The technical hook is concrete: `beforeSwap` verifies authorization, route, window, cap, nonce, and oracle freshness; `beforeSwapReturnDelta` proves deterministic sandbox equity-window settlement through v4 custom accounting. The demo also shows how the same market-boundary model extends to debt covenant previews before a live debt instrument is issued.
 
 ## Scorecard
 
@@ -20,39 +20,39 @@ The technical hook is concrete: `beforeSwap` verifies authorization, route, wind
 | Functionality | The package includes a live frontend, capital-route intake, debt covenant preview, public deck, scenario simulator, v4 hook, router, registry, local Foundry script, 27 hook tests, capture pipeline, captioned video, and optional Base Sepolia dry-run path. | `corepack yarn hookathon:check`, `corepack yarn hookathon:testnet:proof`, `corepack yarn hookathon:submission:operator` |
 | Technical depth | The hook validates router-bound signed passports, exact-input direction, window timing, caps, nonce replay, deadline, issuer proof freshness, minimum output, and public LP reverts. | `apps/private-equities/contracts/test/CapitalWindowHook.t.sol` |
 | v4 relevance | The demo uses `PoolManager` settlement and return-delta custom accounting rather than a standalone escrow with a Uniswap label. | `beforeSwap`, `beforeSwapReturnDelta`, `CapitalWindowRouter.unlockCallback` |
-| Pricing clarity | The deck explains how pre-money and FX become signed terms before the window opens, then the hook executes the step curve. | Public deck slide `06 / Pricing example`; `testWindowStepCurveQuotesExactPricingExample` |
+| Demo term clarity | The deck explains how sandbox pre-money and FX become a signed demo term before the window opens, then the hook executes approved demo settlement. | Public deck slide `06 / Signed Demo Term`; `testWindowStepCurveQuotesExactPricingExample` |
 | Presentation | Judges can understand the product before reading Solidity: travel, guide, passport, capital readiness gate, route intake, capital window or debt covenant preview, audit trail. | `https://ultramar.capital/hookathon/port-of-call`, video, `docs/HOOKATHON_JUDGE_FAST_PATH.md` |
 | Safety boundary | The demo stays a sandbox. It does not claim a public securities offer, live investment access, custody, broker-dealer operation, or production compliance. | Demo badges, `HOOKATHON_README.md`, `docs/HOOKATHON_COMPLETION_AUDIT.md` |
 
 ## Nine proof points to mention
 
 1. The hook is the market boundary, not decoration.
-2. A port can open equity, debt, secondary transfer, or conversion routes, so the product is broader than one LCX sale.
+2. A port can open equity, debt, secondary transfer, or conversion routes, so the product is broader than one LCX sandbox equity-route demo.
 3. The capital readiness gate explains how administration becomes market access: admin control, margin route, debt route, equity route.
 4. Disclosure-minimized claims let private data support market decisions without exposing full issuer books.
 5. The passport is bound to `CapitalWindowRouter`, so a generic router cannot reuse a valid signature.
 6. Public add/remove liquidity reverts because the pool is a specialized capital route boundary, not a public AMM.
-7. Pricing is deterministic signed window math, not hidden oracle repricing.
+7. Demo settlement is deterministic signed window math, not hidden oracle repricing.
 8. The debt covenant preview blocks stale coverage proof, showing how operating data can gate non-equity routes.
 9. Successful settlement emits reconciliation events for CRM, portfolio, issuer reporting, and risk review.
 
-## Pricing proof
+## Demo Term Proof
 
-The demo pricing curve is explicit:
+The sandbox signed demo term is explicit:
 
 ```text
-4.5M USD pre-money / 4.5M LCX fully diluted = 1.00 USDC/LCX base
-FX policy = snapshot, then fixed
-Tranche 1 = 1,000 USDC at 1.00 USDC/LCX = 1,000.00 LCX
-Tranche 2 = 500 USDC at 1.10 USDC/LCX = 454.54 LCX
-Effective = 1,500 USDC -> 1,454.54 LCX at 1.0312 USDC/LCX
+4.5M USD sandbox pre-money / 4.5M restricted LCX sandbox units = 1.00 demo USDC/restricted LCX signed window term
+FX policy = signed snapshot, then fixed demo window
+First step = 1,000 demo USDC at 1.00 demo USDC/restricted LCX = 1,000.00 sandbox restricted LCX
+Second step = 500 demo USDC at 1.10 demo USDC/restricted LCX = 454.54 sandbox restricted LCX
+Approved demo settlement = 1,500 demo USDC -> 1,454.54 sandbox restricted LCX at 1.0312 demo USDC/restricted LCX
 ```
 
 Evidence:
 
-- Deck marker: `Pre-money ledger -> FX snapshot locked -> Hook step curve`.
+- Deck marker: `Sandbox pre-money ledger -> FX snapshot locked -> signed demo term`.
 - Solidity test: `testWindowStepCurveQuotesExactPricingExample`.
-- Public captions marker: `testWindowStepCurveQuotesExactPricingExample proves 1,500 USDC returns 1,454.54 LCX at 1.0312 effective`.
+- Public captions marker: `testWindowStepCurveQuotesExactPricingExample proves 1,500 demo USDC returns 1,454.54 sandbox restricted LCX at 1.0312 demo USDC/restricted LCX effective`.
 - Base Sepolia dry-run proof: `https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md`.
 
 ## Judge route
@@ -72,10 +72,10 @@ Run:
 corepack yarn hookathon:check
 ```
 
-Expected terminal close:
+Demo narrative close:
 
 ```text
-Demo complete: one approved settlement, six blocked paths.
+Demo complete: one approved demo settlement, six blocked paths.
 ```
 
 ## Current submission state

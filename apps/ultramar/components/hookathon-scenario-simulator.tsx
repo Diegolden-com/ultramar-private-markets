@@ -90,7 +90,7 @@ type RouteConsolePresentation = {
 };
 
 const routeStatusRows = [
-  ["Implemented", "LCX equity window settles USDC -> restricted LCX."],
+  ["Implemented", "Restricted LCX sandbox equity window settles demo USDC -> sandbox restricted LCX."],
   ["Previewed", "Debt covenant gate opens only with fresh coverage proof."],
   ["Future pattern", "Secondary and conversion windows reuse the same boundary."],
 ] as const;
@@ -102,9 +102,9 @@ const capitalRoutes: CapitalRoute[] = [
     state: "Primary",
     summary: "Omnichannel margin signal",
     icon: CircleDollarSign,
-    headline: "Omnichannel upgrade opens an LCX equity window.",
+    headline: "Omnichannel upgrade opens a restricted LCX sandbox equity window.",
     proof: "Operating data",
-    window: "1,500 USDC order",
+    window: "1,500 demo USDC order",
     facts: [
       {
         label: "Business signal",
@@ -118,11 +118,11 @@ const capitalRoutes: CapitalRoute[] = [
       },
       {
         label: "Instrument",
-        value: "Primary LCX equity allocation through the issuer vehicle.",
+        value: "Primary restricted LCX sandbox equity allocation through the issuer vehicle.",
       },
       {
         label: "Settlement path",
-        value: "Investor passport plus signed window terms settle as USDC -> LCX custom accounting.",
+        value: "Investor passport plus signed window terms settle as demo USDC -> sandbox restricted LCX custom accounting.",
       },
     ],
     evidenceChain: [
@@ -201,12 +201,12 @@ const scenarios: Scenario[] = [
     state: "Settled",
     tone: "settled",
     icon: CheckCircle2,
-    headline: "Equity window settles at the issuer price.",
+    headline: "Equity window settles at the signed demo term.",
     guard: "beforeSwap",
     result: "WindowConsumed + CapitalWindowHookSwap",
     test: "testPrimaryConversionWindowExecutesCustomAccountingSwap",
-    payment: "1,500 USDC",
-    output: "1,454.54 LCX",
+    payment: "1,500 demo USDC",
+    output: "1,454.54 sandbox restricted LCX",
     fill: "27% -> 29%",
     meaningRows: [
       {
@@ -240,8 +240,8 @@ const scenarios: Scenario[] = [
     guard: "MissingPassport",
     result: "No registry consume, no swap event",
     test: "testMissingPassportHookDataReverts",
-    payment: "1,500 USDC",
-    output: "0 LCX",
+    payment: "1,500 demo USDC",
+    output: "0 restricted LCX",
     fill: "unchanged",
     meaningRows: [
       {
@@ -275,8 +275,8 @@ const scenarios: Scenario[] = [
     guard: "authorizationUsed",
     result: "Consumed nonce blocks settlement",
     test: "testAuthorizationReplayReverts",
-    payment: "1,500 USDC",
-    output: "0 LCX",
+    payment: "1,500 demo USDC",
+    output: "0 restricted LCX",
     fill: "unchanged",
     meaningRows: [
       {
@@ -310,8 +310,8 @@ const scenarios: Scenario[] = [
     guard: "StaleOracle",
     result: "Registry consumption is blocked",
     test: "testStaleOracleReverts",
-    payment: "1,500 USDC",
-    output: "0 LCX",
+    payment: "1,500 demo USDC",
+    output: "0 restricted LCX",
     fill: "unchanged",
     meaningRows: [
       {
@@ -345,8 +345,8 @@ const scenarios: Scenario[] = [
     guard: "InvalidAuthorization",
     result: "Router-bound signature rejects bypass",
     test: "testGenericRouterWithCapitalPassportReverts",
-    payment: "1,000 USDC",
-    output: "0 LCX",
+    payment: "1,000 demo USDC",
+    output: "0 restricted LCX",
     fill: "unchanged",
     meaningRows: [
       {
@@ -548,7 +548,7 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
         },
         {
           label: "Instrument",
-          value: "Primary LCX equity",
+          value: "Primary restricted LCX sandbox equity",
           detail: "Allocation remains inside the issuer vehicle.",
           status: "pass",
         },
@@ -560,7 +560,7 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
         },
         {
           label: "Settlement",
-          value: "USDC -> LCX custom delta",
+          value: "demo USDC -> sandbox restricted LCX custom delta",
           detail: "The hook consumes exact input and returns window output.",
           status: "pass",
         },
@@ -577,7 +577,7 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
         },
         {
           label: "Instrument",
-          value: "Primary LCX equity",
+          value: "Primary restricted LCX sandbox equity",
           detail: "Inventory remains untouched.",
           status: "idle",
         },
@@ -606,7 +606,7 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
         },
         {
           label: "Instrument",
-          value: "Primary LCX equity locked",
+          value: "Primary restricted LCX sandbox equity locked",
           detail: "Capacity cannot be consumed twice.",
           status: "idle",
         },
@@ -635,7 +635,7 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
         },
         {
           label: "Instrument",
-          value: "Primary LCX equity paused",
+          value: "Primary restricted LCX sandbox equity paused",
           detail: "Signed price stays fixed; availability closes.",
           status: "idle",
         },
@@ -664,7 +664,7 @@ function equityRouteConsole(scenario: Scenario): RouteConsolePresentation {
         },
         {
           label: "Instrument",
-          value: "Primary LCX equity route",
+          value: "Primary restricted LCX sandbox equity route",
           detail: "The instrument is bound to the capital router.",
           status: "idle",
         },

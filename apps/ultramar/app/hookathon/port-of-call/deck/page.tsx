@@ -77,7 +77,7 @@ const capitalRouteRows = [
     icon: CircleDollarSign,
     label: "Equity window",
     title: "Primary capital can settle as issuer-token output.",
-    body: "The current demo proves the LCX equity route: a signed passport plus window terms settle USDC into window-priced LCX through custom accounting.",
+    body: "The current demo proves the restricted LCX sandbox equity route: a signed passport plus window terms convert demo USDC into sandbox restricted LCX output through custom accounting.",
   },
   {
     icon: Landmark,
@@ -130,8 +130,8 @@ const v4Mechanics = [
 
 const valuationTerms = [
   ["Pre-money", "4.5M USD", "Issuer-approved valuation frame."],
-  ["FD units", "4.5M LCX", "Sandbox token model for the demo."],
-  ["Base price", "1.00 USDC / LCX", "Terms signed before the window opens."],
+  ["FD units", "4.5M restricted LCX", "Sandbox token model for the demo."],
+  ["Signed demo term", "1.00 demo USDC / restricted LCX", "Terms signed before the window opens."],
   ["FX policy", "Snapshot, then fixed", "MXN economics convert into a USDC window price."],
 ] as const;
 
@@ -141,22 +141,22 @@ const fxPolicyRows = [
 ] as const;
 
 const curveRows = [
-  ["Tranche 1", "0-1,000 USDC", "1.00 USDC/LCX", "1,000.00 LCX"],
-  ["Tranche 2", "1,000-1,500 USDC", "1.10 USDC/LCX", "454.54 LCX"],
-  ["Effective", "1,500 USDC input", "1.0312 USDC/LCX", "1,454.54 LCX"],
+  ["Tranche 1", "0-1,000 demo USDC", "1.00 demo USDC/restricted LCX", "1,000.00 restricted LCX"],
+  ["Tranche 2", "1,000-1,500 demo USDC", "1.10 demo USDC/restricted LCX", "454.54 restricted LCX"],
+  ["Effective", "1,500 demo USDC input", "1.0312 demo USDC/restricted LCX", "1,454.54 restricted LCX"],
 ] as const;
 
 const pricingBridge = [
-  ["01", "Pre-money ledger", "4.5M USD / 4.5M LCX FD", "1.00 USDC/LCX base"],
+  ["01", "Pre-money ledger", "4.5M USD / 4.5M restricted LCX", "1.00 demo USDC/restricted LCX"],
   ["02", "FX snapshot locked", "MXN economics signed into USDC terms", "fixed during the window"],
-  ["03", "Hook step curve", "1,000 @ 1.00 + 500 @ 1.10", "1,454.54 LCX output"],
+  ["03", "Hook step curve", "1,000 @ 1.00 + 500 @ 1.10", "1,454.54 restricted LCX output"],
 ] as const;
 
 const proofRows = [
-  ["Approved settlement", "1,500 USDC -> 1,454.54 LCX"],
+  ["Approved demo settlement", "1,500 demo USDC -> 1,454.54 sandbox restricted LCX"],
   ["Debt route preview", "Current asset coverage gate switches route output between open and blocked"],
   ["Blocked paths", "missing passport / generic router / expired / min output / replay / stale oracle"],
-  ["Foundry suite", "27 tests, including hook permission bits, router-bound passport digest, and exact step-curve pricing"],
+  ["Foundry suite", "27 tests, including hook permission bits, router-bound passport digest, and exact signed demo term settlement"],
   ["Testnet dry-run", "Base Sepolia PoolManager, mined 0xa88 hook mask, window 1 smoke swap"],
 ] as const;
 
@@ -354,7 +354,7 @@ export default function PortOfCallDeckPage() {
             <Signal label="Blocked" value="public LP behavior" />
             <Signal label="Accepted" value="router-bound exact input" />
             <Signal label="Checked" value="caps, nonce, deadline, oracle" />
-            <Signal label="Returned" value="window-priced LCX delta" />
+            <Signal label="Returned" value="window-priced sandbox restricted LCX delta" />
           </div>
         </div>
       </DeckSlide>
@@ -380,15 +380,15 @@ export default function PortOfCallDeckPage() {
       </DeckSlide>
 
       <DeckSlide
-        eyebrow="06 / Pricing example"
-        title="Pre-money and FX become signed window terms, then the hook executes the curve."
-        body="The hook is not a valuation oracle. Ultramar approves the valuation frame and FX policy before the window opens; v4 custom accounting only enforces those terms at settlement."
+        eyebrow="06 / Signed demo term"
+        title="Sandbox pre-money and FX become a signed demo term, then the hook executes restricted settlement."
+        body="The hook is not a valuation oracle or public listing surface. Ultramar approves the sandbox valuation frame and FX policy before the demo window opens; v4 custom accounting only enforces those terms at restricted settlement."
         icon={Calculator}
       >
         <div className="grid min-w-0 gap-1 bg-border-muted lg:grid-cols-[0.95fr_1.05fr]">
           <div className="min-w-0 bg-surface-paper p-5 text-surface-ink md:p-6">
             <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-              Window terms
+              Demo window terms
             </p>
             <div className="mt-5 grid gap-1 bg-surface-container/20 sm:grid-cols-2">
               {valuationTerms.map(([label, value, body]) => (
@@ -632,7 +632,7 @@ function WindowCurveGraphic() {
             Step conversion curve
           </p>
           <h3 className="mt-3 max-w-xl font-serif text-3xl font-semibold leading-tight">
-            1,500 USDC returns 1,454.54 LCX without public AMM price discovery.
+            Sandbox window example returns 1,454.54 restricted LCX for 1,500 demo USDC without public AMM price discovery.
           </h3>
         </div>
         <div className="border border-border-muted bg-surface px-4 py-3">
@@ -656,7 +656,7 @@ function WindowCurveGraphic() {
         <svg
           viewBox="0 0 560 360"
           role="img"
-          aria-label="Visual pricing graph: pre-money and fixed FX define a 1.00 USDC per LCX base price; the active window keeps that FX snapshot fixed, and the hook prices 1,000 USDC at 1.00 plus the next 500 USDC at 1.10 for an effective 1.0312 price."
+          aria-label="Visual pricing graph: pre-money and fixed FX define a 1.00 demo USDC per restricted LCX signed term; the active window keeps that FX snapshot fixed, and the hook prices 1,000 demo USDC at 1.00 plus the next 500 demo USDC at 1.10 for an effective 1.0312 price."
           className="h-auto w-full"
         >
           <rect width="560" height="360" fill="var(--surface)" />
@@ -675,26 +675,26 @@ function WindowCurveGraphic() {
           <circle cx="337" cy="134" r="8" fill="#c88f32" stroke="var(--surface)" strokeWidth="4" />
 
           <text x="304" y="352" fill="var(--on-surface-variant)" fontSize="13" fontFamily="monospace" textAnchor="middle">
-            x: USDC committed in signed window
+            x: demo USDC committed in signed window
           </text>
           <text x="18" y="54" fill="var(--on-surface-variant)" fontSize="13" fontFamily="monospace" transform="rotate(-90 18 54)">
-            y: USDC / LCX
+            y: demo USDC / restricted LCX
           </text>
 
           <text x="64" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">0</text>
           <text x="216" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1,000</text>
           <text x="312" y="326" fill="#c88f32" fontSize="15" fontFamily="monospace">1,500 input</text>
-          <text x="431" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">2,000 USDC</text>
+          <text x="431" y="326" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">2,000 demo USDC</text>
 
           <text x="18" y="219" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.00</text>
           <text x="18" y="139" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.10</text>
           <text x="18" y="79" fill="var(--on-surface-variant)" fontSize="15" fontFamily="monospace">1.20</text>
 
           <text x="84" y="238" fill="var(--surface-ink)" fontSize="17" fontWeight="700" fontFamily="monospace">
-            1,000 LCX
+            1,000 restricted LCX
           </text>
           <text x="253" y="238" fill="var(--surface-ink)" fontSize="15" fontWeight="700" fontFamily="monospace">
-            454.54 LCX
+            454.54 restricted LCX
           </text>
           <text x="360" y="124" fill="var(--on-surface)" fontSize="18" fontWeight="700" fontFamily="monospace">
             +10% tranche

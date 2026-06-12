@@ -48,13 +48,13 @@ forge script script/CapitalWindowDemo.s.sol:CapitalWindowDemo -vv
 | 0:53-1:01 | Pricing policy | "Most active windows should be fixed. If the issuer cannot explain the tranche logic, the curve should not exist." | Fixed baseline, step curve, and curve decision rule |
 | 1:01-1:09 | Specialized Markets | "The hook turns eligibility, timing, caps, transfer boundaries, oracle freshness, and router provenance into market rules." | Specialized Markets claim |
 | 1:09-1:17 | Deck capital routes | "A port can open equity, debt, secondary transfer, or conversion routes while the hook stays the market boundary." | Equity, debt, secondary transfer, conversion route cards |
-| 1:17-1:25 | Pricing proof | "`testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." | Deck pricing graph and exact pricing test name |
+| 1:17-1:25 | Pricing proof | "`testWindowStepCurveQuotesExactPricingExample` keeps its exact test name and proves the signed demo term: `1,500 demo USDC -> 1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX` effective." | Deck signed-term graph and exact pricing test name |
 | 1:25-1:33 | Deck close | "Uniswap v4 can host private-market investment ports without pretending they are public AMMs." | Pitch deck closing line |
 | 1:33-1:46 | Terminal | "The local demo proves one settlement and six blocked paths. The hook is not decoration; it is the market boundary." | `Demo complete: one approved settlement, six blocked paths.` |
 
 ## Terminal markers
 
-The terminal demo should contain these exact markers:
+The terminal demo should contain these exact raw markers. In demo copy, treat the raw `USDC` and `LCX` labels below as demo USDC and restricted LCX sandbox units.
 
 ```text
 APPROVED window 1

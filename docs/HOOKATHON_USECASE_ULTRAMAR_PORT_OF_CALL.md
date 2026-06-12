@@ -13,7 +13,7 @@ Build **Ultramar Port of Call**: an Abloh-inspired cross-border capital discover
 
 The underlying hook is not a generic DEX listing. It is a controlled settlement primitive for route-aware private-market access:
 
-- Equity route: USDC in, restricted issuer asset token out.
+- Equity route: demo USDC in, sandbox restricted issuer-token output.
 - Debt route: fresh covenant proof before access can open.
 - Exact-input only.
 - Eligible investors only.
@@ -77,7 +77,7 @@ The inspiration is not a celebrity reference pasted onto finance. It is a design
 
 5. **Capital route**
 
-   The v4 hook accepts exact-input USDC for the equity route only if the passport stamp is valid and the window is open. It returns the restricted asset token from issuer or escrow inventory according to the configured window curve. A debt route can use the same passport and freshness boundary to gate covenant access before a live debt instrument is issued.
+   The v4 hook accepts exact-input demo USDC for the restricted equity route only if the passport stamp is valid and the sandbox window is open. It returns the restricted asset token from issuer or escrow inventory according to the configured window curve. A debt route can use the same passport and freshness boundary to gate covenant access before a live debt instrument is issued.
 
 6. **Return ticket**
 
@@ -114,9 +114,9 @@ MVP pricing should be a windowed step conversion curve:
 
 Demo example:
 
-- Lavanderias CX uses a sandbox valuation frame of `USD 4.5M` pre-money and `4.5M` fully diluted LCX units, producing a `1.00 USDC/LCX` base price.
-- MXN operating economics should be translated through a signed FX snapshot before the window opens; the hook should execute the resulting USDC terms instead of floating FX inside a swap.
-- The primary window uses `stepSize = 1,000 USDC` and `stepPriceBps = 1,000`, so `1,500 USDC` settles as `1,000 LCX` at `1.00` plus `454.54 LCX` at `1.10`, for `1,454.54 LCX` at `1.0312 USDC/LCX` effective.
+- Lavanderias CX uses a sandbox valuation frame of `USD 4.5M` pre-money and `4.5M restricted LCX sandbox units`, producing a `1.00 demo USDC/restricted LCX signed term`.
+- MXN operating economics should be translated through a signed FX snapshot before the window opens; the hook should execute the resulting demo USDC signed terms instead of floating FX inside a swap.
+- The primary sandbox window uses `stepSize = 1,000 demo USDC` and `stepPriceBps = 1,000`, so `1,500 demo USDC` settles as `1,000 sandbox restricted LCX` at signed term `1.00` plus `454.54 sandbox restricted LCX` at signed term `1.10`, for `1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX` effective.
 
 ## Demo asset: Lavanderias CX
 
@@ -162,7 +162,7 @@ Add a focused demo surface, separate from public production pages:
 - Translated diligence/Q&A mock panel.
 - Operating readiness map: admin control, margin route, current asset coverage, and reporting freshness.
 - Passport stamp status: eligibility, NDA, allocation, signature, oracle freshness.
-- Capital route intake: equity quote with exact USDC input and expected LCX output, plus debt covenant preview with current asset coverage.
+- Capital route intake: equity quote with exact demo USDC input and expected restricted LCX sandbox output, plus debt covenant preview with current asset coverage.
 - Scenario simulator for Approved, Missing passport, Replay, Stale oracle, and Generic router states, each tied to a Foundry test.
 - Testnet transaction button only after all demo gates pass.
 - Audit trail panel showing hook events after swap and mapping them to CRM, portfolio, issuer reporting, and risk review rows.

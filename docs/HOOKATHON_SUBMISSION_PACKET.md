@@ -32,7 +32,7 @@ An Abloh-inspired discovery app for private-market capital: investors travel to 
 
 Private-market capital does not fail because investors lack appetite. It fails because cross-border trust is expensive: language, diligence, eligibility, legal limits, allocation, settlement, and reporting all live in different systems.
 
-Ultramar Port of Call turns that into one v4-native flow. The app lets an eligible investor discover a local operating business, review translated diligence, see whether admin work has become underwriting evidence, receive a signed passport stamp, and choose the financing route the issuer can responsibly open. The current Solidity proof settles the LCX equity window through custom accounting; the demo also previews a debt covenant route where stale coverage proof blocks access before any debt instrument becomes executable.
+Ultramar Port of Call turns that into one v4-native flow. The app lets an eligible investor discover a local operating business, review translated diligence, see whether admin work has become underwriting evidence, receive a signed passport stamp, and choose the financing route the issuer can responsibly open. The current Solidity proof settles the restricted LCX sandbox equity window through custom accounting; the demo also previews a debt covenant route where stale coverage proof blocks access before any debt instrument becomes executable.
 
 ## Why this is v4-native
 
@@ -88,11 +88,11 @@ The demo must say **sandbox/testnet** and must not imply that LCX is currently a
 
 5. **Capital route**
 
-   Choose equity or debt. For equity, enter exact-input USDC and show expected LCX output, cap remaining, per-investor limit, window timer, and oracle proof age. For debt, show current asset coverage and covenant freshness. The pricing example should show how `4.5M USD` pre-money and `4.5M LCX` sandbox units become `1.00 USDC/LCX`, with MXN economics translated through a signed FX snapshot before the equity window opens.
+   Choose equity or debt. For equity, enter exact-input demo USDC and show expected restricted LCX sandbox output, cap remaining, per-investor limit, window timer, and oracle proof age. For debt, show current asset coverage and covenant freshness. The signed demo term should show how `4.5M USD` sandbox pre-money and `4.5M restricted LCX sandbox units` become `1.00 demo USDC/restricted LCX signed term`, with MXN economics translated through a signed FX snapshot before the restricted equity window opens.
 
 6. **Execute**
 
-   Execute through `CapitalWindowRouter`. The hook consumes the window, routes USDC to treasury or seller escrow, settles LCX output, and emits reconciliation data. The contract tests now assert `WindowConsumed` and `CapitalWindowHookSwap` as the audit trail.
+   Execute through `CapitalWindowRouter`. The hook consumes the demo window, routes demo USDC to treasury or seller escrow, settles restricted LCX sandbox output, and emits reconciliation data. The contract tests now assert `WindowConsumed` and `CapitalWindowHookSwap` as the audit trail.
 
 7. **Adversarial proof**
 
@@ -115,17 +115,17 @@ sequenceDiagram
   App->>App: Builds signed hookData
   Investor->>Router: swapExactInput(key, params, amountIn, recipient, hookData)
   Router->>Pool: unlock(...)
-  Router->>Pool: settle exact-input USDC
+  Router->>Pool: settle exact-input demo USDC
   Router->>Pool: swap(...)
   Pool->>Hook: beforeSwap(sender=router, key, params, hookData)
   Hook->>Registry: consumeWindow(...)
   Registry->>Oracle: Check proof freshness and ratios
   Registry-->>Hook: companyTokenAmount, cashRecipient, effectivePrice
-  Hook->>Pool: take USDC to Treasury/Escrow
-  Hook->>Pool: settle LCX inventory
+  Hook->>Pool: take demo USDC to Treasury/Escrow
+  Hook->>Pool: settle restricted LCX sandbox inventory
   Hook-->>Pool: beforeSwapDelta(input consumed, output credited)
   Pool-->>Router: BalanceDelta
-  Router->>Pool: take LCX to investor
+  Router->>Pool: take restricted LCX sandbox units to investor
 ```
 
 ## Judging position
@@ -158,7 +158,7 @@ Secondary angles:
 - Add or expose a demo page that mirrors the script: port feed, operating readiness map, LCX room, passport status, quote, hook-state simulator, execute trace, audit trail. Current route: `/hookathon/port-of-call`.
 - Add a judge-ready pitch deck route for the optional Tally deck field. Current route: `/hookathon/port-of-call/deck`; source outline: `docs/HOOKATHON_SLIDE_DECK.md`.
 - Add one Foundry script or README section that shows the local demo sequence. Current script: `apps/private-equities/contracts/script/CapitalWindowDemo.s.sol`; current runbook: `apps/private-equities/contracts/README.md`.
-- Record one success path and one revert path. Current tests assert hook permission encoding, router-bound passport digests, successful primary/secondary windows, audit events, missing-passport reverts, generic-router bypass rejection, expired authorization rejection, minimum-output slippage rejection, stale-oracle reverts, and replay reverts. The local demo script prints one approved settlement (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX) and six blocked paths.
+- Record one success path and one revert path. Current tests assert hook permission encoding, router-bound passport digests, successful primary/secondary windows, audit events, missing-passport reverts, generic-router bypass rejection, expired authorization rejection, minimum-output slippage rejection, stale-oracle reverts, and replay reverts. The local demo script prints one approved settlement as raw test output (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), representing `1,500 demo USDC` into `1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX`, plus six blocked paths.
 - Expose one-command local verification. Current command: `corepack yarn hookathon:check`.
 - Expose one-command terminal proof for recording. Current command: `corepack yarn hookathon:video:proof`.
 - Expose one-command captioned WebM review cut for upload/editing. Current command: `corepack yarn hookathon:render:video`.

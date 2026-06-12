@@ -135,7 +135,7 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 | 0:53-1:01 | Pricing policy | "Most active windows should be fixed. If the issuer cannot explain the tranche logic, the curve should not exist." |
 | 1:01-1:09 | Specialized market claim | "Private operating-business capital needs eligibility, caps, transfer boundaries, oracle freshness, and router provenance inside settlement." |
 | 1:09-1:17 | Deck capital routes | "A port can open equity, debt, secondary transfer, or conversion routes while the hook stays the market boundary." |
-| 1:17-1:25 | Pricing proof | "`testWindowStepCurveQuotesExactPricingExample` proves the `1,500 USDC -> 1,454.54 LCX` quote at `1.0312` effective." |
+| 1:17-1:25 | Pricing proof | "`testWindowStepCurveQuotesExactPricingExample` keeps its exact test name and proves the signed demo term: `1,500 demo USDC -> 1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX` effective." |
 | 1:25-1:33 | Deck close | "Uniswap v4 can host private-market investment ports without pretending they are public AMMs." |
 | 1:33-1:46 | Terminal proof | "The local proof shows one approved settlement and six blocked paths. The hook is the market boundary." |
 
@@ -145,14 +145,14 @@ If local `ffmpeg` is not installed, use `corepack yarn hookathon:render:video` t
 - `Specialized Markets` as the primary angle.
 - Operating readiness map: `Admin work becomes underwriting evidence.`
 - Route-specific signals: daily close, margin route, current asset coverage, and reporting freshness.
-- `1,454.54 LCX` expected output.
+- `1,454.54 sandbox restricted LCX` expected demo output.
 - Pricing proof: `testWindowStepCurveQuotesExactPricingExample`.
 - `27 hook tests` if using the deck route.
 - Scenario simulator `Approved`.
 - Scenario simulator `Debt covenant preview` with stale coverage, plus `Generic router`.
 - `Why this click matters` panel.
 - Audit/indexer event panel.
-- Pricing example and pitch deck closing line if using the optional deck route.
+- Signed demo term and pitch deck closing line if using the optional deck route.
 - Terminal marker: `Demo complete: one approved settlement, six blocked paths.`
 
 ## Upload copy

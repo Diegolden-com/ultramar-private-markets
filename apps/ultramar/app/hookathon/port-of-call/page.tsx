@@ -87,7 +87,7 @@ const hookControls = [
     icon: CircleDollarSign,
     label: "Accounting",
     value: "Return delta curve",
-    body: "Custom accounting consumes exact input and returns window-priced company-token output.",
+    body: "Custom accounting consumes exact input and returns window-priced sandbox restricted issuer-token output.",
   },
 ] as const;
 
@@ -109,7 +109,7 @@ const hookDecisionRows = [
   {
     icon: DatabaseZap,
     label: "Return delta accounting",
-    decision: "beforeSwapReturnDelta returns window-priced LCX for the equity route.",
+    decision: "beforeSwapReturnDelta returns window-priced sandbox restricted LCX output for the equity route.",
     reason: "The hook enforces reviewed terms; it does not pretend a private round is continuous AMM price discovery.",
     proof: "testWindowStepCurveQuotesExactPricingExample proves the 1.0312 effective quote.",
   },
@@ -325,9 +325,9 @@ const investmentPortRails = [
 const demoTrace = [
   ["01", "Investor opens Mexico City port", "Translated diligence and operator context load before any transaction surface."],
   ["02", "Passport stamp is attached", "`hookData` carries the investor, window, minimum output, deadline, nonce, and signature."],
-  ["03", "Router settles exact input", "USDC is pre-settled into the v4 `PoolManager` through the narrow gated router."],
+  ["03", "Router settles exact input", "Demo USDC is pre-settled into the v4 `PoolManager` through the narrow gated router."],
   ["04", "Hook consumes the window", "`beforeSwap` verifies eligibility, caps, window timing, oracle freshness, and token direction."],
-  ["05", "Custom delta returns LCX", "The hook bypasses public AMM price discovery and outputs the window-priced restricted token."],
+  ["05", "Custom delta returns restricted LCX", "The hook bypasses public AMM price discovery and outputs the window-priced restricted token."],
 ] as const;
 
 const rejectionRows = [
@@ -344,8 +344,8 @@ const eventFacts = [
 ] as const;
 
 const auditTrailRows = [
-  ["CRM", "Allocation closed", "WindowConsumed", "Investor 0x4444 filled 1,500 USDC in window 1"],
-  ["Portfolio", "LCX position opened", "CapitalWindowHookSwap", "1,454.54 LCX delivered to the passport wallet"],
+  ["CRM", "Allocation closed", "WindowConsumed", "Investor 0x4444 filled 1,500 demo USDC in window 1"],
+  ["Portfolio", "Restricted LCX position opened", "CapitalWindowHookSwap", "1,454.54 sandbox restricted LCX delivered to the passport wallet"],
   ["Issuer reporting", "Treasury receipt", "WindowConsumed", "Primary conversion cash routes to issuer treasury"],
   ["Risk review", "Window capacity updated", "WindowConsumed", "Filled amount and per-investor capacity stay reconcilable"],
 ] as const;
@@ -359,15 +359,15 @@ const proofCommands = [
   {
     label: "Base Sepolia dry-run",
     command: "corepack yarn hookathon:testnet:e2e",
-    result: "Official v4 PoolManager, mined hook address, LCX/USDC pool init, window creation, and one approved smoke swap.",
+    result: "Official v4 PoolManager, mined hook address, sandbox restricted LCX / demo USDC pool init, window creation, and one approved smoke swap.",
   },
 ] as const;
 
 const proofMarkers = [
-  ["Local settlement", "1500.00 USDC -> 1454.54 LCX"],
+  ["Local settlement", "1500.00 demo USDC -> 1454.54 sandbox restricted LCX"],
   ["Blocked paths", "missing passport / generic router / expired / min output / replay / stale oracle"],
   ["Mined hook", "0xf4e79FfC08cf1c4325DDCD1d1f38e10E37900a88"],
-  ["Smoke delta", "-1500e18 USDC / +1454.54e18 LCX"],
+  ["Smoke delta", "-1500e18 demo USDC / +1454.54e18 restricted LCX"],
 ] as const;
 
 const judgePacketLinks = [
@@ -404,15 +404,15 @@ const pricingSignals = [
 ] as const;
 
 const fixedWindowRows = [
-  ["Price rule", "1.00 USDC / LCX for the full active window"],
+  ["Price rule", "1.00 demo USDC / restricted LCX for the full active window"],
   ["Best use", "Classic private round with pre-approved valuation terms"],
   ["Hook job", "Enforce eligibility, caps, freshness, and settlement"],
 ] as const;
 
 const stepCurveRows = [
-  ["Price rule", "1,000 USDC at 1.00, then next tranche at 1.10"],
+  ["Price rule", "1,000 demo USDC at 1.00, then next tranche at 1.10"],
   ["Best use", "Oversubscribed windows or explicit tranche incentives"],
-  ["Demo quote", "1,500 USDC -> 1,454.54 LCX, effective 1.0312"],
+  ["Demo quote", "1,500 demo USDC -> 1,454.54 sandbox restricted LCX, effective 1.0312"],
 ] as const;
 
 const curveDecisionRows = [
@@ -523,8 +523,8 @@ export default function PortOfCallHookathonPage() {
             </div>
 
             <div className="grid gap-1 border-t border-border-muted bg-border-muted md:grid-cols-3">
-              <SignalCell label="Input" value="USDC" />
-              <SignalCell label="Route output" value="LCX or gate" />
+              <SignalCell label="Input" value="demo USDC" />
+              <SignalCell label="Route output" value="restricted LCX or gate" />
               <SignalCell label="Pool behavior" value="Custom delta" />
             </div>
           </div>
@@ -757,9 +757,9 @@ export default function PortOfCallHookathonPage() {
             <QuoteRow label="Output token" value="LCX sandbox restricted issuer token" />
             <QuoteRow label="Exact input" value="1,500 demo USDC" />
             <QuoteRow label="Quote basis" value="Signed sandbox window terms" />
-            <QuoteRow label="Step math" value="1,000 USDC at 1.00 + 500 at 1.10" />
-            <QuoteRow label="Expected output" value="1,454.54 LCX" />
-            <QuoteRow label="Effective price" value="1.0312 USDC/LCX" />
+            <QuoteRow label="Step math" value="1,000 demo USDC at 1.00 + 500 at 1.10" />
+            <QuoteRow label="Expected output" value="1,454.54 sandbox restricted LCX" />
+            <QuoteRow label="Effective price" value="1.0312 demo USDC/restricted LCX" />
             <QuoteRow label="Oracle proof age" value="18 minutes" />
             <QuoteRow label="Boundary" value="Not a public listing or live offer" />
           </div>
@@ -784,7 +784,7 @@ export default function PortOfCallHookathonPage() {
               href="/private-equities/assets/lcx"
               className={`btn btn-outline btn-success justify-between font-mono text-[11px] font-medium uppercase tracking-[0.08em] sm:min-w-56 ${focusVisibleClass}`}
             >
-              Open LCX asset
+              Open LCX sandbox profile
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link
@@ -927,7 +927,7 @@ export default function PortOfCallHookathonPage() {
           <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
             The local gate proves the hook behavior deterministically. The Base Sepolia dry-run uses
             the official v4 `PoolManager` address, mines the hook permission bits, initializes the
-            LCX/USDC pool, and executes an approved smoke swap without broadcasting.
+            sandbox restricted LCX / demo USDC pool, and executes an approved smoke swap without broadcasting.
           </p>
         </div>
 
@@ -1246,8 +1246,8 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
   const isStep = variant === "step";
   const title = isStep ? "Step curve price chart" : "Fixed price window chart";
   const description = isStep
-    ? "Price stays at 1.00 USDC per LCX for the first 1,000 USDC, then steps to 1.10 and 1.20 as committed USDC crosses tranche boundaries."
-    : "Price stays fixed at 1.00 USDC per LCX across the active window as committed USDC increases.";
+    ? "Price stays at 1.00 demo USDC per restricted LCX for the first 1,000 demo USDC, then steps to 1.10 and 1.20 as committed demo USDC crosses tranche boundaries."
+    : "Price stays fixed at 1.00 demo USDC per restricted LCX across the active window as committed demo USDC increases.";
   const curvePath = isStep ? "M44 122 H140 V91 H236 V60 H332" : "M44 122 H332";
   const highlightX = isStep ? 188 : 188;
 
@@ -1289,7 +1289,7 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
         fontSize="10"
         fontFamily="monospace"
       >
-        USDC committed in window
+        demo USDC committed in window
       </text>
       <text
         x="18"
@@ -1299,7 +1299,7 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
         fontSize="10"
         fontFamily="monospace"
       >
-        USDC / LCX
+        demo USDC / restricted LCX
       </text>
       <line
         x1={highlightX}
@@ -1323,7 +1323,7 @@ function PriceCurveChart({ variant }: { variant: "fixed" | "step" }) {
       <circle cx={highlightX} cy={isStep ? 91 : 122} r="5" fill="currentColor" className="text-status-signal" />
       <g fill="currentColor" fontFamily="monospace" fontSize="10">
         <text x="206" y={isStep ? 82 : 113} className="text-surface-ink">
-          1,500 USDC order
+          1,500 demo USDC order
         </text>
         <text x="206" y={isStep ? 98 : 129} className="text-surface-container">
           {isStep ? "effective 1.0312" : "clears at 1.00"}

@@ -24,8 +24,8 @@ Ultramar Port of Call turns that into a v4-native flow:
 2. The app presents translated diligence, use of funds, risk notes, and oracle freshness.
 3. The operating readiness map turns admin control, omnichannel margin, current asset coverage, and reporting freshness into route-specific claims.
 4. Eligibility checks produce a signed passport payload: window id, investor, minimum output, deadline, nonce, and authorizer signature.
-5. Capital-route intake separates the LCX equity window from the debt covenant preview.
-6. `CapitalWindowRouter` routes exact-input USDC into Uniswap v4 `PoolManager` for the equity proof.
+5. Capital-route intake separates the restricted LCX sandbox equity window from the debt covenant preview.
+6. `CapitalWindowRouter` routes exact-input demo USDC into Uniswap v4 `PoolManager` for the restricted equity proof.
 7. `CapitalWindowHook` uses `beforeSwap` and `beforeSwapReturnDelta` custom accounting to consume the equity window and return restricted issuer-token output.
 8. The hook and registry emit reconciliation events for CRM, portfolio, issuer reporting, and audit review.
 
@@ -170,7 +170,7 @@ corepack yarn workspace @ultramar/ultramar build
 
 - `testHookAddressEncodesOnlyCapitalWindowPermissions`: hook address encodes only the required v4 permissions.
 - `testAuthorizationDigestBindsPassportToCapitalRouter`: passport signatures are bound to the approved router address.
-- `testWindowStepCurveQuotesExactPricingExample`: the window curve quotes `1,500 USDC -> 1,454.54 LCX` at the deck's `1.0312 USDC/LCX` effective price.
+- `testWindowStepCurveQuotesExactPricingExample`: the exact test name is preserved while the window curve proves the signed demo term, `1,500 demo USDC -> 1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX` effective price.
 - `testPrimaryConversionWindowExecutesCustomAccountingSwap`: approved primary equity window succeeds.
 - `testSecondaryLiquidityWindowRoutesCashToEscrow`: approved secondary window routes cash to escrow.
 - `testMissingPassportHookDataReverts`: no passport payload, no swap.
@@ -182,7 +182,7 @@ corepack yarn workspace @ultramar/ultramar build
 - `testExactOutputReverts`: exact-output execution is rejected.
 - `testUnauthorizedLiquidityModificationReverts`: public liquidity modification is blocked.
 
-The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events, and the exact pricing test ties the visual curve to Solidity math. The local demo script prints one approved settlement with human-readable amounts (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price, MXN economics are translated through a signed FX snapshot before the window opens, the active window stays fixed after that snapshot, and a floating FX policy can only refresh the next window. A `1,000 USDC` step with a `10%` premium creates the approved effective price. The demo page includes an operating readiness map, a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
+The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHookSwap` events, and the exact pricing test ties the signed demo term curve to Solidity math. The local demo script prints one approved settlement with human-readable raw output (`1500.00` USDC -> `1454.54` LCX at `1.0312` USDC/LCX), representing `1,500 demo USDC` into `1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX`, plus missing-passport, generic-router, expired-authorization, minimum-output, replay, and stale-oracle blocked paths. The web deck now shows the same curve visually: `4.5M USD` sandbox pre-money and `4.5M restricted LCX sandbox units` produce a `1.00 demo USDC/restricted LCX signed term`, MXN economics are translated through a signed FX snapshot before the restricted demo window opens, the active window stays fixed after that snapshot, and a floating FX policy can only refresh the next window. A `1,000 demo USDC` step with a `10%` premium creates the approved effective demo price. The demo page includes an operating readiness map, a scenario simulator for the primary judge-visible states plus generic-router bypass rejection, and a mock indexer panel that maps successful events into CRM, portfolio, issuer reporting, and risk review rows.
 
 ## Two-minute video script
 
@@ -200,7 +200,7 @@ The two successful flow tests also assert `WindowConsumed` and `CapitalWindowHoo
 
 **0:25 - Success path**
 
-"An approved investor sends exact-input USDC through `CapitalWindowRouter`. The hook verifies the window, oracle freshness, caps, signature, and token direction. Custom accounting returns LCX output from the window curve, not from public AMM price discovery."
+"An approved investor sends exact-input demo USDC through `CapitalWindowRouter`. The hook verifies the demo window, oracle freshness, caps, signature, and token direction. Custom accounting returns restricted LCX sandbox output from the signed term curve, not from public AMM price discovery."
 
 **0:35 - Debt and route proof**
 

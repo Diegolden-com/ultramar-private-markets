@@ -144,7 +144,7 @@ The script deploys:
 - `CapitalWindowRegistry`
 - `CapitalWindowRouter`
 - mined-address `CapitalWindowHook`
-- initialized LCX/USDC v4 pool
+- initialized mock USDC / restricted LCX sandbox v4 pool
 - one primary conversion window
 - one eligible demo investor limit
 
@@ -186,7 +186,7 @@ If you already used nonce `1` in the same window, set a new `CAPITAL_WINDOW_AUTH
 After broadcast, save these from the script output:
 
 - `Mock USDC`
-- `LCX token`
+- `restricted LCX sandbox AssetToken`
 - `SolvencyRegistry`
 - `CapitalWindowRegistry`
 - `CapitalWindowRouter`

@@ -21,7 +21,7 @@ http://localhost:3000/hookathon/port-of-call/deck
 3. The official Tally framing is UHI8 Specialized Markets.
 4. A generic AMM is the wrong primitive for private operating-business capital.
 5. The v4 hook is the market boundary.
-6. Proof matters: one approved settlement, six blocked paths.
+6. Proof matters: one approved demo settlement, six blocked paths.
 7. The submission maps cleanly to uniqueness, impact, functionality, and presentation.
 8. The boundary stays explicit: sandbox demo only, not a public securities offer.
 
@@ -56,7 +56,7 @@ Sequence:
 - Travel: open a capital port and meet the issuer before the transaction surface.
 - Guide: translate diligence, store economics, use of funds, and risk notes.
 - Passport: attach KYC/KYB, jurisdiction, NDA, allocation, and transfer policy checks.
-- Window: execute exact-input USDC only through a v4 hook with custom accounting.
+- Window: execute exact-input demo USDC only through a v4 hook with custom accounting.
 
 ### 03 / Capital Routes
 
@@ -65,7 +65,7 @@ A port can open equity, debt, secondary transfer, or conversion routes.
 Sequence:
 
 - Operating signal: issuer data, legal wrapper, reporting cadence, and route eligibility.
-- Equity window: exact-input USDC settles into LCX through v4 custom accounting.
+- Equity window: exact-input demo USDC settles into sandbox restricted LCX through v4 custom accounting.
 - Debt covenant preview: current asset coverage must be fresh before the route can open.
 - Secondary / conversion: future routes inherit the same passport and hook boundary.
 
@@ -92,34 +92,34 @@ Mechanism:
 - Route boundary: the debt preview uses the same stale-proof gate to show how covenant data can block non-equity access.
 - Market boundary: public add/remove liquidity reverts.
 
-### 06 / Pricing Example
+### 06 / Signed Demo Term
 
-Pre-money and FX become signed window terms, then the hook executes the curve.
+Sandbox pre-money and FX become a signed demo term, then the hook executes approved demo settlement.
 
 Show:
 
-- Pre-money frame: `4.5M USD`.
-- Sandbox fully diluted units: `4.5M LCX`.
-- Base price: `1.00 USDC / LCX`.
-- FX policy: MXN economics use a signed snapshot, then a fixed USDC window price.
-- Fixed/floating rule: the active window stays fixed after the signed FX snapshot; a floating FX policy only refreshes the next window before it opens.
-- Curve: first `1,000 USDC` at `1.00`, next `500 USDC` at `1.10`.
-- Result: `1,500 USDC -> 1,454.54 LCX` at `1.0312 USDC/LCX` effective.
+- Sandbox pre-money frame: `4.5M USD`.
+- Restricted sandbox units: `4.5M restricted LCX`.
+- Signed demo term: `1.00 demo USDC / restricted LCX`.
+- FX policy: MXN economics use a signed snapshot, then a fixed demo USDC window term.
+- Fixed/floating rule: the active demo window stays fixed after the signed FX snapshot; a floating FX policy only refreshes the next demo window before it opens.
+- Signed demo steps: first `1,000 demo USDC` at `1.00 demo USDC/restricted LCX`, next `500 demo USDC` at `1.10 demo USDC/restricted LCX`.
+- Result: `1,500 demo USDC -> 1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX` effective.
 
 Visual graph:
 
-- Valuation-to-window bridge: pre-money ledger -> FX snapshot locked -> hook step curve.
-- Step curve chart: the first `1,000 USDC` clears at `1.00 USDC/LCX`; the next `500 USDC` clears at `1.10 USDC/LCX`.
-- Policy notes: `Fixed window` and `Floating policy` show that current fills are not repriced after settlement, while future windows can receive a new FX snapshot.
-- The displayed effective price is `1.0312 USDC/LCX`, proving the hook is executing fixed signed terms rather than floating AMM discovery.
+- Valuation-to-window bridge: sandbox pre-money ledger -> FX snapshot locked -> signed demo term.
+- Signed demo settlement chart: the first `1,000 demo USDC` clears at `1.00 demo USDC/restricted LCX`; the next `500 demo USDC` clears at `1.10 demo USDC/restricted LCX`.
+- Policy notes: `Fixed demo window` and `Floating policy` show that current fills are not repriced after settlement, while future demo windows can receive a new FX snapshot.
+- The displayed effective term is `1.0312 demo USDC/restricted LCX`, proving the hook is executing fixed signed demo terms rather than floating AMM discovery.
 
 Speaker line:
 
-"The hook is not a valuation oracle. Ultramar approves valuation and FX terms before the window opens; v4 custom accounting enforces those terms during settlement."
+"The hook is not a valuation oracle or public listing surface. Ultramar approves sandbox valuation and FX terms before the demo window opens; v4 custom accounting enforces the signed demo term during restricted settlement."
 
 ### 07 / Proof Paths
 
-One approved settlement, six blocked paths.
+One approved demo settlement, six blocked paths.
 
 Commands:
 
@@ -132,9 +132,9 @@ corepack yarn hookathon:testnet:e2e
 
 Evidence:
 
-- Approved settlement: `1,500 USDC -> 1,454.54 LCX` at `1.0312 USDC/LCX` effective.
+- Approved demo settlement: `1,500 demo USDC -> 1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX` effective.
 - Blocked paths: missing passport, generic router, expired, min output, replay, stale oracle.
-- Foundry suite: 27 tests, including hook permission bits, router-bound passport digest, and exact step-curve pricing.
+- Foundry suite: 27 tests, including hook permission bits, router-bound passport digest, and exact signed demo term settlement.
 - Testnet dry-run: Base Sepolia PoolManager, mined `0xa88` hook mask, window 1 smoke swap.
 
 ### 08 / Judge Frame

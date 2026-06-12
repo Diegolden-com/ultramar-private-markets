@@ -94,7 +94,7 @@ const segments = [
     eyebrow: "1:17 / Pricing proof",
     title: "The deck curve is covered by Solidity.",
     caption:
-      "testWindowStepCurveQuotesExactPricingExample proves 1,500 USDC returns 1,454.54 LCX at 1.0312 effective.",
+      "testWindowStepCurveQuotesExactPricingExample proves 1,500 demo USDC returns 1,454.54 sandbox restricted LCX at 1.0312 demo USDC/restricted LCX effective.",
   },
   {
     frame: "11-pitch-deck-close.png",

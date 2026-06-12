@@ -48,11 +48,11 @@ The hook uses the v4 flow as the settlement substrate:
 
 Pricing is explicit window math, not hidden oracle repricing:
 
-- `4.5M USD` pre-money and `4.5M LCX` sandbox units produce a `1.00 USDC/LCX` base price.
-- MXN operating economics use a signed FX snapshot before the USDC window opens.
+- `4.5M USD` sandbox pre-money and `4.5M restricted LCX sandbox units` produce a `1.00 demo USDC/restricted LCX signed term`.
+- MXN operating economics use a signed FX snapshot before the demo USDC sandbox window opens.
 - The active window is fixed after that FX snapshot; a floating policy only refreshes the next window before opening, so filled orders are not repriced.
-- A `1,000 USDC` step with a `10%` tranche premium returns `1,454.54 LCX` for `1,500 USDC`, or `1.0312 USDC/LCX` effective.
-- The public deck shows this as slide `06 / Pricing example`, including the visual bridge `Pre-money ledger -> FX snapshot locked -> Hook step curve` plus `Fixed window` and `Floating policy` notes.
+- A `1,000 demo USDC` step with a `10%` tranche premium returns `1,454.54 sandbox restricted LCX` for `1,500 demo USDC`, or `1.0312 demo USDC/restricted LCX` effective.
+- The public deck shows this as slide `06 / Signed demo term`, including the visual bridge `Pre-money ledger -> FX snapshot locked -> Hook step curve` plus `Fixed window` and `Floating policy` notes.
 
 ## Fast local verification
 
@@ -97,7 +97,7 @@ corepack yarn hookathon:testnet:proof
 
 Public report: https://github.com/Diegolden-com/ultramar-private-markets/releases/download/hookathon-port-of-call-demo-2026-05-31/testnet-dry-run-latest.md
 
-It verifies a non-broadcast dry-run against chain `84532`, the official Base Sepolia `PoolManager`, a mined hook address ending in `0xa88`, window `1`, and the same `1,500 USDC -> 1,454.54 LCX` quote shown in the pricing slide.
+It verifies a non-broadcast dry-run against chain `84532`, the official Base Sepolia `PoolManager`, a mined hook address ending in `0xa88`, window `1`, and the same signed demo term quote: `1,500 demo USDC -> 1,454.54 sandbox restricted LCX` at `1.0312 demo USDC/restricted LCX`.
 
 ## Technical questions
 
@@ -105,7 +105,7 @@ It verifies a non-broadcast dry-run against chain `84532`, the official Base Sep
 | --- | --- | --- |
 | Why Uniswap v4? | Hooks and custom accounting let a standard pool become a specialized capital-route market. | `beforeSwap`, `beforeSwapReturnDelta`, `PoolManager` route |
 | Why not a bespoke escrow? | v4 provides the pool interface, singleton settlement, flash accounting, and composable route surface while the hook owns market-specific rules. | `CapitalWindowRouter`, `CapitalWindowHook` |
-| How is price determined? | Approved round and FX terms set the base price before the window opens; the hook applies the configured step curve and emits the effective price. | `CapitalWindowRegistry._quote`, deck slide `06 / Pricing example` |
+| How is price determined? | Approved sandbox round and FX terms set the signed demo term before the window opens; the hook applies the configured step curve and emits the effective demo price. | `CapitalWindowRegistry._quote`, deck slide `06 / Signed demo term` |
 | Can a generic router bypass the gate? | No. Passport signatures bind the authorization to `CapitalWindowRouter`; generic-router reuse reverts. | `testGenericRouterWithCapitalPassportReverts` |
 | Can users add public liquidity? | No. Public add/remove liquidity reverts in the demo pool. | `testUnauthorizedLiquidityModificationReverts` |
 | Can a stale issuer proof execute? | No. Oracle freshness is checked before settlement. | `testStaleOracleReverts` |

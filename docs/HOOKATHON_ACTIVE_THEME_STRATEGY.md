@@ -20,7 +20,7 @@ The hook specializes the market around the constraints of private operating-busi
 | Custom pricing and risk parameters | `beforeSwapReturnDelta` replaces open AMM price discovery with deterministic equity-window settlement while the demo previews debt covenant routing. |
 | Controlled trade sizes | Registry windows enforce min ticket, max ticket, total cap, and per-investor cap. |
 | Chain-localized v4 path | The testnet path targets official Base Sepolia/Sepolia v4 `PoolManager` deployments and mines the hook address permission bits. |
-| Liquidity protection | `beforeAddLiquidity` and `beforeRemoveLiquidity` revert. The pool does not let public LPs warehouse opaque LCX inventory. |
+| Liquidity protection | `beforeAddLiquidity` and `beforeRemoveLiquidity` revert. The pool does not let public LPs warehouse opaque sandbox restricted LCX issuer inventory. |
 | Prove adverse paths fail | Tests cover generic-router rejection, missing passport, replay, expired authorization, stale oracle, min-output slippage, exact-output rejection, cap breaches, and public LP blocking. |
 | Keep it on v4 rails | `CapitalWindowRouter` settles through `PoolManager`; `CapitalWindowHook` returns custom accounting deltas. |
 
@@ -34,8 +34,8 @@ Then show:
 
 1. Investor travels to Lavanderias CX.
 2. Passport stamp creates signed `hookData`.
-3. Capital-route intake separates the LCX equity window from the debt covenant preview.
-4. Approved exact-input swap settles `1500.00` USDC -> `1454.54` LCX.
+3. Capital-route intake separates the restricted LCX sandbox equity window from the debt covenant preview.
+4. Approved exact-input swap settles `1,500 demo USDC -> 1,454.54 sandbox restricted LCX`.
 5. Generic router, replay, or stale covenant proof reverts or blocks access.
 6. Public liquidity modification is blocked by tests.
 
