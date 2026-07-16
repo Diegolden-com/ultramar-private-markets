@@ -11,7 +11,7 @@ export function ProductTabs<TProduct extends ProductSlug>({
 }) {
   return (
     <nav
-      className="tabs tabs-border flex-nowrap overflow-x-auto border-x border-t border-border-muted bg-surface"
+      className="tabs tabs-border card card-border flex min-h-12 max-w-full flex-nowrap justify-start overflow-x-auto overscroll-x-contain bg-surface"
       aria-label={`${productRouteGroups[product].title} navigation`}
       role="tablist"
     >
@@ -25,10 +25,10 @@ export function ProductTabs<TProduct extends ProductSlug>({
             aria-current={isActive ? "page" : undefined}
             role="tab"
             aria-selected={isActive}
-            className={`tab h-auto min-h-11 whitespace-nowrap border-r border-r-border-muted font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors last:border-r-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-status-signal ${
+            className={`tab h-auto min-h-12 min-w-fit snap-start whitespace-nowrap border-r border-r-border-muted px-5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] transition-colors last:border-r-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary sm:text-[11px] ${
               isActive
-                ? "tab-active bg-surface-container text-primary"
-                : "text-on-surface-variant hover:bg-surface-variant hover:text-primary"
+                ? "tab-active bg-surface-container-low text-primary"
+                : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
             }`}
           >
             {tab.label}

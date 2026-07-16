@@ -10,15 +10,15 @@ type PageGap = "compact" | "normal" | "loose";
 type HeadingLevel = "h1" | "h2";
 
 const maxWidthClasses: Record<PageMaxWidth, string> = {
-  standard: "max-w-[1600px]",
-  wide: "max-w-[1800px]",
+  standard: "max-w-[1440px]",
+  wide: "max-w-[1600px]",
   full: "max-w-none",
 };
 
 const gapClasses: Record<PageGap, string> = {
-  compact: "gap-1",
-  normal: "gap-4",
-  loose: "gap-6",
+  compact: "gap-3 md:gap-4",
+  normal: "gap-5 md:gap-6",
+  loose: "gap-8 md:gap-10",
 };
 
 export function PageShell({
@@ -36,7 +36,7 @@ export function PageShell({
     <main
       id="main-content"
       className={cn(
-        "mx-auto flex min-h-[calc(100vh-48px)] w-full scroll-mt-16 flex-col bg-surface-ink px-4 py-8 text-on-surface md:px-12",
+        "mx-auto flex min-h-[calc(100vh-64px)] w-full scroll-mt-20 flex-col bg-surface-ink px-4 py-6 text-on-surface sm:px-6 sm:py-8 lg:px-10 lg:py-10 xl:px-12",
         maxWidthClasses[maxWidth],
         gapClasses[gap],
         className,
@@ -161,12 +161,16 @@ export function SplitPanel({
 }) {
   return (
     <section
-      className={cn("grid gap-1 border border-border-muted bg-border-muted", columns, className)}
+      className={cn(
+        "card card-border grid min-w-0 gap-px overflow-hidden bg-border-muted",
+        columns,
+        className,
+      )}
     >
-      <div className={cn("bg-surface", contentPadded && "p-6 md:p-8", contentClassName)}>
+      <div className={cn("min-w-0 bg-surface", contentPadded && "p-6 sm:p-7 lg:p-8", contentClassName)}>
         {children}
       </div>
-      <div className={cn("bg-surface", asidePadded && "p-6 md:p-8", asideClassName)}>
+      <div className={cn("min-w-0 bg-surface", asidePadded && "p-6 sm:p-7 lg:p-8", asideClassName)}>
         {aside}
       </div>
     </section>
@@ -187,8 +191,8 @@ export function SurfaceGrid({
   return (
     <section
       className={cn(
-        "grid gap-1 bg-border-muted",
-        bordered && "border border-border-muted",
+        "grid min-w-0 gap-3 md:gap-4",
+        bordered && "border border-border-muted bg-surface-container-lowest p-2 md:p-3",
         columns,
         className,
       )}
@@ -209,7 +213,11 @@ export function SurfacePanel({
 }) {
   return (
     <section
-      className={cn("border border-border-muted bg-surface", padded && "p-6 md:p-8", className)}
+      className={cn(
+        "card card-border min-w-0 overflow-hidden bg-surface",
+        padded && "p-6 sm:p-7 lg:p-8",
+        className,
+      )}
     >
       {children}
     </section>
@@ -236,23 +244,33 @@ export function FeatureCard({
   titleClassName?: string;
 }) {
   return (
-    <article id={id} className={cn("card card-border bg-surface p-5", className)}>
-      {Icon ? <Icon className="h-5 w-5 text-status-signal" /> : null}
+    <article
+      id={id}
+      className={cn(
+        "card card-border min-w-0 bg-surface p-6 sm:p-7 hover:border-outline-variant",
+        className,
+      )}
+    >
+      {Icon ? (
+        <span className="grid h-10 w-10 place-items-center border border-border-muted bg-surface-container-low">
+          <Icon className="h-5 w-5 text-primary" />
+        </span>
+      ) : null}
       {eyebrow ? (
-        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-primary">
           {eyebrow}
         </p>
       ) : null}
       <h2
         className={cn(
-          "mt-4 text-balance font-serif text-2xl font-semibold leading-tight text-on-surface",
+          "mt-5 text-balance font-serif text-2xl font-semibold leading-[1.15] text-on-surface sm:text-[1.7rem]",
           !Icon && !eyebrow && "mt-0",
           titleClassName,
         )}
       >
         {title}
       </h2>
-      {body ? <p className="mt-3 text-sm leading-6 text-on-surface-variant">{body}</p> : null}
+      {body ? <p className="mt-4 max-w-prose text-sm leading-6 text-on-surface-variant">{body}</p> : null}
       {children}
     </article>
   );
@@ -283,10 +301,10 @@ export function StatTile({
   return (
     <div
       className={cn(
-        "card card-border bg-surface p-5",
-        tone === "signal" && "border-t border-status-signal",
-        tone === "warning" && "border-t border-status-warning",
-        tone === "danger" && "border-t border-destructive",
+        "stat card card-border min-w-0 border-l-2 border-l-outline-variant bg-surface p-5 sm:p-6",
+        tone === "signal" && "border-l-status-signal",
+        tone === "warning" && "border-l-status-warning",
+        tone === "danger" && "border-l-destructive",
         className,
       )}
     >
@@ -295,7 +313,7 @@ export function StatTile({
       </p>
       <p
         className={cn(
-          "stat-value mt-4 whitespace-normal break-words font-mono text-lg font-semibold uppercase [overflow-wrap:anywhere]",
+          "stat-value mt-4 whitespace-normal break-words font-mono text-xl font-semibold leading-tight [overflow-wrap:anywhere]",
           valueClassName,
         )}
       >

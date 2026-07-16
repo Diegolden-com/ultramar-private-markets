@@ -118,30 +118,30 @@ export default function PrivateEquitiesPage() {
         ]}
       />
 
-      <section className="relative overflow-hidden border border-border-muted bg-surface">
+      <section className="card card-border relative overflow-hidden bg-surface">
         <div className="hatch-pattern absolute inset-0 opacity-20" />
-        <div className="relative z-10 grid gap-8 p-6 md:p-8 lg:grid-cols-[1fr_420px]">
+        <div className="relative z-10 grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 lg:p-8 xl:grid-cols-[minmax(0,1fr)_420px]">
           <div className="flex flex-col justify-between">
             <div>
-              <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+              <p className="badge badge-outline badge-accent h-auto min-h-6 px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.12em] sm:text-[11px]">
                 {product.eyebrow} / Access model
               </p>
-              <h1 className="mt-4 max-w-4xl break-words font-serif text-4xl font-bold leading-[1.1] text-on-surface [overflow-wrap:anywhere] md:text-5xl">
+              <h1 className="mt-6 max-w-[18ch] break-words text-balance font-serif text-4xl font-bold leading-[1.02] text-on-surface [overflow-wrap:anywhere] sm:text-5xl lg:text-[3.5rem]">
                 Private Equities is a controlled rail for private-market assets.
               </h1>
-              <p className="mt-5 max-w-3xl text-lg leading-relaxed text-on-surface-variant">
+              <p className="mt-6 max-w-2xl text-base leading-7 text-on-surface-variant sm:text-lg sm:leading-8">
                 Review assets, issuer rounds, operating data, and eligible transfers.
               </p>
             </div>
 
-            <div className="mt-10 grid gap-1 bg-border-muted md:grid-cols-4">
+            <div className="mt-10 grid grid-cols-2 gap-px border border-border-muted bg-border-muted xl:grid-cols-4">
               {overviewStats.map(([label, value]) => (
                 <OverviewStat key={label} label={label} value={value} />
               ))}
             </div>
           </div>
 
-          <aside className="relative min-h-[360px] overflow-hidden border border-border-muted bg-surface-ink">
+          <aside className="card card-border relative min-h-[280px] overflow-hidden bg-surface-ink sm:min-h-[360px] lg:min-h-[420px]">
             <Image
               src="/solarpunk-laundromat.png"
               alt="Representative private-market operating asset"
@@ -152,7 +152,7 @@ export default function PrivateEquitiesPage() {
             />
             <div className="absolute inset-0 bg-surface-ink/35" />
             <div className="absolute inset-x-0 bottom-0 border-t border-border-muted bg-surface-ink/90 p-5">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-accent">
                 Example asset in the rail
               </p>
               <h2 className="mt-2 font-serif text-3xl font-semibold leading-tight text-on-surface">
@@ -165,31 +165,33 @@ export default function PrivateEquitiesPage() {
 
       <ProductTabs product="private-equities" active="overview" />
 
-      <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.85fr_1.15fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+      <section className="grid gap-3 lg:grid-cols-[0.72fr_1.28fr] md:gap-4">
+        <div className="card card-border bg-surface p-6 sm:p-7 lg:p-8">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-accent">
             Product role
           </p>
-          <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
+          <h2 className="mt-4 max-w-[12ch] font-serif text-3xl font-semibold leading-[1.08] text-on-surface sm:text-4xl">
             Choose a workflow.
           </h2>
         </div>
 
-        <div className="grid gap-1 bg-border-muted md:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2 md:gap-4">
           {workflowItems.map((item) => (
             <Link
               key={item.title}
               href={item.href}
-              className="group bg-surface p-5 transition-colors hover:bg-surface-container"
+              className="card card-border group min-h-[210px] bg-surface p-6 transition-colors hover:border-accent hover:bg-surface-container-low"
             >
               <div className="flex items-start justify-between gap-4">
-                <item.icon className="h-5 w-5 text-status-signal" />
-                <ArrowRight className="h-4 w-4 text-on-surface-variant transition group-hover:translate-x-1 group-hover:text-status-signal" />
+                <span className="grid h-10 w-10 place-items-center border border-border-muted bg-surface-container-low">
+                  <item.icon className="h-5 w-5 text-accent" />
+                </span>
+                <ArrowRight className="h-4 w-4 text-on-surface-variant transition group-hover:text-accent" />
               </div>
-              <h3 className="mt-5 font-serif text-2xl font-semibold leading-tight text-on-surface">
+              <h3 className="mt-6 max-w-[16ch] font-serif text-2xl font-semibold leading-[1.12] text-on-surface">
                 {item.title}
               </h3>
-              <span className="mt-5 inline-flex font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+              <span className="mt-auto inline-flex pt-6 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-accent sm:text-[11px]">
                 {item.cta}
               </span>
             </Link>
@@ -197,7 +199,7 @@ export default function PrivateEquitiesPage() {
         </div>
       </section>
 
-      <section className="border border-border-muted bg-surface p-5">
+      <section className="alert alert-warning card card-border items-start bg-surface p-5 text-on-surface-variant">
         <div className="flex items-start gap-3">
           <FileCheck2 className="mt-1 h-5 w-5 shrink-0 text-status-warning" />
           <p className="text-sm leading-6 text-on-surface-variant">
@@ -217,11 +219,11 @@ function OverviewStat({
   value: string;
 }) {
   return (
-    <div className="bg-surface p-4">
+    <div className="stat min-w-0 bg-surface p-4 sm:p-5">
       <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
         {label}
       </p>
-      <p className="mt-2 font-mono text-xl font-semibold text-on-surface">{value}</p>
+      <p className="stat-value mt-2 break-words font-mono text-lg font-semibold leading-tight text-on-surface sm:text-xl">{value}</p>
     </div>
   );
 }

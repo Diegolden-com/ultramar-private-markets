@@ -14,9 +14,20 @@ export function ParticleWaveHero() {
       return;
     }
 
+    const canvas = document.createElement("canvas");
+    const context =
+      canvas.getContext("webgl2", { alpha: true, antialias: true }) ??
+      canvas.getContext("webgl", { alpha: true, antialias: true });
+
+    if (!context) {
+      return;
+    }
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
     const renderer = new THREE.WebGLRenderer({
+      canvas,
+      context,
       alpha: true,
       antialias: true,
       powerPreference: "high-performance",
@@ -25,11 +36,11 @@ export function ParticleWaveHero() {
     const positions = geometry.getAttribute("position") as THREE.BufferAttribute;
     const simplex = new SimplexNoise();
     const material = new THREE.PointsMaterial({
-      color: new THREE.Color("#e3e2e5"),
-      size: 0.02,
+      color: new THREE.Color("#aebbf5"),
+      size: 0.018,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.82,
+      opacity: 0.72,
     });
     const waves = new THREE.Points(geometry, material);
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -96,7 +107,7 @@ export function ParticleWaveHero() {
     <div
       ref={mountRef}
       aria-hidden="true"
-      className="pointer-events-none absolute bottom-0 right-0 top-[46%] -left-4 overflow-hidden md:left-[12%] md:top-[34%]"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
     />
   );
 }

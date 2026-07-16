@@ -3,25 +3,26 @@ import { JsonLd } from "@/components/json-ld";
 import { organizationJsonLd, seoImages, websiteJsonLd } from "@/lib/seo";
 import { canonicalDomain, platform } from "@ultramar/product-model";
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
-const jetBrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
-const playfair = Playfair_Display({
+const newsreader = Newsreader({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -68,7 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" data-theme="ultramar">
       <body
-        className={`${inter.variable} ${jetBrainsMono.variable} ${playfair.variable} font-sans antialiased`}
+        className={`${plexSans.variable} ${plexMono.variable} ${newsreader.variable} font-sans antialiased`}
       >
         <JsonLd id="organization-json-ld" data={organizationJsonLd()} />
         <JsonLd id="website-json-ld" data={websiteJsonLd()} />

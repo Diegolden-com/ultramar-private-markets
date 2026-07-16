@@ -100,7 +100,7 @@ export default function CompliancePage() {
         title="Boundaries for gated capital activity"
         description="Ultramar keeps regulated steps behind eligibility, counsel, and document controls while still making the access requirements clear."
         asidePadded={false}
-        asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
+        asideClassName="grid grid-cols-2 gap-px bg-border-muted"
       >
         {metrics.map(([label, value]) => (
           <StatTile key={label} label={label} value={value} tone="signal" />

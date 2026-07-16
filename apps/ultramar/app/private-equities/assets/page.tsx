@@ -89,23 +89,23 @@ export default function AssetsPage() {
         ]}
       />
 
-      <section className="relative overflow-hidden border border-border-muted bg-surface p-6 md:p-8">
+      <section className="card card-border relative overflow-hidden bg-surface p-5 sm:p-7 lg:p-8">
         <div className="hatch-pattern absolute inset-0 opacity-20" />
-        <div className="relative z-10 grid gap-8 lg:grid-cols-[1fr_420px]">
+        <div className="relative z-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 xl:grid-cols-[minmax(0,1fr)_420px]">
           <div className="flex flex-col justify-between">
             <div>
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
                 <BrandName /> / Private Equities
               </p>
-              <h1 className="mt-4 max-w-4xl break-words font-serif text-4xl font-bold leading-[1.1] md:text-5xl">
+              <h1 className="mt-6 max-w-[18ch] break-words text-balance font-serif text-4xl font-bold leading-[1.02] sm:text-5xl lg:text-[3.5rem]">
                 Asset index for controlled private-market access.
               </h1>
-              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
+              <p className="mt-6 max-w-2xl text-base leading-7 text-on-surface-variant sm:text-lg sm:leading-8">
                 Filter assets and open their diligence view.
               </p>
             </div>
 
-            <div className="mt-10 grid gap-1 bg-border-muted sm:grid-cols-3">
+            <div className="mt-10 grid grid-cols-2 gap-px border border-border-muted bg-border-muted sm:grid-cols-3">
               <AssetIndexFact label="Assets" value={`${deals.length}`} />
               <AssetIndexFact
                 label="Primary / Secondary"
@@ -115,10 +115,10 @@ export default function AssetsPage() {
             </div>
           </div>
 
-          <aside className="grid border border-border-muted bg-surface-ink">
+          <aside className="card card-border grid overflow-hidden bg-surface-ink">
             <Link
               href={`/private-equities/assets/${featuredDeal.ticker}`}
-              className="group relative min-h-[320px] overflow-hidden"
+              className="group relative min-h-[300px] overflow-hidden sm:min-h-[360px] lg:min-h-[420px]"
             >
               <Image
                 src={featuredDeal.image}
@@ -175,7 +175,7 @@ export default function AssetsPage() {
 
       <ProductTabs product="private-equities" active="assets" />
 
-      <section className="border border-border-muted bg-surface p-6 md:p-8">
+      <section className="card card-border bg-surface p-5 sm:p-7 lg:p-8">
         <div className="mb-8 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
@@ -194,7 +194,7 @@ export default function AssetsPage() {
         <AssetExplorer />
       </section>
 
-      <section className="border border-border-muted bg-surface p-5">
+      <section className="alert alert-warning card card-border bg-surface p-5 text-on-surface-variant">
         <div className="flex items-center gap-3 text-sm text-on-surface-variant">
           <ShieldCheck className="h-5 w-5 shrink-0 text-status-warning" />
           Participation requires eligibility, issuer documents, and transfer controls.
@@ -206,11 +206,11 @@ export default function AssetsPage() {
 
 function AssetIndexFact({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-surface p-4">
+    <div className="stat min-w-0 bg-surface p-4 last:col-span-2 sm:last:col-span-1">
       <p className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
         {label}
       </p>
-      <p className="mt-2 font-mono text-lg font-semibold text-on-surface">{value}</p>
+      <p className="stat-value mt-2 break-words font-mono text-base font-semibold leading-tight text-on-surface sm:text-lg">{value}</p>
     </div>
   );
 }

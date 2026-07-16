@@ -70,7 +70,7 @@ export default function ResearchPage() {
                 alt={article.title}
                 fill
                 sizes="(min-width: 768px) 50vw, 100vw"
-                className="image-blackwork object-cover transition duration-500 group-hover:scale-105"
+                className="image-blackwork object-cover transition duration-300 group-hover:scale-[1.02]"
               />
               <div className="absolute inset-0 bg-surface-ink/35" />
               <div className="badge badge-outline absolute left-4 top-4 bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">

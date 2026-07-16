@@ -157,8 +157,8 @@ export default function RiskPage() {
         </div>
       </ProductRouteHeader>
 
-      <div className="grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-12">
-        <aside className="flex flex-col gap-1 md:col-span-4">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-12 md:gap-4">
+        <aside className="flex flex-col gap-3 md:col-span-4 md:gap-4">
           {parameterGroups.map((group) => (
             <section
               key={group.title}
@@ -191,10 +191,10 @@ export default function RiskPage() {
           ))}
         </aside>
 
-        <section className="flex flex-col gap-1 md:col-span-8">
+        <section className="flex flex-col gap-3 md:col-span-8 md:gap-4">
           <article
             id="failure-modes"
-            className="card card-border flex h-full flex-col justify-center border-l border-border-muted bg-surface p-8 md:p-12"
+            className="card card-border flex h-full flex-col justify-center bg-surface p-8 md:p-12"
           >
             <h2 className="mb-6 font-serif text-3xl font-semibold leading-tight text-on-surface">
               Resolution Risk & Failure Modes
@@ -216,7 +216,7 @@ export default function RiskPage() {
             </div>
           </article>
 
-          <div className="grid min-h-64 grid-cols-1 gap-1 md:grid-cols-2">
+          <div className="grid min-h-64 grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
             <section className="card card-border relative overflow-hidden bg-surface p-4">
               <div className="relative z-10 flex justify-between">
                 <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
@@ -226,7 +226,7 @@ export default function RiskPage() {
               </div>
               <div className="absolute inset-0 top-10 flex items-end p-4">
                 <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 50">
-                  <path d="M0,40 Q10,35 20,45 T40,25 T60,30 T80,10 T100,20" fill="none" stroke="#1F2937" strokeWidth="1" />
+                  <path d="M0,40 Q10,35 20,45 T40,25 T60,30 T80,10 T100,20" fill="none" stroke="var(--border-muted)" strokeWidth="1" />
                   <path d="M0,42 Q10,38 20,42 T40,28 T60,32 T80,15 T100,25" fill="none" stroke="var(--status-signal)" strokeWidth="2" />
                   <line stroke="#434656" strokeDasharray="2,2" strokeWidth="1" x1="0" x2="100" y1="25" y2="25" />
                 </svg>

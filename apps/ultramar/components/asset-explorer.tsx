@@ -31,8 +31,8 @@ export function AssetExplorer() {
   });
 
   return (
-    <div className="grid gap-1 lg:grid-cols-[300px_1fr]">
-      <aside className="card card-border bg-surface p-4">
+    <div className="grid min-w-0 gap-4 lg:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
+      <aside className="card card-border min-w-0 bg-surface-container-lowest p-5">
         <div className="grid gap-5 lg:sticky lg:top-24">
           <div>
             <div className="flex items-center gap-2 text-status-signal">
@@ -113,12 +113,12 @@ export function AssetExplorer() {
         </div>
       </aside>
 
-      <div className="grid gap-1 bg-border-muted">
+      <div className="grid min-w-0 gap-4">
         {filteredDeals.map((deal, index) => (
           <Link
             key={deal.id}
             href={`/private-equities/assets/${deal.ticker}`}
-            className={`card card-border group grid min-w-0 overflow-hidden bg-surface transition hover:bg-surface-container ${
+            className={`card card-border group grid min-w-0 overflow-hidden bg-surface transition hover:border-status-signal hover:bg-surface-container-low ${
               index === 0 ? "lg:grid-cols-[1.05fr_0.95fr]" : "md:grid-cols-[260px_1fr]"
             }`}
           >
@@ -145,7 +145,7 @@ export function AssetExplorer() {
               </div>
             </div>
 
-            <div className="flex min-h-[260px] min-w-0 flex-col p-5 sm:p-6">
+            <div className="flex min-h-[250px] min-w-0 flex-col p-5 sm:p-6 lg:p-7">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">

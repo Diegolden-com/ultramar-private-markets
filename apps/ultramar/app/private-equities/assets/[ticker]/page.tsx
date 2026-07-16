@@ -84,8 +84,8 @@ export default async function AssetDetailPage({
 
       <ProductTabs product="private-equities" active="assets" />
 
-      <div className="grid grid-cols-1 gap-1 bg-border-muted md:grid-cols-12">
-      <div className="flex flex-col gap-1 bg-surface-ink md:col-span-8 lg:col-span-9">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-12 md:gap-4">
+      <div className="flex min-w-0 flex-col gap-3 md:col-span-8 md:gap-4 lg:col-span-9">
         <nav aria-label="Asset navigation">
           <Link
             href="/private-equities/assets"
@@ -96,13 +96,13 @@ export default async function AssetDetailPage({
           </Link>
         </nav>
 
-        <section className="border border-border-muted bg-surface p-6 md:p-8">
+        <section className="card card-border bg-surface p-6 sm:p-7 lg:p-8">
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <p className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
                 Asset
               </p>
-              <h1 className="font-serif text-4xl font-bold leading-[1.1] text-on-surface md:text-5xl">
+              <h1 className="max-w-[16ch] text-balance font-serif text-4xl font-bold leading-[1.02] text-on-surface sm:text-5xl">
                 {deal.name}
               </h1>
             </div>
@@ -151,7 +151,7 @@ export default async function AssetDetailPage({
           </div>
         </section>
 
-        <article className="border border-border-muted bg-surface p-6 text-lg leading-relaxed text-on-surface md:p-12">
+        <article className="card card-border bg-surface p-6 text-lg leading-relaxed text-on-surface sm:p-8 lg:p-10">
           <h2 className="mb-4 font-serif text-2xl font-medium">Use of Funds</h2>
           <div className="mb-8 grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-3">
             {useOfFunds.map(({ label, percent, amount }) => (
@@ -216,8 +216,8 @@ export default async function AssetDetailPage({
         </article>
       </div>
 
-      <aside className="flex flex-col gap-1 bg-surface-ink md:col-span-4 lg:col-span-3">
-        <section className="border border-border-muted bg-surface p-6">
+      <aside className="flex min-w-0 flex-col gap-3 md:col-span-4 md:gap-4 lg:col-span-3">
+        <section className="card card-border bg-surface p-6">
           <h2 className="mb-4 border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
             Diligence Path
           </h2>
@@ -251,7 +251,7 @@ export default async function AssetDetailPage({
           </div>
         </section>
 
-        <section className="border border-border-muted bg-surface p-6">
+        <section className="card card-border bg-surface p-6">
           <h2 className="mb-4 border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
             Data Room Status
           </h2>
@@ -269,7 +269,7 @@ export default async function AssetDetailPage({
           </button>
         </section>
 
-        <section className="mt-auto border border-border-muted bg-surface p-6">
+        <section className="card card-border mt-auto bg-surface p-6">
           <button
             className="btn btn-success w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
             type="button"

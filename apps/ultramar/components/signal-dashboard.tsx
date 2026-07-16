@@ -34,8 +34,8 @@ export async function SignalDashboard() {
   const avgSpread = averageAbsoluteSpread(signals);
 
   return (
-    <div className="space-y-1">
-      <div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         <MetricCard
           label="Signals"
           value={signals.length.toString()}
@@ -58,7 +58,7 @@ export async function SignalDashboard() {
         />
       </div>
 
-      <div className="grid gap-1 xl:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_320px] xl:gap-4">
         <section className="card card-border min-w-0 bg-surface">
           <div className="border-b border-border-muted p-4">
             <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
@@ -115,7 +115,7 @@ export async function SignalDashboard() {
           <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
             Position Summary
           </h2>
-          <div className="mt-5 space-y-4">
+          <div className="mt-5 space-y-3">
             {positions.map((position) => (
               <div key={position.id} className="card card-border bg-surface-ink p-4">
                 <div className="flex items-start justify-between gap-3">

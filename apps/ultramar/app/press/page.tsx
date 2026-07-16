@@ -65,10 +65,10 @@ export default function PressPage() {
         description="Onchain ownership, disclosure, and controlled access."
       />
 
-      <section className="border border-border-muted bg-border-muted">
+      <section className="card card-border overflow-hidden bg-surface">
         <Link
           href={`/press/${featuredArticle.slug}`}
-          className="group grid min-h-full bg-surface transition hover:bg-surface-container lg:grid-rows-[auto_1fr]"
+          className="group grid min-h-full bg-surface transition hover:bg-surface-container-low lg:grid-rows-[auto_1fr]"
         >
           <div className="relative aspect-[16/8] overflow-hidden border-b border-border-muted">
             <Image
@@ -77,7 +77,7 @@ export default function PressPage() {
               fill
               priority
               sizes="(min-width: 1024px) 60vw, 100vw"
-              className="image-blackwork object-cover transition duration-500 group-hover:scale-105"
+              className="image-blackwork object-cover transition duration-300 group-hover:scale-[1.02]"
             />
             <div className="absolute inset-0 bg-surface-ink/35" />
             <div className="badge badge-outline absolute left-4 top-4 bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
@@ -106,7 +106,7 @@ export default function PressPage() {
                 alt={article.title}
                 fill
                 sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-                className="image-blackwork object-cover transition duration-500 group-hover:scale-105"
+                className="image-blackwork object-cover transition duration-300 group-hover:scale-[1.02]"
               />
               <div className="absolute inset-0 bg-surface-ink/35" />
               <div className="badge badge-outline absolute left-4 top-4 bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">

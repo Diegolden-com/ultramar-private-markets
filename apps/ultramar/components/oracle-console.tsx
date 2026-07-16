@@ -35,8 +35,8 @@ export function OracleConsole() {
   }
 
   return (
-    <div className="grid gap-1 lg:grid-cols-[0.9fr_1.1fr]">
-      <div className="card card-border bg-surface p-6">
+    <div className="grid gap-3 md:gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="card card-border min-h-[280px] bg-surface p-6 sm:p-7 lg:p-8">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
           Issuer data
         </p>
@@ -56,7 +56,7 @@ export function OracleConsole() {
         </button>
       </div>
 
-      <div className="card card-border bg-surface p-6 text-on-surface">
+      <div className="card card-border bg-surface p-6 text-on-surface sm:p-7 lg:p-8">
         {data ? (
           <div>
             <div className="flex items-center justify-between gap-4 border-b border-border-muted pb-4">
@@ -76,7 +76,7 @@ export function OracleConsole() {
               </p>
               <p className="mt-2 text-sm text-on-surface-variant">Solvent and liquid</p>
             </div>
-            <div className="stats grid grid-cols-3 gap-1 border-y border-border-muted bg-border-muted text-center">
+            <div className="stats grid grid-cols-3 gap-px border-y border-border-muted bg-border-muted text-center">
               <OracleMetric label="Assets" value={formatCompact(data.metrics.assets)} />
               <OracleMetric label="Liabilities" value={formatCompact(data.metrics.liabilities)} />
               <OracleMetric label="Equity" value={formatCompact(data.metrics.equity)} />

@@ -11,12 +11,12 @@ const quickActionLinks = [
 ] as const;
 
 const focusVisibleClass =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 export function PlatformQuickActions({ pathname }: { pathname: string }) {
   return (
     <>
-      <nav className="dock dock-sm border-t border-border-muted bg-surface lg:hidden" aria-label="Quick product navigation">
+      <nav className="dock dock-sm border-t border-border-muted bg-surface xl:hidden" aria-label="Quick product navigation">
         {quickActionLinks.map((item) => {
           const Icon = item.icon;
           const active = isActiveAction(pathname, item.href);
@@ -26,7 +26,7 @@ export function PlatformQuickActions({ pathname }: { pathname: string }) {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={`${active ? "dock-active" : ""} ${focusVisibleClass}`}
+              className={`${active ? "dock-active text-primary" : "text-on-surface-variant"} ${focusVisibleClass}`}
             >
               <Icon className="size-[1.2em]" aria-hidden="true" />
               <span className="dock-label">{item.label}</span>
@@ -35,25 +35,25 @@ export function PlatformQuickActions({ pathname }: { pathname: string }) {
         })}
       </nav>
 
-      <div className="fab hidden lg:flex">
-        <button type="button" className={`btn btn-circle btn-primary ${focusVisibleClass}`} aria-label="Open quick actions">
-          <Plus className="h-5 w-5" aria-hidden="true" />
+      <div className="fab hidden xl:flex">
+        <button type="button" className={`btn btn-square btn-sm border border-border-muted bg-surface text-primary ${focusVisibleClass}`} aria-label="Open quick actions">
+          <Plus className="h-4 w-4" aria-hidden="true" />
         </button>
         <div className="fab-close">
           <span className="sr-only">Close quick actions</span>
-          <button type="button" className={`btn btn-circle btn-neutral ${focusVisibleClass}`} aria-label="Close quick actions">
-            <X className="h-5 w-5" />
+          <button type="button" className={`btn btn-square btn-sm btn-neutral ${focusVisibleClass}`} aria-label="Close quick actions">
+            <X className="h-4 w-4" />
           </button>
         </div>
-        <Link href="/private-equities/assets" className={`btn btn-success gap-2 ${focusVisibleClass}`}>
+        <Link href="/private-equities/assets" className={`btn btn-sm btn-accent gap-2 font-mono text-[10px] uppercase tracking-[0.1em] ${focusVisibleClass}`}>
           <DatabaseZap className="h-4 w-4" aria-hidden="true" />
           Assets
         </Link>
-        <Link href="/arbitrage-hedge-fund/signals" className={`btn btn-info gap-2 ${focusVisibleClass}`}>
+        <Link href="/arbitrage-hedge-fund/signals" className={`btn btn-sm btn-info gap-2 font-mono text-[10px] uppercase tracking-[0.1em] ${focusVisibleClass}`}>
           <LineChart className="h-4 w-4" aria-hidden="true" />
           Signals
         </Link>
-        <Link href="/api" className={`btn btn-outline gap-2 ${focusVisibleClass}`}>
+        <Link href="/api" className={`btn btn-sm btn-outline gap-2 font-mono text-[10px] uppercase tracking-[0.1em] ${focusVisibleClass}`}>
           <Code2 className="h-4 w-4" aria-hidden="true" />
           API
         </Link>
@@ -63,8 +63,8 @@ export function PlatformQuickActions({ pathname }: { pathname: string }) {
 }
 export function CapitalIntakeForm() {
   return (
-    <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.8fr_1.2fr]">
-      <div className="bg-surface p-6 md:p-8">
+    <section className="card card-border grid gap-px overflow-hidden bg-border-muted lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="min-w-0 bg-surface p-6 sm:p-7 lg:p-8">
         <div className="steps steps-vertical">
           <div className="step step-primary">Eligibility</div>
           <div className="step step-primary">Documents</div>
@@ -77,7 +77,7 @@ export function CapitalIntakeForm() {
           </span>
         </div>
         <p className="mt-2 text-sm text-on-surface-variant">Target review window in days.</p>
-        <div className="pika-single mt-6">
+        <div className="pika-single mt-6 max-w-full overflow-x-auto border border-border-muted bg-surface-container-lowest p-3">
           <div className="pika-lendar">
             <div className="pika-title">
               <button type="button" className="pika-prev" aria-label="Previous month" />
@@ -110,7 +110,7 @@ export function CapitalIntakeForm() {
             </table>
           </div>
         </div>
-        <div className="drawer drawer-end mt-6 h-32 border border-border-muted bg-surface-container">
+        <div className="drawer drawer-end mt-6 h-36 border border-border-muted bg-surface-container-lowest">
           <input id="capital-intake-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content grid place-items-center">
             <label htmlFor="capital-intake-drawer" className="drawer-button btn btn-sm btn-outline">
@@ -136,50 +136,50 @@ export function CapitalIntakeForm() {
         </div>
       </div>
 
-      <form className="grid gap-4 bg-surface p-6 md:p-8">
-        <fieldset className="fieldset border border-border-muted bg-surface-container p-4">
-          <legend className="fieldset-legend">Investor interest</legend>
-          <label className="label">
-            <span>Email</span>
+      <form className="grid min-w-0 gap-5 bg-surface p-6 sm:p-7 lg:p-8">
+        <fieldset className="fieldset border border-border-muted bg-surface-container-lowest p-5 sm:p-6">
+          <legend className="fieldset-legend font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-on-surface">Investor interest</legend>
+          <label className="grid gap-2">
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-on-surface-variant">Email</span>
             <input
               type="email"
               required
-              className="input validator w-full"
+              className="input input-success validator h-12 w-full"
               placeholder="investor@example.com"
               defaultValue="investor@example.com"
             />
           </label>
           <p className="validator-hint">Use a valid institutional email.</p>
-          <label className="label">
-            <span>Workflow</span>
-            <select className="select w-full" defaultValue="private-equities" aria-label="Workflow">
+          <label className="grid gap-2">
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-on-surface-variant">Workflow</span>
+            <select className="select select-success h-12 w-full" defaultValue="private-equities" aria-label="Workflow">
               <option value="private-equities">Private Equities</option>
               <option value="arbitrage">Arbitrage Hedge Fund</option>
             </select>
           </label>
-          <label className="label">
-            <span>Memo</span>
+          <label className="grid gap-2">
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-on-surface-variant">Memo</span>
             <textarea
-              className="textarea w-full"
+              className="textarea textarea-success min-h-28 w-full"
               defaultValue="Review eligibility, jurisdiction, document status, and allocation intent."
             />
           </label>
-          <input type="file" className="file-input w-full" aria-label="Upload diligence file" />
+          <input type="file" className="file-input file-input-success h-12 w-full" aria-label="Upload diligence file" />
         </fieldset>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <label className="label cursor-pointer justify-start gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="label min-h-12 cursor-pointer justify-start gap-3 border border-border-muted bg-surface-container-lowest px-4">
             <input type="checkbox" className="checkbox checkbox-success" defaultChecked />
             <span>Eligible investor</span>
           </label>
-          <label className="label cursor-pointer justify-start gap-3">
+          <label className="label min-h-12 cursor-pointer justify-start gap-3 border border-border-muted bg-surface-container-lowest px-4">
             <input type="checkbox" className="toggle toggle-success" defaultChecked />
             <span>Document alerts</span>
           </label>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="flex flex-wrap gap-3">
+        <div className="grid gap-4 sm:grid-cols-2 sm:items-center">
+          <div className="flex min-h-12 flex-wrap gap-3 border border-border-muted bg-surface-container-lowest px-3">
             <label className="label cursor-pointer justify-start gap-2">
               <input type="radio" name="allocation-priority" className="radio radio-primary" defaultChecked />
               <span>Primary</span>
@@ -189,24 +189,25 @@ export function CapitalIntakeForm() {
               <span>Secondary</span>
             </label>
           </div>
-          <div className="rating">
-            <input type="radio" name="readiness-rating" className="mask mask-star-2 bg-status-signal" />
+          <div className="rating justify-self-start sm:justify-self-end" aria-label="Readiness rating">
+            <input aria-label="Readiness one" type="radio" name="readiness-rating" className="mask mask-star-2 bg-status-signal" />
             <input
+              aria-label="Readiness two"
               type="radio"
               name="readiness-rating"
               className="mask mask-star-2 bg-status-signal"
               defaultChecked
             />
-            <input type="radio" name="readiness-rating" className="mask mask-star-2 bg-status-signal" />
+            <input aria-label="Readiness three" type="radio" name="readiness-rating" className="mask mask-star-2 bg-status-signal" />
           </div>
         </div>
 
-        <label className="label grid gap-2">
-          <span>Allocation confidence</span>
+        <label className="grid gap-3 border border-border-muted bg-surface-container-lowest p-4">
+          <span className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-on-surface-variant">Allocation confidence</span>
           <input type="range" min={0} max={100} defaultValue={72} className="range range-success" />
         </label>
 
-        <div className="filter">
+        <div className="filter max-w-full overflow-x-auto">
           <input className="btn filter-reset" type="radio" name="interest-filter" aria-label="All" />
           <input className="btn" type="radio" name="interest-filter" aria-label="Issuer" />
           <input className="btn" type="radio" name="interest-filter" aria-label="Allocator" />

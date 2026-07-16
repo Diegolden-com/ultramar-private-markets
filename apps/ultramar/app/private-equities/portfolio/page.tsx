@@ -31,7 +31,7 @@ export default function PortfolioPage() {
         description="Holdings and performance."
       />
 
-      <div className="grid gap-1 md:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-3 md:gap-4">
         <MetricCard
           label="Total value"
           value={`$${totalValue.toLocaleString("en-US")}`}

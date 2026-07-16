@@ -95,7 +95,7 @@ export default function SystemStatusPage() {
         eyebrow="System monitor"
         title="System status"
         asidePadded={false}
-        asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
+        asideClassName="grid grid-cols-2 gap-px bg-border-muted"
       >
         {incidents.map(([label, value]) => (
           <StatTile key={label} label={label} value={value} tone="signal" />

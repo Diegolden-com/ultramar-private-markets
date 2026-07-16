@@ -81,7 +81,7 @@ export default async function PressArticlePage({
         ]}
       />
 
-      <section className="border border-border-muted bg-surface">
+      <section className="card card-border bg-surface">
         <div className="px-4 py-4">
           <Link
             href="/press"
@@ -94,11 +94,11 @@ export default async function PressArticlePage({
       </section>
 
       <article>
-        <header className="border border-border-muted bg-surface p-6 md:p-8">
+        <header className="card card-border bg-surface p-6 sm:p-7 lg:p-8">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
             {article.eyebrow}
           </p>
-          <h1 className="mt-5 max-w-5xl font-serif text-4xl font-bold leading-[1.1] md:text-5xl">
+          <h1 className="mt-5 max-w-[22ch] text-balance font-serif text-4xl font-bold leading-[1.02] sm:text-5xl lg:text-[3.5rem]">
             {article.title}
           </h1>
           {primaryAppLink ? (
@@ -119,7 +119,7 @@ export default async function PressArticlePage({
           </p>
         </header>
 
-        <section className="border border-border-muted bg-surface">
+        <section className="card card-border overflow-hidden bg-surface">
           <div className="relative aspect-[16/8] overflow-hidden">
             <Image
               src={article.image}
@@ -133,7 +133,7 @@ export default async function PressArticlePage({
           </div>
         </section>
 
-        <section className="grid gap-1 bg-border-muted lg:grid-cols-[1fr_1fr]">
+        <section className="grid gap-3 md:gap-4 lg:grid-cols-[1fr_1fr]">
           <section className="card card-border bg-surface p-6">
             <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
               Key point
@@ -144,7 +144,7 @@ export default async function PressArticlePage({
             </div>
           </section>
 
-          <div className="space-y-1">
+          <div className="space-y-3 md:space-y-4">
             <section className="card card-border bg-surface p-6">
               <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                 Related Ultramar areas

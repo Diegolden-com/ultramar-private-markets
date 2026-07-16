@@ -15,8 +15,9 @@ type HeaderNavLink = HeaderNavItem["links"][number];
 const terminalLink = headerUtilityLinks[0];
 const signInLink = headerUtilityLinks[1];
 const focusVisibleClass =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 const platformFooterKeys = new Set(["home", "research", "press"]);
+const nonNavigableBreadcrumbs = new Set(["/auth"]);
 const footerRouteGroups = [
   {
     title: "Platform",
@@ -76,10 +77,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [activeMenu]);
 
   return (
-    <div className="min-h-screen bg-surface-ink pb-14 text-on-surface lg:pb-0">
+    <div className="min-h-screen bg-surface-ink pb-16 text-on-surface lg:pb-0">
       <a
         href="#main-content"
-        className={`btn btn-sm btn-success fixed left-4 top-4 z-[100] -translate-y-16 font-mono text-[11px] font-medium uppercase tracking-[0.08em] opacity-0 transition-[opacity,transform] ${focusVisibleClass} focus-visible:translate-y-0 focus-visible:opacity-100`}
+        className={`btn btn-sm btn-info fixed left-4 top-4 z-[100] -translate-y-16 font-mono text-[11px] font-medium uppercase tracking-[0.08em] opacity-0 transition-[opacity,transform] ${focusVisibleClass} focus-visible:translate-y-0 focus-visible:opacity-100`}
       >
         Skip to content
       </a>
@@ -94,16 +95,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           }
         }}
       >
-        <div className="navbar mx-auto min-h-12 w-full max-w-[1600px] px-4 py-0 md:px-12">
-          <div className="flex min-w-0 flex-1 items-center gap-6 md:gap-8">
+        <div className="navbar mx-auto min-h-16 w-full max-w-[1440px] px-4 py-0 sm:px-6 lg:px-8 xl:px-12">
+          <div className="flex min-w-0 flex-1 items-center gap-7 xl:gap-10">
             <Link
               href="/"
-              className={`flex h-12 shrink-0 items-center truncate font-serif text-xl font-bold leading-none text-on-surface ${focusVisibleClass}`}
+              className={`flex h-16 shrink-0 items-center truncate font-serif text-[1.35rem] font-bold leading-none text-on-surface ${focusVisibleClass}`}
               onClick={closeMenus}
             >
               <BrandName />
             </Link>
-            <nav className="hidden h-12 items-stretch gap-1 lg:flex" aria-label="Primary navigation">
+            <nav className="hidden h-16 items-stretch gap-0 xl:flex" aria-label="Primary navigation">
               {headerNavItems.map((item) =>
                 item.links.length > 0 ? (
                   <DesktopNavMenu
@@ -127,12 +128,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </nav>
           </div>
 
-          <div className="hidden flex-none gap-3 lg:flex">
+          <div className="hidden flex-none items-center gap-2 xl:flex">
             <Link
               href={terminalLink.href}
               aria-current={terminalActive ? "page" : undefined}
               onClick={closeMenus}
-              className={`indicator tooltip tooltip-bottom btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
+              className={`indicator tooltip tooltip-bottom btn btn-sm h-10 gap-2 px-4 font-mono text-[10px] font-medium uppercase tracking-[0.1em] ${focusVisibleClass} ${
                 terminalActive ? "btn-info" : "btn-outline btn-info"
               }`}
               data-tip={terminalLink.description}
@@ -145,7 +146,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               href={signInLink.href}
               aria-current={authActive ? "page" : undefined}
               onClick={closeMenus}
-              className={`btn btn-sm gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
+              className={`btn btn-sm h-10 gap-2 px-3 font-mono text-[10px] font-medium uppercase tracking-[0.1em] ${focusVisibleClass} ${
                 authActive
                   ? "btn-info"
                   : "btn-ghost text-on-surface-variant hover:text-primary"
@@ -157,12 +158,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
 
           <button
-            className={`btn btn-square btn-ghost btn-sm border border-border-muted bg-surface-ink text-on-surface lg:hidden ${focusVisibleClass}`}
+            className={`btn btn-square btn-ghost h-11 w-11 border border-border-muted bg-surface-ink text-on-surface xl:hidden ${focusVisibleClass}`}
             onClick={() => {
               setOpen((value) => !value);
               setActiveMenu(null);
             }}
             aria-label="Toggle navigation"
+            aria-controls="mobile-navigation"
+            aria-expanded={open}
             type="button"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -170,8 +173,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
 
         {open ? (
-          <nav className="border-t border-border-muted bg-surface lg:hidden" aria-label="Mobile navigation">
-            <ul className="menu w-full p-0">
+          <nav
+            id="mobile-navigation"
+            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-border-muted bg-surface xl:hidden"
+            aria-label="Mobile navigation"
+          >
+            <ul className="menu mx-auto w-full max-w-[1440px] p-0">
               {headerNavItems.map((item) => (
                 <li key={item.key} className="border-b border-border-muted">
                   <Link
@@ -183,7 +190,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     {item.label}
                   </Link>
                   {item.links.length > 0 ? (
-                    <ul className="rounded-none bg-surface-ink/40 p-0">
+                    <ul className="rounded-none bg-surface-container-lowest p-0">
                       {item.links.map((link) => (
                         <li key={link.href}>
                           <Link
@@ -227,14 +234,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {breadcrumbs.length > 1 ? (
         <nav
-          className="breadcrumbs overflow-x-auto border-b border-border-muted bg-surface-ink px-4 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-on-surface-variant md:px-12"
+          className="breadcrumbs overflow-x-auto border-b border-border-muted bg-surface-container-lowest px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.1em] text-on-surface-variant sm:px-6 lg:px-8 xl:px-12"
           aria-label="Breadcrumb"
         >
-          <ul className="mx-auto max-w-[1600px]">
+          <ul className="mx-auto max-w-[1440px]">
             {breadcrumbs.map((item, index) => (
               <li key={item.href}>
-                {index === breadcrumbs.length - 1 ? (
-                  <span className="text-on-surface">{item.label}</span>
+                {index === breadcrumbs.length - 1 || nonNavigableBreadcrumbs.has(item.href) ? (
+                  <span className={index === breadcrumbs.length - 1 ? "text-on-surface" : undefined}>
+                    {item.label}
+                  </span>
                 ) : (
                   <Link href={item.href} onClick={closeMenus} className={focusVisibleClass}>
                     {item.label}
@@ -248,27 +257,32 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {children}
 
-      <footer className="footer sm:footer-horizontal border-t border-border-muted bg-surface-container-lowest px-4 py-8 text-on-surface md:px-12">
-        <aside className="max-w-md">
-          <BrandName as="p" className="font-serif text-xl font-bold text-on-surface" />
-          <p className="mt-2 max-w-sm font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-            (c){new Date().getFullYear()} <BrandName /> Group. All rights reserved. Disclosures and controls.
-          </p>
-        </aside>
-        {footerRouteGroups.map((group) => (
-          <nav key={group.title}>
-            <h2 className="footer-title text-on-surface">{group.title}</h2>
-            {group.links.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`link-hover font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant transition-colors hover:text-primary ${focusVisibleClass}`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        ))}
+      <footer className="border-t border-border-muted bg-surface-container-lowest text-on-surface">
+        <div className="footer mx-auto w-full max-w-[1440px] gap-10 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:footer-horizontal lg:gap-8 lg:px-8 lg:py-12 xl:px-12">
+          <aside className="max-w-md sm:col-span-2 lg:col-span-1">
+            <BrandName as="p" className="font-serif text-2xl font-bold text-on-surface" />
+            <div className="mt-5 h-px w-12 bg-accent" aria-hidden="true" />
+            <p className="mt-5 max-w-sm font-mono text-[10px] font-medium uppercase leading-5 tracking-[0.1em] text-on-surface-variant">
+              (c){new Date().getFullYear()} <BrandName /> Group. All rights reserved. Disclosures and controls.
+            </p>
+          </aside>
+          {footerRouteGroups.map((group) => (
+            <nav key={group.title} className="min-w-0">
+              <h2 className="footer-title mb-1 font-mono text-[10px] tracking-[0.12em] text-on-surface">
+                {group.title}
+              </h2>
+              {group.links.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`link-hover font-mono text-[10px] font-medium uppercase leading-5 tracking-[0.1em] text-on-surface-variant transition-colors hover:text-primary ${focusVisibleClass}`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          ))}
+        </div>
       </footer>
       <PlatformQuickActions pathname={pathname} />
     </div>
@@ -276,18 +290,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 }
 
 function mobileNavClass(active: boolean) {
-  return `rounded-none px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
+  return `min-h-12 rounded-none px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.1em] sm:px-6 ${focusVisibleClass} ${
     active
-      ? "menu-active !bg-primary !text-primary-foreground"
-      : "text-on-surface-variant hover:text-primary"
+      ? "menu-active !bg-surface-container !text-primary"
+      : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
   }`;
 }
 
 function mobileSubNavClass(active: boolean) {
-  return `border-t border-border-muted px-8 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] ${focusVisibleClass} ${
+  return `min-h-11 border-t border-border-muted px-8 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] sm:px-10 ${focusVisibleClass} ${
     active
       ? "menu-active !bg-surface-container !text-primary"
-      : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
+      : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
   }`;
 }
 
@@ -331,7 +345,7 @@ function TerminalNavLink({
       href={href}
       aria-current={active ? "page" : undefined}
       onClick={onClick}
-      className={`flex h-12 items-center border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${focusVisibleClass} ${
+      className={`flex h-16 items-center border-b-2 px-3 font-mono text-[10px] font-medium uppercase tracking-[0.1em] transition-colors ${focusVisibleClass} ${
         active
           ? "border-primary text-primary"
           : "border-transparent text-on-surface-variant hover:text-primary"
@@ -359,14 +373,14 @@ function DesktopNavMenu({
   const menuId = `${item.key}-menu`;
 
   return (
-    <div className={`dropdown group relative flex h-12 items-stretch ${open ? "dropdown-open" : ""}`}>
+    <div className={`dropdown group relative flex h-16 items-stretch ${open ? "dropdown-open" : ""}`}>
       <button
         type="button"
         aria-current={active ? "page" : undefined}
         aria-controls={menuId}
         aria-expanded={open}
         onClick={onToggle}
-        className={`flex h-full items-center gap-1 border-b-2 px-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${focusVisibleClass} ${
+        className={`flex h-full items-center gap-1.5 border-b-2 px-3 font-mono text-[10px] font-medium uppercase tracking-[0.1em] transition-colors ${focusVisibleClass} ${
           active || open
             ? "border-primary text-primary"
             : "border-transparent text-on-surface-variant hover:text-primary"
@@ -380,7 +394,7 @@ function DesktopNavMenu({
       </button>
       <div
         id={menuId}
-        className={`dropdown-content absolute left-0 top-full z-50 max-h-[calc(100vh-3rem)] w-[360px] overflow-y-auto border border-border-muted bg-surface p-0 shadow-2xl shadow-black/30 transition-opacity ${
+        className={`dropdown-content card card-border absolute left-0 top-full z-50 max-h-[calc(100vh-4rem)] w-[360px] overflow-y-auto bg-surface p-0 shadow-md shadow-black/20 transition-opacity ${
           open ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
         }`}
       >

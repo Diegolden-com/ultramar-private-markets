@@ -153,7 +153,7 @@ export default async function SignalsPage() {
         </div>
       </ProductRouteHeader>
 
-      <SurfaceGrid bordered columns="grid-cols-1 md:grid-cols-4">
+      <SurfaceGrid bordered columns="grid-cols-2 md:grid-cols-4">
         {exposureMetrics.map(([label, value, tone]) => (
           <StatTile
             key={label}
@@ -165,7 +165,11 @@ export default async function SignalsPage() {
         ))}
       </SurfaceGrid>
 
-      <section className="card card-border overflow-x-auto bg-border-muted">
+      <section
+        className="card card-border overflow-x-auto bg-border-muted"
+        aria-label="Signal comparison table"
+        tabIndex={0}
+      >
         <div className="min-w-[980px]">
           <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_1fr_1fr] gap-1 bg-surface-container">
             {["Asset / Event", "Type", "Impl Prob", "Model Prob", "Spread vs Impl", "Confidence", "Status"].map(
@@ -187,7 +191,7 @@ export default async function SignalsPage() {
               <div
                 key={row.event}
                 className={`grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_1fr_1fr] gap-1 bg-surface-container transition-colors hover:bg-surface-variant ${
-                  row.state === "inactive" ? "opacity-60" : ""
+                  row.state === "inactive" ? "[&>div]:bg-surface-dim" : ""
                 }`}
               >
                 <div className="flex items-center gap-2 bg-surface p-3 font-mono text-sm font-medium text-on-surface">
