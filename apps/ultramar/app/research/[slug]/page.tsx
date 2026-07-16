@@ -99,21 +99,9 @@ export default async function ResearchArticlePage({
           <h1 className="mt-5 max-w-5xl font-serif text-4xl font-bold leading-[1.1] md:text-5xl">
             {article.title}
           </h1>
-          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-on-surface-variant">
-            {article.description}
+          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.08em] text-on-surface-variant">
+            Updated {article.updatedAt}
           </p>
-          <div className="mt-8 flex flex-wrap gap-2">
-            {[article.cluster, article.audience, article.readingTime, `Updated ${article.updatedAt}`].map(
-              (item) => (
-                <span
-                  key={item}
-                  className="badge badge-outline bg-surface-ink px-3 py-1.5 font-mono text-[11px] text-on-surface-variant"
-                >
-                  {item}
-                </span>
-              ),
-            )}
-          </div>
         </header>
 
         <section className="border border-border-muted bg-surface">
@@ -130,45 +118,18 @@ export default async function ResearchArticlePage({
           </div>
         </section>
 
-        <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.75fr_1.25fr]">
-          <aside className="space-y-1">
-            <div className="card card-border bg-surface p-5">
-              <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-                Angle
-              </p>
-              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{article.angle}</p>
+        <section className="grid gap-1 bg-border-muted lg:grid-cols-[1fr_1fr]">
+          <section className="card card-border bg-surface p-6">
+            <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+              Key point
+            </p>
+            <div className="mt-4 flex gap-3">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-status-signal" />
+              <p className="text-sm leading-6 text-on-surface-variant">{article.takeaways[0]}</p>
             </div>
-            <div className="card card-border bg-surface p-5">
-              <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-                Key takeaways
-              </p>
-              <div className="mt-4 grid gap-4">
-                {article.takeaways.map((takeaway) => (
-                  <div key={takeaway} className="flex gap-3">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-status-signal" />
-                    <p className="text-sm leading-6 text-on-surface-variant">{takeaway}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </aside>
+          </section>
 
           <div className="space-y-1">
-            {article.sections.map((section) => (
-              <section key={section.heading} className="card card-border bg-surface p-6 md:p-8">
-                <h2 className="font-serif text-3xl font-semibold leading-tight text-on-surface">
-                  {section.heading}
-                </h2>
-                <div className="mt-4 space-y-4">
-                  {section.body.map((paragraph) => (
-                    <p key={paragraph} className="text-base leading-8 text-on-surface-variant">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </section>
-            ))}
-
             <section className="card card-border bg-surface p-6">
               <p className="badge badge-outline badge-success font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
                 Related Ultramar areas
@@ -184,9 +145,6 @@ export default async function ResearchArticlePage({
                       <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                         {target.label}
                       </h3>
-                      <p className="mt-1 text-sm leading-6 text-on-surface-variant">
-                        {target.description}
-                      </p>
                     </div>
                     <ArrowRight className="h-4 w-4 shrink-0 text-status-signal transition group-hover:translate-x-1" />
                   </Link>
@@ -195,9 +153,7 @@ export default async function ResearchArticlePage({
             </section>
 
             <p className="border border-border-muted bg-surface p-5 font-mono text-[11px] uppercase leading-6 tracking-[0.08em] text-on-surface-variant">
-              This memo is informational and describes product design,
-              market structure, and operating controls. It is not investment,
-              legal, tax, or financial advice.
+              Informational only. Not investment, legal, tax, or financial advice.
             </p>
           </div>
         </section>

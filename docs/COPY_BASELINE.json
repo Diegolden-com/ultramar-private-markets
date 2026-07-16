@@ -1,0 +1,213 @@
+{
+  "generatedAt": "2026-07-16T19:46:07.938Z",
+  "baseUrl": "http://localhost:3000",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "method": "Visible rendered text nodes inside <main>; excludes header, footer, nav, scripts, styles, aria-hidden content, display:none, visibility:hidden, zero-opacity, and non-rendered nodes.",
+  "excludedFromReductionTarget": [
+    "/legal",
+    "/compliance",
+    "/private-equities/legal"
+  ],
+  "totalWords": 10432,
+  "targetWords": 9854,
+  "routes": [
+    {
+      "route": "/",
+      "words": 586,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/research",
+      "words": 221,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/press",
+      "words": 475,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/compliance",
+      "words": 252,
+      "includedInReductionTarget": false
+    },
+    {
+      "route": "/legal",
+      "words": 168,
+      "includedInReductionTarget": false
+    },
+    {
+      "route": "/sitemap",
+      "words": 234,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities",
+      "words": 579,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/arbitrage-hedge-fund",
+      "words": 539,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/assets",
+      "words": 541,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/deals",
+      "words": 139,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/oracle",
+      "words": 65,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/market",
+      "words": 90,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/legal",
+      "words": 158,
+      "includedInReductionTarget": false
+    },
+    {
+      "route": "/private-equities/assets/lcx",
+      "words": 190,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/assets/NXS.LOG",
+      "words": 137,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/assets/VRX.RE",
+      "words": 138,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/assets/AGR.YLD",
+      "words": 133,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/arbitrage-hedge-fund/dashboard",
+      "words": 414,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/arbitrage-hedge-fund/signals",
+      "words": 211,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/arbitrage-hedge-fund/risk",
+      "words": 278,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/arbitrage-hedge-fund/research",
+      "words": 84,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/research/polymarket-arbitrage-explainer",
+      "words": 311,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/research/tokenized-private-equity-primer",
+      "words": 319,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/research/issuer-oracle-operating-data",
+      "words": 310,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/research/event-market-risk-controls",
+      "words": 268,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/press/capital-windows-uniswap-v4-custom-accounting",
+      "words": 1003,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/press/why-capital-markets-need-onchain-instruments-now",
+      "words": 462,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/press/private-secondaries-need-transparent-rails",
+      "words": 410,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/press/ai-compliance-is-the-disclosure-layer-for-tokenized-equity",
+      "words": 437,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/press/retail-access-to-private-companies-should-not-wait-for-ipo",
+      "words": 423,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/api",
+      "words": 179,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/system-status",
+      "words": 119,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/auth/login",
+      "words": 79,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/auth/sign-up",
+      "words": 76,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/auth/sign-up-success",
+      "words": 72,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/auth/forgot-password",
+      "words": 74,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/auth/update-password",
+      "words": 76,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/auth/error",
+      "words": 76,
+      "includedInReductionTarget": true
+    },
+    {
+      "route": "/private-equities/portfolio",
+      "words": 106,
+      "includedInReductionTarget": true
+    }
+  ]
+}

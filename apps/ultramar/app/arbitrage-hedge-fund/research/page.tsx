@@ -79,15 +79,14 @@ export default function ResearchPage() {
         product="arbitrage-hedge-fund"
         active="research"
         eyebrow="Arbitrage Hedge Fund / Research Gate"
-        title="Research, not product"
-        description="Strategy context stays clearly separated from Polymarket-first monitoring until controls are ready."
+        title="Strategy backlog"
+        description="Only Polymarket arbitrage is active."
       />
       <SurfaceGrid columns="md:grid-cols-2">
         {strategyItems.map((item) => (
           <FeatureCard
             key={item.title}
             title={item.title}
-            body={item.body}
             className="flex flex-col"
             titleClassName="mt-4"
           >

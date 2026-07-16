@@ -9,7 +9,7 @@ import {
   type SiteRouteGroup,
 } from "@/lib/site-navigation";
 
-export const lastSignificantUpdate = new Date("2026-05-28T00:00:00.000Z");
+export const lastSignificantUpdate = new Date("2026-07-16T00:00:00.000Z");
 
 const platformIndexableKeys = new Set(["home", "research", "press", "compliance", "legal", "sitemap"]);
 const privateEquitiesExcludedKeys = new Set(["overview", "portfolio"]);

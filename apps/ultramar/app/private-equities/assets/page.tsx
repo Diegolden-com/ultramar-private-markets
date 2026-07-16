@@ -1,11 +1,8 @@
 import { BrandName } from "@/components/brand-name";
 import { AssetExplorer } from "@/components/asset-explorer";
-import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
-import { ProductCrosslink } from "@/components/product-crosslink";
 import { ProductTabs } from "@/components/product-tabs";
 import { deals, formatCurrency } from "@/lib/deals";
-import { researchArticles } from "@/lib/research";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -14,7 +11,7 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import { ArrowRight, DatabaseZap, FileText, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -39,28 +36,6 @@ const assetFaqs = [
       "The issuer oracle can connect operating data to solvency, liquidity, and data-recency context so assets are not evaluated only from static token metadata.",
   },
 ];
-
-const marketplaceContext = [
-  {
-    icon: FileText,
-    title: "Asset diligence",
-    body: "Each listing points investors toward issuer narrative, valuation frame, minimum ticket, sector, location, and offering status before deeper review.",
-  },
-  {
-    icon: DatabaseZap,
-    title: "Oracle-ready context",
-    body: "The asset index can absorb issuer operating data, so visibility can mature from profile metadata into investor-facing proofs.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Controlled access",
-    body: "The marketplace is not positioned as an unrestricted exchange; production flows depend on eligibility, legal wrappers, and transfer controls.",
-  },
-];
-
-const relatedResearch = researchArticles.filter((article) =>
-  ["tokenized-private-equity-primer", "issuer-oracle-operating-data"].includes(article.slug),
-);
 
 export const metadata = createSeoMetadata({
   title: "Private Equities Assets",
@@ -126,9 +101,7 @@ export default function AssetsPage() {
                 Asset index for controlled private-market access.
               </h1>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-on-surface-variant">
-                A focused index for issuer rounds, secondary transfer
-                paths, and asset-level operating context. The marketplace stays
-                quiet so the diligence can stay visible.
+                Filter assets and open their diligence view.
               </p>
             </div>
 
@@ -202,32 +175,13 @@ export default function AssetsPage() {
 
       <ProductTabs product="private-equities" active="assets" />
 
-      <section className="grid gap-1 bg-border-muted md:grid-cols-3">
-        {marketplaceContext.map((item, index) => (
-          <div key={item.title} className="card card-border bg-surface p-5">
-            <div className="flex items-start justify-between gap-4">
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                {String(index + 1).padStart(2, "0")}
-              </p>
-              <item.icon className="h-5 w-5 text-status-signal" />
-            </div>
-            <h2 className="mt-8 font-serif text-2xl font-semibold leading-tight text-on-surface">
-              {item.title}
-            </h2>
-            <p className="mt-4 text-sm leading-6 text-on-surface-variant">{item.body}</p>
-          </div>
-        ))}
-      </section>
-
       <section className="border border-border-muted bg-surface p-6 md:p-8">
         <div className="mb-8 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
               Available assets
             </p>
-            <h2 className="mt-3 max-w-3xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">
-              Browse without marketplace noise.
-            </h2>
+            <h2 className="mt-3 max-w-3xl font-serif text-3xl font-semibold leading-tight text-on-surface md:text-4xl">Browse assets</h2>
           </div>
           <Link
             href="/private-equities/deals"
@@ -240,54 +194,12 @@ export default function AssetsPage() {
         <AssetExplorer />
       </section>
 
-      <section className="grid gap-1 border border-border-muted bg-border-muted lg:grid-cols-[0.75fr_1.25fr]">
-        <div className="bg-surface p-6 md:p-8">
-          <div>
-            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-              Research context
-            </p>
-            <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-              More than a token list.
-            </h2>
-            <p className="mt-4 max-w-xl text-sm leading-6 text-on-surface-variant">
-              Asset diligence connects directly to Ultramar research on
-              tokenized private equity and issuer operating data.
-            </p>
-          </div>
-        </div>
-        <div className="grid gap-1 bg-border-muted md:grid-cols-2">
-            {relatedResearch.map((article) => (
-              <Link
-                key={article.slug}
-                href={`/research/${article.slug}`}
-                className="card card-border group bg-surface p-5 transition hover:bg-surface-container"
-              >
-                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                  {article.eyebrow}
-                </p>
-                <h3 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
-                  {article.title}
-                </h3>
-                <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-                  {article.description}
-                </p>
-                <span className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant group-hover:text-status-signal">
-                  Read memo
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </span>
-              </Link>
-            ))}
+      <section className="border border-border-muted bg-surface p-5">
+        <div className="flex items-center gap-3 text-sm text-on-surface-variant">
+          <ShieldCheck className="h-5 w-5 shrink-0 text-status-warning" />
+          Participation requires eligibility, issuer documents, and transfer controls.
         </div>
       </section>
-
-      <FaqSection
-        eyebrow="Asset FAQ"
-        title="How investors should read the index"
-        description="Public asset information supports review; participation remains gated by eligibility, documents, and jurisdiction-specific checks."
-        items={assetFaqs}
-      />
-
-      <ProductCrosslink current="private-equities" />
     </>
   );
 }

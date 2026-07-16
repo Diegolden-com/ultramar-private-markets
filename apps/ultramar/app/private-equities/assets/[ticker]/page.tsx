@@ -2,7 +2,7 @@ import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import { deals, findDeal, formatCurrency } from "@/lib/deals";
 import { breadcrumbJsonLd, createSeoMetadata, webPageJsonLd } from "@/lib/seo";
-import { AlertTriangle, ArrowLeft, Lock } from "lucide-react";
+import { AlertTriangle, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -86,13 +86,15 @@ export default async function AssetDetailPage({
 
       <div className="grid grid-cols-1 gap-1 bg-border-muted md:grid-cols-12">
       <div className="flex flex-col gap-1 bg-surface-ink md:col-span-8 lg:col-span-9">
-        <Link
-          href="/private-equities/assets"
-          className="btn btn-ghost btn-sm w-fit bg-surface-ink font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to assets
-        </Link>
+        <nav aria-label="Asset navigation">
+          <Link
+            href="/private-equities/assets"
+            className="btn btn-ghost btn-sm w-fit bg-surface-ink font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant hover:text-status-signal"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to assets
+          </Link>
+        </nav>
 
         <section className="border border-border-muted bg-surface p-6 md:p-8">
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -150,12 +152,7 @@ export default async function AssetDetailPage({
         </section>
 
         <article className="border border-border-muted bg-surface p-6 text-lg leading-relaxed text-on-surface md:p-12">
-          <h2 className="mb-6 border-b border-border-muted pb-2 font-serif text-3xl font-semibold leading-tight">
-            Executive Summary
-          </h2>
-          <p className="mb-8 text-on-surface-variant">{deal.description}</p>
-
-          <h3 className="mb-4 mt-8 font-serif text-2xl font-medium">Use of Funds</h3>
+          <h2 className="mb-4 font-serif text-2xl font-medium">Use of Funds</h2>
           <div className="mb-8 grid grid-cols-1 gap-1 border border-border-muted bg-border-muted md:grid-cols-3">
             {useOfFunds.map(({ label, percent, amount }) => (
               <div key={label} className="bg-surface p-4">
@@ -209,7 +206,7 @@ export default async function AssetDetailPage({
                 "Operational integration risk during facility transition and automation deployment.",
                 "FX exposure from localized revenue streams against USD reporting standards.",
                 "Supply-chain disruption could impact CapEx deployment timelines.",
-              ]).slice(0, 3).map((risk) => (
+              ]).slice(0, 1).map((risk) => (
                 <li key={risk} className="border-l-2 border-border-muted pl-4">
                   {risk}
                 </li>
@@ -270,20 +267,6 @@ export default async function AssetDetailPage({
           >
             Request Unlock
           </button>
-        </section>
-
-        <section className="hatch-pattern flex flex-1 flex-col border border-border-muted bg-surface p-6">
-          <h2 className="mb-4 border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-            Oracle Bridge
-          </h2>
-          <div className="flex h-32 flex-col items-center justify-center opacity-50">
-            <Lock className="mb-2 h-8 w-8" />
-            <p className="text-center font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-              Telemetry locked
-              <br />
-              Awaiting clearance
-            </p>
-          </div>
         </section>
 
         <section className="mt-auto border border-border-muted bg-surface p-6">

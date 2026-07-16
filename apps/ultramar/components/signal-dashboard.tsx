@@ -39,25 +39,21 @@ export async function SignalDashboard() {
         <MetricCard
           label="Signals"
           value={signals.length.toString()}
-          detail="Active or monitored dislocations"
           icon={Activity}
         />
         <MetricCard
           label="Avg spread"
           value={avgSpread.toFixed(3)}
-          detail="Absolute probability spread"
           icon={BarChart3}
         />
         <MetricCard
           label="Exposure"
           value={`$${exposure.toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
-          detail="Current notional sizing"
           icon={Wallet}
         />
         <MetricCard
           label="Guardrails"
           value="Live"
-          detail="Sizing and concentration checks"
           icon={Shield}
         />
       </div>
@@ -68,9 +64,6 @@ export async function SignalDashboard() {
             <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
               Signal Board
             </h2>
-            <p className="mt-1 text-sm text-on-surface-variant">
-              Polymarket prices compared with model probabilities before sizing review.
-            </p>
           </div>
           <div className="overflow-x-auto">
             <table className="table table-sm w-full min-w-[720px] text-left font-mono text-sm">

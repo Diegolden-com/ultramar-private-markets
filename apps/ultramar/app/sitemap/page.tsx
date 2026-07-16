@@ -54,13 +54,9 @@ export default function SitemapPage() {
       <PageHeader
         eyebrow="Site index"
         title="Human-readable sitemap"
-        description="A compact index of product areas, disclosures, research, press articles, and read-only data feeds."
+        description="Canonical public routes."
       >
         <Map className="h-5 w-5 text-status-signal" />
-        <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-          Reviewers can use this index to move through Ultramar&apos;s public materials. The XML sitemap
-          remains available for search engines and automated tools.
-        </p>
         <Link
           href="/sitemap.xml"
           className="btn btn-outline btn-success mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
@@ -76,7 +72,7 @@ export default function SitemapPage() {
             <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
               {group.title}
             </h2>
-            <div className="mt-5 grid min-w-0 gap-1 border border-border-muted bg-border-muted">
+            <nav aria-label={group.title} className="mt-5 grid min-w-0 gap-1 border border-border-muted bg-border-muted">
               {group.links.map((link) => (
                 <Link
                   key={`${group.title}-${link.href}`}
@@ -89,7 +85,7 @@ export default function SitemapPage() {
                   </span>
                 </Link>
               ))}
-            </div>
+            </nav>
           </article>
         ))}
       </SurfaceGrid>

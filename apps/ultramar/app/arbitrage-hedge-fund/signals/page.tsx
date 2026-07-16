@@ -1,4 +1,3 @@
-import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { ProductRouteHeader, StatTile, SurfaceGrid } from "@/components/page-layout";
 import {
@@ -133,7 +132,7 @@ export default async function SignalsPage() {
         active="signals"
         eyebrow="Arbitrage Hedge Fund / Signal Review"
         title="Polymarket Signal Board"
-        description={description}
+        description="Compare event prices with model probabilities."
       >
         <div className="flex gap-4">
           <div className="flex flex-col items-start md:items-end">
@@ -246,13 +245,6 @@ export default async function SignalsPage() {
           })}
         </div>
       </section>
-
-      <FaqSection
-        eyebrow="Signal FAQ"
-        title="How the signal board should be interpreted"
-        description="Signals are observations for review; they are not automatic trade instructions."
-        items={signalFaqs}
-      />
     </>
   );
 }

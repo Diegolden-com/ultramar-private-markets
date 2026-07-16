@@ -52,8 +52,8 @@ export default function DealsPage() {
         product="private-equities"
         active="deals"
         eyebrow="Private Equities / Issuer Rounds"
-        title="Issuer rounds and deal mechanics"
-        description="Deals make issuer rounds understandable before an investor reaches eligibility review, allocation, or closing."
+        title="Issuer rounds"
+        description="Review terms before requesting access."
       />
       <SurfaceGrid>
         {primaryDeals.map((deal) => (
@@ -83,14 +83,6 @@ export default function DealsPage() {
               <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">
                 {deal.name}
               </h2>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-on-surface-variant">
-                {deal.description}
-              </p>
-              {deal.capitalRaise ? (
-                <p className="mt-4 max-w-3xl font-mono text-[11px] uppercase tracking-[0.08em] text-on-surface-variant">
-                  {deal.capitalRaise.instrument}. {deal.capitalRaise.closingWindow}.
-                </p>
-              ) : null}
             </div>
             <div className="grid min-w-64 gap-3 border-t border-border-muted pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-0">
               <DealStat label="Valuation" value={formatCurrency(deal.valuation)} />
@@ -112,10 +104,7 @@ export default function DealsPage() {
       <SurfacePanel padded={false} className="border-t-status-warning p-5">
         <FileCheck2 className="h-5 w-5 text-status-warning" />
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-          Production participation requires legal review, KYC/KYB, accreditation or
-          suitability checks where applicable, custody setup, and issuer-specific
-          offering documents. Public deal materials should not accept funds or binding
-          commitments until the selected offering path is approved.
+          Participation requires eligibility checks, legal review, and final offering documents.
         </p>
       </SurfacePanel>
     </>

@@ -1,10 +1,6 @@
 import { JsonLd } from "@/components/json-ld";
-import { FaqSection } from "@/components/faq-section";
-import { ProductCrosslink } from "@/components/product-crosslink";
 import { SignalDashboard } from "@/components/signal-dashboard";
-import { FeatureCard, ProductRouteHeader, SplitPanel, SurfaceGrid } from "@/components/page-layout";
-import { SectionHeader } from "@/components/section-header";
-import { researchArticles } from "@/lib/research";
+import { ProductRouteHeader } from "@/components/page-layout";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -13,8 +9,7 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import { ArrowRight, BarChart3, ClipboardCheck, Gauge, WalletCards } from "lucide-react";
-import Link from "next/link";
+import { BarChart3, ClipboardCheck, Gauge, WalletCards } from "lucide-react";
 
 const dashboardPath = "/arbitrage-hedge-fund/dashboard";
 const description =
@@ -65,10 +60,6 @@ const dashboardFaqs = [
   },
 ];
 
-const relatedResearch = researchArticles.filter((article) =>
-  ["event-market-risk-controls", "polymarket-arbitrage-explainer"].includes(article.slug),
-);
-
 export const metadata = createSeoMetadata({
   title: "Arbitrage Hedge Fund Dashboard",
   description,
@@ -118,64 +109,11 @@ export default function DashboardPage() {
         active="dashboard"
         eyebrow="Arbitrage Hedge Fund / Allocator Review"
         title="Dashboard"
-        description={description}
+        description="Signals, positions, and guardrails."
       />
-      <SurfaceGrid columns="md:grid-cols-2 lg:grid-cols-4">
-        {dashboardModules.map((item) => (
-          <FeatureCard
-            key={item.title}
-            id={item.href.split("#")[1]}
-            icon={item.icon}
-            title={item.title}
-            body={item.body}
-          />
-        ))}
-      </SurfaceGrid>
       <section className="card card-border bg-surface p-4 md:p-6">
         <SignalDashboard />
       </section>
-      <SplitPanel
-        columns="lg:grid-cols-[0.8fr_1.2fr]"
-        asidePadded={false}
-        aside={
-          <div className="grid gap-1 bg-border-muted md:grid-cols-2">
-            {relatedResearch.map((article) => (
-              <Link
-                key={article.slug}
-                href={`/research/${article.slug}`}
-                className="card card-border group bg-surface p-5 transition hover:border-status-signal"
-              >
-                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                  {article.eyebrow}
-                </p>
-                <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight text-on-surface">
-                  {article.title}
-                </h2>
-                <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-                  {article.description}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant group-hover:text-status-signal">
-                  Read memo
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        }
-      >
-        <SectionHeader
-          eyebrow="Research context"
-          title="Dashboard metrics need a risk memo behind them"
-          description="Allocator metrics need research context explaining spread quality, exposure, and strategy graduation rules."
-        />
-      </SplitPanel>
-      <FaqSection
-        eyebrow="Dashboard FAQ"
-        title="How allocators should read the dashboard"
-        description="How to connect signal health, exposure, and risk controls before evaluating allocation."
-        items={dashboardFaqs}
-      />
-      <ProductCrosslink current="arbitrage-hedge-fund" />
     </>
   );
 }

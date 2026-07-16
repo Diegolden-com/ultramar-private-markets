@@ -53,7 +53,7 @@ export default function MarketPage() {
         active="market"
         eyebrow="Private Equities / Secondary Rail"
         title="Secondary market"
-        description="Eligible transfer activity stays separate from primary issuer rounds and remains subject to issuer restrictions."
+        description="Eligible, issuer-controlled transfers."
       />
       <SurfaceGrid columns="md:grid-cols-2">
         {secondaryDeals.map((deal) => (
@@ -66,7 +66,6 @@ export default function MarketPage() {
             <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-on-surface">
               {deal.name}
             </h2>
-            <p className="mt-2 text-sm leading-6 text-on-surface-variant">{deal.description}</p>
             <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border-muted pt-4">
               <MarketStat label="Ticker" value={deal.ticker} />
               <MarketStat label="Valuation" value={formatCurrency(deal.valuation)} />
@@ -82,8 +81,7 @@ export default function MarketPage() {
       <SurfacePanel padded={false} className="border-t-status-warning p-5">
         <LineChart className="h-5 w-5 text-status-warning" />
         <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-          Secondary transfer availability depends on eligibility, lockups, issuer
-          restrictions, and jurisdiction-specific compliance controls.
+          Transfers depend on eligibility, lockups, and issuer restrictions.
         </p>
       </SurfacePanel>
     </>

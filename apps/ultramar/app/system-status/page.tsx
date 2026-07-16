@@ -1,7 +1,5 @@
-import { BrandText } from "@/components/brand-name";
-import { StatusToastPanel } from "@/components/daisyui-route-widgets";
 import { JsonLd } from "@/components/json-ld";
-import { PageHeader, PageShell, StatTile, SurfaceGrid, SurfacePanel } from "@/components/page-layout";
+import { PageHeader, PageShell, StatTile, SurfaceGrid } from "@/components/page-layout";
 import { averageAbsoluteSpread, samplePositions, sampleSignals, totalExposure } from "@/lib/arbitrage";
 import {
   breadcrumbJsonLd,
@@ -10,7 +8,7 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import { Activity, CircuitBoard, DatabaseZap, Radar, ShieldCheck } from "lucide-react";
+import { Activity, DatabaseZap, Radar, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 const statusPath = "/system-status";
@@ -95,8 +93,7 @@ export default function SystemStatusPage() {
 
       <PageHeader
         eyebrow="System monitor"
-        title="Availability and data status"
-        description="A compact operating view for Ultramar availability, read-only data feeds, and disclosure access."
+        title="System status"
         asidePadded={false}
         asideClassName="grid grid-cols-1 gap-1 bg-border-muted sm:grid-cols-2"
       >
@@ -117,7 +114,6 @@ export default function SystemStatusPage() {
               <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
                 {item.name}
               </h2>
-              <p className="mt-2 text-sm leading-6 text-on-surface-variant">{item.detail}</p>
             </div>
             <span className="badge badge-outline badge-success gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
               <span className="status status-success" />
@@ -126,22 +122,6 @@ export default function SystemStatusPage() {
           </Link>
         ))}
       </SurfaceGrid>
-
-      <StatusToastPanel />
-
-      <SurfacePanel padded={false} className="p-6">
-        <CircuitBoard className="h-5 w-5 text-status-signal" />
-        <h2 className="mt-4 font-serif text-2xl font-semibold leading-tight text-on-surface">
-          Status scope
-        </h2>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-on-surface-variant">
-          <BrandText>
-            {
-              "This status view reports availability for Ultramar.capital and its read-only data feeds. It is not a broker-dealer, custodian, bank, exchange, or production incident-management portal."
-            }
-          </BrandText>
-        </p>
-      </SurfacePanel>
     </PageShell>
   );
 }

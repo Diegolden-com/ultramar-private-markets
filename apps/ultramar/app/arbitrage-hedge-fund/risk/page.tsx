@@ -1,4 +1,3 @@
-import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { ProductRouteHeader } from "@/components/page-layout";
 import {
@@ -139,8 +138,8 @@ export default function RiskPage() {
         product="arbitrage-hedge-fund"
         active="risk"
         eyebrow="Arbitrage Hedge Fund / Risk Review"
-        title="Arbitrage Risk Controls"
-        description={description}
+        title="Risk controls"
+        description="Sizing, exposure, liquidity, resolution, and model drift."
       >
         <div className="flex flex-wrap gap-4">
           <div className="badge badge-outline badge-success flex items-center gap-2 bg-surface px-3 py-1">
@@ -200,18 +199,9 @@ export default function RiskPage() {
             <h2 className="mb-6 font-serif text-3xl font-semibold leading-tight text-on-surface">
               Resolution Risk & Failure Modes
             </h2>
-            <div className="space-y-6 text-lg leading-relaxed text-on-surface-variant">
-              <p>
-                In arbitrage strategies, primary risk stems not from directional market movement,
-                but from resolution delays and structural failure modes. The assumption of
-                convergence relies on specific catalytic events and functional clearing mechanisms.
-              </p>
-              <p>
-                We classify resolution risk into three distinct vectors: Regulatory Intervention,
-                Counterparty Default, and Model Drift. A failure in any vector can transform a
-                perceived risk-free arbitrage into a directional exposure with asymmetric downside.
-              </p>
-            </div>
+            <p className="text-lg leading-relaxed text-on-surface-variant">
+              Resolution, counterparty, liquidity, and model failures can prevent convergence.
+            </p>
             <div className="mt-8 border-t border-border-muted pt-6">
               <div className="flex items-center gap-4">
                 <div className="grid h-10 w-10 place-items-center border border-border-muted bg-surface-dim">
@@ -221,9 +211,6 @@ export default function RiskPage() {
                   <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                     Mandatory Audit Trail
                   </h3>
-                  <p className="text-sm leading-normal text-on-surface-variant">
-                    All risk parameter adjustments require logged review and approval.
-                  </p>
                 </div>
               </div>
             </div>
@@ -271,13 +258,6 @@ export default function RiskPage() {
           </div>
         </section>
       </div>
-
-      <FaqSection
-        eyebrow="Risk FAQ"
-        title="How risk controls constrain product scope"
-        description="Risk policy explains when a signal can move from monitoring toward sizing."
-        items={riskFaqs}
-      />
     </>
   );
 }

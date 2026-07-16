@@ -17,6 +17,8 @@ Capital is the umbrella layer and should not be described as a third public prod
 
 The Press section contains market-structure and technical commentary on Uniswap v4 custom accounting, onchain instruments, tokenized private equity, AI compliance, and continuous disclosure. It should not be described as an offering.
 
+Public pages are intentionally concise product surfaces. This file preserves the route-level context agents need without turning the interface into long-form documentation.
+
 ## Access Policy
 
 - https://ultramar.capital serves the site directly.

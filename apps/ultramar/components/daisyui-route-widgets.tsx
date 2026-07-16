@@ -13,12 +13,6 @@ const quickActionLinks = [
 const focusVisibleClass =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-status-signal";
 
-const workflowSteps = [
-  ["01", "Issuer or market context", "Source material enters a review queue."],
-  ["02", "Eligibility and controls", "Access, jurisdiction, and limits stay explicit."],
-  ["03", "Investor-facing route", "Only the right next action is exposed."],
-] as const;
-
 export function PlatformQuickActions({ pathname }: { pathname: string }) {
   return (
     <>
@@ -67,141 +61,6 @@ export function PlatformQuickActions({ pathname }: { pathname: string }) {
     </>
   );
 }
-
-export function ProductExperiencePanels() {
-  return (
-    <section className="grid gap-1 border-y border-border-muted bg-border-muted lg:grid-cols-3">
-      <article className="card card-border bg-surface p-5 md:p-6">
-        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Capital access
-        </p>
-        <h2 className="mt-3 text-balance font-serif text-2xl font-semibold leading-tight">
-          Capital workflows stay{" "}
-          <span className="text-rotate text-status-signal duration-[7s]">
-            <span>
-              <span>observable</span>
-              <span>gated</span>
-              <span>routable</span>
-            </span>
-          </span>
-        </h2>
-        <div className="mt-5 grid gap-2">
-          {workflowSteps.map(([step, title, detail]) => (
-            <div key={step} className="grid grid-cols-[48px_1fr] gap-3 border border-border-muted bg-surface-container-low p-3">
-              <span className="grid h-10 w-10 place-items-center border border-border-muted font-mono text-[11px] font-semibold tabular-nums text-on-surface">
-                {step}
-              </span>
-              <div className="min-w-0">
-                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-                  {title}
-                </p>
-                <p className="mt-1 text-pretty text-sm leading-5 text-on-surface-variant">{detail}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-5">
-          <div className="mb-2 flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
-            <span>Public explanation</span>
-            <span>Gated action</span>
-          </div>
-          <progress className="progress progress-success h-1.5 w-full" value={72} max={100} aria-label="Capital workflow readiness" />
-        </div>
-      </article>
-
-      <article className="card card-border bg-surface p-5 md:p-6">
-        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Diligence signal
-        </p>
-        <h2 className="mt-3 text-balance font-serif text-2xl font-semibold leading-tight">
-          Sparse inputs become reviewable signal.
-        </h2>
-        <div className="stats stats-vertical mt-5 w-full border border-border-muted bg-surface-container-low sm:stats-horizontal">
-          <div className="stat">
-            <div className="stat-title font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
-              Sparse Read
-            </div>
-            <div className="stat-value font-mono text-3xl tabular-nums text-on-surface">42</div>
-            <div className="stat-desc text-on-surface-variant">Unscored documents</div>
-          </div>
-          <div className="stat">
-            <div className="stat-title font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
-              Governed Read
-            </div>
-            <div className="stat-value font-mono text-3xl tabular-nums text-status-signal">
-              91
-            </div>
-            <div className="stat-desc text-on-surface-variant">Controls attached</div>
-          </div>
-        </div>
-        <div className="mt-5 border border-border-muted bg-surface-container-low p-4">
-          <div className="flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant">
-            <span>Raw input</span>
-            <span>Allocator-ready</span>
-          </div>
-          <progress className="progress progress-success mt-3 h-1.5 w-full" value={91} max={100} aria-label="Diligence signal completeness" />
-          <div className="mt-4 grid gap-2 text-sm text-on-surface-variant">
-            <p className="flex items-center gap-2">
-              <span className="status status-success" aria-hidden="true" />
-              Evidence and limits stay paired.
-            </p>
-            <p className="flex items-center gap-2">
-              <span className="status status-info" aria-hidden="true" />
-              Signal values remain reviewable.
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article className="card card-border bg-surface p-5 md:p-6">
-        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-          Operating lens
-        </p>
-        <h2 className="mt-3 text-balance font-serif text-2xl font-semibold leading-tight">
-          Every route keeps its operational job visible.
-        </h2>
-        <div className="mt-5 grid min-h-32 place-items-center border border-border-muted bg-surface-container p-5">
-          <div className="stack">
-            <div className="mask mask-hexagon grid size-20 place-items-center bg-primary text-primary-foreground">
-              PE
-            </div>
-            <div className="grid size-20 place-items-center bg-status-signal text-surface-ink">DATA</div>
-            <div className="grid size-20 place-items-center bg-accent text-accent-foreground">ARB</div>
-          </div>
-        </div>
-        <div className="mt-5 grid gap-1 border border-border-muted bg-border-muted">
-          {["Assets", "Oracle", "Risk"].map((item) => (
-            <div key={item} className="flex items-center justify-between gap-4 bg-surface-container-low p-3">
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
-                {item}
-              </span>
-              <span className="badge badge-outline badge-success font-mono text-[10px] uppercase tracking-[0.08em]">
-                Live
-              </span>
-            </div>
-          ))}
-        </div>
-        <ul className="timeline timeline-horizontal mt-5">
-          <li>
-            <div className="timeline-start text-[10px] uppercase tracking-[0.08em]">Asset</div>
-            <div className="timeline-middle">
-              <span className="status status-success" />
-            </div>
-            <hr />
-          </li>
-          <li>
-            <hr />
-            <div className="timeline-middle">
-              <span className="status status-info" />
-            </div>
-            <div className="timeline-end text-[10px] uppercase tracking-[0.08em]">Signal</div>
-          </li>
-        </ul>
-      </article>
-    </section>
-  );
-}
-
 export function CapitalIntakeForm() {
   return (
     <section className="grid gap-1 bg-border-muted lg:grid-cols-[0.8fr_1.2fr]">
@@ -356,85 +215,8 @@ export function CapitalIntakeForm() {
     </section>
   );
 }
-
 function isActiveAction(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-export function ApiMockupPanel() {
-  return (
-    <section className="grid gap-1 bg-border-muted lg:grid-cols-2">
-      <div className="mockup-browser border border-border-muted bg-surface">
-        <div className="mockup-browser-toolbar">
-          <div className="input">https://ultramar.capital/api</div>
-        </div>
-        <div className="grid place-content-center border-t border-border-muted p-6">
-          <kbd className="kbd">GET</kbd>
-          <p className="mt-3 text-sm text-on-surface-variant">Read-only operating snapshots.</p>
-        </div>
-      </div>
-      <div className="mockup-window border border-border-muted bg-surface">
-        <div className="grid gap-1 border-t border-border-muted p-4">
-          <div className="mockup-code">
-            <pre data-prefix="$">
-              <code>curl /api/arbitrage/signals</code>
-            </pre>
-            <pre data-prefix=">">
-              <code>{"{ status: \"monitored\" }"}</code>
-            </pre>
-          </div>
-        </div>
-      </div>
-      <div className="mockup-phone mx-auto max-w-56 lg:col-span-2">
-        <div className="mockup-phone-camera" />
-        <div className="mockup-phone-display grid place-content-center bg-surface-container text-center text-sm">
-          Mobile status feed
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function OracleConversationPanel() {
-  return (
-    <section className="grid gap-1 bg-border-muted lg:grid-cols-[1fr_320px]">
-      <div className="card card-border bg-surface p-5">
-        <div className="chat chat-start">
-          <div className="chat-image avatar placeholder">
-            <div className="w-10 bg-primary text-primary-foreground">
-              <span>IS</span>
-            </div>
-          </div>
-          <div className="chat-header text-on-surface-variant">Issuer system</div>
-          <div className="chat-bubble">Operating feed connected.</div>
-        </div>
-        <div className="chat chat-end">
-          <div className="chat-image avatar placeholder">
-            <div className="w-10 bg-status-signal text-surface-ink">
-              <span>UC</span>
-            </div>
-          </div>
-          <div className="chat-header text-on-surface-variant">Ultramar oracle</div>
-          <div className="chat-bubble chat-bubble-primary">Solvency score refreshed.</div>
-        </div>
-      </div>
-      <div className="card card-border bg-surface p-5">
-        <div
-          className="radial-progress text-status-signal"
-          style={cssVars({ "--value": 84, "--size": "5rem", "--thickness": "0.35rem" })}
-          role="progressbar"
-          aria-valuenow={84}
-        >
-          84
-        </div>
-        <div className="mt-5 grid gap-3">
-          <div className="skeleton h-4 w-3/4" />
-          <div className="skeleton h-4 w-full" />
-          <div className="skeleton h-4 w-1/2" />
-        </div>
-      </div>
-    </section>
-  );
 }
 
 export function ComplianceModal() {
@@ -459,32 +241,5 @@ export function ComplianceModal() {
         Open boundary modal
       </label>
     </div>
-  );
-}
-
-export function StatusToastPanel() {
-  return (
-    <div className="toast toast-end !static !translate-x-0">
-      <div className="alert alert-success">
-        <span className="status status-success" />
-        <span>Core Ultramar services are available.</span>
-      </div>
-    </div>
-  );
-}
-
-export function PaginationStrip() {
-  return (
-    <nav className="join" aria-label="Content pagination">
-      <button type="button" className="join-item btn">
-        1
-      </button>
-      <button type="button" className="join-item btn btn-active">
-        2
-      </button>
-      <button type="button" className="join-item btn">
-        3
-      </button>
-    </nav>
   );
 }

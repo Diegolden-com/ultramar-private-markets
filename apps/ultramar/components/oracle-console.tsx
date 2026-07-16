@@ -40,13 +40,7 @@ export function OracleConsole() {
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
           Issuer data
         </p>
-        <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">
-          Issuer Solvency Oracle
-        </h2>
-        <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-          The oracle reads accounting data, computes solvency and liquidity ratios,
-          and produces a signed proof that can be referenced during asset review.
-        </p>
+        <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-on-surface">Solvency proof</h2>
         <button
           type="button"
           onClick={pingOracle}
@@ -103,7 +97,7 @@ export function OracleConsole() {
             <div>
               <ShieldCheck className="mx-auto h-12 w-12 text-on-surface-variant" />
               <p className="mt-4 text-sm text-on-surface-variant">
-                Awaiting oracle sync from the issuer data layer.
+                Awaiting issuer sync.
               </p>
             </div>
           </div>

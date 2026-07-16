@@ -1,5 +1,4 @@
 import { JsonLd } from "@/components/json-ld";
-import { OracleConversationPanel } from "@/components/daisyui-route-widgets";
 import { OracleConsole } from "@/components/oracle-console";
 import { ProductRouteHeader } from "@/components/page-layout";
 import {
@@ -40,12 +39,11 @@ export default function OraclePage() {
         active="oracle"
         eyebrow="Private Equities / Issuer Oracle"
         title="Oracle"
-        description="A bridge between issuer operating data and investor-facing private-market confidence."
+        description="Sync issuer solvency and liquidity data."
       />
       <section>
         <OracleConsole />
       </section>
-      <OracleConversationPanel />
     </>
   );
 }

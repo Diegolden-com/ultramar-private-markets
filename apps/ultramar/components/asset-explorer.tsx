@@ -44,10 +44,6 @@ export function AssetExplorer() {
             <p className="mt-4 font-mono text-3xl font-semibold leading-none text-on-surface">
               {filteredDeals.length} of {deals.length}
             </p>
-            <p className="mt-2 text-sm leading-6 text-on-surface-variant">
-              Search private-market opportunities by issuer, ticker, sector,
-              and market type.
-            </p>
           </div>
 
           <label className="relative block">
@@ -161,21 +157,6 @@ export function AssetExplorer() {
                 </div>
                 <ArrowUpRight className="h-5 w-5 shrink-0 text-on-surface-variant transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-status-signal" />
               </div>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
-                {deal.description}
-              </p>
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {deal.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="badge badge-outline badge-sm px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-on-surface-variant"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
               <div className="stats stats-vertical mt-auto grid grid-cols-2 border-y border-border-muted bg-transparent sm:stats-horizontal sm:grid-cols-4">
                 <AssetStat label="Valuation" value={formatCurrency(deal.valuation)} />
                 <AssetStat
@@ -204,10 +185,7 @@ export function AssetExplorer() {
         {filteredDeals.length === 0 ? (
           <div className="card card-border bg-surface p-8">
             <p className="font-serif text-3xl font-semibold text-on-surface">No assets match this view.</p>
-            <p className="mt-3 max-w-xl text-sm leading-6 text-on-surface-variant">
-              Clear the filters or broaden the search to return to the full
-              private-market index.
-            </p>
+            <p className="mt-3 text-sm text-on-surface-variant">Clear filters to continue.</p>
           </div>
         ) : null}
       </div>

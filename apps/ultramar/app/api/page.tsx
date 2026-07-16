@@ -1,7 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
-import { ApiMockupPanel } from "@/components/daisyui-route-widgets";
 import {
-  FeatureCard,
   PageHeader,
   PageShell,
   SurfaceGrid,
@@ -13,7 +11,6 @@ import {
   seoImages,
   webPageJsonLd,
 } from "@/lib/seo";
-import { Database, Gauge, RadioTower, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 const apiPath = "/api";
@@ -44,24 +41,6 @@ const endpoints = [
     path: "/api/private-equities/oracle/score",
     title: "Oracle score",
     body: "Sandbox issuer oracle score for solvency, liquidity, and operating-data freshness checks.",
-  },
-] as const;
-
-const principles = [
-  {
-    icon: ShieldCheck,
-    title: "Read-only by default",
-    body: "The listed endpoints expose non-transactional data only. Investor, issuer, and admin actions require controlled access.",
-  },
-  {
-    icon: Gauge,
-    title: "Product-specific data",
-    body: "Endpoint paths are separated by product line so integrations can distinguish arbitrage data from private-market data.",
-  },
-  {
-    icon: RadioTower,
-    title: "Operational status",
-    body: "Data availability should be reviewed alongside system status instead of inferred from one screen.",
   },
 ] as const;
 
@@ -100,15 +79,9 @@ export default function ApiPage() {
 
       <PageHeader
         eyebrow="Developer data"
-        title="Read-only data examples"
-        description="The API index groups Ultramar's non-transactional reference feeds for developers, reviewers, and internal operators."
-      >
-        <Database className="h-5 w-5 text-status-signal" />
-        <p className="mt-4 text-sm leading-6 text-on-surface-variant">
-          These endpoints are public read-only references. Production integrations should expect authentication,
-          rate limits, contractual terms, and product-specific permissions.
-        </p>
-      </PageHeader>
+        title="Read-only API"
+        description="Reference feeds; no transaction endpoints."
+      />
 
       <SurfaceGrid bordered>
         {endpoints.map((endpoint) => (
@@ -126,25 +99,11 @@ export default function ApiPage() {
               <h2 className="font-serif text-2xl font-semibold leading-tight text-on-surface">
                 {endpoint.title}
               </h2>
-              <p className="mt-2 text-sm leading-6 text-on-surface-variant">{endpoint.body}</p>
             </div>
             <code className="font-mono text-[11px] font-medium text-on-surface-variant">
               {endpoint.path}
             </code>
           </Link>
-        ))}
-      </SurfaceGrid>
-
-      <ApiMockupPanel />
-
-      <SurfaceGrid columns="md:grid-cols-3">
-        {principles.map((principle) => (
-          <FeatureCard
-            key={principle.title}
-            icon={principle.icon}
-            title={principle.title}
-            body={principle.body}
-          />
         ))}
       </SurfaceGrid>
     </PageShell>

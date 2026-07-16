@@ -1,8 +1,7 @@
-import { BrandText } from "@/components/brand-name";
 import { MetricCard } from "@/components/metric-card";
-import { ProductRouteHeader, SurfacePanel } from "@/components/page-layout";
+import { ProductRouteHeader } from "@/components/page-layout";
 import { createSeoMetadata, seoImages } from "@/lib/seo";
-import { Activity, Download, PieChart, TrendingUp, Wallet } from "lucide-react";
+import { Download, PieChart, TrendingUp, Wallet } from "lucide-react";
 
 export const metadata = createSeoMetadata({
   title: "Private Equities Portfolio",
@@ -29,26 +28,23 @@ export default function PortfolioPage() {
         active="portfolio"
         eyebrow="Private Equities / Portfolio State"
         title="Portfolio"
-        description="A consolidated investor view for private-market exposure, daily changes, and holding-level performance."
+        description="Holdings and performance."
       />
 
       <div className="grid gap-1 md:grid-cols-3">
         <MetricCard
           label="Total value"
           value={`$${totalValue.toLocaleString("en-US")}`}
-          detail="Private-market tokenized holdings"
           icon={Wallet}
         />
         <MetricCard
           label="YTD return"
           value="+12.4%"
-          detail="Blended realized and unrealized performance"
           icon={TrendingUp}
         />
         <MetricCard
           label="Assets"
           value={holdings.length.toString()}
-          detail="Across primary and secondary markets"
           icon={PieChart}
         />
       </div>
@@ -59,9 +55,6 @@ export default function PortfolioPage() {
             <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
               Holdings
             </h2>
-            <p className="mt-1 text-sm text-on-surface-variant">
-              Representative holdings for an approved investor account.
-            </p>
           </div>
           <button
             type="button"
@@ -108,17 +101,6 @@ export default function PortfolioPage() {
           </table>
         </div>
       </section>
-
-      <SurfacePanel padded={false} className="border-t-status-signal p-5">
-        <Activity className="h-5 w-5 text-status-signal" />
-        <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-          <BrandText>
-            {
-              "Portfolio access is intended for approved investors reviewing private-market exposure, valuation changes, and holding-level performance."
-            }
-          </BrandText>
-        </p>
-      </SurfacePanel>
     </>
   );
 }

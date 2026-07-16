@@ -8,7 +8,7 @@ export function MetricCard({
 }: {
   label: string;
   value: string;
-  detail: string;
+  detail?: string;
   icon: LucideIcon;
 }) {
   return (
@@ -20,7 +20,7 @@ export function MetricCard({
         <Icon className="h-4 w-4 text-status-signal" />
       </div>
       <p className="stat-value mt-4 font-mono text-xl font-semibold text-on-surface">{value}</p>
-      <p className="stat-desc mt-2 text-sm leading-normal text-on-surface-variant">{detail}</p>
+      {detail ? <p className="stat-desc mt-2 text-sm leading-normal text-on-surface-variant">{detail}</p> : null}
     </div>
   );
 }
