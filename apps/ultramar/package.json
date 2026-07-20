@@ -7,15 +7,20 @@
     "build": "yarn run -T next build",
     "start": "yarn run -T next start",
     "lint": "yarn run -T eslint .",
-    "typecheck": "yarn run -T tsc --noEmit"
+    "typecheck": "yarn run -T tsc --noEmit",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@supabase/ssr": "0.10.3",
+    "@supabase/supabase-js": "2.105.4",
     "@ultramar/product-model": "workspace:*",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "three": "0.184.0"
   },
   "devDependencies": {
-    "@types/three": "0.184.1"
+    "@playwright/test": "1.60.0",
+    "@types/three": "0.184.1",
+    "axe-core": "4.11.1"
   }
 }

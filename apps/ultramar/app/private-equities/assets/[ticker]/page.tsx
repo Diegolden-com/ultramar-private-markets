@@ -1,11 +1,14 @@
 import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
 import { deals, findDeal, formatCurrency } from "@/lib/deals";
+import { getLcxDataRoomCta } from "@/lib/data-room/server";
 import { breadcrumbJsonLd, createSeoMetadata, webPageJsonLd } from "@/lib/seo";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 const statusLabels = {
   active: "Active",
@@ -62,6 +65,8 @@ export default async function AssetDetailPage({
   const committed = targetRaise * (fundingProgress / 100);
   const useOfFunds = getUseOfFunds(deal);
   const offeringTerms = getOfferingTerms(deal);
+  const isLcx = deal.ticker === "lcx";
+  const dataRoomCta = isLcx ? await getLcxDataRoomCta() : null;
 
   return (
     <>
@@ -255,23 +260,40 @@ export default async function AssetDetailPage({
           <h2 className="mb-4 border-b border-border-muted pb-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
             Data Room Status
           </h2>
-          <div className="mb-4 flex items-center gap-3">
-            <span className="h-4 w-4 border border-status-signal hatch-pattern-blue" />
-            <span className="font-mono text-sm font-medium uppercase text-status-signal">
-              Pending Authorization
-            </span>
-          </div>
-          <button
-            className="btn btn-outline btn-success w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
-            type="button"
-          >
-            Request Unlock
-          </button>
+          {isLcx ? (
+            <>
+              <div className="mb-4 flex items-center gap-3">
+                <span className={`h-4 w-4 border ${dataRoomCta?.status === "approved" ? "border-status-signal bg-status-signal" : dataRoomCta?.status === "revoked" ? "border-destructive bg-destructive" : "hatch-pattern border-primary"}`} />
+                <span className={`font-mono text-sm font-medium uppercase ${dataRoomCta?.status === "approved" ? "text-status-signal" : dataRoomCta?.status === "revoked" ? "text-destructive" : "text-primary"}`}>
+                  {dataRoomCta?.status === "approved" ? "Authorized" : dataRoomCta?.status === "pending" ? "Request pending" : dataRoomCta?.status === "revoked" ? "Access revoked" : "Restricted"}
+                </span>
+              </div>
+              {dataRoomCta ? (
+                <Link href={dataRoomCta.href} className="btn btn-primary w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
+                  {dataRoomCta.label}
+                </Link>
+              ) : (
+                <button className="btn btn-outline w-full" type="button" disabled>Data room unavailable</button>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="mb-4 flex items-center gap-3">
+                <span className="h-4 w-4 border border-status-signal hatch-pattern-blue" />
+                <span className="font-mono text-sm font-medium uppercase text-status-signal">
+                  Pending Authorization
+                </span>
+              </div>
+              <button className="btn btn-outline btn-success w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]" type="button">
+                Request Unlock
+              </button>
+            </>
+          )}
         </section>
 
         <section className="card card-border mt-auto bg-surface p-6">
           <button
-            className="btn btn-success w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+            className={`btn w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${isLcx ? "btn-primary" : "btn-success"}`}
             type="button"
           >
             Request Allocation Review

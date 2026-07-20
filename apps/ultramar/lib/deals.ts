@@ -30,7 +30,6 @@ export type CapitalRaise = {
   useOfFunds: UseOfFundsItem[];
   proofPoints: string[];
   milestones: Milestone[];
-  dataRoom: DataRoomItem[];
   investorProcess: InvestorProcessStep[];
   crmStages: string[];
   risks: string[];
@@ -46,12 +45,6 @@ export type UseOfFundsItem = {
 export type Milestone = {
   label: string;
   timing: string;
-  body: string;
-};
-
-export type DataRoomItem = {
-  label: string;
-  status: "ready" | "in_review" | "missing" | "gated";
   body: string;
 };
 
@@ -143,48 +136,6 @@ export const deals: Deal[] = [
           label: "Closing readiness",
           timing: "T-0",
           body: "Subscription package, funds flow, allocation table, transfer restrictions, and first update calendar are ready.",
-        },
-      ],
-      dataRoom: [
-        {
-          label: "Issuer formation and authority",
-          status: "missing",
-          body: "Final legal issuer, board approvals, signing authority, and beneficial ownership record.",
-        },
-        {
-          label: "Historical financials",
-          status: "in_review",
-          body: "Monthly P&L, balance sheet, cash movement, and bank reconciliation for at least 24 months where available.",
-        },
-        {
-          label: "Store-level operating metrics",
-          status: "in_review",
-          body: "Revenue by site, machine utilization, tickets, water/electricity cost, maintenance, churn, and seasonality.",
-        },
-        {
-          label: "Leases, permits, and insurance",
-          status: "missing",
-          body: "Lease terms, renewal dates, operating permits, utility contracts, insurance certificates, and compliance gaps.",
-        },
-        {
-          label: "Cap table and current debt",
-          status: "missing",
-          body: "Current ownership, related-party balances, loans, liens, guarantees, and any investor rights already granted.",
-        },
-        {
-          label: "Offering documents",
-          status: "gated",
-          body: "Term sheet, subscription agreement, risk factors, investor eligibility memo, and transfer restriction language.",
-        },
-        {
-          label: "Oracle data connector",
-          status: "in_review",
-          body: "Accounting export, mapping rules, data freshness, signature policy, and exception review before investor display.",
-        },
-        {
-          label: "Investor communications",
-          status: "missing",
-          body: "Monthly update template, KPI definitions, capital call or distribution notices, and adverse-event protocol.",
         },
       ],
       investorProcess: [

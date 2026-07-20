@@ -1,50 +1,26 @@
+import { AuthForm, type AuthFormMode } from "@/components/auth-form";
 import { BrandText } from "@/components/brand-name";
+import { DEFAULT_AUTH_RETURN_TO } from "@/lib/auth/redirects";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-type AuthMode = "login" | "signup" | "reset" | "update" | "message";
+type AuthMode = AuthFormMode | "message";
 type AuthAction = { href: string; label: string };
-
-const modeForms: Record<
-  Exclude<AuthMode, "message">,
-  { submitLabel: string; links: AuthAction[] }
-> = {
-  login: {
-    submitLabel: "Sign in",
-    links: [
-      { href: "/auth/sign-up", label: "Create account" },
-      { href: "/auth/forgot-password", label: "Reset password" },
-    ],
-  },
-  signup: {
-    submitLabel: "Request access",
-    links: [{ href: "/auth/login", label: "Already have access? Sign in" }],
-  },
-  reset: {
-    submitLabel: "Send reset link",
-    links: [{ href: "/auth/login", label: "Back to sign in" }],
-  },
-  update: {
-    submitLabel: "Update password",
-    links: [{ href: "/auth/login", label: "Back to sign in" }],
-  },
-};
 
 export function AuthPanel({
   title,
   description,
   mode,
   primaryAction,
+  returnTo = DEFAULT_AUTH_RETURN_TO,
 }: {
   title: string;
   description: string;
   mode: AuthMode;
   primaryAction?: AuthAction;
+  returnTo?: string;
 }) {
-  const showPassword = mode === "login" || mode === "signup" || mode === "update";
-  const showEmail = mode !== "message";
-  const formDetails = mode === "message" ? null : modeForms[mode];
   const messageAction = primaryAction ?? { href: "/", label: "Return home" };
 
   return (
@@ -55,11 +31,9 @@ export function AuthPanel({
             <h1 className="max-w-[12ch] break-words text-balance font-serif text-4xl font-bold leading-[1.02] sm:text-5xl lg:text-[3.5rem]">
               {title}
             </h1>
-            {mode === "message" ? (
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant md:text-base md:leading-7">
-                <BrandText>{description}</BrandText>
-              </p>
-            ) : null}
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant md:text-base md:leading-7">
+              <BrandText>{description}</BrandText>
+            </p>
           </div>
 
         </div>
@@ -81,70 +55,14 @@ export function AuthPanel({
             {mode === "message" ? (
               <Link
                 href={messageAction.href}
-                className="btn btn-outline btn-success group h-12 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
+                className="btn btn-outline btn-primary group h-12 font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
               >
                 {messageAction.label}
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </Link>
             ) : (
-              <form className="grid gap-5">
-                {showEmail ? (
-                  <label className="grid gap-3" htmlFor={`${mode}-email`}>
-                    <span className="label p-0">
-                      <span className="label-text font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                        Email address
-                      </span>
-                    </span>
-                    <input
-                      id={`${mode}-email`}
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      className="input input-success h-12 w-full bg-surface-ink text-sm text-on-surface placeholder:text-on-surface-variant/60"
-                      placeholder="investor@example.com"
-                    />
-                  </label>
-                ) : null}
-                {showPassword ? (
-                  <label className="grid gap-3" htmlFor={`${mode}-password`}>
-                    <span className="label p-0">
-                      <span className="label-text font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface-variant">
-                        {mode === "update" ? "New password" : "Password"}
-                      </span>
-                    </span>
-                    <input
-                      id={`${mode}-password`}
-                      name="password"
-                      type="password"
-                      autoComplete={mode === "login" ? "current-password" : "new-password"}
-                      className="input input-success h-12 w-full bg-surface-ink text-sm text-on-surface placeholder:text-on-surface-variant/60"
-                      placeholder="********"
-                    />
-                  </label>
-                ) : null}
-                <button
-                  type="button"
-                  className="btn btn-success group mt-1 h-12 w-full font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
-                >
-                  {formDetails?.submitLabel}
-                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </button>
-              </form>
+              <AuthForm mode={mode} returnTo={returnTo} />
             )}
-
-            {formDetails ? (
-              <div className="mt-6 grid gap-3 border-t border-border-muted pt-5 text-sm sm:grid-cols-2">
-                {formDetails.links.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="link link-hover font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            ) : null}
           </div>
         </aside>
       </section>

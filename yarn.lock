@@ -5015,8 +5015,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ultramar/ultramar@workspace:apps/ultramar"
   dependencies:
+    "@playwright/test": "npm:1.60.0"
+    "@supabase/ssr": "npm:0.10.3"
+    "@supabase/supabase-js": "npm:2.105.4"
     "@types/three": "npm:0.184.1"
     "@ultramar/product-model": "workspace:*"
+    axe-core: "npm:4.11.1"
     react: "npm:19.2.6"
     react-dom: "npm:19.2.6"
     three: "npm:0.184.0"
@@ -6230,7 +6234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.10.0":
+"axe-core@npm:4.11.1, axe-core@npm:^4.10.0":
   version: 4.11.1
   resolution: "axe-core@npm:4.11.1"
   checksum: 10c0/1e6997454b61c7c9a4d740f395952835dcf87f2c04fd81577217d68634d197d602c224f9e8f17b22815db4c117a2519980cfc8911fc0027c54a6d8ebca47c6a7
