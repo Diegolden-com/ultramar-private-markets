@@ -74,13 +74,16 @@ const workflowItems = [
 const primaryDeals = deals.filter((deal) => deal.type === "primary");
 const secondaryDeals = deals.filter((deal) => deal.type === "secondary");
 const featuredDeal = deals[0];
+const disclosedMinimumTickets = deals.flatMap((deal) =>
+  deal.minInvestment === undefined ? [] : [deal.minInvestment],
+);
 const overviewStats = [
   ["Listed Assets", deals.length.toString()],
   ["Issuer Rounds", primaryDeals.length.toString()],
   ["Secondary Views", secondaryDeals.length.toString()],
   [
     "Minimum Ticket",
-    formatCurrency(Math.min(...deals.map((deal) => deal.minInvestment))),
+    disclosedMinimumTickets.length ? formatCurrency(Math.min(...disclosedMinimumTickets)) : "Not disclosed",
   ],
 ] as const;
 
@@ -153,7 +156,7 @@ export default function PrivateEquitiesPage() {
             <div className="absolute inset-0 bg-surface-ink/35" />
             <div className="absolute inset-x-0 bottom-0 border-t border-border-muted bg-surface-ink/90 p-5">
               <p className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-accent">
-                Example asset in the rail
+                {featuredDeal.secondarySale ? "Potential secondary transfer · not live" : "Example asset in the rail"}
               </p>
               <h2 className="mt-2 font-serif text-3xl font-semibold leading-tight text-on-surface">
                 {featuredDeal.name}

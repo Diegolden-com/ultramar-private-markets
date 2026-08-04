@@ -2,7 +2,7 @@ import { BrandName } from "@/components/brand-name";
 import { AssetExplorer } from "@/components/asset-explorer";
 import { JsonLd } from "@/components/json-ld";
 import { ProductTabs } from "@/components/product-tabs";
-import { deals, formatCurrency } from "@/lib/deals";
+import { deals, getDealListingMetrics } from "@/lib/deals";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -55,9 +55,13 @@ export default function AssetsPage() {
   const featuredDeal = deals[0];
   const primaryCount = deals.filter((deal) => deal.type === "primary").length;
   const secondaryCount = deals.filter((deal) => deal.type === "secondary").length;
-  const complianceRange = `${Math.min(...deals.map((deal) => deal.complianceScore))}-${Math.max(
-    ...deals.map((deal) => deal.complianceScore),
-  )}`;
+  const disclosedComplianceScores = deals.flatMap((deal) =>
+    deal.complianceScore === undefined ? [] : [deal.complianceScore],
+  );
+  const complianceRange = disclosedComplianceScores.length
+    ? `${Math.min(...disclosedComplianceScores)}-${Math.max(...disclosedComplianceScores)}`
+    : "—";
+  const featuredMetrics = getDealListingMetrics(featuredDeal).slice(0, 3);
 
   return (
     <>
@@ -133,8 +137,8 @@ export default function AssetsPage() {
                 <span className="border border-border-muted bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                   {featuredDeal.ticker}
                 </span>
-                <span className="border border-status-signal bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-                  Featured asset
+                <span className={`border bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${featuredDeal.secondarySale ? "border-destructive text-destructive" : "border-status-signal text-status-signal"}`}>
+                  {featuredDeal.secondarySale ? "Secondary review · Not live" : "Featured asset"}
                 </span>
               </div>
               <div className="absolute inset-x-0 bottom-0 border-t border-border-muted bg-surface-ink/90 p-5 sm:p-6">
@@ -150,22 +154,9 @@ export default function AssetsPage() {
                   <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-status-signal transition group-hover:translate-x-1" />
                 </div>
                 <div className="mt-5 grid grid-cols-3 border-t border-border-muted pt-5">
-                  <AssetHeroStat
-                    label="Valuation"
-                    value={formatCurrency(featuredDeal.valuation)}
-                  />
-                  <AssetHeroStat
-                    label={featuredDeal.capitalRaise ? "Raise" : "Target"}
-                    value={
-                      featuredDeal.capitalRaise
-                        ? formatCurrency(featuredDeal.capitalRaise.targetRaise)
-                        : `${featuredDeal.apy}%`
-                    }
-                  />
-                  <AssetHeroStat
-                    label="Minimum"
-                    value={formatCurrency(featuredDeal.minInvestment)}
-                  />
+                  {featuredMetrics.map((metric) => (
+                    <AssetHeroStat key={metric.label} {...metric} />
+                  ))}
                 </div>
               </div>
             </Link>

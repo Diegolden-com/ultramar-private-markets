@@ -1,5 +1,6 @@
 import { DataRoomAccessGate } from "@/components/data-room/access-gate";
 import { DataRoomAdminConsole } from "@/components/data-room/admin-console";
+import { LcxDossierMasthead } from "@/components/data-room/dossier-masthead";
 import { DataRoomHeader, DataRoomWorkspace, type DataRoomQuery } from "@/components/data-room/workspace";
 import { SurfacePanel } from "@/components/page-layout";
 import { LCX_DATA_ROOM } from "@/lib/data-room/constants";
@@ -11,8 +12,8 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export const metadata = createSeoMetadata({
-  title: "LCX Capital Data Room",
-  description: "Controlled diligence workspace for the LCX Capital round.",
+  title: "LCX Secondary Transfer Data Room",
+  description: "Controlled diligence workspace for a potential transfer of existing LCX equity. Not a live offer.",
   path: LCX_DATA_ROOM.path,
   noIndex: true,
 });
@@ -25,14 +26,36 @@ export default async function LcxDataRoomPage({
   const [state, rawQuery] = await Promise.all([getLcxDataRoomState(), searchParams]);
   const query = normalizeQuery(rawQuery);
 
-  if (state.kind === "unconfigured") return <UnconfiguredState />;
-  if (state.kind === "error") return <DataRoomErrorState message={state.message} />;
-  if (state.kind === "restricted") return <DataRoomAccessGate state={state} />;
+  if (state.kind === "unconfigured") {
+    return (
+      <>
+        <LcxDossierMasthead />
+        <UnconfiguredState />
+      </>
+    );
+  }
+  if (state.kind === "error") {
+    return (
+      <>
+        <LcxDossierMasthead />
+        <DataRoomErrorState message={state.message} />
+      </>
+    );
+  }
+  if (state.kind === "restricted") {
+    return (
+      <>
+        <LcxDossierMasthead />
+        <DataRoomAccessGate state={state} />
+      </>
+    );
+  }
 
   const activeView = state.viewer.canManage && query.view === "admin" ? "admin" : "documents";
 
   return (
     <>
+      <LcxDossierMasthead />
       <DataRoomHeader state={state} activeView={activeView} />
       {activeView === "admin" ? (
         <DataRoomAdminConsole state={state} />
@@ -45,7 +68,7 @@ export default async function LcxDataRoomPage({
 
 function UnconfiguredState() {
   return (
-    <SurfacePanel className="min-h-[520px] place-items-center">
+    <SurfacePanel className="lcx-dossier-state min-h-[520px] place-items-center">
       <div className="mx-auto flex max-w-xl flex-col items-center py-16 text-center">
         <span className="grid h-12 w-12 place-items-center border border-primary/40 bg-primary/10 text-primary">
           <DatabaseZap className="h-6 w-6" aria-hidden="true" />
@@ -63,7 +86,7 @@ function UnconfiguredState() {
 
 function DataRoomErrorState({ message }: { message: string }) {
   return (
-    <SurfacePanel className="min-h-[520px] place-items-center">
+    <SurfacePanel className="lcx-dossier-state min-h-[520px] place-items-center">
       <div className="mx-auto flex max-w-xl flex-col items-center py-16 text-center">
         <ShieldAlert className="h-8 w-8 text-destructive" aria-hidden="true" />
         <h1 className="mt-5 font-serif text-4xl font-semibold">Data room unavailable</h1>

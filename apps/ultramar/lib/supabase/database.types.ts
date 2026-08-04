@@ -12,6 +12,11 @@ export type DataRoomActivityType =
   | "metadata_change"
   | "access_approved"
   | "access_revoked";
+export type DataRoomClearanceReviewRole =
+  | "finance_ops"
+  | "redaction"
+  | "counsel"
+  | "data_room_admin";
 
 export type ProfileRow = {
   id: string;
@@ -102,10 +107,43 @@ export type DataRoomDocumentVersionRow = {
   mime_type: string;
   size_bytes: number;
   checksum_sha256: string | null;
+  clearance_id: string | null;
   is_current: boolean;
   uploaded_by: string;
   published_at: string | null;
   archived_at: string | null;
+  created_at: string;
+};
+
+export type DataRoomDocumentClearanceRow = {
+  id: string;
+  data_room_id: string;
+  checksum_sha256: string;
+  mime_type: string;
+  size_bytes: number;
+  classification_label: string;
+  finance_ops_reviewer_id: string;
+  redaction_reviewer_id: string;
+  counsel_reviewer_id: string;
+  data_room_admin_reviewer_id: string;
+  created_by: string;
+  expires_at: string;
+  voided_at: string | null;
+  voided_by: string | null;
+  void_reason: string | null;
+  consumed_at: string | null;
+  consumed_by: string | null;
+  consumed_version_id: string | null;
+  created_at: string;
+};
+
+export type DataRoomDocumentClearanceAttestationRow = {
+  id: string;
+  clearance_id: string;
+  review_role: DataRoomClearanceReviewRole;
+  reviewer_id: string;
+  attestation_statement: string;
+  attested_at: string;
   created_at: string;
 };
 

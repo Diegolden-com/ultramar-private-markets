@@ -40,6 +40,34 @@ export async function provisionE2eUsers(client: AdminClient, password: string) {
     LCX_E2E_USERS.investor.fullName,
     password,
   );
+  const financeOps = await upsertAuthUser(
+    client,
+    existingUsers.get(LCX_E2E_USERS.financeOps.email),
+    LCX_E2E_USERS.financeOps.email,
+    LCX_E2E_USERS.financeOps.fullName,
+    password,
+  );
+  const redaction = await upsertAuthUser(
+    client,
+    existingUsers.get(LCX_E2E_USERS.redaction.email),
+    LCX_E2E_USERS.redaction.email,
+    LCX_E2E_USERS.redaction.fullName,
+    password,
+  );
+  const counsel = await upsertAuthUser(
+    client,
+    existingUsers.get(LCX_E2E_USERS.counsel.email),
+    LCX_E2E_USERS.counsel.email,
+    LCX_E2E_USERS.counsel.fullName,
+    password,
+  );
+  const dataRoomAdmin = await upsertAuthUser(
+    client,
+    existingUsers.get(LCX_E2E_USERS.dataRoomAdmin.email),
+    LCX_E2E_USERS.dataRoomAdmin.email,
+    LCX_E2E_USERS.dataRoomAdmin.fullName,
+    password,
+  );
 
   const { error } = await client.from("profiles").upsert([
     {
@@ -58,18 +86,57 @@ export async function provisionE2eUsers(client: AdminClient, password: string) {
       role: LCX_E2E_USERS.investor.role,
       archived_at: null,
     },
+    {
+      id: financeOps.id,
+      email: LCX_E2E_USERS.financeOps.email,
+      full_name: LCX_E2E_USERS.financeOps.fullName,
+      issuer_id: issuerId,
+      role: LCX_E2E_USERS.financeOps.role,
+      archived_at: null,
+    },
+    {
+      id: redaction.id,
+      email: LCX_E2E_USERS.redaction.email,
+      full_name: LCX_E2E_USERS.redaction.fullName,
+      issuer_id: issuerId,
+      role: LCX_E2E_USERS.redaction.role,
+      archived_at: null,
+    },
+    {
+      id: counsel.id,
+      email: LCX_E2E_USERS.counsel.email,
+      full_name: LCX_E2E_USERS.counsel.fullName,
+      issuer_id: issuerId,
+      role: LCX_E2E_USERS.counsel.role,
+      archived_at: null,
+    },
+    {
+      id: dataRoomAdmin.id,
+      email: LCX_E2E_USERS.dataRoomAdmin.email,
+      full_name: LCX_E2E_USERS.dataRoomAdmin.fullName,
+      issuer_id: null,
+      role: LCX_E2E_USERS.dataRoomAdmin.role,
+      archived_at: null,
+    },
   ]);
   assertNoError("assign LCX E2E profiles", error);
 
-  return { issuerId: issuer.id, investorId: investor.id };
+  return {
+    issuerId: issuer.id,
+    investorId: investor.id,
+    financeOpsId: financeOps.id,
+    redactionId: redaction.id,
+    counselId: counsel.id,
+    dataRoomAdminId: dataRoomAdmin.id,
+    userIds: [issuer.id, investor.id, financeOps.id, redaction.id, counsel.id, dataRoomAdmin.id],
+  };
 }
 
 export async function findE2eUserIds(client: AdminClient) {
   const users = await listUsersByEmail(client);
-  return [
-    users.get(LCX_E2E_USERS.issuer.email)?.id,
-    users.get(LCX_E2E_USERS.investor.email)?.id,
-  ].filter((id): id is string => Boolean(id));
+  return Object.values(LCX_E2E_USERS)
+    .map((user) => users.get(user.email)?.id)
+    .filter((id): id is string => Boolean(id));
 }
 
 export async function deleteE2eUsers(client: AdminClient, userIds: string[]) {
@@ -88,6 +155,39 @@ export async function cleanupE2eState(client: AdminClient, userIds: string[]) {
   assertNoError("find LCX E2E documents", documentsError);
 
   const documentIds = (documents ?? []).map((document) => document.id);
+  const { data: versions, error: versionsError } = documentIds.length > 0
+    ? await client
+        .from("data_room_document_versions")
+        .select("id,clearance_id")
+        .in("document_id", documentIds)
+    : { data: [], error: null };
+  assertNoError("find LCX E2E document versions", versionsError);
+
+  const versionIds = (versions ?? []).map((version) => version.id);
+  const versionClearanceIds = new Set(
+    (versions ?? []).map((version) => version.clearance_id).filter((id): id is string => Boolean(id)),
+  );
+  const userIdSet = new Set(userIds);
+  const { data: clearanceRows, error: clearancesError } = await client
+    .from("data_room_document_clearances")
+    .select("id,consumed_version_id,created_by,finance_ops_reviewer_id,redaction_reviewer_id,counsel_reviewer_id,data_room_admin_reviewer_id")
+    .eq("data_room_id", LCX_DATA_ROOM_ID);
+  assertNoError("find LCX E2E clearances", clearancesError);
+
+  const clearanceIds = (clearanceRows ?? [])
+    .filter((clearance) =>
+      versionClearanceIds.has(clearance.id)
+      || versionIds.includes(clearance.consumed_version_id ?? "")
+      || [
+        clearance.created_by,
+        clearance.finance_ops_reviewer_id,
+        clearance.redaction_reviewer_id,
+        clearance.counsel_reviewer_id,
+        clearance.data_room_admin_reviewer_id,
+      ].some((id) => userIdSet.has(id)),
+    )
+    .map((clearance) => clearance.id);
+
   const storagePaths = await collectE2eStoragePaths(client, documentIds);
   await removeStoragePaths(client, storagePaths);
 
@@ -131,7 +231,16 @@ export async function cleanupE2eState(client: AdminClient, userIds: string[]) {
     );
   }
 
+  if (clearanceIds.length > 0) {
+    const { error: detachClearanceError } = await client
+      .from("data_room_document_clearances")
+      .update({ consumed_at: null, consumed_by: null, consumed_version_id: null })
+      .in("id", clearanceIds);
+    assertNoError("detach LCX E2E clearance consumers", detachClearanceError);
+  }
+
   if (documentIds.length > 0) {
+
     const { error: resetError } = await client
       .from("data_room_documents")
       .update({
@@ -151,6 +260,17 @@ export async function cleanupE2eState(client: AdminClient, userIds: string[]) {
     await deleteRows(
       "delete LCX E2E documents",
       client.from("data_room_documents").delete().in("id", documentIds),
+    );
+  }
+
+  if (clearanceIds.length > 0) {
+    await deleteRows(
+      "delete LCX E2E clearance attestations",
+      client.from("data_room_document_clearance_attestations").delete().in("clearance_id", clearanceIds),
+    );
+    await deleteRows(
+      "delete LCX E2E clearances",
+      client.from("data_room_document_clearances").delete().in("id", clearanceIds),
     );
   }
 }
@@ -174,10 +294,7 @@ async function findLcxIssuerId(client: AdminClient) {
 }
 
 async function listUsersByEmail(client: AdminClient) {
-  const targetEmails = new Set([
-    LCX_E2E_USERS.issuer.email,
-    LCX_E2E_USERS.investor.email,
-  ]);
+  const targetEmails = new Set(Object.values(LCX_E2E_USERS).map((user) => user.email));
   const usersByEmail = new Map<string, User>();
   const perPage = 1_000;
 

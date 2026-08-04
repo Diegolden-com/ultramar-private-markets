@@ -2,20 +2,10 @@ import { NextResponse } from "next/server";
 
 export function GET() {
   return NextResponse.json({
-    totalValue: 27102,
-    dayChange: 2.1,
-    dayChangeValue: 558,
+    totalValue: 13602,
+    dayChange: -0.01,
+    dayChangeValue: -1,
     assets: [
-      {
-        ticker: "lcx",
-        name: "Lavanderias CX",
-        type: "Primary",
-        balance: 12500,
-        price: 1.08,
-        value: 13500,
-        change: 4.6,
-        apy: 18.4,
-      },
       {
         ticker: "VRX.RE",
         name: "Vertex Realty Core",

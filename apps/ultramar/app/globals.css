@@ -210,6 +210,375 @@
   :where(.table) tbody tr:hover {
     background-color: color-mix(in srgb, var(--surface-container) 55%, transparent);
   }
+
+  /*
+   * LCX is a controlled secondary-transfer review, not a product surface.
+   * Keep this dossier treatment scoped to its data-room route so the wider
+   * Ultramar platform retains its own dark product language.
+   */
+  .lcx-data-room-theme {
+    color-scheme: light;
+    --font-sans: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    --font-serif: "Arial Narrow", Arial, "Helvetica Neue", Helvetica, sans-serif;
+    --font-mono: "Arial Narrow", Arial, "Helvetica Neue", Helvetica, sans-serif;
+    --background: #f8f7f2;
+    --foreground: #11130f;
+    --card: #f8f7f2;
+    --card-foreground: #11130f;
+    --popover: #fffefa;
+    --popover-foreground: #11130f;
+    --primary: #11130f;
+    --primary-foreground: #f8f7f2;
+    --secondary: #dfeee5;
+    --secondary-foreground: #11130f;
+    --muted: #edf0e9;
+    --muted-foreground: #5e655d;
+    --accent: #11130f;
+    --accent-foreground: #f8f7f2;
+    --destructive: #e85140;
+    --destructive-foreground: #11130f;
+    --border-color: #bcc1b8;
+    --input: #aeb5ac;
+    --ring: #11130f;
+    --chart-1: #11130f;
+    --chart-2: #dfeee5;
+    --chart-3: #dfeee5;
+    --chart-4: #6a7369;
+    --chart-5: #e85140;
+    --footer: #dfeee5;
+    --footer-foreground: #11130f;
+    --surface: #f8f7f2;
+    --surface-dim: #edf0e9;
+    --surface-container-lowest: #fffefa;
+    --surface-container-low: #edf2ea;
+    --surface-container: #dfeee5;
+    --surface-container-high: #d2e5d9;
+    --surface-container-highest: #bfd8c8;
+    --surface-variant: #e7ebe4;
+    --surface-paper: #fffefa;
+    --surface-ink: #f8f7f2;
+    --on-surface: #11130f;
+    --on-surface-variant: #596159;
+    --outline: #687168;
+    --outline-variant: #aeb5ac;
+    --status-signal: #11130f;
+    --status-warning: #5d665d;
+    --border-muted: #bcc1b8;
+  }
+
+  .lcx-data-room-theme > header {
+    background: #f8f7f2;
+    border-color: #11130f;
+  }
+
+  .lcx-data-room-theme > nav[aria-label="Breadcrumb"] {
+    background: #dfeee5;
+    border-color: #11130f;
+    color: #475047;
+  }
+
+  .lcx-data-room-theme > footer {
+    background: #dfeee5;
+    border-color: #11130f;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-masthead {
+    display: flex;
+    min-height: 2.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid #11130f;
+    background: #11130f;
+    color: #f8f7f2;
+    padding: 0.45rem 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.115em;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .lcx-data-room-theme .font-serif {
+    font-family: "Arial Narrow", Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+
+  .lcx-data-room-theme .font-mono {
+    font-family: "Arial Narrow", Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-header h1,
+  .lcx-data-room-theme .lcx-dossier-access-gate h1,
+  .lcx-data-room-theme .lcx-dossier-admin-section > div > div h2 {
+    font-family: "Arial Narrow", Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-header,
+  .lcx-data-room-theme .lcx-dossier-workspace,
+  .lcx-data-room-theme .lcx-dossier-admin-section,
+  .lcx-data-room-theme .lcx-dossier-access-gate,
+  .lcx-data-room-theme .lcx-dossier-state {
+    border-color: #11130f;
+    box-shadow: none;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-header {
+    position: relative;
+    background: #fffefa;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-header::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0.35rem;
+    background: #dfeee5;
+    content: "";
+  }
+
+  .lcx-data-room-theme .lcx-dossier-identity,
+  .lcx-data-room-theme .lcx-dossier-folder-index,
+  .lcx-data-room-theme .lcx-dossier-detail {
+    background: #dfeee5;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-tabs {
+    border-color: #11130f;
+    background: #fffefa;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-tabs .tab {
+    border-bottom-color: transparent;
+    background: transparent;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-tabs .tab:hover {
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-tabs .tab-active {
+    border-bottom-color: #11130f;
+    background: #dfeee5 !important;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-workspace {
+    background: #11130f;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-workspace .table thead {
+    background: #dfeee5 !important;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-workspace .table thead th {
+    background: #dfeee5 !important;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-workspace .table tbody tr:hover {
+    background: #edf2ea;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-admin-section {
+    border-top-width: 2px;
+    background: #fffefa;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-access-gate .terminal-grid {
+    background-image: linear-gradient(to right, #bcc1b8 1px, transparent 1px);
+  }
+
+  .lcx-data-room-theme .lcx-dossier-access-intro {
+    background: #dfeee5;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-access-state {
+    background: #fffefa;
+  }
+
+  .lcx-data-room-theme .btn,
+  .lcx-data-room-theme .tab {
+    min-height: 2.75rem;
+  }
+
+  .lcx-data-room-theme .btn-primary,
+  .lcx-data-room-theme .btn-info,
+  .lcx-data-room-theme .btn-accent {
+    border-color: #11130f;
+    background: #11130f;
+    color: #f8f7f2;
+  }
+
+  .lcx-data-room-theme .btn-primary:hover,
+  .lcx-data-room-theme .btn-info:hover,
+  .lcx-data-room-theme .btn-accent:hover {
+    border-color: #11130f;
+    background: #2b312a;
+    color: #fffefa;
+  }
+
+  .lcx-data-room-theme .btn-outline {
+    border-color: #11130f;
+    background: transparent;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .btn-secondary,
+  .lcx-data-room-theme .btn-neutral,
+  .lcx-data-room-theme .btn-success,
+  .lcx-data-room-theme .btn-warning {
+    border-color: #11130f;
+    background: #dfeee5;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .btn-secondary:hover,
+  .lcx-data-room-theme .btn-neutral:hover,
+  .lcx-data-room-theme .btn-success:hover,
+  .lcx-data-room-theme .btn-warning:hover {
+    border-color: #11130f;
+    background: #11130f;
+    color: #f8f7f2;
+  }
+
+  .lcx-data-room-theme .btn-outline:hover,
+  .lcx-data-room-theme .btn-ghost:hover {
+    border-color: #11130f;
+    background: #dfeee5;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .btn-error,
+  .lcx-data-room-theme .btn-outline.btn-error {
+    border-color: #e85140;
+    color: #a62e23;
+  }
+
+  .lcx-data-room-theme .btn-error:not(.btn-outline) {
+    background: #e85140;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .btn-error:hover,
+  .lcx-data-room-theme .btn-outline.btn-error:hover {
+    background: #e85140;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .input,
+  .lcx-data-room-theme .select,
+  .lcx-data-room-theme .textarea,
+  .lcx-data-room-theme .file-input {
+    border-color: #aeb5ac;
+    background: #fffefa;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .input:focus,
+  .lcx-data-room-theme .select:focus,
+  .lcx-data-room-theme .textarea:focus,
+  .lcx-data-room-theme .file-input:focus {
+    border-color: #11130f;
+    outline-color: color-mix(in srgb, #11130f 38%, transparent);
+  }
+
+  .lcx-data-room-theme .lcx-dossier-document-index .input,
+  .lcx-data-room-theme .lcx-dossier-document-index .select {
+    border-color: #687168 !important;
+    background: #fffefa !important;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-document-index #document-search {
+    background: transparent !important;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .lcx-dossier-document-index #document-search::placeholder {
+    color: #4f584f !important;
+    opacity: 1;
+  }
+
+  .lcx-data-room-theme .badge-success {
+    border-color: #11130f;
+    background: #dfeee5;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .badge-warning {
+    border-color: #687168 !important;
+    background: #fffefa !important;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .badge-error {
+    border-color: #e85140;
+    background: transparent;
+    color: #a62e23;
+  }
+
+  .lcx-data-room-theme .badge-neutral {
+    border-color: #687168;
+    background: #edf0e9;
+    color: #414a41;
+  }
+
+  .lcx-data-room-theme .alert-error {
+    border: 1px solid #e85140;
+    background: #fce2dd;
+    color: #6f241c;
+  }
+
+  .lcx-data-room-theme .alert-success {
+    border: 1px solid #11130f;
+    background: #dfeee5;
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .text-primary,
+  .lcx-data-room-theme .hover\:text-primary:hover,
+  .lcx-data-room-theme .group:hover .group-hover\:text-primary {
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .border-primary {
+    border-color: #11130f;
+  }
+
+  .lcx-data-room-theme [class~="border-primary/40"],
+  .lcx-data-room-theme [class~="border-primary/50"] {
+    border-color: color-mix(in srgb, #11130f 45%, transparent);
+  }
+
+  .lcx-data-room-theme [class~="bg-primary/5"],
+  .lcx-data-room-theme [class~="bg-primary/10"] {
+    background-color: color-mix(in srgb, #11130f 8%, transparent);
+  }
+
+  .lcx-data-room-theme .menu-active,
+  .lcx-data-room-theme .dock-active,
+  .lcx-data-room-theme .\!bg-surface-container {
+    background: #dfeee5 !important;
+    color: #11130f !important;
+  }
+
+  .lcx-data-room-theme .status-success {
+    color: #11130f;
+  }
+
+  .lcx-data-room-theme .dock {
+    border-color: #11130f;
+    background: #f8f7f2;
+  }
 }
 
 @layer utilities {

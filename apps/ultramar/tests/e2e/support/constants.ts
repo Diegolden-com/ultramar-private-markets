@@ -14,4 +14,24 @@ export const LCX_E2E_USERS = {
     fullName: "LCX E2E Investor",
     role: "investor" as const,
   },
+  financeOps: {
+    email: "finance-ops-e2e@example.test",
+    fullName: "LCX E2E Finance Ops Reviewer",
+    role: "issuer" as const,
+  },
+  redaction: {
+    email: "redaction-e2e@example.test",
+    fullName: "LCX E2E Redaction Reviewer",
+    role: "issuer" as const,
+  },
+  counsel: {
+    email: "counsel-e2e@example.test",
+    fullName: "LCX E2E Counsel Reviewer",
+    role: "issuer" as const,
+  },
+  dataRoomAdmin: {
+    email: "data-room-admin-e2e@example.test",
+    fullName: "LCX E2E Data Room Administrator",
+    role: "admin" as const,
+  },
 };

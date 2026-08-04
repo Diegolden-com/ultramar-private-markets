@@ -1,6 +1,7 @@
 import { requestAccessAction } from "@/app/private-equities/assets/lcx/dataroom/actions";
 import { DataRoomActionForm } from "@/components/data-room/action-form";
 import { logoutAction } from "@/app/auth/actions";
+import { LCX_DATA_ROOM } from "@/lib/data-room/constants";
 import type { RestrictedDataRoomState } from "@/lib/data-room/types";
 import { Clock3, KeyRound, LockKeyhole, ShieldX } from "lucide-react";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import Link from "next/link";
 const statusCopy = {
   not_requested: {
     title: "Access has not been requested",
-    body: "Send a request to the LCX Capital issuer team. Private folder and document metadata stay hidden until approval.",
+    body: "Send a request to the LCX issuer team. Private folder and document metadata stay hidden until approval.",
     icon: LockKeyhole,
   },
   pending: {
@@ -23,7 +24,7 @@ const statusCopy = {
   },
   revoked: {
     title: "Access revoked",
-    body: "This account no longer has access to the LCX Capital data room. Contact the issuer team if this needs review.",
+    body: "This account no longer has access to the LCX secondary transfer data room. Contact the issuer team if this needs review.",
     icon: ShieldX,
   },
 } as const;
@@ -33,14 +34,14 @@ export function DataRoomAccessGate({ state }: { state: RestrictedDataRoomState }
   const Icon = copy.icon;
 
   return (
-    <section className="card card-border overflow-hidden bg-surface">
+    <section className="lcx-dossier-access-gate card card-border overflow-hidden bg-surface">
       <div className="grid min-h-[560px] lg:grid-cols-[0.92fr_1.08fr]">
-        <div className="terminal-grid flex min-w-0 flex-col justify-between border-b border-border-muted bg-surface-container-lowest p-6 sm:p-8 lg:border-b-0 lg:border-r lg:p-10">
+        <div className="lcx-dossier-access-intro terminal-grid flex min-w-0 flex-col justify-between border-b border-border-muted bg-surface-container-lowest p-6 sm:p-8 lg:border-b-0 lg:border-r lg:p-10">
           <div>
-            <p className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-accent">Private Equities / LCX</p>
-            <h1 className="mt-5 max-w-[12ch] font-serif text-4xl font-semibold leading-none sm:text-5xl">LCX Capital data room</h1>
+            <p className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-accent">Private Equities / LCX / Secondary transfer</p>
+            <h1 className="mt-5 max-w-[14ch] font-serif text-4xl font-semibold leading-none sm:text-5xl">{LCX_DATA_ROOM.name}</h1>
             <p className="mt-5 max-w-lg text-sm leading-6 text-on-surface-variant">
-              Controlled diligence workspace for Lavanderias CX. Document names, versions, and storage locations remain private until access is active.
+              Controlled diligence workspace for a possible transfer of existing Lavanderias CX equity. This is not a live offer; document names, versions, and storage locations remain private until access is active.
             </p>
           </div>
           <div className="mt-10 flex flex-wrap gap-3">
@@ -50,7 +51,7 @@ export function DataRoomAccessGate({ state }: { state: RestrictedDataRoomState }
         </div>
 
         <div className="flex min-w-0 items-center p-6 sm:p-8 lg:p-10">
-          <div className="w-full border border-border-muted bg-surface-dim p-6 sm:p-8">
+          <div className="lcx-dossier-access-state w-full border border-border-muted bg-surface-dim p-6 sm:p-8">
             <span className="grid h-11 w-11 place-items-center border border-primary/50 bg-primary/10 text-primary">
               <Icon className="h-5 w-5" aria-hidden="true" />
             </span>

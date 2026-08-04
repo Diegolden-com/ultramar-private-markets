@@ -1,6 +1,6 @@
 import { JsonLd } from "@/components/json-ld";
 import { ProductRouteHeader, SurfaceGrid, SurfacePanel } from "@/components/page-layout";
-import { deals, formatCurrency } from "@/lib/deals";
+import { deals, getDealListingMetrics } from "@/lib/deals";
 import {
   breadcrumbJsonLd,
   createSeoMetadata,
@@ -12,7 +12,7 @@ import { ArrowRight, LineChart, Repeat2 } from "lucide-react";
 import Link from "next/link";
 
 const marketPath = "/private-equities/market";
-const description = "Secondary market view for eligible private-equity tokens.";
+const description = "Controlled review of potential secondary private-equity transfers for eligible investors.";
 const secondaryDeals = deals.filter((deal) => deal.type === "secondary");
 
 export const metadata = createSeoMetadata({
@@ -52,8 +52,8 @@ export default function MarketPage() {
         product="private-equities"
         active="market"
         eyebrow="Private Equities / Secondary Rail"
-        title="Secondary market"
-        description="Eligible, issuer-controlled transfers."
+        title="Secondary transfer reviews"
+        description="Eligible, issuer-controlled transfers. Not open-market trading."
       />
       <SurfaceGrid columns="md:grid-cols-2">
         {secondaryDeals.map((deal) => (
@@ -67,12 +67,12 @@ export default function MarketPage() {
               {deal.name}
             </h2>
             <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border-muted pt-4">
-              <MarketStat label="Ticker" value={deal.ticker} />
-              <MarketStat label="Valuation" value={formatCurrency(deal.valuation)} />
-              <MarketStat label="Yield" value={`${deal.apy}%`} />
+              {getDealListingMetrics(deal).slice(0, 3).map((metric) => (
+                <MarketStat key={metric.label} {...metric} />
+              ))}
             </div>
             <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
-              View asset
+              Open review
               <ArrowRight className="h-4 w-4" />
             </span>
           </Link>

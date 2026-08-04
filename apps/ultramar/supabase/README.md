@@ -1,22 +1,27 @@
 # Ultramar Supabase activation
 
-This directory owns the LCX Capital data-room schema. It is intentionally not
+This directory owns the LCX secondary-transfer data-room schema. It is intentionally not
 linked to the existing `LCX-operator-app` project, which contains laundromat
 operations data and is a separate trust boundary.
 
 ## Local validation
 
 1. Start Docker.
-2. Run `npx -y supabase@2.109.1 start` from `apps/ultramar`. This project
-   uses the isolated `5532x` port range so it can coexist with other local
-   Supabase projects.
-3. Run `npx -y supabase@2.109.1 db reset` to apply migrations and the
-   idempotent seed.
-4. Copy `.env.example` to `.env.local` and use the local URL, publishable key,
-   and legacy service-role key reported by `supabase status`. Put the latter in
-   `SUPABASE_SERVICE_ROLE_KEY`; leave `SUPABASE_SECRET_KEY` empty locally.
-5. Run `npx -y supabase@2.109.1 test db` for the role/RLS/Storage matrix and
-   `npx -y supabase@2.109.1 db lint --local --level warning` for schema lint.
+2. Run `supabase start` from `apps/ultramar`. This project uses the isolated
+   `5572x` port range so it can coexist with other local Supabase projects.
+   The local API, database, Studio, and Mailpit endpoints are respectively
+   `55721`, `55722`, `55723`, and `55724`.
+3. Confirm the schema with `supabase migration list --local`. A first local
+   start applies migrations and the idempotent seed. Do not run `db reset` on
+   an environment containing local review evidence; use `supabase stop` (never
+   `--no-backup`) followed by `supabase start` to reload local configuration.
+4. Copy `.env.example` to an untracked `.env.local`, then obtain the local URL
+   and keys with `supabase status -o env`. Do not paste values into committed
+   files. Set `NEXT_PUBLIC_SITE_URL` to the actual local preview origin (for
+   example `http://127.0.0.1:3101`); the matching callback URLs are allowlisted
+   in `config.toml`.
+5. Run `supabase test db` for the role/RLS/Storage matrix and `supabase db lint
+   --local --level warning` for schema lint.
 
 Run the Playwright/Axe audit with `yarn test:e2e`. Playwright loads
 `apps/ultramar/.env.local` in addition to the process environment and requires

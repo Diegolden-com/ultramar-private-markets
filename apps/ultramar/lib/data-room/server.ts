@@ -1,10 +1,15 @@
 import { withReturnTo } from "@/lib/auth/redirects";
 import { ensureLcxSessionAudit } from "@/lib/auth/session-audit";
-import { LCX_DATA_ROOM } from "@/lib/data-room/constants";
+import {
+  DATA_ROOM_CLEARANCE_REVIEW_ROLES,
+  LCX_DATA_ROOM,
+} from "@/lib/data-room/constants";
 import type {
   AuthorizedDataRoomState,
   DataRoomActivity,
   DataRoomAccessRequest,
+  DataRoomClearance,
+  DataRoomClearanceReviewer,
   DataRoomCtaState,
   DataRoomDocument,
   DataRoomPageState,
@@ -15,6 +20,8 @@ import type {
 import type {
   DataRoomAccessRequestRow,
   DataRoomActivityEventRow,
+  DataRoomDocumentClearanceAttestationRow,
+  DataRoomDocumentClearanceRow,
   DataRoomDocumentRow,
   DataRoomDocumentVersionRow,
   DataRoomFolderRow,
@@ -23,7 +30,7 @@ import type {
   ProfileRow,
   RoundRow,
 } from "@/lib/supabase/database.types";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, type SupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export async function getLcxDataRoomCta(): Promise<DataRoomCtaState> {
@@ -208,7 +215,7 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
     return { kind: "error", message: "The issuer record could not be loaded." };
   }
 
-  const rawDocuments = (documentsResult.data ?? []) as DataRoomDocumentRow[];
+  let rawDocuments = (documentsResult.data ?? []) as DataRoomDocumentRow[];
   const documentIds = rawDocuments.map((document) => document.id);
   let rawVersions: DataRoomDocumentVersionRow[] = [];
 
@@ -226,12 +233,29 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
     rawVersions = (data ?? []) as DataRoomDocumentVersionRow[];
   }
 
+  // RLS already hides unpublished and archived files from an investor. Keep a
+  // second server-side predicate here before serializing the workspace so a
+  // version whose clearance was voided, expired, or became incomplete cannot
+  // be rendered merely because an upstream RLS policy regressed.
+  if (!canManage && rawDocuments.length > 0) {
+    const visibleResult = await filterInvestorVisibleVersions(supabase, rawDocuments, rawVersions);
+    if (visibleResult.error !== null) {
+      return { kind: "error", message: visibleResult.error };
+    }
+    rawDocuments = visibleResult.data.documents;
+    rawVersions = visibleResult.data.versions;
+  }
+
   const lastVisitedAt = (visitResult.data as { last_visited_at: string } | null)?.last_visited_at ?? null;
   const documents = mapDocuments(rawDocuments, rawVersions, lastVisitedAt, canManage);
 
-  const [accessRequestsResult, activityResult] = canManage
-    ? await Promise.all([loadAccessRequests(supabase), loadActivity(supabase)])
-    : [success([]), success([])];
+  const [accessRequestsResult, activityResult, clearanceResult] = canManage
+    ? await Promise.all([
+        loadAccessRequests(supabase),
+        loadActivity(supabase),
+        loadDocumentClearances(supabase),
+      ])
+    : [success([]), success([]), success({ clearances: [], reviewerCandidates: [] })];
 
   if (accessRequestsResult.error !== null) {
     return { kind: "error", message: accessRequestsResult.error };
@@ -239,6 +263,10 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
 
   if (activityResult.error !== null) {
     return { kind: "error", message: activityResult.error };
+  }
+
+  if (clearanceResult.error !== null) {
+    return { kind: "error", message: clearanceResult.error };
   }
 
   const authorized: AuthorizedDataRoomState = {
@@ -261,12 +289,131 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
     },
     folders: (foldersResult.data ?? []) as DataRoomFolderRow[],
     documents,
+    clearances: clearanceResult.data.clearances,
+    clearanceReviewerCandidates: clearanceResult.data.reviewerCandidates,
     accessRequests: accessRequestsResult.data,
     activity: activityResult.data,
     lastVisitedAt,
   };
 
   return authorized;
+}
+
+type ClearanceCandidateRow = {
+  id: string;
+  email: string;
+  full_name: string | null;
+};
+
+async function loadDocumentClearances(
+  supabase: SupabaseDataClient,
+): Promise<LoadResult<{ clearances: DataRoomClearance[]; reviewerCandidates: DataRoomClearanceReviewer[] }>> {
+  const { data: clearanceData, error: clearanceError } = await supabase
+    .from("data_room_document_clearances")
+    .select("*")
+    .eq("data_room_id", LCX_DATA_ROOM.id)
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (clearanceError) return failure("Derivative clearances could not be loaded.");
+
+  const clearances = (clearanceData ?? []) as DataRoomDocumentClearanceRow[];
+  const clearanceIds = clearances.map((clearance) => clearance.id);
+  const [attestationResult, candidateResult] = await Promise.all([
+    clearanceIds.length
+      ? supabase
+          .from("data_room_document_clearance_attestations")
+          .select("*")
+          .in("clearance_id", clearanceIds)
+          .order("attested_at")
+      : Promise.resolve({ data: [], error: null }),
+    supabase.rpc("list_data_room_clearance_reviewer_candidates", {
+      target_data_room_id: LCX_DATA_ROOM.id,
+    }),
+  ]);
+
+  if (attestationResult.error) return failure("Derivative-clearance attestations could not be loaded.");
+  if (candidateResult.error) return failure("Clearance reviewer candidates could not be loaded.");
+
+  const reviewerCandidates = ((candidateResult.data ?? []) as ClearanceCandidateRow[]).map((candidate) => ({
+    id: candidate.id,
+    email: candidate.email,
+    fullName: candidate.full_name,
+  }));
+  const reviewerById = new Map(reviewerCandidates.map((candidate) => [candidate.id, candidate]));
+  const attestations = (attestationResult.data ?? []) as DataRoomDocumentClearanceAttestationRow[];
+  const now = Date.now();
+
+  return success({
+    reviewerCandidates,
+    clearances: clearances.map((clearance) => mapClearance(clearance, attestations, reviewerById, now)),
+  });
+}
+
+function mapClearance(
+  clearance: DataRoomDocumentClearanceRow,
+  attestations: DataRoomDocumentClearanceAttestationRow[],
+  reviewerById: Map<string, DataRoomClearanceReviewer>,
+  now: number,
+): DataRoomClearance {
+  const reviewerIdByRole = {
+    finance_ops: clearance.finance_ops_reviewer_id,
+    redaction: clearance.redaction_reviewer_id,
+    counsel: clearance.counsel_reviewer_id,
+    data_room_admin: clearance.data_room_admin_reviewer_id,
+  } as const;
+  const reviewers = Object.fromEntries(
+    DATA_ROOM_CLEARANCE_REVIEW_ROLES.map((role) => [
+      role,
+      reviewerById.get(reviewerIdByRole[role]) ?? {
+        id: reviewerIdByRole[role],
+        email: "Assigned reviewer unavailable",
+        fullName: null,
+      },
+    ]),
+  ) as DataRoomClearance["reviewers"];
+  const clearanceAttestations = attestations
+    .filter((attestation) => attestation.clearance_id === clearance.id)
+    .map((attestation) => ({
+      reviewRole: attestation.review_role,
+      reviewerId: attestation.reviewer_id,
+      attestedAt: attestation.attested_at,
+    }));
+  const allAssignedReviewersRemainEligible = DATA_ROOM_CLEARANCE_REVIEW_ROLES.every((role) =>
+    reviewerById.has(reviewerIdByRole[role]),
+  );
+  const isComplete = DATA_ROOM_CLEARANCE_REVIEW_ROLES.every((role) =>
+    clearanceAttestations.some(
+      (attestation) => attestation.reviewRole === role && attestation.reviewerId === reviewerIdByRole[role],
+    ),
+  ) && clearanceAttestations.length === DATA_ROOM_CLEARANCE_REVIEW_ROLES.length;
+
+  const status: DataRoomClearance["status"] = clearance.voided_at
+    ? "voided"
+    : clearance.consumed_at
+      ? "consumed"
+      : new Date(clearance.expires_at).valueOf() <= now
+        ? "expired"
+        : isComplete && allAssignedReviewersRemainEligible
+          ? "ready"
+          : "awaiting_attestations";
+
+  return {
+    id: clearance.id,
+    checksumSha256: clearance.checksum_sha256,
+    mimeType: clearance.mime_type,
+    sizeBytes: clearance.size_bytes,
+    classificationLabel: clearance.classification_label,
+    expiresAt: clearance.expires_at,
+    createdAt: clearance.created_at,
+    voidedAt: clearance.voided_at,
+    voidReason: clearance.void_reason,
+    consumedAt: clearance.consumed_at,
+    consumedVersionId: clearance.consumed_version_id,
+    reviewers,
+    attestations: clearanceAttestations,
+    status,
+  };
 }
 
 type SupabaseDataClient = NonNullable<Awaited<ReturnType<typeof createClient>>>;
@@ -407,6 +554,39 @@ function latestTimestamp(primary: string, secondary: string | null | undefined) 
   return new Date(secondary) > new Date(primary) ? secondary : primary;
 }
 
+async function filterInvestorVisibleVersions(
+  supabase: SupabaseServerClient,
+  documents: DataRoomDocumentRow[],
+  versions: DataRoomDocumentVersionRow[],
+) {
+  const publishedCandidates = documents.flatMap((document) => (
+    document.published_version_id
+      ? [{ documentId: document.id, versionId: document.published_version_id }]
+      : []
+  ));
+  const checks = await Promise.all(publishedCandidates.map(async (candidate) => {
+    const { data, error } = await supabase.rpc("can_view_data_room_document_version", {
+      target_document_id: candidate.documentId,
+      target_version_id: candidate.versionId,
+    });
+    return { ...candidate, data, error };
+  }));
+
+  if (checks.some((check) => check.error || check.data !== true)) {
+    return failure("The document clearance could not be verified.");
+  }
+
+  const visibleVersionIds = new Set(checks.map((check) => check.versionId));
+  const visibleDocuments = documents.filter(
+    (document) => document.published_version_id !== null && visibleVersionIds.has(document.published_version_id),
+  );
+
+  return success({
+    documents: visibleDocuments,
+    versions: versions.filter((version) => visibleVersionIds.has(version.id)),
+  });
+}
+
 function success<T>(data: T): LoadResult<T> {
   return { data, error: null };
 }
@@ -422,6 +602,7 @@ function mapVersion(version: DataRoomDocumentVersionRow): DataRoomVersion {
     originalFilename: version.original_filename,
     mimeType: version.mime_type,
     sizeBytes: version.size_bytes,
+    clearanceId: version.clearance_id,
     publishedAt: version.published_at,
     createdAt: version.created_at,
     isCurrent: version.is_current,

@@ -20,6 +20,7 @@ export function DataRoomActionForm({
   pendingLabel,
   className = "grid gap-4",
   buttonClassName = "btn btn-primary",
+  refreshMode = "router",
 }: {
   action: DataRoomServerAction;
   children: React.ReactNode;
@@ -27,13 +28,19 @@ export function DataRoomActionForm({
   pendingLabel?: string;
   className?: string;
   buttonClassName?: string;
+  refreshMode?: "router" | "reload";
 }) {
   const [state, formAction] = useActionState(action, initialDataRoomActionState);
   const router = useRouter();
 
   useEffect(() => {
-    if (state.status === "success") router.refresh();
-  }, [router, state]);
+    if (state.status !== "success") return;
+    if (refreshMode === "reload") {
+      window.location.reload();
+      return;
+    }
+    router.refresh();
+  }, [refreshMode, router, state]);
 
   return (
     <form action={formAction} className={className}>

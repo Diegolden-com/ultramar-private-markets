@@ -124,7 +124,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         "label": "Lavanderias CX",
         "href": "/private-equities/assets/lcx",
-        "description": "A representative private-market operating asset."
+        "description": "A controlled review of a potential secondary transfer; not a live offer."
       },
       {
         "label": "Legal",

@@ -1,0 +1,3 @@
+-- Intentionally empty. This version was registered by the local stack before
+-- its planned content was ready; the follow-up migration contains the schema
+-- change so migration history remains immutable and reproducible.

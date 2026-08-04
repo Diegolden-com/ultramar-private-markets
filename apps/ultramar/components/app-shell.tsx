@@ -16,6 +16,7 @@ const terminalLink = headerUtilityLinks[0];
 const signInLink = headerUtilityLinks[1];
 const focusVisibleClass =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+const lcxDataRoomPath = "/private-equities/assets/lcx/dataroom";
 const platformFooterKeys = new Set(["home", "research", "press"]);
 const nonNavigableBreadcrumbs = new Set(["/auth"]);
 const footerRouteGroups = [
@@ -48,6 +49,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const terminalActive = isActiveHref(pathname, terminalLink.href);
   const authActive = pathname.startsWith("/auth");
+  const isLcxDossierRoute = pathname === lcxDataRoomPath || pathname.startsWith(`${lcxDataRoomPath}/`);
   const breadcrumbs = breadcrumbItems(pathname);
   const closeMenus = () => {
     setOpen(false);
@@ -77,7 +79,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [activeMenu]);
 
   return (
-    <div className="min-h-screen bg-surface-ink pb-16 text-on-surface lg:pb-0">
+    <div className={`min-h-screen bg-surface-ink pb-16 text-on-surface lg:pb-0 ${isLcxDossierRoute ? "lcx-data-room-theme" : ""}`}>
       <a
         href="#main-content"
         className={`btn btn-sm btn-info fixed left-4 top-4 z-[100] -translate-y-16 font-mono text-[11px] font-medium uppercase tracking-[0.08em] opacity-0 transition-[opacity,transform] ${focusVisibleClass} focus-visible:translate-y-0 focus-visible:opacity-100`}
@@ -245,7 +247,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     {item.label}
                   </span>
                 ) : (
-                  <Link href={item.href} onClick={closeMenus} className={focusVisibleClass}>
+                  <Link
+                    href={item.href}
+                    onClick={closeMenus}
+                    className={`${focusVisibleClass} inline-flex min-h-8 min-w-8 items-center justify-center px-1`}
+                  >
                     {item.label}
                   </Link>
                 )}

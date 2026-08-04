@@ -11,8 +11,8 @@ insert into public.rounds (id, issuer_id, slug, title, ticker, status)
 values (
   '22222222-2222-4222-8222-222222222222',
   '11111111-1111-4111-8111-111111111111',
-  'lcx-capital-round',
-  'LCX Capital',
+  'lcx-secondary-transfer-review',
+  'LCX Secondary Transfer Review',
   'lcx',
   'preparing'
 )
@@ -22,9 +22,9 @@ insert into public.data_rooms (id, round_id, slug, name, description)
 values (
   '33333333-3333-4333-8333-333333333333',
   '22222222-2222-4222-8222-222222222222',
-  'lcx-capital',
-  'LCX Capital Data Room',
-  'Controlled diligence workspace for the Lavanderias CX expansion round.'
+  'lcx-secondary-transfer',
+  'LCX Secondary Transfer Data Room',
+  'Controlled diligence workspace for a potential transfer of existing Lavanderias CX equity. No SPV. Not a live offer.'
 )
 on conflict (id) do nothing;
 
@@ -86,9 +86,9 @@ values
   (
     '40000000-0000-4000-8000-000000000006',
     '33333333-3333-4333-8333-333333333333',
-    'offering-documents',
-    'Offering documents',
-    'Term sheet, subscription agreement, risk factors, eligibility memo, and transfer restrictions.',
+    'transfer-documents',
+    'Transfer documents',
+    'Seller disclosure, counsel-reviewed transfer documents, buyer eligibility memo, and transfer restrictions.',
     'gated',
     60
   ),
@@ -105,8 +105,8 @@ values
     '40000000-0000-4000-8000-000000000008',
     '33333333-3333-4333-8333-333333333333',
     'investor-communications',
-    'Investor communications',
-    'Monthly update template, KPI definitions, notices, and adverse-event protocol.',
+    'Holder and investor communications',
+    'Diligence Q&A, monthly update template, KPI definitions, notices, and adverse-event protocol.',
     'missing',
     80
   )

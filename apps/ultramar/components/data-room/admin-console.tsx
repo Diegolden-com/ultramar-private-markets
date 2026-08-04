@@ -7,6 +7,7 @@ import {
   updateFolderAction,
 } from "@/app/private-equities/assets/lcx/dataroom/actions";
 import { DataRoomActionForm } from "@/components/data-room/action-form";
+import { ClearanceConsole } from "@/components/data-room/clearance-console";
 import { NewDocumentUploadForm, NewVersionUploadForm } from "@/components/data-room/upload-forms";
 import type { AuthorizedDataRoomState } from "@/lib/data-room/types";
 import { Activity, FileCog, FolderCog, ShieldCheck, UploadCloud } from "lucide-react";
@@ -14,8 +15,20 @@ import { Activity, FileCog, FolderCog, ShieldCheck, UploadCloud } from "lucide-r
 export function DataRoomAdminConsole({ state }: { state: AuthorizedDataRoomState }) {
   return (
     <div className="grid gap-4">
+      <AdminSection icon={ShieldCheck} eyebrow="Human clearance" title="Derivative review gate">
+        <ClearanceConsole
+          viewerId={state.viewer.id}
+          clearances={state.clearances}
+          reviewerCandidates={state.clearanceReviewerCandidates}
+        />
+      </AdminSection>
+
       <AdminSection icon={UploadCloud} eyebrow="Content intake" title="Upload document">
-        <NewDocumentUploadForm folders={state.folders} />
+        <NewDocumentUploadForm
+          folders={state.folders}
+          clearances={state.clearances}
+          viewerId={state.viewer.id}
+        />
       </AdminSection>
 
       <AdminSection icon={FolderCog} eyebrow="Structure" title="Folders">
@@ -110,7 +123,11 @@ export function DataRoomAdminConsole({ state }: { state: AuthorizedDataRoomState
                         </div>
                       </DataRoomActionForm>
                       <div className="grid gap-3 border-t border-border-muted pt-4 sm:grid-cols-2">
-                        <NewVersionUploadForm documentId={document.id} />
+                        <NewVersionUploadForm
+                          documentId={document.id}
+                          clearances={state.clearances}
+                          viewerId={state.viewer.id}
+                        />
                         <div className="grid content-start gap-3">
                           {document.currentVersion ? (
                             <DataRoomActionForm
@@ -159,12 +176,12 @@ export function DataRoomAdminConsole({ state }: { state: AuthorizedDataRoomState
                     <td className="min-w-72">
                       <div className="grid gap-2 sm:grid-cols-2">
                         {request.status !== "approved" ? (
-                          <DataRoomActionForm action={resolveAccessAction} submitLabel="Approve" buttonClassName="btn btn-primary btn-xs w-full">
+                          <DataRoomActionForm action={resolveAccessAction} submitLabel="Approve" buttonClassName="btn btn-primary btn-xs w-full" refreshMode="reload">
                             <input type="hidden" name="requestId" value={request.id} /><input type="hidden" name="resolution" value="approved" />
                           </DataRoomActionForm>
                         ) : null}
                         {request.status !== "revoked" ? (
-                          <DataRoomActionForm action={resolveAccessAction} submitLabel="Revoke" buttonClassName="btn btn-outline btn-error btn-xs w-full">
+                          <DataRoomActionForm action={resolveAccessAction} submitLabel="Revoke" buttonClassName="btn btn-outline btn-error btn-xs w-full" refreshMode="reload">
                             <input type="hidden" name="requestId" value={request.id} /><input type="hidden" name="resolution" value="revoked" />
                           </DataRoomActionForm>
                         ) : null}
@@ -197,7 +214,7 @@ export function DataRoomAdminConsole({ state }: { state: AuthorizedDataRoomState
 
 function AdminSection({ icon: Icon, eyebrow, title, children }: { icon: typeof UploadCloud; eyebrow: string; title: string; children: React.ReactNode }) {
   return (
-    <section className="card card-border min-w-0 bg-surface p-5 sm:p-6 lg:p-7">
+    <section className="lcx-dossier-admin-section card card-border min-w-0 bg-surface p-5 sm:p-6 lg:p-7">
       <div className="mb-6 flex items-start gap-4 border-b border-border-muted pb-5">
         <span className="grid h-10 w-10 shrink-0 place-items-center border border-primary/40 bg-primary/10 text-primary"><Icon className="h-5 w-5" aria-hidden="true" /></span>
         <div><p className="font-mono text-[10px] uppercase tracking-[0.1em] text-on-surface-variant">{eyebrow}</p><h2 className="mt-1 font-serif text-2xl font-semibold">{title}</h2></div>
@@ -218,7 +235,7 @@ function VersionHistory({ document }: { document: AuthorizedDataRoomState["docum
       <div className="mt-2 grid gap-2">
         {document.versions.map((version) => (
           <div key={version.id} className="grid gap-1 border border-border-muted bg-surface-dim p-3 text-xs sm:grid-cols-[5rem_minmax(0,1fr)_auto]">
-            <span className="font-mono text-primary">v{version.versionNumber}{version.isCurrent ? " · current" : ""}</span><span className="truncate">{version.originalFilename}</span><span className="text-on-surface-variant">{formatTimestamp(version.createdAt)}</span>
+            <span className="font-mono text-primary">v{version.versionNumber}{version.isCurrent ? " · current" : ""}</span><span className="truncate">{version.originalFilename}{version.clearanceId ? " · cleared" : " · legacy / not publishable"}</span><span className="text-on-surface-variant">{formatTimestamp(version.createdAt)}</span>
           </div>
         ))}
       </div>

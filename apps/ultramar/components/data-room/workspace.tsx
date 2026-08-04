@@ -31,8 +31,14 @@ export function DataRoomHeader({
 }) {
   return (
     <>
-      <DataRoomVisitRecorder />
-      <header className="card card-border overflow-hidden bg-surface">
+      {/*
+       * Visit telemetry is intentionally investor-only. Issuer/admin pages
+       * perform clearance, upload, publication, and access-control writes;
+       * they must not start a non-essential background Server Action that can
+       * contend with those controlled operations during a page lifecycle.
+       */}
+      {!state.viewer.canManage ? <DataRoomVisitRecorder /> : null}
+      <header className="lcx-dossier-header card card-border overflow-hidden bg-surface">
         <div className="grid lg:grid-cols-[minmax(0,1fr)_auto]">
           <div className="min-w-0 p-5 sm:p-6 lg:p-7">
             <nav aria-label="Data room navigation">
@@ -47,20 +53,23 @@ export function DataRoomHeader({
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div className="min-w-0">
                 <p className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-accent">
-                  {state.room.issuer.name} / {state.room.round.ticker.toUpperCase()}
+                  {state.room.issuer.name} / {state.room.round.ticker.toUpperCase()} / Potential secondary transfer
                 </p>
                 <h1 className="mt-2 text-balance font-serif text-3xl font-semibold leading-none sm:text-4xl">
-                  {state.room.round.title}
+                  {LCX_DATA_ROOM.name}
                 </h1>
+                <p className="mt-4 max-w-2xl text-sm leading-6 text-on-surface-variant">
+                  Controlled diligence for a possible transfer of existing equity. No SPV is used, and this workspace does not handle allocations, subscriptions, payments, or transfer instructions.
+                </p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <span className="badge badge-success badge-outline font-mono text-[10px] uppercase tracking-[0.08em]">Access active</span>
-                <span className="badge badge-warning badge-outline font-mono text-[10px] uppercase tracking-[0.08em]">{state.room.round.status}</span>
+                <span className="badge badge-warning badge-outline font-mono text-[10px] uppercase tracking-[0.08em]">{LCX_DATA_ROOM.status}</span>
               </div>
             </div>
           </div>
 
-          <div className="flex min-w-[240px] flex-col justify-between border-t border-border-muted bg-surface-container-lowest p-5 lg:border-l lg:border-t-0">
+          <div className="lcx-dossier-identity flex min-w-[240px] flex-col justify-between border-t border-border-muted bg-surface-container-lowest p-5 lg:border-l lg:border-t-0">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-on-surface-variant">Signed in as</p>
               <p className="mt-2 truncate text-sm font-medium text-on-surface">{state.viewer.fullName || state.viewer.email}</p>
@@ -74,13 +83,13 @@ export function DataRoomHeader({
       </header>
 
       {state.viewer.canManage ? (
-        <nav className="tabs tabs-border border border-border-muted bg-surface px-3" aria-label="Data room views">
-          <Link href={LCX_DATA_ROOM.path} className={`tab font-mono text-[10px] uppercase tracking-[0.1em] ${activeView === "documents" ? "tab-active" : ""}`}>
+        <nav className="lcx-dossier-tabs tabs tabs-border border border-border-muted bg-surface px-3" aria-label="Data room views">
+          <a href={LCX_DATA_ROOM.path} className={`tab font-mono text-[10px] uppercase tracking-[0.1em] ${activeView === "documents" ? "tab-active" : ""}`}>
             Document index
-          </Link>
-          <Link href={`${LCX_DATA_ROOM.path}?view=admin`} className={`tab font-mono text-[10px] uppercase tracking-[0.1em] ${activeView === "admin" ? "tab-active" : ""}`}>
+          </a>
+          <a href={`${LCX_DATA_ROOM.path}?view=admin`} className={`tab font-mono text-[10px] uppercase tracking-[0.1em] ${activeView === "admin" ? "tab-active" : ""}`}>
             Administration
-          </Link>
+          </a>
         </nav>
       ) : null}
     </>
@@ -94,8 +103,8 @@ export function DataRoomWorkspace({ state, query }: { state: AuthorizedDataRoomS
   const folderMap = new Map(folders.map((folder) => [folder.id, folder]));
 
   return (
-    <section className="grid min-w-0 gap-px overflow-hidden border border-border-muted bg-border-muted lg:grid-cols-[15rem_minmax(0,1fr)_20rem]">
-      <aside className="hidden min-w-0 bg-surface-container-lowest lg:block" aria-label="Data room folders">
+    <section className="lcx-dossier-workspace grid min-w-0 gap-px overflow-hidden border border-border-muted bg-border-muted lg:grid-cols-[15rem_minmax(0,1fr)_20rem]">
+      <aside className="lcx-dossier-folder-index hidden min-w-0 bg-surface-container-lowest lg:block" aria-label="Data room folders">
         <div className="border-b border-border-muted p-4">
           <p className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-on-surface-variant">Folder index</p>
         </div>
@@ -114,7 +123,7 @@ export function DataRoomWorkspace({ state, query }: { state: AuthorizedDataRoomS
         </nav>
       </aside>
 
-      <div className="min-w-0 bg-surface">
+      <div className="lcx-dossier-document-index min-w-0 bg-surface">
         <div className="border-b border-border-muted p-4 sm:p-5">
           <form action={LCX_DATA_ROOM.path} className="grid gap-3 md:grid-cols-[minmax(12rem,1fr)_auto_auto_auto]">
             {query.folder ? <input type="hidden" name="folder" value={query.folder} /> : null}
@@ -125,8 +134,6 @@ export function DataRoomWorkspace({ state, query }: { state: AuthorizedDataRoomS
             <select name="type" defaultValue={query.type ?? "all"} className="select select-primary" aria-label="File type">
               <option value="all">All file types</option>
               <option value="pdf">PDF</option>
-              <option value="spreadsheet">Spreadsheets</option>
-              <option value="document">Documents</option>
               <option value="image">Images</option>
             </select>
             <select name="sort" defaultValue={query.sort ?? "updated"} className="select select-primary" aria-label="Sort documents">
@@ -210,7 +217,7 @@ export function DataRoomWorkspace({ state, query }: { state: AuthorizedDataRoomS
 function DocumentDetail({ document, folderName }: { document: DataRoomDocument | null; folderName?: string }) {
   if (!document) {
     return (
-      <aside className="min-w-0 bg-surface-container-lowest p-5" aria-label="Document details">
+      <aside className="lcx-dossier-detail min-w-0 bg-surface-container-lowest p-5" aria-label="Document details">
         <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-on-surface-variant">Document detail</p>
         <p className="mt-4 text-sm leading-6 text-on-surface-variant">Choose a document to inspect its metadata and available actions.</p>
       </aside>
@@ -222,7 +229,7 @@ function DocumentDetail({ document, folderName }: { document: DataRoomDocument |
   const downloadHref = `${LCX_DATA_ROOM.path}/documents/${document.id}/download`;
 
   return (
-    <aside className="min-w-0 bg-surface-container-lowest p-5" aria-label={`Details for ${document.title}`}>
+    <aside className="lcx-dossier-detail min-w-0 bg-surface-container-lowest p-5" aria-label={`Details for ${document.title}`}>
       <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-on-surface-variant">Document detail</p>
       <h2 className="mt-3 text-balance font-serif text-2xl font-semibold leading-tight">{document.title}</h2>
       <p className="mt-4 text-sm leading-6 text-on-surface-variant">{document.description || "No description supplied."}</p>
@@ -313,17 +320,13 @@ function filterDocuments(documents: DataRoomDocument[], query: DataRoomQuery) {
 
 function mimeGroup(mimeType?: string) {
   if (mimeType === "application/pdf") return "pdf";
-  if (mimeType?.includes("spreadsheet") || mimeType === "text/csv") return "spreadsheet";
   if (mimeType?.startsWith("image/")) return "image";
-  return "document";
+  return "unsupported";
 }
 
 function fileTypeLabel(mimeType?: string) {
   if (!mimeType) return "No file";
   if (mimeType === "application/pdf") return "PDF";
-  if (mimeType === "text/csv") return "CSV";
-  if (mimeType.includes("spreadsheet")) return "XLSX";
-  if (mimeType.includes("wordprocessing")) return "DOCX";
   if (mimeType === "image/jpeg") return "JPEG";
   if (mimeType === "image/png") return "PNG";
   return "File";

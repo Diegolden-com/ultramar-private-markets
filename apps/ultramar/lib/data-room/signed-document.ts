@@ -58,6 +58,20 @@ export async function signedDocumentResponse(
 
   if (!version) return privateNotFound();
 
+  // RLS is the primary boundary for document metadata. Recheck the selected
+  // version through a controlled database predicate before issuing a signed
+  // object URL: it proves that this exact version is the consumed target of an
+  // active, complete clearance. This also fails closed for legacy rows that
+  // predate the clearance workflow.
+  const { data: canViewVersion, error: canViewVersionError } = await supabase.rpc(
+    "can_view_data_room_document_version",
+    {
+      target_document_id: document.id,
+      target_version_id: version.id,
+    },
+  );
+  if (canViewVersionError || canViewVersion !== true) return privateNotFound();
+
   const admin = createAdminClient();
   if (!admin) return privateNotFound();
 

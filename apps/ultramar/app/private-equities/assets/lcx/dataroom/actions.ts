@@ -2,10 +2,21 @@
 
 import { LCX_DATA_ROOM } from "@/lib/data-room/constants";
 import { slugifyDataRoomLabel } from "@/lib/data-room/slug";
-import { createAdminClient } from "@/lib/supabase/admin";
+import type { DataRoomClearanceReviewRole } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import type { DataRoomActionState } from "./action-state";
+
+const clearanceMetadataFields = new Set([
+  "checksumSha256",
+  "mimeType",
+  "sizeBytes",
+  "financeOpsReviewerId",
+  "redactionReviewerId",
+  "counselReviewerId",
+  "dataRoomAdminReviewerId",
+  "expiresAt",
+]);
 
 export async function requestAccessAction(
   _previousState: DataRoomActionState,
@@ -162,6 +173,99 @@ export async function publishDocumentAction(
   return success("Document published.");
 }
 
+export async function createDocumentClearanceAction(
+  _previousState: DataRoomActionState,
+  formData: FormData,
+): Promise<DataRoomActionState> {
+  const result = await authenticatedClient();
+  if (!result.ok) return failure(result.error);
+
+  // A clearance action is metadata-only. Do not special-case the client form's
+  // candidateFile name: a malicious multipart request can use any key. Reject
+  // all non-string values and unexpected/duplicated metadata fields so file
+  // bytes cannot be accepted, staged, or forwarded by this action.
+  if (!hasOnlyExpectedClearanceMetadata(formData)) {
+    return failure("Clearance records accept only the expected fingerprint metadata; file bytes are not accepted.");
+  }
+
+  const checksum = String(formData.get("checksumSha256") ?? "").trim().toLowerCase();
+  const mimeType = String(formData.get("mimeType") ?? "").trim().toLowerCase();
+  const sizeBytes = Number(formData.get("sizeBytes"));
+  const financeOpsReviewerId = String(formData.get("financeOpsReviewerId") ?? "");
+  const redactionReviewerId = String(formData.get("redactionReviewerId") ?? "");
+  const counselReviewerId = String(formData.get("counselReviewerId") ?? "");
+  const dataRoomAdminReviewerId = String(formData.get("dataRoomAdminReviewerId") ?? "");
+  const expiresAt = String(formData.get("expiresAt") ?? "").trim();
+  const parsedExpiry = new Date(expiresAt);
+
+  if (!/^[a-f0-9]{64}$/.test(checksum)) return failure("A valid SHA-256 fingerprint is required.");
+  if (!['application/pdf', 'image/jpeg', 'image/png'].includes(mimeType)) {
+    return failure("Clearance MIME type must be PDF, JPEG, or PNG.");
+  }
+  if (!Number.isInteger(sizeBytes) || sizeBytes <= 0 || sizeBytes > 25 * 1024 * 1024) {
+    return failure("Clearance file size is invalid.");
+  }
+  if (!Number.isFinite(parsedExpiry.valueOf()) || parsedExpiry.valueOf() <= Date.now()) {
+    return failure("Choose a future clearance expiration.");
+  }
+
+  const { data, error } = await result.supabase.rpc("create_data_room_document_clearance", {
+    target_data_room_id: LCX_DATA_ROOM.id,
+    target_checksum_sha256: checksum,
+    target_mime_type: mimeType,
+    target_size_bytes: sizeBytes,
+    target_finance_ops_reviewer_id: financeOpsReviewerId,
+    target_redaction_reviewer_id: redactionReviewerId,
+    target_counsel_reviewer_id: counselReviewerId,
+    target_data_room_admin_reviewer_id: dataRoomAdminReviewerId,
+    target_expires_at: parsedExpiry.toISOString(),
+  });
+
+  if (error || !data) return failure(error?.message ?? "The derivative clearance could not be created.");
+
+  return success("Clearance created. Each assigned reviewer must attest before upload.");
+}
+
+export async function attestDocumentClearanceAction(
+  _previousState: DataRoomActionState,
+  formData: FormData,
+): Promise<DataRoomActionState> {
+  const result = await authenticatedClient();
+  if (!result.ok) return failure(result.error);
+
+  const clearanceId = String(formData.get("clearanceId") ?? "");
+  const reviewRole = String(formData.get("reviewRole") ?? "");
+  if (!clearanceId || !isClearanceReviewRole(reviewRole)) return failure("Clearance review assignment is invalid.");
+
+  const { error } = await result.supabase.rpc("attest_data_room_document_clearance", {
+    target_clearance_id: clearanceId,
+    target_review_role: reviewRole,
+  });
+  if (error) return failure(error.message);
+
+  return success("Human attestation recorded for the assigned review role.");
+}
+
+export async function voidDocumentClearanceAction(
+  _previousState: DataRoomActionState,
+  formData: FormData,
+): Promise<DataRoomActionState> {
+  const result = await authenticatedClient();
+  if (!result.ok) return failure(result.error);
+
+  const clearanceId = String(formData.get("clearanceId") ?? "");
+  const reason = String(formData.get("reason") ?? "").trim();
+  if (!clearanceId || !reason) return failure("A clearance and void reason are required.");
+
+  const { error } = await result.supabase.rpc("void_data_room_document_clearance", {
+    target_clearance_id: clearanceId,
+    target_reason: reason,
+  });
+  if (error) return failure(error.message);
+
+  return success("Unconsumed clearance voided.");
+}
+
 export async function archiveDocumentAction(
   _previousState: DataRoomActionState,
   formData: FormData,
@@ -204,13 +308,7 @@ export async function resolveAccessAction(
 
   if (error) return failure(error.message);
 
-  const notice = resolution === "approved" ? "access-approved" : "access-revoked";
-  const searchParams = new URLSearchParams({
-    view: "admin",
-    notice,
-    request: requestId,
-  });
-  redirect(`${LCX_DATA_ROOM.path}?${searchParams.toString()}`);
+  return success(resolution === "approved" ? "Access approved." : "Access revoked.");
 }
 
 export async function recordVisitAction() {
@@ -228,31 +326,6 @@ export async function recordVisitAction() {
   );
 }
 
-export async function cleanupDataRoomObjectAction(storagePath: string) {
-  const result = await authenticatedClient();
-  if (!result.ok) return;
-
-  const [dataRoomId, documentId] = storagePath.split("/");
-  if (dataRoomId !== LCX_DATA_ROOM.id || !documentId) return;
-
-  const { data: canManage, error: capabilityError } = await result.supabase.rpc(
-    "can_manage_data_room",
-    { target_data_room_id: LCX_DATA_ROOM.id },
-  );
-  if (capabilityError || canManage !== true) return;
-
-  const { count, error: referenceError } = await result.supabase
-    .from("data_room_document_versions")
-    .select("id", { count: "exact", head: true })
-    .eq("storage_path", storagePath);
-  if (referenceError || (count ?? 0) > 0) return;
-
-  const admin = await createAdminClient();
-  if (!admin) return;
-
-  await admin.storage.from(LCX_DATA_ROOM.bucket).remove([storagePath]);
-}
-
 async function authenticatedClient() {
   const supabase = await createClient();
   if (!supabase) return { ok: false, error: "Supabase is not configured in this environment." } as const;
@@ -267,6 +340,27 @@ async function authenticatedClient() {
 function integerValue(value: FormDataEntryValue | null, fallback: number) {
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback;
+}
+
+function hasOnlyExpectedClearanceMetadata(formData: FormData) {
+  const receivedFields = new Set<string>();
+
+  for (const [name, value] of formData.entries()) {
+    if (
+      !clearanceMetadataFields.has(name)
+      || receivedFields.has(name)
+      || typeof value !== "string"
+    ) {
+      return false;
+    }
+    receivedFields.add(name);
+  }
+
+  return clearanceMetadataFields.size === receivedFields.size;
+}
+
+function isClearanceReviewRole(value: string): value is DataRoomClearanceReviewRole {
+  return ["finance_ops", "redaction", "counsel", "data_room_admin"].includes(value);
 }
 
 function failure(message: string): DataRoomActionState {

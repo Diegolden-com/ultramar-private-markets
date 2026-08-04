@@ -7,15 +7,16 @@ export type Deal = {
   sector: string;
   location: string;
   image: string;
-  equityForSale: number;
-  valuation: number;
-  minInvestment: number;
-  apy: number;
-  complianceScore: number;
-  status: "active" | "closing_soon" | "funded";
+  equityForSale?: number;
+  valuation?: number;
+  minInvestment?: number;
+  apy?: number;
+  complianceScore?: number;
+  status: "preparing" | "active" | "closing_soon" | "funded";
   tags: string[];
   type: "primary" | "secondary";
   capitalRaise?: CapitalRaise;
+  secondarySale?: SecondarySale;
 };
 
 export type CapitalRaise = {
@@ -42,6 +43,21 @@ export type UseOfFundsItem = {
   body: string;
 };
 
+export type SecondarySale = {
+  title: string;
+  status: string;
+  structure: string;
+  equityPathway: string;
+  termsStatus: string;
+  investorProfile: string;
+  diligenceStatus: string;
+  summary: string;
+  diligenceFocus: string[];
+  transferProcess: InvestorProcessStep[];
+  risks: string[];
+  missingBeforeReview: string[];
+};
+
 export type Milestone = {
   label: string;
   timing: string;
@@ -57,127 +73,62 @@ export const deals: Deal[] = [
   {
     id: "1",
     name: "Lavanderias CX",
-    legalName: "Issuer vehicle pending counsel review",
     ticker: "lcx",
     description:
-      "Automated laundromat chain preparing a counsel-gated expansion round across Mexico City with recurring revenue, unit economics, and operating data moving into investor diligence.",
+      "Potential secondary transfer of existing Lavanderias CX equity. Cartuja is already built; operating performance and its early ramp remain diligence topics.",
     sector: "Consumer Services",
     location: "Mexico City, MX",
     image: "/solarpunk-laundromat.png",
-    equityForSale: 12.5,
-    valuation: 4500000,
-    minInvestment: 500,
-    apy: 18.4,
-    complianceScore: 98,
-    status: "active",
-    tags: ["Expansion round", "Brick and mortar", "Oracle-ready"],
-    type: "primary",
-    capitalRaise: {
-      roundTitle: "Mexico City unit expansion round",
-      roundStatus: "Data room buildout",
-      targetRaise: 560000,
-      closingWindow: "Counsel-gated before commitments",
-      instrument: "Preferred equity or revenue-share note, pending counsel",
+    status: "preparing",
+    tags: ["Secondary transfer", "No SPV", "Not live"],
+    type: "secondary",
+    secondarySale: {
+      title: "LCX secondary transfer review",
+      status: "Data room buildout · not a live offer",
+      structure: "Potential transfer of existing Lavanderias CX equity directly from current holders. No SPV is contemplated.",
+      equityPathway: "Existing holders only. No new Lavanderias CX equity is being issued.",
+      termsStatus: "Price, percentage, buyer rights, and transfer mechanics are not published and require seller, issuer, and counsel review.",
       investorProfile:
-        "Eligible private-market investors after KYC/KYB, suitability, and jurisdiction review.",
-      diligenceStatus: "Operating proof pack in progress",
+        "Eligible private-market investors after KYC/KYB, suitability, jurisdiction, and issuer transfer-control review.",
+      diligenceStatus: "Operating and ownership proof pack in progress",
       summary:
-        "Lavanderias CX needs a capital-ready package before Ultramar can introduce eligible investors to the opportunity. Public materials should build confidence, while actual subscriptions remain gated until counsel approves the offering path, documents, eligibility rules, and transfer controls.",
-      useOfFunds: [
-        {
-          label: "New-store capex",
-          percent: 48,
-          body: "Buildout, lease deposits, utility work, and opening inventory for additional laundromat units.",
-        },
-        {
-          label: "Equipment and maintenance",
-          percent: 22,
-          body: "Commercial washers, dryers, payment systems, spares, and preventive maintenance reserves.",
-        },
-        {
-          label: "Working capital",
-          percent: 16,
-          body: "Payroll, detergents, water, electricity, marketing ramp, and early operating float.",
-        },
-        {
-          label: "Compliance and data room",
-          percent: 8,
-          body: "Legal review, investor materials, eligibility checks, and issuer reporting controls.",
-        },
-        {
-          label: "Contingency reserve",
-          percent: 6,
-          body: "Buffer for construction delays, equipment downtime, and supplier price movement.",
-        },
+        "Ultramar is preparing a controlled diligence workspace for a possible secondary transfer. It is not accepting allocations, subscriptions, funds, or transfer instructions.",
+      diligenceFocus: [
+        "Ownership, seller authority, current debt, and transfer restrictions.",
+        "Chain-level financials, store-level operating metrics, and cash reconciliation.",
+        "Cartuja's post-build operating ramp and the network's capacity to absorb early losses.",
+        "Leases, permits, insurance, and the repeatability of investor reporting.",
       ],
-      proofPoints: [
-        "Brick-and-mortar service with tangible equipment and local demand drivers.",
-        "Round economics can be tied to store-level deployment milestones instead of vague platform growth.",
-        "Issuer oracle path can convert accounting exports into investor-facing solvency and liquidity context.",
-        "Minimum-ticket access can remain private and gated while public materials explain the asset clearly.",
-      ],
-      milestones: [
-        {
-          label: "Data room lock",
-          timing: "T-30",
-          body: "Complete legal entity, cap table, financial, lease, tax, insurance, and permit folders.",
-        },
-        {
-          label: "Counsel approval",
-          timing: "T-21",
-          body: "Select exemption or registration path, finalize offering documents, and approve public language.",
-        },
-        {
-          label: "Investor access",
-          timing: "T-14",
-          body: "Open gated diligence access only for verified investors and track Q&A centrally.",
-        },
-        {
-          label: "Closing readiness",
-          timing: "T-0",
-          body: "Subscription package, funds flow, allocation table, transfer restrictions, and first update calendar are ready.",
-        },
-      ],
-      investorProcess: [
+      transferProcess: [
         {
           label: "Request access",
-          body: "Investor submits interest through Ultramar; no money or binding commitment is accepted publicly.",
+          body: "An investor requests diligence access. No money, allocation, subscription, or binding transfer instruction is accepted here.",
         },
         {
           label: "Eligibility screen",
-          body: "KYC/KYB, investor category, jurisdiction, suitability, and transfer-control checks are completed before diligence access.",
+          body: "KYC/KYB, investor category, jurisdiction, suitability, and issuer transfer-control checks are completed before document access.",
         },
         {
           label: "Data room review",
-          body: "Verified investors receive issuer materials, Q&A, oracle context, and round economics in a tracked review process.",
+          body: "Approved reviewers receive ownership, operating, and legal documents through the controlled data room.",
         },
         {
-          label: "Subscription",
-          body: "Only after counsel approval, investors receive final documents, allocation, funds-flow instructions, and closing conditions.",
+          label: "Transfer review",
+          body: "Only after seller, issuer, and counsel approval can any transaction documents, transfer restrictions, and settlement mechanics be discussed.",
         },
       ],
-      crmStages: [
-        "Interest",
-        "Eligibility",
-        "NDA",
-        "Diligence",
-        "Allocation",
-        "Subscription",
-        "Closed",
-      ],
       risks: [
-        "Offering path risk: marketing, eligibility, and acceptance of funds must match the selected securities framework.",
-        "Execution risk: new-store buildout can slip because of leases, permits, utilities, or equipment lead times.",
+        "Transfer-control risk: seller authority, issuer consent, buyer eligibility, and any restrictions must be verified before a transfer can proceed.",
+        "Operating risk: Cartuja is built but its early operating performance, as well as the network's loss-absorption capacity, must be evidenced.",
         "Concentration risk: early performance may depend on a small number of operating sites and neighborhoods.",
         "Cash reconciliation risk: store-level revenue, expenses, and bank activity must reconcile cleanly before investor reporting.",
         "Currency risk: USD investor materials and MXN operating cash flows need an explicit FX policy.",
       ],
-      missingBeforeClose: [
-        "Approved legal offering path and counsel-reviewed public/private investor copy.",
-        "Final issuer entity, cap table, board approvals, and authorized signers.",
+      missingBeforeReview: [
+        "Final legal issuer name, cap table, seller authority, issuer consent requirements, and transfer restrictions.",
         "Clean 24-month financial package or a clearly explained shorter operating history.",
         "Store-level KPI export with repeatable oracle mapping and exception handling.",
-        "Investor eligibility checks, subscription package, funds-flow memo, and post-close reporting calendar.",
+        "Counsel-reviewed transfer documents, buyer eligibility process, settlement mechanics, and post-transfer reporting calendar.",
       ],
     },
   },
@@ -241,7 +192,41 @@ export function findDeal(ticker: string) {
   return deals.find((deal) => deal.ticker.toLowerCase() === ticker.toLowerCase());
 }
 
-export function formatCurrency(value: number) {
+export type DealListingMetric = {
+  label: string;
+  value: string;
+};
+
+export function getDealListingMetrics(deal: Deal): DealListingMetric[] {
+  if (deal.secondarySale) {
+    return [
+      { label: "Structure", value: "Secondary" },
+      { label: "Equity pathway", value: "Existing holders" },
+      { label: "Status", value: "Not live" },
+      { label: "Terms", value: "Not published" },
+    ];
+  }
+
+  if (deal.capitalRaise) {
+    return [
+      { label: "Valuation", value: formatCurrency(deal.valuation) },
+      { label: "Raise", value: formatCurrency(deal.capitalRaise.targetRaise) },
+      { label: "Score", value: deal.complianceScore?.toString() ?? "—" },
+      { label: "Minimum", value: formatCurrency(deal.minInvestment) },
+    ];
+  }
+
+  return [
+    { label: "Valuation", value: formatCurrency(deal.valuation) },
+    { label: "Target", value: deal.apy === undefined ? "—" : `${deal.apy}%` },
+    { label: "Score", value: deal.complianceScore?.toString() ?? "—" },
+    { label: "Minimum", value: formatCurrency(deal.minInvestment) },
+  ];
+}
+
+export function formatCurrency(value: number | null | undefined) {
+  if (value === null || value === undefined) return "Not disclosed";
+
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",

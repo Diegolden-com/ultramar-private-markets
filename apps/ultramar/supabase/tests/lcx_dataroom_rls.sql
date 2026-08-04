@@ -64,6 +64,54 @@ values
     '{"full_name":"Data Room Admin"}',
     now(),
     now()
+  ),
+  (
+    '10101010-0001-4010-8010-000000000001',
+    'authenticated',
+    'authenticated',
+    'finance-ops-reviewer@example.test',
+    crypt('test-password', gen_salt('bf')),
+    now(),
+    '{"provider":"email","providers":["email"]}',
+    '{"full_name":"Finance Ops Reviewer"}',
+    now(),
+    now()
+  ),
+  (
+    '10101010-0002-4010-8010-000000000002',
+    'authenticated',
+    'authenticated',
+    'redaction-reviewer@example.test',
+    crypt('test-password', gen_salt('bf')),
+    now(),
+    '{"provider":"email","providers":["email"]}',
+    '{"full_name":"Redaction Reviewer"}',
+    now(),
+    now()
+  ),
+  (
+    '10101010-0003-4010-8010-000000000003',
+    'authenticated',
+    'authenticated',
+    'counsel-reviewer@example.test',
+    crypt('test-password', gen_salt('bf')),
+    now(),
+    '{"provider":"email","providers":["email"]}',
+    '{"full_name":"Counsel Reviewer"}',
+    now(),
+    now()
+  ),
+  (
+    '10101010-0004-4010-8010-000000000004',
+    'authenticated',
+    'authenticated',
+    'data-room-admin-reviewer@example.test',
+    crypt('test-password', gen_salt('bf')),
+    now(),
+    '{"provider":"email","providers":["email"]}',
+    '{"full_name":"Clearance Data Room Admin"}',
+    now(),
+    now()
   );
 
 update public.profiles
@@ -73,6 +121,18 @@ where id = 'cccccccc-cccc-4ccc-8ccc-cccccccc0003';
 update public.profiles
 set role = 'admin'
 where id = 'dddddddd-dddd-4ddd-8ddd-dddddddd0004';
+
+update public.profiles
+set role = 'issuer', issuer_id = '11111111-1111-4111-8111-111111111111'
+where id in (
+  '10101010-0001-4010-8010-000000000001',
+  '10101010-0002-4010-8010-000000000002',
+  '10101010-0003-4010-8010-000000000003'
+);
+
+update public.profiles
+set role = 'admin'
+where id = '10101010-0004-4010-8010-000000000004';
 
 -- A second room proves that folder, document, version, and audit relationships
 -- cannot cross tenant boundaries.
@@ -119,6 +179,11 @@ select extensions.is(
   26214400::bigint,
   'document bucket enforces the 25 MiB limit'
 );
+select extensions.is(
+  (select allowed_mime_types from storage.buckets where id = 'data-room-documents'),
+  array['application/pdf', 'image/jpeg', 'image/png']::text[],
+  'document bucket permits only reviewed redacted PDF or image derivatives'
+);
 select extensions.ok(
   not has_table_privilege('anon', 'public.data_room_documents', 'select'),
   'anonymous users have no document metadata grant'
@@ -132,20 +197,24 @@ select extensions.ok(
   'anonymous users cannot archive documents'
 );
 select extensions.ok(
+  to_regprocedure('public.append_data_room_document_version(uuid,uuid,text,text,text,bigint,text)') is null,
+  'the legacy seven-argument append RPC is removed rather than left as a clearance bypass'
+);
+select extensions.ok(
   not has_function_privilege(
     'anon',
-    'public.append_data_room_document_version(uuid,uuid,text,text,text,bigint,text)',
+    'public.append_data_room_document_version(uuid,uuid,text,text,text,bigint,text,uuid)',
     'execute'
   ),
-  'anonymous users cannot append versions'
+  'anonymous users cannot append a cleared version'
 );
 select extensions.ok(
   has_function_privilege(
     'authenticated',
-    'public.append_data_room_document_version(uuid,uuid,text,text,text,bigint,text)',
+    'public.append_data_room_document_version(uuid,uuid,text,text,text,bigint,text,uuid)',
     'execute'
   ),
-  'authenticated managers can call the atomic append RPC'
+  'authenticated managers can call the clearance-aware atomic append RPC'
 );
 select extensions.ok(
   has_function_privilege('authenticated', 'public.archive_data_room_document(uuid)', 'execute'),
@@ -161,12 +230,42 @@ select extensions.is(
         'append_data_room_document_version',
         'archive_data_room_document',
         'publish_data_room_document',
-        'resolve_data_room_access'
+        'resolve_data_room_access',
+        'create_data_room_document_clearance',
+        'attest_data_room_document_clearance',
+        'void_data_room_document_clearance',
+        'list_data_room_clearance_reviewer_candidates',
+        'assert_data_room_document_clearance',
+        'can_view_data_room_document_version'
       )
       and p.prosecdef
   ),
-  4::bigint,
-  'all controlled mutation RPCs run as security definer'
+  10::bigint,
+  'all controlled data-room and clearance RPCs run as security definer'
+);
+select extensions.ok(
+  has_function_privilege('authenticated', 'private.current_profile_role()', 'execute')
+    and has_function_privilege('authenticated', 'private.user_can_manage_data_room(uuid)', 'execute')
+    and has_function_privilege('authenticated', 'private.user_has_data_room_access(uuid)', 'execute')
+    and has_function_privilege('authenticated', 'private.user_can_request_data_room(uuid)', 'execute')
+    and has_function_privilege('authenticated', 'private.user_can_view_profile(uuid)', 'execute')
+    and has_function_privilege('authenticated', 'private.user_can_view_document(uuid)', 'execute')
+    and has_function_privilege('authenticated', 'private.storage_data_room_id(text)', 'execute')
+    and has_function_privilege('authenticated', 'private.user_can_read_data_room_object(text)', 'execute'),
+  'authenticated retains exactly the baseline private helper grants that RLS requires'
+);
+select extensions.ok(
+  not has_function_privilege('authenticated', 'private.profile_can_review_data_room(uuid,uuid)', 'execute')
+    and not has_function_privilege('authenticated', 'private.assert_data_room_clearance_reviewer_assignments(uuid,uuid,uuid,uuid,uuid)', 'execute')
+    and not has_function_privilege('authenticated', 'private.data_room_clearance_is_complete(uuid)', 'execute')
+    and not has_function_privilege('authenticated', 'private.assert_data_room_clearance_for_upload(uuid,uuid,text,text,bigint,uuid,boolean)', 'execute')
+    and not has_function_privilege('authenticated', 'private.data_room_clearance_is_active_for_version(uuid)', 'execute'),
+  'authenticated cannot invoke the new clearance implementation helpers directly'
+);
+select extensions.ok(
+  not has_function_privilege('anon', 'public.can_view_data_room_document_version(uuid,uuid)', 'execute')
+    and has_function_privilege('authenticated', 'public.can_view_data_room_document_version(uuid,uuid)', 'execute'),
+  'only authenticated callers can use the signed-document clearance predicate'
 );
 select extensions.ok(
   not has_table_privilege('authenticated', 'public.data_room_document_versions', 'insert'),
@@ -175,6 +274,18 @@ select extensions.ok(
 select extensions.ok(
   not has_table_privilege('authenticated', 'public.data_room_document_versions', 'update'),
   'authenticated clients cannot update document versions directly'
+);
+select extensions.ok(
+  not has_table_privilege('authenticated', 'public.data_room_document_clearances', 'insert')
+    and not has_table_privilege('authenticated', 'public.data_room_document_clearances', 'update')
+    and not has_table_privilege('authenticated', 'public.data_room_document_clearances', 'delete'),
+  'authenticated clients cannot create, consume, void, or delete clearances directly'
+);
+select extensions.ok(
+  not has_table_privilege('authenticated', 'public.data_room_document_clearance_attestations', 'insert')
+    and not has_table_privilege('authenticated', 'public.data_room_document_clearance_attestations', 'update')
+    and not has_table_privilege('authenticated', 'public.data_room_document_clearance_attestations', 'delete'),
+  'authenticated clients cannot forge or alter human attestations directly'
 );
 select extensions.ok(
   not has_table_privilege('authenticated', 'public.rounds', 'update'),
@@ -234,6 +345,11 @@ select extensions.ok(
   'service role has an explicit event insert grant for server-only auditing'
 );
 select extensions.ok(
+  has_table_privilege('service_role', 'public.data_room_document_clearances', 'insert')
+    and has_table_privilege('service_role', 'public.data_room_document_clearance_attestations', 'insert'),
+  'service role retains explicit clearance-table access for controlled server operations'
+);
+select extensions.ok(
   has_table_privilege('service_role', 'public.rounds', 'update')
     and has_table_privilege('service_role', 'public.data_rooms', 'update'),
   'service role retains controlled round and data-room update privileges'
@@ -245,10 +361,22 @@ select extensions.is(
     where schemaname = 'storage'
       and tablename = 'objects'
       and policyname like 'data_room_objects_%'
-      and cmd in ('SELECT', 'UPDATE', 'DELETE')
+      and cmd in ('SELECT', 'INSERT', 'UPDATE', 'DELETE')
   ),
   0::bigint,
-  'authenticated users have no direct read, update, or delete Storage policy'
+  'authenticated users have no direct Storage policy; uploads are server-mediated'
+);
+select extensions.is(
+  (
+    select count(*)
+    from public.data_room_documents d
+    join public.data_room_document_versions v on v.id = d.published_version_id
+    where d.data_room_id = '33333333-3333-4333-8333-333333333333'
+      and d.status = 'published'
+      and v.clearance_id is null
+  ),
+  0::bigint,
+  'the migration leaves no LCX published document pointing to a legacy version without clearance'
 );
 
 update public.profiles
@@ -307,6 +435,8 @@ select extensions.is((select count(*) from public.data_rooms), 0::bigint, 'no-gr
 select extensions.is((select count(*) from public.data_room_folders), 0::bigint, 'no-grant investor cannot enumerate folders');
 select extensions.is((select count(*) from public.data_room_documents), 0::bigint, 'no-grant investor cannot enumerate documents');
 select extensions.is((select count(*) from public.data_room_document_versions), 0::bigint, 'no-grant investor cannot enumerate versions');
+select extensions.is((select count(*) from public.data_room_document_clearances), 0::bigint, 'no-grant investor cannot enumerate derivative clearances');
+select extensions.is((select count(*) from public.data_room_document_clearance_attestations), 0::bigint, 'no-grant investor cannot enumerate reviewer attestations');
 select extensions.is((select count(*) from public.profiles), 1::bigint, 'no-grant investor can only read their own profile');
 select extensions.is(
   public.can_manage_data_room('33333333-3333-4333-8333-333333333333'),
@@ -473,24 +603,232 @@ select extensions.throws_ok(
   null,
   'issuer cannot bypass the append RPC with a direct version insert'
 );
-select extensions.lives_ok(
+select extensions.throws_ok(
   $$insert into storage.objects (bucket_id, name, owner)
     values (
       'data-room-documents',
-      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-monthly-v1.pdf',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-raw-financial-model.xlsx',
       'cccccccc-cccc-4ccc-8ccc-cccccccc0003'
     )$$,
-  'issuer can upload a new unique object path'
+  '42501',
+  null,
+  'issuer cannot bypass the server upload route with an XLSX object'
+);
+select extensions.throws_ok(
+  $$select public.append_data_room_document_version(
+      'eeeeeeee-eeee-4eee-8eee-eeeeeeee0001',
+      'ffffffff-ffff-4fff-8fff-ffffffff0008',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0008-raw-model.xlsx.pdf',
+      'raw-model.xlsx.pdf',
+      'application/pdf',
+      1024,
+      repeat('a', 64),
+      null
+    )$$,
+  '23514',
+  null,
+  'append RPC rejects a workbook filename disguised as PDF'
+);
+select extensions.throws_ok(
+  $$select public.append_data_room_document_version(
+      'eeeeeeee-eeee-4eee-8eee-eeeeeeee0001',
+      'ffffffff-ffff-4fff-8fff-ffffffff0007',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0007-source.xls.pdf',
+      'source.xls.pdf',
+      'application/pdf',
+      1024,
+      repeat('a', 64),
+      null
+    )$$,
+  '23514',
+  null,
+  'append RPC rejects an XLS filename disguised as PDF'
+);
+select extensions.throws_ok(
+  $$select public.append_data_room_document_version(
+      'eeeeeeee-eeee-4eee-8eee-eeeeeeee0001',
+      'ffffffff-ffff-4fff-8fff-ffffffff0006',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0006-source.csv.pdf',
+      'source.csv.pdf',
+      'application/pdf',
+      1024,
+      repeat('a', 64),
+      null
+    )$$,
+  '23514',
+  null,
+  'append RPC rejects a CSV filename disguised as PDF'
+);
+
+select extensions.throws_ok(
+  $$select public.create_data_room_document_clearance(
+      '33333333-3333-4333-8333-333333333333',
+      repeat('d', 64),
+      'application/pdf',
+      1024,
+      '10101010-0001-4010-8010-000000000001',
+      '10101010-0001-4010-8010-000000000001',
+      '10101010-0003-4010-8010-000000000003',
+      '10101010-0004-4010-8010-000000000004',
+      statement_timestamp() + interval '7 days'
+    )$$,
+  '23514',
+  null,
+  'clearance rejects a reviewer identity assigned to more than one mandatory role'
+);
+select extensions.lives_ok(
+  $$select public.create_data_room_document_clearance(
+      '33333333-3333-4333-8333-333333333333',
+      repeat('a', 64),
+      'application/pdf',
+      1024,
+      '10101010-0001-4010-8010-000000000001',
+      '10101010-0002-4010-8010-000000000002',
+      '10101010-0003-4010-8010-000000000003',
+      '10101010-0004-4010-8010-000000000004',
+      statement_timestamp() + interval '7 days'
+    )$$,
+  'issuer can create a fingerprint-bound clearance with four assigned identities'
+);
+select extensions.throws_ok(
+  $$insert into public.data_room_document_clearances (
+      data_room_id, checksum_sha256, mime_type, size_bytes,
+      finance_ops_reviewer_id, redaction_reviewer_id, counsel_reviewer_id, data_room_admin_reviewer_id,
+      created_by, expires_at
+    ) values (
+      '33333333-3333-4333-8333-333333333333', repeat('c', 64), 'application/pdf', 1024,
+      '10101010-0001-4010-8010-000000000001', '10101010-0002-4010-8010-000000000002',
+      '10101010-0003-4010-8010-000000000003', '10101010-0004-4010-8010-000000000004',
+      'cccccccc-cccc-4ccc-8ccc-cccccccc0003', statement_timestamp() + interval '7 days'
+    )$$,
+  '42501',
+  null,
+  'issuer cannot create a clearance with direct DML'
+);
+select extensions.throws_ok(
+  $$select public.attest_data_room_document_clearance(
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64)),
+      'finance_ops'
+    )$$,
+  '42501',
+  null,
+  'uploader cannot record another reviewer role attestation'
+);
+select extensions.throws_ok(
+  $$select public.assert_data_room_document_clearance(
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64)),
+      '33333333-3333-4333-8333-333333333333',
+      repeat('f', 64),
+      'application/pdf',
+      1024
+    )$$,
+  '23514',
+  null,
+  'preflight rejects a clearance when the candidate hash differs'
+);
+
+reset role;
+insert into storage.objects (bucket_id, name, owner, metadata)
+values (
+  'data-room-documents',
+  '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-redacted-derivative.pdf',
+  'cccccccc-cccc-4ccc-8ccc-cccccccc0003',
+  '{"mimetype":"application/pdf","size":1024}'::jsonb
+);
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"cccccccc-cccc-4ccc-8ccc-cccccccc0003","role":"authenticated"}',
+  true
+);
+select extensions.throws_ok(
+  $$select public.append_data_room_document_version(
+      'eeeeeeee-eeee-4eee-8eee-eeeeeeee0001',
+      'ffffffff-ffff-4fff-8fff-ffffffff0001',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-redacted-derivative.pdf',
+      'redacted-derivative.pdf',
+      'application/pdf',
+      1024,
+      repeat('a', 64),
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64))
+    )$$,
+  '23514',
+  null,
+  'append rejects an otherwise matching clearance before all four human attestations exist'
+);
+reset role;
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0001-4010-8010-000000000001","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_document_clearance(
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64)),
+      'finance_ops'
+    )$$,
+  'assigned Finance Ops reviewer can attest'
+);
+reset role;
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0002-4010-8010-000000000002","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_document_clearance(
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64)),
+      'redaction'
+    )$$,
+  'assigned redaction reviewer can attest'
+);
+reset role;
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0003-4010-8010-000000000003","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_document_clearance(
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64)),
+      'counsel'
+    )$$,
+  'assigned counsel reviewer can attest'
+);
+reset role;
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0004-4010-8010-000000000004","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_document_clearance(
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64)),
+      'data_room_admin'
+    )$$,
+  'assigned data-room administrator can attest'
+);
+reset role;
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"cccccccc-cccc-4ccc-8ccc-cccccccc0003","role":"authenticated"}',
+  true
 );
 select extensions.lives_ok(
   $$select public.append_data_room_document_version(
       'eeeeeeee-eeee-4eee-8eee-eeeeeeee0001',
       'ffffffff-ffff-4fff-8fff-ffffffff0001',
-      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-monthly-v1.pdf',
-      'monthly-v1.pdf',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-redacted-derivative.pdf',
+      'redacted-derivative.pdf',
       'application/pdf',
       1024,
-      repeat('a', 64)
+      repeat('a', 64),
+      (select id from public.data_room_document_clearances where checksum_sha256 = repeat('a', 64))
     )$$,
   'atomic append creates version one'
 );
@@ -510,6 +848,7 @@ select extensions.throws_ok(
       'invalid.pdf',
       'application/pdf',
       100,
+      null,
       null
     )$$,
   '23514',
@@ -704,6 +1043,68 @@ select extensions.is(
 );
 reset role;
 
+-- Simulate a pre-clearance row that may still exist in immutable history or
+-- be manually malformed after deployment. The RLS and signed-object helpers
+-- must fail closed even though the row appears published at the SQL level.
+alter table public.data_room_document_versions
+  disable trigger data_room_document_versions_enforce_storage_path;
+alter table public.data_room_document_versions
+  disable trigger data_room_document_versions_audit_upload;
+alter table public.data_room_documents
+  disable trigger data_room_documents_audit_change;
+insert into public.data_room_documents (
+  id, data_room_id, folder_id, slug, title, status, created_by
+) values (
+  'eeeeeeee-eeee-4eee-8eee-eeeeeeee0003',
+  '33333333-3333-4333-8333-333333333333',
+  '40000000-0000-4000-8000-000000000002',
+  'legacy-safe-pdf',
+  'Legacy safe PDF without clearance',
+  'draft',
+  'cccccccc-cccc-4ccc-8ccc-cccccccc0003'
+);
+insert into public.data_room_document_versions (
+  id,
+  document_id,
+  version_number,
+  storage_path,
+  original_filename,
+  mime_type,
+  size_bytes,
+  checksum_sha256,
+  clearance_id,
+  is_current,
+  uploaded_by,
+  published_at,
+  archived_at
+) values (
+  'ffffffff-ffff-4fff-8fff-ffffffff0003',
+  'eeeeeeee-eeee-4eee-8eee-eeeeeeee0003',
+  1,
+  '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0003/ffffffff-ffff-4fff-8fff-ffffffff0003-legacy-safe.pdf',
+  'legacy-safe.pdf',
+  'application/pdf',
+  1024,
+  repeat('e', 64),
+  null,
+  true,
+  'cccccccc-cccc-4ccc-8ccc-cccccccc0003',
+  statement_timestamp(),
+  null
+);
+update public.data_room_documents
+set status = 'published',
+    published_by = 'cccccccc-cccc-4ccc-8ccc-cccccccc0003',
+    published_version_id = 'ffffffff-ffff-4fff-8fff-ffffffff0003',
+    published_at = statement_timestamp()
+where id = 'eeeeeeee-eeee-4eee-8eee-eeeeeeee0003';
+alter table public.data_room_documents
+  enable trigger data_room_documents_audit_change;
+alter table public.data_room_document_versions
+  enable trigger data_room_document_versions_audit_upload;
+alter table public.data_room_document_versions
+  enable trigger data_room_document_versions_enforce_storage_path;
+
 set local role authenticated;
 select set_config(
   'request.jwt.claims',
@@ -713,6 +1114,11 @@ select set_config(
 select extensions.is((select count(*) from public.data_rooms), 1::bigint, 'approved investor can navigate the LCX room');
 select extensions.is((select count(*) from public.data_room_documents), 1::bigint, 'approved investor sees only the published document');
 select extensions.is((select count(*) from public.data_room_document_versions), 1::bigint, 'approved investor sees one published version');
+select extensions.is(
+  (select count(*) from public.data_room_documents where id = 'eeeeeeee-eeee-4eee-8eee-eeeeeeee0003'),
+  0::bigint,
+  'an apparently published legacy document without clearance is invisible to an approved investor'
+);
 select extensions.is(
   (select id from public.data_room_document_versions),
   'ffffffff-ffff-4fff-8fff-ffffffff0001'::uuid,
@@ -725,10 +1131,25 @@ select extensions.is(
 );
 select extensions.is(
   private.user_can_read_data_room_object(
-    '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-monthly-v1.pdf'
+    '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0001-redacted-derivative.pdf'
   ),
   true,
   'server authorization helper accepts the published v1 path'
+);
+select extensions.is(
+  public.can_view_data_room_document_version(
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0003',
+    'ffffffff-ffff-4fff-8fff-ffffffff0003'
+  ),
+  false,
+  'signed-document authorization rejects a legacy published version without a consumed clearance'
+);
+select extensions.is(
+  private.user_can_read_data_room_object(
+    '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0003/ffffffff-ffff-4fff-8fff-ffffffff0003-legacy-safe.pdf'
+  ),
+  false,
+  'object authorization rejects a legacy published path without clearance'
 );
 select extensions.throws_ok(
   $$insert into public.data_room_activity_events (
@@ -761,24 +1182,72 @@ select set_config(
   '{"sub":"cccccccc-cccc-4ccc-8ccc-cccccccc0003","role":"authenticated"}',
   true
 );
-select extensions.lives_ok(
+select extensions.throws_ok(
   $$insert into storage.objects (bucket_id, name, owner)
     values (
       'data-room-documents',
-      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-monthly-v2.pdf',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-redacted-derivative.pdf',
       'cccccccc-cccc-4ccc-8ccc-cccccccc0003'
     )$$,
-  'issuer uploads the staged v2 object'
+  '42501',
+  null,
+  'issuer cannot bypass the server upload route for a staged version'
+);
+reset role;
+insert into storage.objects (bucket_id, name, owner, metadata)
+values (
+  'data-room-documents',
+  '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-redacted-derivative.pdf',
+  'cccccccc-cccc-4ccc-8ccc-cccccccc0003',
+  '{"mimetype":"application/pdf","size":2048}'::jsonb
+);
+insert into public.data_room_document_clearances (
+  id,
+  data_room_id,
+  checksum_sha256,
+  mime_type,
+  size_bytes,
+  finance_ops_reviewer_id,
+  redaction_reviewer_id,
+  counsel_reviewer_id,
+  data_room_admin_reviewer_id,
+  created_by,
+  expires_at
+) values (
+  '20202020-0001-4020-8020-000000000001',
+  '33333333-3333-4333-8333-333333333333',
+  repeat('b', 64),
+  'application/pdf',
+  2048,
+  '10101010-0001-4010-8010-000000000001',
+  '10101010-0002-4010-8010-000000000002',
+  '10101010-0003-4010-8010-000000000003',
+  '10101010-0004-4010-8010-000000000004',
+  'cccccccc-cccc-4ccc-8ccc-cccccccc0003',
+  statement_timestamp() + interval '7 days'
+);
+insert into public.data_room_document_clearance_attestations (clearance_id, review_role, reviewer_id)
+values
+  ('20202020-0001-4020-8020-000000000001', 'finance_ops', '10101010-0001-4010-8010-000000000001'),
+  ('20202020-0001-4020-8020-000000000001', 'redaction', '10101010-0002-4010-8010-000000000002'),
+  ('20202020-0001-4020-8020-000000000001', 'counsel', '10101010-0003-4010-8010-000000000003'),
+  ('20202020-0001-4020-8020-000000000001', 'data_room_admin', '10101010-0004-4010-8010-000000000004');
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"cccccccc-cccc-4ccc-8ccc-cccccccc0003","role":"authenticated"}',
+  true
 );
 select extensions.lives_ok(
   $$select public.append_data_room_document_version(
       'eeeeeeee-eeee-4eee-8eee-eeeeeeee0001',
       'ffffffff-ffff-4fff-8fff-ffffffff0002',
-      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-monthly-v2.pdf',
-      'monthly-v2.pdf',
+      '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-redacted-derivative.pdf',
+      'redacted-derivative.pdf',
       'application/pdf',
       2048,
-      repeat('b', 64)
+      repeat('b', 64),
+      '20202020-0001-4020-8020-000000000001'
     )$$,
   'atomic append stages v2 without publishing it'
 );
@@ -845,7 +1314,7 @@ select extensions.is(
 );
 select extensions.is(
   private.user_can_read_data_room_object(
-    '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-monthly-v2.pdf'
+    '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-redacted-derivative.pdf'
   ),
   false,
   'server authorization helper rejects staged v2'

@@ -1,6 +1,6 @@
 "use client";
 
-import { deals, formatCurrency } from "@/lib/deals";
+import { deals, getDealListingMetrics } from "@/lib/deals";
 import { ArrowUpRight, Filter, Search, ShieldCheck, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -114,7 +114,10 @@ export function AssetExplorer() {
       </aside>
 
       <div className="grid min-w-0 gap-4">
-        {filteredDeals.map((deal, index) => (
+        {filteredDeals.map((deal, index) => {
+          const metrics = getDealListingMetrics(deal);
+
+          return (
           <Link
             key={deal.id}
             href={`/private-equities/assets/${deal.ticker}`}
@@ -139,8 +142,8 @@ export function AssetExplorer() {
                 <span className="badge badge-outline bg-surface-ink px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-on-surface">
                   {deal.ticker}
                 </span>
-                <span className="badge badge-outline badge-success bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em]">
-                  {deal.type}
+                <span className={`badge badge-outline bg-surface px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${deal.secondarySale ? "border-destructive text-destructive" : "badge-success"}`}>
+                  {deal.secondarySale ? "Secondary review · not live" : deal.type}
                 </span>
               </div>
             </div>
@@ -158,29 +161,20 @@ export function AssetExplorer() {
                 <ArrowUpRight className="h-5 w-5 shrink-0 text-on-surface-variant transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-status-signal" />
               </div>
               <div className="stats stats-vertical mt-auto grid grid-cols-2 border-y border-border-muted bg-transparent sm:stats-horizontal sm:grid-cols-4">
-                <AssetStat label="Valuation" value={formatCurrency(deal.valuation)} />
-                <AssetStat
-                  label={deal.capitalRaise ? "Raise" : "Target"}
-                  value={
-                    deal.capitalRaise
-                      ? formatCurrency(deal.capitalRaise.targetRaise)
-                      : `${deal.apy}%`
-                  }
-                />
-                <AssetStat label="Score" value={`${deal.complianceScore}`} />
-                <AssetStat label="Minimum" value={formatCurrency(deal.minInvestment)} />
+                {metrics.map((metric) => <AssetStat key={metric.label} {...metric} />)}
               </div>
 
               <div className="mt-5 flex flex-col gap-3 text-sm text-on-surface-variant sm:flex-row sm:items-center sm:justify-between">
                 <span>{deal.location}</span>
-                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-status-signal">
+                <span className={`inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${deal.secondarySale ? "text-destructive" : "text-status-signal"}`}>
                   <ShieldCheck className="h-4 w-4" />
-                  {deal.capitalRaise?.roundStatus ?? "Reviewed"}
+                  {deal.secondarySale?.status ?? deal.capitalRaise?.roundStatus ?? "Reviewed"}
                 </span>
               </div>
             </div>
           </Link>
-        ))}
+          );
+        })}
 
         {filteredDeals.length === 0 ? (
           <div className="card card-border bg-surface p-8">

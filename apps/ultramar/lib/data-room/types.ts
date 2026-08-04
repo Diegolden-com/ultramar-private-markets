@@ -2,6 +2,7 @@ import type {
   AccessRequestStatus,
   DataRoomActivityType,
   DataRoomFolderRow,
+  DataRoomClearanceReviewRole,
   DocumentStatus,
   ProfileRole,
   RoundStatus,
@@ -24,9 +25,39 @@ export type DataRoomVersion = {
   originalFilename: string;
   mimeType: string;
   sizeBytes: number;
+  clearanceId: string | null;
   publishedAt: string | null;
   createdAt: string;
   isCurrent: boolean;
+};
+
+export type DataRoomClearanceReviewer = {
+  id: string;
+  email: string;
+  fullName: string | null;
+};
+
+export type DataRoomClearanceAttestation = {
+  reviewRole: DataRoomClearanceReviewRole;
+  reviewerId: string;
+  attestedAt: string;
+};
+
+export type DataRoomClearance = {
+  id: string;
+  checksumSha256: string;
+  mimeType: string;
+  sizeBytes: number;
+  classificationLabel: string;
+  expiresAt: string;
+  createdAt: string;
+  voidedAt: string | null;
+  voidReason: string | null;
+  consumedAt: string | null;
+  consumedVersionId: string | null;
+  reviewers: Record<DataRoomClearanceReviewRole, DataRoomClearanceReviewer>;
+  attestations: DataRoomClearanceAttestation[];
+  status: "awaiting_attestations" | "ready" | "consumed" | "expired" | "voided";
 };
 
 export type DataRoomDocument = {
@@ -82,6 +113,8 @@ export type AuthorizedDataRoomState = {
   };
   folders: DataRoomFolderRow[];
   documents: DataRoomDocument[];
+  clearances: DataRoomClearance[];
+  clearanceReviewerCandidates: DataRoomClearanceReviewer[];
   accessRequests: DataRoomAccessRequest[];
   activity: DataRoomActivity[];
   lastVisitedAt: string | null;
