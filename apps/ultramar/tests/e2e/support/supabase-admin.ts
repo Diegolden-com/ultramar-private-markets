@@ -3,6 +3,7 @@ import {
   LCX_DATA_ROOM_BUCKET,
   LCX_DATA_ROOM_ID,
   LCX_E2E_DOCUMENT_TITLE,
+  LCX_E2E_RELEASE_SOURCE_ID,
   LCX_E2E_USERS,
 } from "./constants";
 import { getE2eRuntime } from "./environment";
@@ -147,6 +148,51 @@ export async function deleteE2eUsers(client: AdminClient, userIds: string[]) {
 }
 
 export async function cleanupE2eState(client: AdminClient, userIds: string[]) {
+  // The release gate is global for LCX, so teardown touches it only when the
+  // active manifest is the deterministic E2E record. This keeps an explicit
+  // remote test run from closing a non-E2E diligence release.
+  const { data: releaseManifests, error: releaseManifestsError } = await client
+    .from("data_room_release_manifests")
+    .select("id")
+    .eq("release_context_data_room_id", LCX_DATA_ROOM_ID)
+    .eq("pwa_source_id", LCX_E2E_RELEASE_SOURCE_ID);
+  assertNoError("find LCX E2E release manifests", releaseManifestsError);
+
+  const releaseManifestIds = (releaseManifests ?? []).map((manifest) => manifest.id);
+  if (releaseManifestIds.length > 0) {
+    const { data: releaseGate, error: releaseGateError } = await client
+      .from("data_room_release_gate")
+      .select("active_manifest_id")
+      .eq("data_room_id", LCX_DATA_ROOM_ID)
+      .maybeSingle();
+    assertNoError("read LCX release gate during E2E cleanup", releaseGateError);
+
+    if (releaseGate?.active_manifest_id && releaseManifestIds.includes(releaseGate.active_manifest_id)) {
+      const { error: closeGateError } = await client
+        .from("data_room_release_gate")
+        .update({
+          state: "internal_preparation",
+          active_manifest_id: null,
+          opened_at: null,
+          opened_by: null,
+          closed_at: new Date().toISOString(),
+          closed_by: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("data_room_id", LCX_DATA_ROOM_ID);
+      assertNoError("close LCX E2E release gate", closeGateError);
+    }
+
+    await deleteRows(
+      "delete LCX E2E release attestations",
+      client.from("data_room_release_manifest_attestations").delete().in("manifest_id", releaseManifestIds),
+    );
+    await deleteRows(
+      "delete LCX E2E release manifests",
+      client.from("data_room_release_manifests").delete().in("id", releaseManifestIds),
+    );
+  }
+
   const { data: documents, error: documentsError } = await client
     .from("data_room_documents")
     .select("id")

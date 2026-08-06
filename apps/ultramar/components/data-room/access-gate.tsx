@@ -30,6 +30,10 @@ const statusCopy = {
 } as const;
 
 export function DataRoomAccessGate({ state }: { state: RestrictedDataRoomState }) {
+  if (state.releaseState !== "diligence_open") {
+    return <DiligenceNotOpenGate />;
+  }
+
   const copy = statusCopy[state.requestStatus];
   const Icon = copy.icon;
 
@@ -85,6 +89,41 @@ export function DataRoomAccessGate({ state }: { state: RestrictedDataRoomState }
                 Requested {formatTimestamp(state.requestedAt)}
               </p>
             ) : null}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DiligenceNotOpenGate() {
+  return (
+    <section className="lcx-dossier-access-gate card card-border overflow-hidden bg-surface">
+      <div className="grid min-h-[560px] lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="lcx-dossier-access-intro terminal-grid flex min-w-0 flex-col justify-between border-b border-border-muted bg-surface-container-lowest p-6 sm:p-8 lg:border-b-0 lg:border-r lg:p-10">
+          <div>
+            <p className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-accent">Private Equities / LCX / Secondary transfer</p>
+            <h1 className="mt-5 max-w-[14ch] font-serif text-4xl font-semibold leading-none sm:text-5xl">Diligence is not open</h1>
+            <p className="mt-5 max-w-lg text-sm leading-6 text-on-surface-variant">
+              This controlled workspace concerns a possible transfer of existing Lavanderias CX equity. It is not a live offer, and the platform is not accepting investor requests, allocations, subscriptions, funds, or transfer instructions.
+            </p>
+          </div>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Link href="/private-equities/assets/lcx" className="btn btn-outline btn-primary">Back to asset</Link>
+            <form action={logoutAction}><button type="submit" className="btn btn-ghost">Sign out</button></form>
+          </div>
+        </div>
+
+        <div className="flex min-w-0 items-center p-6 sm:p-8 lg:p-10">
+          <div className="lcx-dossier-access-state w-full border border-border-muted bg-surface-dim p-6 sm:p-8">
+            <span className="grid h-11 w-11 place-items-center border border-destructive/50 bg-destructive/10 text-destructive">
+              <LockKeyhole className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.12em] text-on-surface-variant">Release state</p>
+            <h2 className="mt-2 font-serif text-3xl font-semibold">Internal preparation</h2>
+            <p className="mt-4 max-w-xl text-sm leading-6 text-on-surface-variant">
+              Private document metadata, access grants, and investor actions are disabled until the LCX release gate has a fresh PWA reference and four human attestations.
+            </p>
           </div>
         </div>
       </div>

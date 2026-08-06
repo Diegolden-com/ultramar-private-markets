@@ -7,6 +7,7 @@ import path from "node:path";
 import {
   LCX_E2E_DEFAULT_PASSWORD,
   LCX_E2E_DOCUMENT_TITLE,
+  LCX_E2E_RELEASE_SOURCE_ID,
   LCX_E2E_USERS,
 } from "./support/constants";
 
@@ -17,10 +18,17 @@ const DOCUMENT_TITLE = LCX_E2E_DOCUMENT_TITLE;
 const DOCUMENT_DATE = "2026-07-16";
 const REQUEST_NOTE = "Reviewing the ownership record and operating diligence for a potential secondary transfer.";
 const V1_FIXTURE = pdfFixture("lcx-e2e-v1.pdf", "Version one");
-const V2_FIXTURE = pdfFixture("lcx-e2e-v2.pdf", "Version two");
+// This derivative is deliberately larger than Vercel's non-streaming response
+// limit. The later download assertion proves the application proxy streams the
+// controlled object rather than redirecting to a signed Storage URL or
+// buffering the Blob into a limited serverless response.
+const V2_FIXTURE = pdfFixture("lcx-e2e-v2.pdf", "Version two", 5 * 1024 * 1024);
 const UNEXPECTED_ACTION_FILE_FIXTURE = pdfFixture("unexpected-action-field.pdf", "Unexpected action file");
 const V1_SHA256 = sha256Fixture(V1_FIXTURE);
 const V2_SHA256 = sha256Fixture(V2_FIXTURE);
+const PWA_APPROVAL_ATTESTATION_ID = "40404040-0001-4040-8040-000000000001";
+const PWA_MANIFEST_SHA256 = "a".repeat(64);
+const PWA_SNAPSHOT_SHA256 = "b".repeat(64);
 const LOGIN_NAVIGATION_TIMEOUT_MS = 45_000;
 const PRIVATE_PAYLOAD_MARKERS = [
   "Issuer formation and authority",
@@ -34,7 +42,7 @@ test.describe.serial("LCX secondary transfer data room", () => {
     await mkdir(ARTIFACT_DIR, { recursive: true });
   });
 
-  test("protects private payloads and preserves a safe login return", async ({ baseURL, page }) => {
+  test("keeps the public LCX surface closed and private payloads absent by default", async ({ baseURL, page }) => {
     if (!baseURL) throw new Error("Playwright baseURL is required for payload auditing.");
 
     const diagnostics = watchDiagnostics(page);
@@ -65,16 +73,50 @@ test.describe.serial("LCX secondary transfer data room", () => {
     await expect(page.locator("body")).not.toContainText("Historical financials");
     await expect(page.locator("body")).not.toContainText("Offering documents");
     await expect(page.locator("body")).not.toContainText("Transfer documents");
+    await expect(page.getByText("Diligence not open", { exact: true })).toBeVisible();
 
     await page.goto(DATA_ROOM);
-    await expect(page).toHaveURL(new RegExp(`/auth/login\\?returnTo=${encodeURIComponent(DATA_ROOM)}`));
-    await expect(page.getByRole("heading", { name: "Sign in" })).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`${DATA_ROOM}$`));
+    await expect(page.getByRole("heading", { name: "Diligence is not open" })).toBeVisible();
     await expect(page.locator("body")).not.toContainText("Historical financials");
     await expect(page.locator("body")).not.toContainText("Offering documents");
-    await assertAxe(page, "login");
+    await expect(page.getByRole("button", { name: "Request data room access" })).toHaveCount(0);
+    await assertAxe(page, "public closed state");
 
     expect(await inspectPrivatePayloads(), "public HTML, RSC, and JavaScript payloads must not expose private inventory").toEqual([]);
     assertDiagnostics(diagnostics);
+  });
+
+  test("opens LCX only after the PWA manifest receives four UI attestations", async ({ baseURL, browser, page }) => {
+    if (!baseURL) throw new Error("Playwright baseURL is required for release-gate verification.");
+
+    await login(page, LCX_E2E_USERS.issuer.email);
+    await page.getByRole("link", { name: "Administration" }).click();
+    await expect(page.getByRole("heading", { name: "LCX diligence gate" })).toBeVisible();
+    await expect(page.getByText("LCX diligence is not open.", { exact: true })).toBeVisible();
+
+    await fillReleaseManifestForm(page);
+    await page.getByRole("button", { name: "Create release manifest" }).click();
+    await expect(releaseManifestRecord(page)).toHaveCount(1);
+
+    await recordAllReleaseManifestAttestations(browser, baseURL);
+
+    const adminContext = await browser.newContext({ baseURL });
+    const adminPage = await adminContext.newPage();
+    try {
+      await login(adminPage, LCX_E2E_USERS.dataRoomAdmin.email);
+      await adminPage.getByRole("link", { name: "Administration" }).click();
+      const manifest = releaseManifestRecord(adminPage);
+      await expect(manifest).toHaveCount(1);
+      await manifest.locator("summary").click();
+      await expect(manifest.getByText("ready", { exact: true })).toBeVisible();
+
+      await manifest.getByRole("button", { name: "Open LCX diligence" }).click();
+      await expect(adminPage.getByText("LCX diligence is open.", { exact: true })).toBeVisible();
+      await expect(adminPage.getByText("Diligence open", { exact: true })).toBeVisible();
+    } finally {
+      await adminContext.close();
+    }
   });
 
   test("keeps a signed-in investor restricted until approval", async ({ page }) => {
@@ -312,7 +354,7 @@ test.describe.serial("LCX secondary transfer data room", () => {
 
       await investorPage.reload();
       await expect(investorPage.getByText("v2", { exact: true }).first()).toBeVisible();
-      await expectDownloadedVersion(investorPage, "Version two");
+      await expectDownloadedVersion(investorPage, "Version two", V2_FIXTURE.buffer.byteLength);
     } finally {
       await investorContext.close();
     }
@@ -326,14 +368,58 @@ test.describe.serial("LCX secondary transfer data room", () => {
     await page.screenshot({ path: path.join(ARTIFACT_DIR, "lcx-dataroom-desktop.png"), fullPage: true });
 
     const preview = await page.request.get(`${DATA_ROOM}/documents/${await selectedDocumentId(page)}/open`, { maxRedirects: 0 });
-    expect(preview.status()).toBe(307);
-    expect(preview.headers().location).toContain("/storage/v1/object/sign/data-room-documents/");
-    expect(preview.headers().location).toContain("token=");
+    expect(preview.status()).toBe(200);
+    expect(preview.headers()["content-type"]).toContain("application/pdf");
+    expect(preview.headers()["content-disposition"]).toContain("inline");
+    expect(preview.headers()["cache-control"]).toContain("no-store");
+    expect(preview.headers().location).toBeUndefined();
+    expect((await preview.body()).toString("utf8")).toContain("Version two");
 
     const download = await page.request.get(`${DATA_ROOM}/documents/${await selectedDocumentId(page)}/download`);
     expect(download.ok()).toBeTruthy();
     expect(download.headers()["content-type"]).toContain("application/pdf");
+    expect(download.headers()["content-disposition"]).toContain("attachment");
+    expect(download.headers().location).toBeUndefined();
     assertDiagnostics(diagnostics);
+  });
+
+  test("reauthorizes every document request after LCX diligence closes", async ({ baseURL, browser, page }) => {
+    if (!baseURL) throw new Error("Playwright baseURL is required for proxy reauthorization.");
+
+    await login(page, LCX_E2E_USERS.investor.email);
+    const documentId = await selectedDocumentId(page);
+    const beforeClose = await page.request.get(`${DATA_ROOM}/documents/${documentId}/download`, { maxRedirects: 0 });
+    expect(beforeClose.status()).toBe(200);
+    expect(beforeClose.headers().location).toBeUndefined();
+
+    const adminContext = await browser.newContext({ baseURL });
+    const adminPage = await adminContext.newPage();
+    try {
+      await login(adminPage, LCX_E2E_USERS.dataRoomAdmin.email);
+      await adminPage.getByRole("link", { name: "Administration" }).click();
+      await adminPage.getByRole("button", { name: "Close LCX diligence" }).click();
+      await expect(adminPage.getByText("LCX diligence is not open.", { exact: true })).toBeVisible();
+
+      const afterCloseDownload = await page.request.get(`${DATA_ROOM}/documents/${documentId}/download`, { maxRedirects: 0 });
+      expect(afterCloseDownload.status()).toBe(404);
+      expect(afterCloseDownload.headers().location).toBeUndefined();
+      expect(afterCloseDownload.headers()["cache-control"]).toContain("no-store");
+      const afterCloseOpen = await page.request.get(`${DATA_ROOM}/documents/${documentId}/open`, { maxRedirects: 0 });
+      expect(afterCloseOpen.status()).toBe(404);
+      expect(afterCloseOpen.headers().location).toBeUndefined();
+
+      await page.reload();
+      await expect(page.getByRole("heading", { name: "Diligence is not open" }).first()).toBeVisible();
+      await expect(page.getByRole("link", { name: DOCUMENT_TITLE })).toHaveCount(0);
+
+      const manifest = releaseManifestRecord(adminPage);
+      await expect(manifest).toHaveCount(1);
+      await manifest.locator("summary").click();
+      await manifest.getByRole("button", { name: "Open LCX diligence" }).click();
+      await expect(adminPage.getByText("LCX diligence is open.", { exact: true })).toBeVisible();
+    } finally {
+      await adminContext.close();
+    }
   });
 
   test("renders the approved investor workspace intentionally on mobile", async ({ page }) => {
@@ -355,9 +441,13 @@ test.describe.serial("LCX secondary transfer data room", () => {
 
 async function login(page: Page, email: string) {
   const destination = new RegExp(`${DATA_ROOM.replaceAll("/", "\\/")}(?:\\?.*)?$`);
+  const loginHref = `/auth/login?returnTo=${encodeURIComponent(DATA_ROOM)}`;
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
-    await page.goto(DATA_ROOM);
+    // The public LCX route intentionally stays on its closed state until an
+    // administrator opens diligence, so authentication must begin from the
+    // explicit login path rather than depend on a protected-route redirect.
+    await page.goto(loginHref);
     try {
       await expect(page).toHaveURL(/\/auth\/login/, { timeout: 15_000 });
     } catch (error) {
@@ -400,6 +490,56 @@ async function login(page: Page, email: string) {
   }
 }
 
+async function fillReleaseManifestForm(page: Page) {
+  const now = new Date();
+  const freshnessDueAt = new Date(now.valueOf() + 24 * 60 * 60 * 1000);
+
+  await page.locator("#release-approval-id").fill(PWA_APPROVAL_ATTESTATION_ID);
+  await page.locator("#release-source-id").fill(LCX_E2E_RELEASE_SOURCE_ID);
+  await page.locator("#release-manifest-hash").fill(PWA_MANIFEST_SHA256);
+  await page.locator("#release-snapshot-hash").fill(PWA_SNAPSHOT_SHA256);
+  await page.locator("#release-model-as-of").fill(now.toISOString().slice(0, 10));
+  await page.locator("#release-freshness").fill(freshnessDueAt.toISOString().slice(0, 16));
+  await page.locator("#release-finance-ops").selectOption({ label: reviewerOptionLabel(LCX_E2E_USERS.financeOps) });
+  await page.locator("#release-redaction").selectOption({ label: reviewerOptionLabel(LCX_E2E_USERS.redaction) });
+  await page.locator("#release-counsel").selectOption({ label: reviewerOptionLabel(LCX_E2E_USERS.counsel) });
+  await page.locator("#release-admin").selectOption({ label: reviewerOptionLabel(LCX_E2E_USERS.dataRoomAdmin) });
+}
+
+async function recordAllReleaseManifestAttestations(browser: Browser, baseURL: string) {
+  for (const reviewer of [
+    LCX_E2E_USERS.financeOps,
+    LCX_E2E_USERS.redaction,
+    LCX_E2E_USERS.counsel,
+    LCX_E2E_USERS.dataRoomAdmin,
+  ]) {
+    const context = await browser.newContext({ baseURL });
+    const reviewerPage = await context.newPage();
+    try {
+      await login(reviewerPage, reviewer.email);
+      await reviewerPage.getByRole("link", { name: "Administration" }).click();
+      await expect(reviewerPage.getByRole("heading", { name: "LCX diligence gate" })).toBeVisible();
+      const manifest = releaseManifestRecord(reviewerPage);
+      await expect(manifest).toHaveCount(1);
+      await manifest.locator("summary").click();
+
+      await manifest.getByRole("button", { name: "Record release attestation" }).click();
+
+      const reloadedManifest = releaseManifestRecord(reviewerPage);
+      await expect(reloadedManifest).toHaveCount(1);
+      await reloadedManifest.locator("summary").click();
+      const reviewerListItem = reloadedManifest
+        .getByRole("list", { name: "Release reviewer checklist" })
+        .getByRole("listitem")
+        .filter({ hasText: reviewer.email });
+      await expect(reviewerListItem).toHaveCount(1);
+      await expect(reviewerListItem.getByText(/^attested /)).toBeVisible();
+    } finally {
+      await context.close();
+    }
+  }
+}
+
 async function createClearance(page: Page, fixture: UploadFixture) {
   await fillClearanceForm(page, fixture);
   await page.getByRole("button", { name: "Create clearance" }).click();
@@ -426,7 +566,7 @@ async function fillClearanceForm(page: Page, fixture: UploadFixture) {
 async function fillNewDocumentMetadata(page: Page) {
   await page.getByLabel("Document title").fill(DOCUMENT_TITLE);
   await page.locator("#upload-folder").selectOption({ index: 1 });
-  await page.locator("#upload-description").fill("E2E document for private Storage and signed URL verification.");
+  await page.locator("#upload-description").fill("E2E document for private Storage and application-proxy verification.");
   await page.locator("#upload-date").fill(DOCUMENT_DATE);
 }
 
@@ -552,6 +692,10 @@ async function expectReviewerUploadRejected(
 
 function clearanceRecordForHash(page: Page, checksumSha256: string) {
   return page.locator("details").filter({ hasText: `SHA-256 ${checksumSha256.slice(0, 12)}` });
+}
+
+function releaseManifestRecord(page: Page) {
+  return page.locator("details").filter({ hasText: LCX_E2E_RELEASE_SOURCE_ID });
 }
 
 function reviewerOptionLabel(user: (typeof LCX_E2E_USERS)[keyof typeof LCX_E2E_USERS]) {
@@ -707,7 +851,10 @@ function watchPrivatePayloads(page: Page, baseURL: string) {
         return;
       }
       if (body.kind === "error") {
-        if (speculative && isAbortedOrDiscardedPrefetch(body.error)) return;
+        // Chromium can discard a completed static chunk's DevTools body as a
+        // later navigation replaces the document. No browser-readable body
+        // exists in that case, so it cannot be audited or expose inventory.
+        if (isAbortedOrDiscardedBrowserPayload(body.error)) return;
         leaks.add(`UNREADABLE PUBLIC PAYLOAD: ${url} completed but its body could not be read (${errorMessage(body.error)})`);
         return;
       }
@@ -731,6 +878,10 @@ function isSpeculativeNextPrefetch(response: Response) {
 }
 
 function isAbortedOrDiscardedPrefetch(error: unknown) {
+  return isAbortedOrDiscardedBrowserPayload(error);
+}
+
+function isAbortedOrDiscardedBrowserPayload(error: unknown) {
   const message = errorMessage(error);
   return message.includes("ERR_ABORTED") || message.includes("No resource with given identifier found");
 }
@@ -777,17 +928,28 @@ async function selectedDocumentId(page: Page) {
   return id as string;
 }
 
-async function expectDownloadedVersion(page: Page, marker: string) {
+async function expectDownloadedVersion(page: Page, marker: string, minimumBytes = 0) {
   const response = await page.request.get(
     `${DATA_ROOM}/documents/${await selectedDocumentId(page)}/download`,
   );
   expect(response.ok()).toBeTruthy();
-  expect((await response.body()).toString("utf8")).toContain(marker);
+  expect(response.headers().location).toBeUndefined();
+  expect(response.headers()["cache-control"]).toContain("no-store");
+  const body = await response.body();
+  expect(body.toString("utf8")).toContain(marker);
+  if (minimumBytes > 0) {
+    expect(body.byteLength, "the controlled response must stream the >4.5 MiB derivative through the application").toBeGreaterThanOrEqual(minimumBytes);
+  }
 }
 
-function pdfFixture(name: string, content: string): UploadFixture {
-  const source = `%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Count 0/Kids[]>>endobj\n% ${content}\n%%EOF\n`;
-  return { name, mimeType: "application/pdf", buffer: Buffer.from(source) };
+function pdfFixture(name: string, content: string, paddingBytes = 0): UploadFixture {
+  const prefix = "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Count 0/Kids[]>>endobj\n";
+  const suffix = `% ${content}\n%%EOF\n`;
+  return {
+    name,
+    mimeType: "application/pdf",
+    buffer: Buffer.concat([Buffer.from(prefix), Buffer.alloc(paddingBytes, 0x20), Buffer.from(suffix)]),
+  };
 }
 
 function pdfZipPolyglotFixture(name: string): UploadFixture {

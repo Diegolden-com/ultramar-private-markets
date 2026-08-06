@@ -13,6 +13,7 @@ import type {
   DataRoomCtaState,
   DataRoomDocument,
   DataRoomPageState,
+  DataRoomReleaseManifest,
   DataRoomVersion,
   DataRoomViewer,
   RestrictedDataRoomState,
@@ -25,6 +26,9 @@ import type {
   DataRoomDocumentRow,
   DataRoomDocumentVersionRow,
   DataRoomFolderRow,
+  DataRoomReleaseManifestAttestationRow,
+  DataRoomReleaseManifestRow,
+  DataRoomReleaseState,
   DataRoomRow,
   IssuerRow,
   ProfileRow,
@@ -33,15 +37,34 @@ import type {
 import { createClient, type SupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
+async function getLcxReleaseState(supabase: SupabaseServerClient): Promise<DataRoomReleaseState> {
+  const { data, error } = await supabase.rpc("get_data_room_release_state");
+
+  // A missing migration, RPC failure, or unexpected value must never turn into
+  // an investor-access fallback. The public view remains a non-offer while the
+  // LCX release decision cannot be verified.
+  if (error || (data !== "internal_preparation" && data !== "diligence_open")) {
+    return "internal_preparation";
+  }
+
+  return data;
+}
+
 export async function getLcxDataRoomCta(): Promise<DataRoomCtaState> {
   const supabase = await createClient();
   const loginHref = withReturnTo("/auth/login", LCX_DATA_ROOM.path);
 
-  if (!supabase) return { label: "Request access", href: loginHref, status: "signed_out" };
+  if (!supabase) return { label: "Diligence not open", href: LCX_DATA_ROOM.path, status: "diligence_closed" };
+
+  const releaseState = await getLcxReleaseState(supabase);
 
   const { data: claimsData } = await supabase.auth.getClaims();
   const userId = claimsData?.claims?.sub;
-  if (!userId) return { label: "Request access", href: loginHref, status: "signed_out" };
+  if (!userId) {
+    return releaseState === "diligence_open"
+      ? { label: "Sign in to request access", href: loginHref, status: "signed_out" }
+      : { label: "Diligence not open", href: LCX_DATA_ROOM.path, status: "diligence_closed" };
+  }
 
   const [
     { data: profileData },
@@ -69,8 +92,12 @@ export async function getLcxDataRoomCta(): Promise<DataRoomCtaState> {
   const role = (profileData as Pick<ProfileRow, "role"> | null)?.role;
   const managerHasRoom = Boolean(roomData && (role === "admin" || role === "issuer"));
 
-  if (roomData && (grantData || managerHasRoom)) {
+  if (roomData && (managerHasRoom || (releaseState === "diligence_open" && grantData))) {
     return { label: "Open data room", href: LCX_DATA_ROOM.path, status: "approved" };
+  }
+
+  if (releaseState !== "diligence_open") {
+    return { label: "Diligence not open", href: LCX_DATA_ROOM.path, status: "diligence_closed" };
   }
 
   const status = (requestData as Pick<DataRoomAccessRequestRow, "status"> | null)?.status;
@@ -84,12 +111,17 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
   const supabase = await createClient();
   if (!supabase) return { kind: "unconfigured" };
 
+  const releaseState = await getLcxReleaseState(supabase);
+
   const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
   const userId = claimsData?.claims?.sub;
   if (claimsError) {
     return { kind: "error", message: "Your session could not be verified. Sign in again." };
   }
-  if (!userId) redirect(withReturnTo("/auth/login", LCX_DATA_ROOM.path));
+  if (!userId) {
+    if (releaseState !== "diligence_open") return { kind: "diligence_closed" };
+    redirect(withReturnTo("/auth/login", LCX_DATA_ROOM.path));
+  }
 
   const auditResult = await ensureLcxSessionAudit(supabase, LCX_DATA_ROOM.path);
   if (!auditResult.ok) {
@@ -150,7 +182,7 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
   const grantData = grantResult.data;
   const room = roomResult.data as DataRoomRow | null;
   const canManage = Boolean(room && canManageResult.data === true);
-  const hasAccess = Boolean(room && (grantData || canManage));
+  const hasAccess = Boolean(room && (canManage || (releaseState === "diligence_open" && grantData)));
 
   if (!hasAccess || !room) {
     const request = requestData as DataRoomAccessRequestRow | null;
@@ -160,6 +192,7 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
       requestStatus: request?.status ?? "not_requested",
       requestedAt: request?.requested_at ?? null,
       resolvedAt: request?.resolved_at ?? null,
+      releaseState,
     };
     return restricted;
   }
@@ -249,13 +282,14 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
   const lastVisitedAt = (visitResult.data as { last_visited_at: string } | null)?.last_visited_at ?? null;
   const documents = mapDocuments(rawDocuments, rawVersions, lastVisitedAt, canManage);
 
-  const [accessRequestsResult, activityResult, clearanceResult] = canManage
+  const [accessRequestsResult, activityResult, clearanceResult, releaseManifestResult] = canManage
     ? await Promise.all([
         loadAccessRequests(supabase),
         loadActivity(supabase),
         loadDocumentClearances(supabase),
+        loadReleaseManifests(supabase),
       ])
-    : [success([]), success([]), success({ clearances: [], reviewerCandidates: [] })];
+    : [success([]), success([]), success({ clearances: [], reviewerCandidates: [] }), success([])];
 
   if (accessRequestsResult.error !== null) {
     return { kind: "error", message: accessRequestsResult.error };
@@ -267,6 +301,9 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
 
   if (clearanceResult.error !== null) {
     return { kind: "error", message: clearanceResult.error };
+  }
+  if (releaseManifestResult.error !== null) {
+    return { kind: "error", message: releaseManifestResult.error };
   }
 
   const authorized: AuthorizedDataRoomState = {
@@ -289,6 +326,8 @@ export async function getLcxDataRoomState(): Promise<DataRoomPageState> {
     },
     folders: (foldersResult.data ?? []) as DataRoomFolderRow[],
     documents,
+    releaseState,
+    releaseManifests: releaseManifestResult.data,
     clearances: clearanceResult.data.clearances,
     clearanceReviewerCandidates: clearanceResult.data.reviewerCandidates,
     accessRequests: accessRequestsResult.data,
@@ -348,6 +387,109 @@ async function loadDocumentClearances(
     reviewerCandidates,
     clearances: clearances.map((clearance) => mapClearance(clearance, attestations, reviewerById, now)),
   });
+}
+
+async function loadReleaseManifests(
+  supabase: SupabaseDataClient,
+): Promise<LoadResult<DataRoomReleaseManifest[]>> {
+  const { data: manifestData, error: manifestError } = await supabase
+    .from("data_room_release_manifests")
+    .select("*")
+    .eq("release_context_data_room_id", LCX_DATA_ROOM.id)
+    .order("created_at", { ascending: false })
+    .limit(30);
+
+  if (manifestError) return failure("Release manifests could not be loaded.");
+
+  const manifests = (manifestData ?? []) as DataRoomReleaseManifestRow[];
+  const manifestIds = manifests.map((manifest) => manifest.id);
+  const [attestationResult, candidateResult] = await Promise.all([
+    manifestIds.length
+      ? supabase
+          .from("data_room_release_manifest_attestations")
+          .select("*")
+          .in("manifest_id", manifestIds)
+          .order("attested_at")
+      : Promise.resolve({ data: [], error: null }),
+    supabase.rpc("list_data_room_clearance_reviewer_candidates", {
+      target_data_room_id: LCX_DATA_ROOM.id,
+    }),
+  ]);
+
+  if (attestationResult.error) return failure("Release-manifest attestations could not be loaded.");
+  if (candidateResult.error) return failure("Release reviewer candidates could not be loaded.");
+
+  const reviewerCandidates = ((candidateResult.data ?? []) as ClearanceCandidateRow[]).map((candidate) => ({
+    id: candidate.id,
+    email: candidate.email,
+    fullName: candidate.full_name,
+  }));
+  const reviewerById = new Map(reviewerCandidates.map((candidate) => [candidate.id, candidate]));
+  const attestations = (attestationResult.data ?? []) as DataRoomReleaseManifestAttestationRow[];
+  const now = Date.now();
+
+  return success(manifests.map((manifest) => mapReleaseManifest(manifest, attestations, reviewerById, now)));
+}
+
+function mapReleaseManifest(
+  manifest: DataRoomReleaseManifestRow,
+  attestations: DataRoomReleaseManifestAttestationRow[],
+  reviewerById: Map<string, DataRoomClearanceReviewer>,
+  now: number,
+): DataRoomReleaseManifest {
+  const reviewerIdByRole = {
+    finance_ops: manifest.finance_ops_reviewer_id,
+    redaction: manifest.redaction_reviewer_id,
+    counsel: manifest.counsel_reviewer_id,
+    data_room_admin: manifest.data_room_admin_reviewer_id,
+  } as const;
+  const reviewers = Object.fromEntries(
+    DATA_ROOM_CLEARANCE_REVIEW_ROLES.map((role) => [
+      role,
+      reviewerById.get(reviewerIdByRole[role]) ?? {
+        id: reviewerIdByRole[role],
+        email: "Assigned reviewer unavailable",
+        fullName: null,
+      },
+    ]),
+  ) as DataRoomReleaseManifest["reviewers"];
+  const manifestAttestations = attestations
+    .filter((attestation) => attestation.manifest_id === manifest.id)
+    .map((attestation) => ({
+      reviewRole: attestation.review_role,
+      reviewerId: attestation.reviewer_id,
+      attestedAt: attestation.attested_at,
+    }));
+  const allAssignedReviewersRemainEligible = DATA_ROOM_CLEARANCE_REVIEW_ROLES.every((role) =>
+    reviewerById.has(reviewerIdByRole[role]),
+  );
+  const hasAllAttestations = DATA_ROOM_CLEARANCE_REVIEW_ROLES.every((role) =>
+    manifestAttestations.some(
+      (attestation) => attestation.reviewRole === role && attestation.reviewerId === reviewerIdByRole[role],
+    ),
+  ) && manifestAttestations.length === DATA_ROOM_CLEARANCE_REVIEW_ROLES.length;
+  const status: DataRoomReleaseManifest["status"] = new Date(manifest.freshness_due_at).valueOf() <= now
+    ? "expired"
+    : hasAllAttestations && allAssignedReviewersRemainEligible
+      ? "ready"
+      : "awaiting_attestations";
+
+  return {
+    id: manifest.id,
+    revision: manifest.manifest_revision,
+    scenario: manifest.scenario,
+    financeSchemaVersion: manifest.finance_schema_version,
+    pwaApprovalAttestationId: manifest.pwa_approval_attestation_id,
+    pwaSourceId: manifest.pwa_source_id,
+    pwaManifestSha256: manifest.pwa_manifest_sha256,
+    pwaSnapshotSha256: manifest.pwa_snapshot_sha256,
+    modelAsOf: manifest.model_as_of,
+    freshnessDueAt: manifest.freshness_due_at,
+    createdAt: manifest.created_at,
+    reviewers,
+    attestations: manifestAttestations,
+    status,
+  };
 }
 
 function mapClearance(

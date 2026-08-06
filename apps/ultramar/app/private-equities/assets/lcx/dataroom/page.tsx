@@ -42,6 +42,14 @@ export default async function LcxDataRoomPage({
       </>
     );
   }
+  if (state.kind === "diligence_closed") {
+    return (
+      <>
+        <LcxDossierMasthead />
+        <DiligenceClosedState />
+      </>
+    );
+  }
   if (state.kind === "restricted") {
     return (
       <>
@@ -77,6 +85,22 @@ function UnconfiguredState() {
         <h1 className="mt-3 font-serif text-4xl font-semibold">The data room is safely offline</h1>
         <p className="mt-5 text-sm leading-6 text-on-surface-variant">
           Supabase public variables are not configured in this environment. No private metadata or fixture access is being served.
+        </p>
+        <Link href="/private-equities/assets/lcx" className="btn btn-outline btn-primary mt-7">Return to LCX</Link>
+      </div>
+    </SurfacePanel>
+  );
+}
+
+function DiligenceClosedState() {
+  return (
+    <SurfacePanel className="lcx-dossier-state min-h-[520px] place-items-center">
+      <div className="mx-auto flex max-w-xl flex-col items-center py-16 text-center">
+        <ShieldAlert className="h-8 w-8 text-destructive" aria-hidden="true" />
+        <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.12em] text-accent">LCX / controlled diligence</p>
+        <h1 className="mt-3 font-serif text-4xl font-semibold">Diligence is not open</h1>
+        <p className="mt-5 text-sm leading-6 text-on-surface-variant">
+          This is a potential secondary transfer of existing equity, not a live offer. Investor requests, grants, and document visibility remain closed while the internal release workflow is incomplete.
         </p>
         <Link href="/private-equities/assets/lcx" className="btn btn-outline btn-primary mt-7">Return to LCX</Link>
       </div>

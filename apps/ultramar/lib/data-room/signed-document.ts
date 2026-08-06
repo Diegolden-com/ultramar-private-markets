@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-export async function signedDocumentResponse(
+export async function proxiedDocumentResponse(
   _request: NextRequest,
   documentId: string,
   disposition: "open" | "download",
@@ -58,11 +58,15 @@ export async function signedDocumentResponse(
 
   if (!version) return privateNotFound();
 
+  const admin = createAdminClient();
+  if (!admin) return privateNotFound();
+
   // RLS is the primary boundary for document metadata. Recheck the selected
-  // version through a controlled database predicate before issuing a signed
-  // object URL: it proves that this exact version is the consumed target of an
-  // active, complete clearance. This also fails closed for legacy rows that
-  // predate the clearance workflow.
+  // version immediately before the privileged storage fetch: it proves this
+  // exact version is the consumed target of an active clearance and that the
+  // LCX release gate is still open for an investor. The application returns
+  // the bytes directly; it never redirects to a reusable Storage signed URL.
+  // This also fails closed for legacy rows that predate the clearance flow.
   const { data: canViewVersion, error: canViewVersionError } = await supabase.rpc(
     "can_view_data_room_document_version",
     {
@@ -72,20 +76,10 @@ export async function signedDocumentResponse(
   );
   if (canViewVersionError || canViewVersion !== true) return privateNotFound();
 
-  const admin = createAdminClient();
-  if (!admin) return privateNotFound();
-
-  const signedResult = disposition === "download"
-    ? await admin.storage
-        .from(LCX_DATA_ROOM.bucket)
-        .createSignedUrl(version.storage_path, LCX_DATA_ROOM.signedUrlLifetimeSeconds, {
-          download: version.original_filename,
-        })
-    : await admin.storage
-        .from(LCX_DATA_ROOM.bucket)
-        .createSignedUrl(version.storage_path, LCX_DATA_ROOM.signedUrlLifetimeSeconds);
-
-  if (signedResult.error || !signedResult.data?.signedUrl) return privateNotFound();
+  const { data: file, error: fileError } = await admin.storage
+    .from(LCX_DATA_ROOM.bucket)
+    .download(version.storage_path);
+  if (fileError || !file) return privateNotFound();
 
   const { error: auditError } = await admin.from("data_room_activity_events").insert({
     data_room_id: LCX_DATA_ROOM.id,
@@ -98,10 +92,19 @@ export async function signedDocumentResponse(
 
   if (auditError) return privateNotFound();
 
-  const response = NextResponse.redirect(signedResult.data.signedUrl);
-  response.headers.set("Cache-Control", "private, no-store, max-age=0");
-  response.headers.set("Referrer-Policy", "no-referrer");
-  return response;
+  // Stream the private object through the application instead of buffering a
+  // Blob in a serverless response. The controlled bucket permits 25 MiB
+  // derivatives, which is larger than Vercel's non-streaming response limit.
+  return new NextResponse(file.stream(), {
+    headers: {
+      "Cache-Control": "private, no-store, max-age=0",
+      "Content-Disposition": `${disposition === "download" ? "attachment" : "inline"}; filename*=UTF-8''${encodeURIComponent(version.original_filename)}`,
+      "Content-Length": String(file.size),
+      "Content-Type": version.mime_type,
+      "Referrer-Policy": "no-referrer",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
 }
 
 function privateNotFound() {

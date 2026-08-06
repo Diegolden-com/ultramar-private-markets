@@ -17,6 +17,7 @@ export type DataRoomClearanceReviewRole =
   | "redaction"
   | "counsel"
   | "data_room_admin";
+export type DataRoomReleaseState = "internal_preparation" | "diligence_open";
 
 export type ProfileRow = {
   id: string;
@@ -140,6 +141,38 @@ export type DataRoomDocumentClearanceRow = {
 export type DataRoomDocumentClearanceAttestationRow = {
   id: string;
   clearance_id: string;
+  review_role: DataRoomClearanceReviewRole;
+  reviewer_id: string;
+  attestation_statement: string;
+  attested_at: string;
+  created_at: string;
+};
+
+export type DataRoomReleaseManifestRow = {
+  id: string;
+  manifest_revision: number;
+  manifest_schema_version: number;
+  release_context_data_room_id: string;
+  scenario: "consolidated-secondary";
+  finance_schema_version: number;
+  pwa_approval_attestation_id: string;
+  pwa_source_id: string;
+  pwa_manifest_sha256: string;
+  pwa_snapshot_sha256: string;
+  model_as_of: string;
+  freshness_due_at: string;
+  approval_attestation: string;
+  finance_ops_reviewer_id: string;
+  redaction_reviewer_id: string;
+  counsel_reviewer_id: string;
+  data_room_admin_reviewer_id: string;
+  created_by: string;
+  created_at: string;
+};
+
+export type DataRoomReleaseManifestAttestationRow = {
+  id: string;
+  manifest_id: string;
   review_role: DataRoomClearanceReviewRole;
   reviewer_id: string;
   attestation_statement: string;
