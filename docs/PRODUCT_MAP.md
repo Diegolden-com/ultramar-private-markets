@@ -4,9 +4,22 @@ This is the canonical taxonomy for the monorepo and public product experience.
 
 ## Platform
 
-**Ultramar.capital** is the platform brand and the only canonical public domain. It owns the shared home, product navigation, auth entry points, investor context, SEO, and routing policy.
+**Ultramar.capital** is the capital-platform brand and canonical domain for its
+shared home, product navigation, auth entry points, investor context, SEO, and
+routing policy. `realestate.ultramar.capital` is a separate public property site
+with its own metadata, sitemap, robots policy, and deployment.
 
 “Capital” should not be presented as a third product. It is the umbrella layer that helps users understand and navigate the two product lines.
+
+## Independent Public Vertical
+
+| Site | Canonical domain | Purpose | Audience |
+| --- | --- | --- | --- |
+| Ultramar Real Estate | `https://realestate.ultramar.capital` | Selected land listings with owner-approved commercial information. | Qualified land buyers and their representatives. |
+
+Real Estate is not routed into the apex app, is not a capital-product route, and
+does not share the apex sitemap. Its listing records remain private until approved
+for public release.
 
 ## Public Products
 
@@ -53,6 +66,7 @@ Lending markets and derivative arbitrage are not active public products in this 
 | Workspace | Current role |
 | --- | --- |
 | `apps/ultramar` | Canonical mega app. |
+| `apps/realestate` | Independent Real Estate public site. |
 | `packages/product-model` | Shared taxonomy and route metadata. |
 | `apps/capital` | Historical allocator implementation and docs. No public production domain. |
 | `apps/polymarket` | Historical frontend plus active Python backend and runbooks for the hedge-fund engine. No public production domain. |
@@ -62,9 +76,12 @@ Lending markets and derivative arbitrage are not active public products in this 
 
 - `ultramar.capital/*` serves the canonical app directly.
 - `www.ultramar.capital/*` redirects to `https://ultramar.capital/*`.
+- `realestate.ultramar.capital/*` is reserved for an independent Vercel project built from `apps/realestate`.
 - Prelaunch subdomains such as `capital.ultramar.capital`, `polymarket.ultramar.capital`, and `private-equities.ultramar.capital` should not be aliased or redirected in production.
 
-The implementation source of truth is `apps/ultramar/next.config.ts`.
+The apex redirect source of truth is `apps/ultramar/next.config.ts`. The Real Estate
+deployment source of truth is `apps/realestate/vercel.json` plus its Vercel domain
+setup.
 
 ## Discoverability Rules
 
@@ -74,10 +91,11 @@ The implementation source of truth is `apps/ultramar/next.config.ts`.
 - `robots.txt` should allow the canonical public app, disallow raw API JSON endpoint paths under `/api/`, and point to `https://ultramar.capital/sitemap.xml`.
 - Auth pages and controlled portfolio pages should remain crawlable enough for crawlers to observe their `noindex` metadata, but should stay out of sitemap and global public navigation promotion.
 - `/llms.txt` and `/llms-full.txt` are root-level public files for LLM crawlers. They summarize canonical URLs, product scope, research pages, compliance boundaries, and non-offer disclaimers without expanding public routing beyond the canonical apex app.
+- `apps/realestate` owns independent `robots.txt`, `sitemap.xml`, and `llms.txt`; only approved published listings with a real contact channel are eligible for its sitemap.
 
 ## Shared Rules
 
-- Product copy must present exactly two public product choices.
+- Apex product copy must present exactly two public capital-product choices. Real Estate has its own site copy and is not promoted as a third product in the apex navigation.
 - Shared product names, descriptions, CTAs, and nav links belong in `packages/product-model`.
 - App UI should use the same header, footer, product crosslink, and CTA patterns across both products.
 - Production securities, live trading, issuer data, and execution workflows require compliance and operational review before being treated as live systems.

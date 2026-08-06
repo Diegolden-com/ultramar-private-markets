@@ -4,12 +4,17 @@ This document preserves product and market-structure context that should guide i
 
 ## Platform boundary
 
-Ultramar.capital is the canonical public home for exactly two products:
+The `ultramar.capital` apex app is the canonical public home for exactly two
+capital products:
 
 1. **Private Equities** — controlled private-market workflows for issuers and eligible investors.
 2. **Arbitrage Hedge Fund** — a Polymarket-first fund surface for allocators reviewing signals, exposure, and risk.
 
 Capital is the umbrella brand, not a third product. Public pages explain and route; they do not accept funds, create commitments, or imply unrestricted exchange access.
+
+Ultramar Real Estate is an independent public land-listing site at
+`realestate.ultramar.capital`. It is not a third apex product and does not inherit
+the capital platform's investment-product taxonomy.
 
 ## Private Equities
 

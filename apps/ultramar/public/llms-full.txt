@@ -8,12 +8,17 @@ Compliance: https://ultramar.capital/compliance
 
 ## Platform
 
-Ultramar.capital is the public home for two Ultramar product lines:
+Ultramar.capital is the public home for two Ultramar capital-product lines:
 
 1. Ultramar Private Equities
 2. Ultramar Arbitrage Hedge Fund
 
 Capital is the umbrella layer and should not be described as a third public product.
+
+Ultramar Real Estate is a separate land-listing site configuration for
+https://realestate.ultramar.capital. It has independent canonical metadata,
+discoverability files, and listing-review controls; it is not a third product route
+of the capital platform.
 
 The Press section contains market-structure and technical commentary on Uniswap v4 custom accounting, onchain instruments, tokenized private equity, AI compliance, and continuous disclosure. It should not be described as an offering.
 
@@ -23,6 +28,7 @@ Public pages are intentionally concise product surfaces. This file preserves the
 
 - https://ultramar.capital serves the site directly.
 - https://www.ultramar.capital redirects once to https://ultramar.capital.
+- https://realestate.ultramar.capital is reserved for an independent Real Estate deployment.
 - Prelaunch subdomains, including capital.ultramar.capital, polymarket.ultramar.capital, and private-equities.ultramar.capital, are intentionally not restored, aliased, or redirected.
 - API JSON endpoints, auth URLs, controlled portfolio screens, data-room unlock actions, and allocation actions are not public product destinations.
 

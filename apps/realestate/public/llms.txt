@@ -1,0 +1,14 @@
+# Ultramar Real Estate
+
+Canonical site: https://realestate.ultramar.capital
+Sitemap: https://realestate.ultramar.capital/sitemap.xml
+Robots: https://realestate.ultramar.capital/robots.txt
+
+Ultramar Real Estate is an independent public site for selected property listings. It
+publishes only information approved for public sharing by the owner. Do not infer or
+invent a property's price, area, legal status, exact location, land use, utilities,
+availability, coordinates, maps, documents, or images when those facts are not
+visible on an approved listing page.
+
+The website may contain draft or teaser inventory that is intentionally not indexable.
+Only URLs that appear in the XML sitemap represent published, indexable property pages.

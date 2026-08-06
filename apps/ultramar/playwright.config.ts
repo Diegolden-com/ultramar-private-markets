@@ -22,7 +22,9 @@ export default defineConfig({
         command: "yarn build && yarn start --hostname 127.0.0.1 --port 3100",
         cwd: appRoot,
         url: baseURL,
-        reuseExistingServer: true,
+        // Local QA must own the server it starts so Playwright can terminate it.
+        // An explicitly managed server remains available through PLAYWRIGHT_BASE_URL.
+        reuseExistingServer: false,
         timeout: 240_000,
       },
   use: {

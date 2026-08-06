@@ -6,6 +6,7 @@ on:
       - "apps/capital/**"
       - "apps/private-equities/**"
       - "apps/ultramar/**"
+      - "apps/realestate/**"
       - "packages/product-model/**"
       - ".github/workflows/apps-ci.yml"
       - "vercel.json"
@@ -17,6 +18,7 @@ on:
       - "apps/capital/**"
       - "apps/private-equities/**"
       - "apps/ultramar/**"
+      - "apps/realestate/**"
       - "packages/product-model/**"
       - ".github/workflows/apps-ci.yml"
       - "vercel.json"
@@ -43,6 +45,7 @@ jobs:
           - workspace: "@ultramar/capital"
           - workspace: "@ultramar/private-equities"
           - workspace: "@ultramar/ultramar"
+          - workspace: "@ultramar/realestate"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -127,6 +130,10 @@ jobs:
       - name: Run data room E2E
         run: yarn workspace @ultramar/ultramar test:e2e
         working-directory: .
+
+      - name: Stop isolated Supabase
+        if: always()
+        run: supabase stop --yes
 
       - name: Upload Playwright artifacts
         if: always()
