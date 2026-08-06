@@ -68,6 +68,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     needs: app-qa
+    # Keep the data-room security gate observable when an unrelated app matrix entry fails.
+    if: ${{ always() }}
     defaults:
       run:
         working-directory: apps/ultramar
