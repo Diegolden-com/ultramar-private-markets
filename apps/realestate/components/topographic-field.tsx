@@ -36,14 +36,14 @@ export function TopographicField({
       <svg viewBox="0 0 760 600" preserveAspectRatio="xMidYMid slice" focusable="false">
         <defs>
           <linearGradient id={washId} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#2d4c43" />
-            <stop offset="0.52" stopColor="#15201b" />
-            <stop offset="1" stopColor="#101512" />
+            <stop className="topographic-field__wash-start" offset="0" />
+            <stop className="topographic-field__wash-middle" offset="0.52" />
+            <stop className="topographic-field__wash-end" offset="1" />
           </linearGradient>
           <radialGradient id={poolId} cx="67%" cy="22%" r="62%">
-            <stop offset="0" stopColor="#7da2a0" stopOpacity="0.48" />
-            <stop offset="0.55" stopColor="#7da2a0" stopOpacity="0.05" />
-            <stop offset="1" stopColor="#7da2a0" stopOpacity="0" />
+            <stop className="topographic-field__pool-start" offset="0" stopOpacity="0.48" />
+            <stop className="topographic-field__pool-middle" offset="0.55" stopOpacity="0.05" />
+            <stop className="topographic-field__pool-end" offset="1" stopOpacity="0" />
           </radialGradient>
           {showGrain ? (
             <filter id={grainId} x="-10%" y="-10%" width="120%" height="120%">

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Ultramar Real Estate — Atlas de propiedades";
+export const alt = "Ultramar Real Estate — Casas y terrenos en venta en Morelos e Hidalgo";
 export const size = {
   width: 1200,
   height: 630,
@@ -61,7 +61,7 @@ export default function OpenGraphImage() {
               Atlas de propiedades
             </span>
             <span style={{ fontFamily: "serif", fontSize: 76, letterSpacing: "-4px", lineHeight: 0.94, marginTop: 22 }}>
-              La propiedad se entiende antes de recorrerla.
+              Casas y terrenos para decidir con contexto.
             </span>
           </div>
           <span style={{ color: "#b9c8bc", fontFamily: "monospace", fontSize: 14, letterSpacing: "2px", textTransform: "uppercase" }}>

@@ -1,5 +1,5 @@
 import { hasContactChannel } from "@/lib/contact";
-import { getIndexableListings, getPublicListings } from "@/lib/listings";
+import { getIndexableListings, getPublicListings, getSearchEligibleMedia } from "@/lib/listings";
 import { absoluteUrl } from "@/lib/site";
 import type { MetadataRoute } from "next";
 
@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: listing.updatedAt ? new Date(listing.updatedAt) : undefined,
       changeFrequency: "weekly" as const,
       priority: 0.8,
+      images: getSearchEligibleMedia(listing).map((media) => absoluteUrl(media.src)),
     })),
   ];
 }

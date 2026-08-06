@@ -1,5 +1,5 @@
 import { TopographicField } from "@/components/topographic-field";
-import { getApprovedMedia, type PublicPropertyListing } from "@/lib/listings";
+import { getApprovedMedia, getMediaKindLabel, type PublicPropertyListing } from "@/lib/listings";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ export function ListingCard({ listing }: { listing: PublicPropertyListing }) {
   const facts = publishedListing
     ? [
         publishedListing.area ? ["Superficie", publishedListing.area] : undefined,
-        publishedListing.price ? ["Precio", publishedListing.price] : undefined,
+        publishedListing.price ? ["Precio", publishedListing.price.display] : undefined,
         ...publishedListing.facts
           .slice(0, 1)
           .map((fact) => [fact.label, fact.value] as [string, string]),
@@ -26,13 +26,18 @@ export function ListingCard({ listing }: { listing: PublicPropertyListing }) {
     <article className="listing-card">
       <div className="listing-card__visual">
         {primaryImage ? (
-          <Image
-            src={primaryImage.src}
-            alt={primaryImage.alt}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover"
-          />
+          <>
+            <Image
+              src={primaryImage.src}
+              alt={primaryImage.alt}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover"
+            />
+            <span className="media-kind-label listing-card__media-kind">
+              {getMediaKindLabel(primaryImage.kind)}
+            </span>
+          </>
         ) : (
           <>
             <TopographicField variant={visualVariant[listing.id]} />

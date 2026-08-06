@@ -34,7 +34,10 @@ Datos verificados adicionales (etiqueta + valor):
   Si sí: nombre del documento y URL pública canónica, sin token ni query string
 
 ¿Fotos públicas? no | sí
-  Si sí: archivos aprobados y texto alternativo que describa lo visible
+  Si sí: archivo aprobado, clase de visual y texto alternativo que describa lo visible
+    Clase: photograph (fotografía actual) | environment (entorno real) | concept (visualización conceptual)
+    Dimensiones originales (ancho × alto):
+    Pie de foto (si aplica):
 ```
 
 ## Estados de publicación
@@ -54,6 +57,19 @@ público válido. Si hay teasers junto con propiedades publicadas, la home perma
 - Conserva originales, escrituras, planos y material sensible fuera del repositorio.
 - Reencoda las fotos aprobadas y elimina metadatos EXIF/GPS antes de subirlas a
   `public/media/`; usa rutas como `/media/propiedad-uno-frente.webp`.
+- La primera fotografía o imagen de entorno aprobada será la imagen social, estructurada y del
+  sitemap de la ficha: usa una imagen representativa, actual y sin texto sobreimpreso. Prepárala
+  a 2400 × 1600 px (3:2) cuando sea posible; las imágenes de galería pueden ir a 1600 × 1200 px
+  (4:3).
+- Nombra cada archivo por lo que muestra, no por la cámara: por ejemplo,
+  `/media/casa-yecapixtla-roof-garden.webp` o `/media/terreno-omitlan-vista-general.webp`.
+- Usa `photograph` sólo para elementos reales de la propiedad y `environment` sólo para el
+  contexto real que esté autorizado para difusión. El texto alternativo debe describir lo visible,
+  por ejemplo: “Roof garden de la casa en condominio en Yautepec, Morelos.”
+- Toda imagen con `concept` debe llevar un pie de foto y se mostrará con el aviso: “No representa
+  una construcción existente. Sujeta a factibilidad, permisos, uso de suelo y proyecto.” Nunca
+  presentes una visualización de glamping o cabaña como fotografía de la propiedad. Estas
+  visualizaciones no se usan en previews sociales, datos estructurados ni el sitemap.
 - Sólo coloca documentos de difusión pública en `public/documents/`.
 - Una dirección o coordenada exacta necesita aprobación explícita por propiedad. En
   ausencia de esa autorización, omite el mapa y usa una ubicación general en la

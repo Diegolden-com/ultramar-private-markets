@@ -2,6 +2,7 @@ import { BrandName } from "@/components/brand-name";
 import { ContactLink } from "@/components/contact-link";
 import { JsonLd } from "@/components/json-ld";
 import { ListingCard } from "@/components/listing-card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { TopographicField } from "@/components/topographic-field";
 import { contact, hasContactChannel } from "@/lib/contact";
 import { getIndexableListings, getPublicListings, totalInventoryCount } from "@/lib/listings";
@@ -18,7 +19,7 @@ const activeInventoryCount = allPublicListings.length;
 const pendingInventoryCount = totalInventoryCount - activeInventoryCount;
 
 export const metadata = createPageMetadata({
-  title: "Propiedades seleccionadas",
+  title: "Casas y terrenos en venta en Morelos e Hidalgo",
   description: siteDescription,
   noIndex: !canIndex,
 });
@@ -55,13 +56,16 @@ export default function RealEstateHomePage() {
             <a href="#proceso">Proceso</a>
             <a href="#contacto">Contacto</a>
           </nav>
-          {hasContactChannel ? (
-            <ContactLink className="header-contact">Solicitar información</ContactLink>
-          ) : (
-            <a className="header-contact" href="#propiedades">
-              Ver inventario
-            </a>
-          )}
+          <div className="header-actions">
+            <ThemeToggle />
+            {hasContactChannel ? (
+              <ContactLink className="header-contact">Solicitar información</ContactLink>
+            ) : (
+              <a className="header-contact" href="#propiedades">
+                Ver inventario
+              </a>
+            )}
+          </div>
         </div>
       </header>
 
@@ -72,12 +76,10 @@ export default function RealEstateHomePage() {
           <div className="hero-section__grid page-grid">
             <div className="hero-copy">
               <p className="eyebrow">Propiedades de venta directa</p>
-              <h1 id="hero-title">
-                Cada propiedad se entiende antes de recorrerla.
-              </h1>
+              <h1 id="hero-title">Casas y terrenos para decidir con contexto.</h1>
               <p className="hero-copy__lede">
-                Una selección curada, presentada con contexto, material aprobado y una conversación
-                directa.
+                Una selección de propiedades en Morelos e Hidalgo, presentada con información
+                clara, material aprobado y atención directa.
               </p>
               <div className="hero-copy__actions">
                 <a className="button button--primary" href="#propiedades">
@@ -129,10 +131,10 @@ export default function RealEstateHomePage() {
         <section id="propiedades" className="collection-section page-grid" aria-labelledby="collection-title">
           <div className="section-intro">
             <p className="eyebrow">La colección</p>
-            <h2 id="collection-title">Propiedades con una ficha a la altura de la decisión.</h2>
+            <h2 id="collection-title">Conoce lo esencial antes de pedir una visita.</h2>
             <p>
-              Publicamos cada propiedad sólo cuando su información comercial y su material de
-              referencia han sido revisados para compartirlos.
+              Cada ficha reúne lo que hoy se puede verificar: precio, distribución, superficies y
+              material de referencia aprobado para la conversación.
             </p>
           </div>
 
@@ -151,7 +153,7 @@ export default function RealEstateHomePage() {
           <div className="page-grid process-section__inner">
             <div className="section-intro process-section__intro">
               <p className="eyebrow">Una conversación clara</p>
-              <h2 id="process-title">El contexto viene antes que la visita.</h2>
+              <h2 id="process-title">El primer recorrido empieza en la ficha.</h2>
             </div>
             <ol className="process-list">
               {processSteps.map((step, index) => (
@@ -170,10 +172,10 @@ export default function RealEstateHomePage() {
         <section id="contacto" className="contact-section page-grid" aria-labelledby="contact-title">
           <div className="contact-section__card">
             <p className="eyebrow">Contacto</p>
-            <h2 id="contact-title">Hablemos de la propiedad que estás buscando.</h2>
+            <h2 id="contact-title">Cuéntanos cuál propiedad quieres conocer.</h2>
             <p>
               {hasContactChannel
-                ? "Comparte la propiedad que te interesa y te responderemos por el canal indicado."
+                ? "Solicita disponibilidad, ficha completa o una conversación para resolver las preguntas que importan antes de una visita."
                 : "El canal de contacto se activará junto con las fichas comerciales aprobadas."}
             </p>
             {hasContactChannel ? (

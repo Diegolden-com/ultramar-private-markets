@@ -59,6 +59,12 @@ default. Query-string document links are rejected so signed or temporary URLs ca
 be published accidentally. Redeploy after updating a `NEXT_PUBLIC_*` value because
 those values are embedded at build time.
 
+Every listing image also declares its provenance in `lib/listings.ts`: `photograph`
+for a current photo of the property, `environment` for a real approved context image,
+or `concept` for a rendering. Concept visuals are visibly labeled and receive a
+feasibility disclaimer; they must never be used to represent an existing construction
+or appear in Open Graph, Twitter, structured data, or the sitemap.
+
 ## Deployment
 
 Deploy this workspace as its own Vercel project with its Root Directory set to

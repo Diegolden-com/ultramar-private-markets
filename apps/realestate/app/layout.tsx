@@ -3,6 +3,24 @@ import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 
+const themeInitializationScript = `
+  (() => {
+    const storageKey = "ultramar-real-estate-theme";
+    const root = document.documentElement;
+
+    try {
+      const storedTheme = window.localStorage.getItem(storageKey);
+      const theme = storedTheme === "light" || storedTheme === "dark" ? storedTheme : "dark";
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+      const themeColor = theme === "light" ? "#eef2ea" : "#101512";
+      document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.setAttribute("content", themeColor));
+    } catch {
+      root.dataset.theme = "dark";
+    }
+  })();
+`;
+
 const plexSans = IBM_Plex_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
@@ -37,7 +55,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#101512",
-  colorScheme: "dark",
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({
@@ -46,7 +64,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es-MX">
+    <html lang="es-MX" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitializationScript }} />
+      </head>
       <body className={`${plexSans.variable} ${plexMono.variable} ${newsreader.variable}`}>
         {children}
       </body>

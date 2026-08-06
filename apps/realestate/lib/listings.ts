@@ -5,6 +5,15 @@ export type ListingFact = {
   value: string;
 };
 
+export type ListingPrice = {
+  /** Numeric value is kept separately so the public price can be used accurately in structured data. */
+  amount: number;
+  currency: "MXN";
+  display: string;
+};
+
+export type ListingMediaKind = "photograph" | "environment" | "concept";
+
 /**
  * Public images must be reviewed derivatives placed under `public/media`.
  * Do not reference originals, cloud-drive links, or map tiles here.
@@ -12,6 +21,11 @@ export type ListingFact = {
 export type ListingMedia = {
   src: `/media/${string}`;
   alt: string;
+  /** Makes the status of every visual explicit instead of implying a conceptual rendering is real. */
+  kind: ListingMediaKind;
+  /** Native dimensions keep Open Graph and structured data aligned with the delivered asset. */
+  width?: number;
+  height?: number;
   caption?: string;
 };
 
@@ -59,7 +73,7 @@ export type PublishedPropertyListing = ListingPublicCopy & {
   updatedAt: string;
   facts: readonly [ListingFact, ...ListingFact[]];
   area?: string;
-  price?: string;
+  price?: ListingPrice;
   media?: readonly ListingMedia[];
   publicMap?: PublicMap;
   documents?: readonly ListingDocument[];
@@ -80,14 +94,18 @@ export const listings: readonly [PropertyListing, PropertyListing, PropertyListi
     state: "published",
     kind: "Casa en condominio",
     name: "Casa residencial en condominio",
-    location: "Yecapixtla, Morelos",
-    headline: "Tres niveles, dos recámaras, roof garden y amenidades de uso común.",
+    location: "Yautepec, Morelos",
+    headline: "Remodelada recientemente: tres niveles, dos recámaras, terraza y roof garden con jacuzzi cubierto.",
     description:
-      "Casa en condominio horizontal con estancia-comedor, cocina, dos recámaras, terraza, roof garden y jacuzzi cubierto. Las superficies y la distribución de la ficha se basan en un avalúo de abril de 2024.",
+      "Una casa en condominio horizontal recientemente remodelada para convertir las escapadas en una rutina. Sus 121.45 m² de construcción se distribuyen en tres niveles, con estancia-comedor, cocina, dos recámaras, terraza, roof garden y jacuzzi cubierto. Incluye dos espacios de estacionamiento y acceso a alberca, palapa y áreas verdes de uso común.",
     availability: "En venta",
     updatedAt: "2026-08-06",
     area: "101.08 m² de terreno",
-    price: "$2,000,000 MXN",
+    price: {
+      amount: 2_000_000,
+      currency: "MXN",
+      display: "$2,000,000 MXN",
+    },
     facts: [
       { label: "Construcción", value: "121.45 m²" },
       { label: "Distribución", value: "3 niveles · 2 recámaras" },
@@ -104,14 +122,19 @@ export const listings: readonly [PropertyListing, PropertyListing, PropertyListi
     kind: "Terreno rústico",
     name: "Terreno rústico en Omitlán",
     location: "Omitlán de Juárez, Hidalgo",
-    headline: "Terreno rústico de venta directa con información comercial disponible.",
+    headline: "Terreno rústico arbolado para imaginar una escapada en contacto con la naturaleza.",
     description:
-      "Terreno rústico en Omitlán de Juárez, Hidalgo. La superficie se incorporará a la ficha una vez que esté confirmada con soporte documental adecuado.",
+      "Terreno rústico arbolado ofrecido en venta directa en Omitlán de Juárez, Hidalgo. Es un punto de partida para explorar una escapada, una experiencia de glamping o una cabaña de descanso en contacto con la naturaleza. La superficie y cualquier viabilidad de acceso, servicios, uso de suelo, permisos, impacto ambiental o construcción requieren revisión documental y técnica antes de definir un proyecto.",
     availability: "En venta",
     updatedAt: "2026-08-06",
-    price: "$500,000 MXN",
+    price: {
+      amount: 500_000,
+      currency: "MXN",
+      display: "$500,000 MXN",
+    },
     facts: [
       { label: "Tipo de propiedad", value: "Terreno rústico" },
+      { label: "Entorno", value: "Zona arbolada" },
       { label: "Superficie", value: "Por confirmar" },
     ],
   },
@@ -215,8 +238,38 @@ function isSafePublicAssetPath(value: string, directory: "/media/" | "/documents
 /** Filters out anything other than explicitly reviewed public image derivatives. */
 export function getApprovedMedia(listing: PublishedPropertyListing) {
   return (listing.media ?? []).filter(
-    (media) => isSafePublicAssetPath(media.src, "/media/") && hasText(media.alt),
+    (media) =>
+      isSafePublicAssetPath(media.src, "/media/") &&
+      hasText(media.alt) &&
+      ["photograph", "environment", "concept"].includes(media.kind) &&
+      (media.width === undefined || (Number.isFinite(media.width) && media.width > 0)) &&
+      (media.height === undefined || (Number.isFinite(media.height) && media.height > 0)),
   );
+}
+
+/**
+ * Renders may appear in the on-page gallery with their disclosure, but cannot
+ * become an unlabeled preview in search, social cards, structured data, or a sitemap.
+ */
+export function getSearchEligibleMedia(listing: PublishedPropertyListing) {
+  return getApprovedMedia(listing).filter((media) => media.kind !== "concept");
+}
+
+export function getMediaKindLabel(kind: ListingMediaKind) {
+  switch (kind) {
+    case "photograph":
+      return "Fotografía actual";
+    case "environment":
+      return "Entorno";
+    case "concept":
+      return "Visualización conceptual";
+  }
+}
+
+export function getMediaDisclosure(media: ListingMedia) {
+  if (media.kind !== "concept") return undefined;
+
+  return "No representa una construcción existente. Sujeta a factibilidad, permisos, uso de suelo y proyecto.";
 }
 
 export function getApprovedPublicMap(listing: PublishedPropertyListing) {

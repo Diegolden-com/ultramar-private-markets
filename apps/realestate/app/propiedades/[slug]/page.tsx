@@ -1,14 +1,18 @@
 import { BrandName } from "@/components/brand-name";
 import { ContactLink } from "@/components/contact-link";
 import { JsonLd } from "@/components/json-ld";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { TopographicField } from "@/components/topographic-field";
 import { hasContactChannel } from "@/lib/contact";
 import {
   getApprovedDocuments,
   getApprovedMedia,
+  getMediaDisclosure,
+  getMediaKindLabel,
   getApprovedPublicMap,
   getPublicListingBySlug,
   getPublicListings,
+  getSearchEligibleMedia,
   isIndexableListing,
 } from "@/lib/listings";
 import { createPageMetadata, listingJsonLd } from "@/lib/seo";
@@ -43,10 +47,29 @@ export async function generateMetadata({ params }: ListingPageProps) {
     });
   }
 
+  const publishedListing = listing.state === "published" ? listing : undefined;
+  const primarySearchImage = publishedListing ? getSearchEligibleMedia(publishedListing)[0] : undefined;
+  const description = publishedListing
+    ? `${listing.name} en venta en ${listing.location}. ${listing.headline}${
+        publishedListing.price ? ` Precio: ${publishedListing.price.display}.` : ""
+      }`
+    : listing.headline;
+
   return createPageMetadata({
-    title: listing.name,
-    description: listing.headline,
+    title: publishedListing ? `${listing.name} en venta · ${listing.location}` : listing.name,
+    description,
     path: `/propiedades/${listing.slug}`,
+    image: primarySearchImage
+      ? {
+          url: primarySearchImage.src,
+          alt: primarySearchImage.alt,
+          width: primarySearchImage.width,
+          height: primarySearchImage.height,
+        }
+      : {
+          url: `/propiedades/${listing.slug}/opengraph-image`,
+          alt: `${listing.name} · ${listing.location}`,
+        },
     noIndex: !isIndexableListing(listing) || !hasContactChannel,
   });
 }
@@ -66,7 +89,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
   const facts = publishedListing
     ? [
         publishedListing.area ? { label: "Superficie", value: publishedListing.area } : undefined,
-        publishedListing.price ? { label: "Precio", value: publishedListing.price } : undefined,
+        publishedListing.price ? { label: "Precio", value: publishedListing.price.display } : undefined,
         ...publishedListing.facts,
       ].filter((fact): fact is { label: string; value: string } => Boolean(fact))
     : [];
@@ -84,15 +107,18 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <Link className="back-link" href="/#propiedades">
             <span aria-hidden="true">←</span> Todas las propiedades
           </Link>
-          {hasContactChannel ? (
-            <ContactLink className="header-contact" listingName={listing.name}>
-              Solicitar información
-            </ContactLink>
-          ) : (
-            <Link className="header-contact" href="/">
-              Ver colección
-            </Link>
-          )}
+          <div className="header-actions">
+            <ThemeToggle />
+            {hasContactChannel ? (
+              <ContactLink className="header-contact" listingName={listing.name}>
+                Solicitar información
+              </ContactLink>
+            ) : (
+              <Link className="header-contact" href="/">
+                Ver colección
+              </Link>
+            )}
+          </div>
         </div>
       </header>
 
@@ -131,14 +157,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
           </div>
           <div className="listing-hero__visual">
             {primaryImage ? (
-              <Image
-                src={primaryImage.src}
-                alt={primaryImage.alt}
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
+              <>
+                <Image
+                  src={primaryImage.src}
+                  alt={primaryImage.alt}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="listing-hero__media-meta">
+                  <span className="media-kind-label">{getMediaKindLabel(primaryImage.kind)}</span>
+                  {getMediaDisclosure(primaryImage) ? (
+                    <span>{getMediaDisclosure(primaryImage)}</span>
+                  ) : null}
+                </div>
+              </>
             ) : (
               <>
                 <TopographicField variant={1} />
@@ -178,7 +212,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   height={800}
                   sizes="(min-width: 1024px) 50vw, 100vw"
                 />
-                {asset.caption ? <figcaption>{asset.caption}</figcaption> : null}
+                {asset.caption || getMediaDisclosure(asset) ? (
+                  <figcaption>
+                    <span className="media-kind-label">{getMediaKindLabel(asset.kind)}</span>
+                    {asset.caption ? <span>{asset.caption}</span> : null}
+                    {getMediaDisclosure(asset) ? <span>{getMediaDisclosure(asset)}</span> : null}
+                  </figcaption>
+                ) : (
+                  <figcaption>
+                    <span className="media-kind-label">{getMediaKindLabel(asset.kind)}</span>
+                  </figcaption>
+                )}
               </figure>
             ))}
           </section>
