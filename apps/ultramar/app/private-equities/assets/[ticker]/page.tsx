@@ -470,8 +470,15 @@ function SecondarySaleReview({
           <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.13em] text-[#11130f]/65">
             Controlled data room
           </p>
-          <p className="mt-4 text-lg font-semibold leading-7">Ownership, operating, and legal evidence are released only after access is approved.</p>
-          {dataRoomCta ? (
+          <p className="mt-4 text-lg font-semibold leading-7">
+            Ownership, operating, and legal evidence are released only after diligence opens and individual access is approved.
+          </p>
+          {dataRoomCta?.status === "diligence_closed" ? (
+            <div className="mt-8 border border-[#11130f]/35 bg-[#f8f7f2] px-5 py-4">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#e85140]">Diligence not open</p>
+              <p className="mt-2 text-sm leading-6 text-[#11130f]/76">The controlled data room is in internal preparation. This is not a live offer and no investor access requests are being accepted.</p>
+            </div>
+          ) : dataRoomCta ? (
             <Link
               href={dataRoomCta.href}
               className="mt-8 inline-flex min-h-12 items-center gap-3 bg-[#11130f] px-5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#f8f7f2] transition hover:bg-[#2a2c28] focus-visible:outline-[#11130f]"

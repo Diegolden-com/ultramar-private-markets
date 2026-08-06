@@ -28,6 +28,13 @@ values (
 )
 on conflict (id) do nothing;
 
+-- The release-gate migration runs before this seed on a clean bootstrap.
+-- Keep the LCX gate closed until an approved release manifest is explicitly
+-- opened, while allowing older installs to receive the gate from migration.
+insert into public.data_room_release_gate (data_room_id, state)
+values ('33333333-3333-4333-8333-333333333333', 'internal_preparation')
+on conflict (data_room_id) do nothing;
+
 insert into public.data_room_folders (
   id,
   data_room_id,

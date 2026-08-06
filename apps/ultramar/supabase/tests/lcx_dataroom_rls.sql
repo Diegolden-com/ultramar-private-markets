@@ -170,6 +170,11 @@ select extensions.is(
   8::bigint,
   'seed creates the eight LCX folders'
 );
+select extensions.is(
+  (select state::text from public.data_room_release_gate where data_room_id = '33333333-3333-4333-8333-333333333333'),
+  'internal_preparation',
+  'seed creates the LCX release gate in closed internal preparation'
+);
 select extensions.ok(
   not (select public from storage.buckets where id = 'data-room-documents'),
   'document bucket is private'
@@ -236,12 +241,17 @@ select extensions.is(
         'void_data_room_document_clearance',
         'list_data_room_clearance_reviewer_candidates',
         'assert_data_room_document_clearance',
-        'can_view_data_room_document_version'
+        'can_view_data_room_document_version',
+        'get_data_room_release_state',
+        'create_data_room_release_manifest',
+        'attest_data_room_release_manifest',
+        'open_data_room_diligence',
+        'close_data_room_diligence'
       )
       and p.prosecdef
   ),
-  10::bigint,
-  'all controlled data-room and clearance RPCs run as security definer'
+  15::bigint,
+  'all controlled data-room, clearance, and release RPCs run as security definer'
 );
 select extensions.ok(
   has_function_privilege('authenticated', 'private.current_profile_role()', 'execute')
@@ -268,6 +278,19 @@ select extensions.ok(
   'only authenticated callers can use the signed-document clearance predicate'
 );
 select extensions.ok(
+  has_function_privilege('anon', 'public.get_data_room_release_state()', 'execute')
+    and has_function_privilege('authenticated', 'public.get_data_room_release_state()', 'execute')
+    and not has_function_privilege('anon', 'public.create_data_room_release_manifest(uuid,uuid,text,text,text,date,timestamp with time zone,uuid,uuid,uuid,uuid)', 'execute')
+    and has_function_privilege('authenticated', 'public.create_data_room_release_manifest(uuid,uuid,text,text,text,date,timestamp with time zone,uuid,uuid,uuid,uuid)', 'execute')
+    and not has_function_privilege('anon', 'public.attest_data_room_release_manifest(uuid,data_room_clearance_review_role)', 'execute')
+    and has_function_privilege('authenticated', 'public.attest_data_room_release_manifest(uuid,data_room_clearance_review_role)', 'execute')
+    and not has_function_privilege('anon', 'public.open_data_room_diligence(uuid)', 'execute')
+    and has_function_privilege('authenticated', 'public.open_data_room_diligence(uuid)', 'execute')
+    and not has_function_privilege('anon', 'public.close_data_room_diligence()', 'execute')
+    and has_function_privilege('authenticated', 'public.close_data_room_diligence()', 'execute'),
+  'release state is public-only as a binary read while release mutations require authentication'
+);
+select extensions.ok(
   not has_table_privilege('authenticated', 'public.data_room_document_versions', 'insert'),
   'authenticated clients cannot insert document versions directly'
 );
@@ -286,6 +309,18 @@ select extensions.ok(
     and not has_table_privilege('authenticated', 'public.data_room_document_clearance_attestations', 'update')
     and not has_table_privilege('authenticated', 'public.data_room_document_clearance_attestations', 'delete'),
   'authenticated clients cannot forge or alter human attestations directly'
+);
+select extensions.ok(
+  not has_table_privilege('authenticated', 'public.data_room_release_manifests', 'insert')
+    and not has_table_privilege('authenticated', 'public.data_room_release_manifests', 'update')
+    and not has_table_privilege('authenticated', 'public.data_room_release_manifests', 'delete')
+    and not has_table_privilege('authenticated', 'public.data_room_release_manifest_attestations', 'insert')
+    and not has_table_privilege('authenticated', 'public.data_room_release_manifest_attestations', 'update')
+    and not has_table_privilege('authenticated', 'public.data_room_release_manifest_attestations', 'delete')
+    and not has_table_privilege('authenticated', 'public.data_room_release_gate', 'insert')
+    and not has_table_privilege('authenticated', 'public.data_room_release_gate', 'update')
+    and not has_table_privilege('authenticated', 'public.data_room_release_gate', 'delete'),
+  'authenticated clients cannot forge, attest, or open the release gate through table DML'
 );
 select extensions.ok(
   not has_table_privilege('authenticated', 'public.rounds', 'update'),
@@ -424,6 +459,233 @@ reset role;
 update public.data_rooms
 set archived_at = null
 where id = '33333333-3333-4333-8333-333333333333';
+
+-- The LCX-only release is fail-closed by default. A normal investor cannot
+-- request access until a fresh PWA-linked manifest has all four attestations
+-- and an active platform administrator opens it explicitly.
+select extensions.is(
+  public.get_data_room_release_state()::text,
+  'internal_preparation',
+  'LCX release gate begins in internal preparation'
+);
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaa0001","role":"authenticated"}',
+  true
+);
+select extensions.is(
+  private.user_can_request_data_room('33333333-3333-4333-8333-333333333333'),
+  false,
+  'closed LCX gate blocks the investor request predicate'
+);
+select extensions.throws_ok(
+  $$insert into public.data_room_access_requests (data_room_id, user_id, request_note)
+    values ('33333333-3333-4333-8333-333333333333', 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaa0001', 'Closed-gate request')$$,
+  '42501',
+  null,
+  'closed LCX gate blocks investor access-request DML'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"cccccccc-cccc-4ccc-8ccc-cccccccc0003","role":"authenticated"}',
+  true
+);
+select extensions.throws_ok(
+  $$select public.create_data_room_release_manifest(
+      '33333333-3333-4333-8333-333333333333',
+      '30303030-0002-4030-8030-000000000002',
+      'pwa-stale-model-cut-fixture',
+      repeat('c', 64),
+      repeat('d', 64),
+      ((statement_timestamp() at time zone 'UTC')::date - 32),
+      statement_timestamp() + interval '1 day',
+      '10101010-0001-4010-8010-000000000001',
+      '10101010-0002-4010-8010-000000000002',
+      '10101010-0003-4010-8010-000000000003',
+      '10101010-0004-4010-8010-000000000004'
+    )$$,
+  '23514',
+  'Release manifest requires an opaque PWA approval ID, source ID, hashes, a model cut no more than 31 days old, and a future freshness limit no more than 31 days away',
+  'release RPC rejects a PWA model cut older than 31 calendar days'
+);
+select extensions.throws_ok(
+  $$select public.create_data_room_release_manifest(
+      '33333333-3333-4333-8333-333333333333',
+      '30303030-0003-4030-8030-000000000003',
+      'pwa-overlong-freshness-fixture',
+      repeat('c', 64),
+      repeat('d', 64),
+      (statement_timestamp() at time zone 'UTC')::date,
+      statement_timestamp() + interval '32 days',
+      '10101010-0001-4010-8010-000000000001',
+      '10101010-0002-4010-8010-000000000002',
+      '10101010-0003-4010-8010-000000000003',
+      '10101010-0004-4010-8010-000000000004'
+    )$$,
+  '23514',
+  'Release manifest requires an opaque PWA approval ID, source ID, hashes, a model cut no more than 31 days old, and a future freshness limit no more than 31 days away',
+  'release RPC rejects a freshness deadline more than 31 days away'
+);
+select extensions.lives_ok(
+  $$select public.create_data_room_release_manifest(
+      '33333333-3333-4333-8333-333333333333',
+      '30303030-0001-4030-8030-000000000001',
+      'pwa-finance-v3-fixture',
+      repeat('c', 64),
+      repeat('d', 64),
+      (statement_timestamp() at time zone 'UTC')::date,
+      statement_timestamp() + interval '7 days',
+      '10101010-0001-4010-8010-000000000001',
+      '10101010-0002-4010-8010-000000000002',
+      '10101010-0003-4010-8010-000000000003',
+      '10101010-0004-4010-8010-000000000004'
+    )$$,
+  'issuer can create a metadata-only LCX finance-v3 release manifest during internal preparation'
+);
+select extensions.is(
+  (select scenario from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture'),
+  'consolidated-secondary',
+  'release manifest fixes the LCX consolidated-secondary scenario'
+);
+select extensions.is(
+  (select finance_schema_version from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture'),
+  3::smallint,
+  'release manifest fixes the PWA finance contract to v3'
+);
+reset role;
+
+select extensions.throws_ok(
+  $$insert into public.data_room_release_manifests (
+      release_context_data_room_id,
+      pwa_approval_attestation_id,
+      pwa_source_id,
+      pwa_manifest_sha256,
+      pwa_snapshot_sha256,
+      model_as_of,
+      freshness_due_at,
+      finance_ops_reviewer_id,
+      redaction_reviewer_id,
+      counsel_reviewer_id,
+      data_room_admin_reviewer_id,
+      created_by
+    ) values (
+      '33333333-3333-4333-8333-333333333333',
+      '30303030-0004-4030-8030-000000000004',
+      'pwa-table-constraint-fixture',
+      repeat('c', 64),
+      repeat('d', 64),
+      (statement_timestamp() at time zone 'UTC')::date,
+      statement_timestamp() + interval '32 days',
+      '10101010-0001-4010-8010-000000000001',
+      '10101010-0002-4010-8010-000000000002',
+      '10101010-0003-4010-8010-000000000003',
+      '10101010-0004-4010-8010-000000000004',
+      'cccccccc-cccc-4ccc-8ccc-cccccccc0003'
+    )$$,
+  '23514',
+  null,
+  'release-manifest table constraint rejects freshness beyond the 31-day model-cut horizon'
+);
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0001-4010-8010-000000000001","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_release_manifest(
+      (select id from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture'),
+      'finance_ops'
+    )$$,
+  'assigned Finance Ops reviewer can attest the release manifest'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"dddddddd-dddd-4ddd-8ddd-dddddddd0004","role":"authenticated"}',
+  true
+);
+select extensions.throws_ok(
+  $$select public.open_data_room_diligence(
+      (select id from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture')
+    )$$,
+  '23514',
+  'Diligence requires a fresh release manifest with four valid human attestations',
+  'platform admin cannot open the LCX gate with an incomplete manifest'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0002-4010-8010-000000000002","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_release_manifest(
+      (select id from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture'),
+      'redaction'
+    )$$,
+  'assigned redaction reviewer can attest the release manifest'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0003-4010-8010-000000000003","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_release_manifest(
+      (select id from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture'),
+      'counsel'
+    )$$,
+  'assigned counsel reviewer can attest the release manifest'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"10101010-0004-4010-8010-000000000004","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.attest_data_room_release_manifest(
+      (select id from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture'),
+      'data_room_admin'
+    )$$,
+  'assigned data-room administrator reviewer can attest the release manifest'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"dddddddd-dddd-4ddd-8ddd-dddddddd0004","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.open_data_room_diligence(
+      (select id from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture')
+    )$$,
+  'platform admin can open LCX diligence only after the four valid attestations'
+);
+select extensions.is(
+  public.get_data_room_release_state()::text,
+  'diligence_open',
+  'LCX release state reports open only after the approved manifest is activated'
+);
+reset role;
 
 set local role authenticated;
 select set_config(
@@ -1357,6 +1619,107 @@ select extensions.is(
   (select id from public.data_room_document_versions),
   'ffffffff-ffff-4fff-8fff-ffffffff0002'::uuid,
   'investor resolves newly published v2 and no longer sees v1'
+);
+reset role;
+
+-- Closing the global release gate must immediately neutralize an otherwise
+-- active grant at the database boundary. It must also reject a new approval
+-- while the room is closed; reopening uses the same still-fresh, fully
+-- attested manifest rather than any round-status inference.
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"dddddddd-dddd-4ddd-8ddd-dddddddd0004","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.close_data_room_diligence()$$,
+  'platform admin can close LCX diligence immediately'
+);
+select extensions.is(
+  public.get_data_room_release_state()::text,
+  'internal_preparation',
+  'closed gate reports only the binary internal-preparation state'
+);
+select extensions.throws_ok(
+  $$select public.resolve_data_room_access(
+      (select id from public.data_room_access_requests where user_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaa0001'),
+      'approved',
+      'Not while diligence is closed'
+    )$$,
+  '23514',
+  'Diligence is not open; investor access cannot be approved',
+  'closed LCX gate blocks approval and grant creation even for a platform admin'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbb0002","role":"authenticated"}',
+  true
+);
+select extensions.is(
+  private.user_has_data_room_access('33333333-3333-4333-8333-333333333333'),
+  false,
+  'closed LCX gate makes an existing active investor grant ineffective'
+);
+select extensions.is(
+  (select count(*) from public.data_room_documents),
+  0::bigint,
+  'closed LCX gate hides published document metadata despite an active grant'
+);
+select extensions.is(
+  (select count(*) from public.data_room_document_versions),
+  0::bigint,
+  'closed LCX gate hides published document versions despite an active grant'
+);
+select extensions.is(
+  public.can_view_data_room_document_version(
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeee0001',
+    'ffffffff-ffff-4fff-8fff-ffffffff0002'
+  ),
+  false,
+  'closed LCX gate blocks the signed-document authorization predicate'
+);
+select extensions.is(
+  private.user_can_read_data_room_object(
+    '33333333-3333-4333-8333-333333333333/eeeeeeee-eeee-4eee-8eee-eeeeeeee0001/ffffffff-ffff-4fff-8fff-ffffffff0002-redacted-derivative.pdf'
+  ),
+  false,
+  'closed LCX gate blocks the storage-object authorization predicate'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"dddddddd-dddd-4ddd-8ddd-dddddddd0004","role":"authenticated"}',
+  true
+);
+select extensions.lives_ok(
+  $$select public.open_data_room_diligence(
+      (select id from public.data_room_release_manifests where pwa_source_id = 'pwa-finance-v3-fixture')
+    )$$,
+  'platform admin can reopen only against the same fresh fully-attested manifest'
+);
+select extensions.is(
+  public.get_data_room_release_state()::text,
+  'diligence_open',
+  'LCX gate reopens only after explicit administrative action'
+);
+reset role;
+
+set local role authenticated;
+select set_config(
+  'request.jwt.claims',
+  '{"sub":"bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbb0002","role":"authenticated"}',
+  true
+);
+select extensions.is(
+  (select count(*) from public.data_room_documents),
+  1::bigint,
+  'reopened LCX gate restores the active grant only for the cleared published document'
 );
 reset role;
 

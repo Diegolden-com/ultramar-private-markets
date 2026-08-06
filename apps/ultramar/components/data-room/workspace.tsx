@@ -63,7 +63,12 @@ export function DataRoomHeader({
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <span className="badge badge-success badge-outline font-mono text-[10px] uppercase tracking-[0.08em]">Access active</span>
+                <span className={`badge badge-outline font-mono text-[10px] uppercase tracking-[0.08em] ${state.releaseState === "diligence_open" ? "badge-success" : "badge-warning"}`}>
+                  {state.releaseState === "diligence_open" ? "Diligence open" : "Internal preparation"}
+                </span>
+                <span className="badge badge-success badge-outline font-mono text-[10px] uppercase tracking-[0.08em]">
+                  {state.viewer.canManage ? "Manager access" : "Access active"}
+                </span>
                 <span className="badge badge-warning badge-outline font-mono text-[10px] uppercase tracking-[0.08em]">{LCX_DATA_ROOM.status}</span>
               </div>
             </div>

@@ -3,6 +3,7 @@ import type {
   DataRoomActivityType,
   DataRoomFolderRow,
   DataRoomClearanceReviewRole,
+  DataRoomReleaseState,
   DocumentStatus,
   ProfileRole,
   RoundStatus,
@@ -60,6 +61,29 @@ export type DataRoomClearance = {
   status: "awaiting_attestations" | "ready" | "consumed" | "expired" | "voided";
 };
 
+export type DataRoomReleaseManifestAttestation = {
+  reviewRole: DataRoomClearanceReviewRole;
+  reviewerId: string;
+  attestedAt: string;
+};
+
+export type DataRoomReleaseManifest = {
+  id: string;
+  revision: number;
+  scenario: "consolidated-secondary";
+  financeSchemaVersion: number;
+  pwaApprovalAttestationId: string;
+  pwaSourceId: string;
+  pwaManifestSha256: string;
+  pwaSnapshotSha256: string;
+  modelAsOf: string;
+  freshnessDueAt: string;
+  createdAt: string;
+  reviewers: Record<DataRoomClearanceReviewRole, DataRoomClearanceReviewer>;
+  attestations: DataRoomReleaseManifestAttestation[];
+  status: "awaiting_attestations" | "ready" | "expired";
+};
+
 export type DataRoomDocument = {
   id: string;
   folderId: string;
@@ -113,6 +137,8 @@ export type AuthorizedDataRoomState = {
   };
   folders: DataRoomFolderRow[];
   documents: DataRoomDocument[];
+  releaseState: DataRoomReleaseState;
+  releaseManifests: DataRoomReleaseManifest[];
   clearances: DataRoomClearance[];
   clearanceReviewerCandidates: DataRoomClearanceReviewer[];
   accessRequests: DataRoomAccessRequest[];
@@ -126,10 +152,12 @@ export type RestrictedDataRoomState = {
   requestStatus: DataRoomRequestState;
   requestedAt: string | null;
   resolvedAt: string | null;
+  releaseState: DataRoomReleaseState;
 };
 
 export type DataRoomPageState =
   | { kind: "unconfigured" }
+  | { kind: "diligence_closed" }
   | { kind: "error"; message: string }
   | RestrictedDataRoomState
   | AuthorizedDataRoomState;
@@ -137,5 +165,5 @@ export type DataRoomPageState =
 export type DataRoomCtaState = {
   label: string;
   href: string;
-  status: "signed_out" | "not_requested" | "pending" | "approved" | "revoked";
+  status: "signed_out" | "not_requested" | "pending" | "approved" | "revoked" | "diligence_closed";
 };

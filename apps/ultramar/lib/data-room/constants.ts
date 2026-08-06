@@ -6,7 +6,6 @@ export const LCX_DATA_ROOM = {
   name: "LCX secondary transfer data room",
   status: "Data room buildout · not a live offer",
   bucket: "data-room-documents",
-  signedUrlLifetimeSeconds: 60,
   maxFileSizeBytes: 25 * 1024 * 1024,
 } as const;
 
@@ -15,6 +14,9 @@ export const DATA_ROOM_ALLOWED_MIME_TYPES = [
   "image/jpeg",
   "image/png",
 ] as const;
+
+export const LCX_RELEASE_MAX_MODEL_AGE_DAYS = 31;
+export const LCX_RELEASE_MAX_FRESHNESS_DAYS = 31;
 
 export const LCX_DATA_ROOM_CLEARANCE_CLASSIFICATION =
   "CONFIDENTIAL · SECONDARY TRANSFER REVIEW · NOT A LIVE OFFER";

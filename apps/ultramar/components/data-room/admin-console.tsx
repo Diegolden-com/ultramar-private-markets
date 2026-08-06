@@ -8,6 +8,7 @@ import {
 } from "@/app/private-equities/assets/lcx/dataroom/actions";
 import { DataRoomActionForm } from "@/components/data-room/action-form";
 import { ClearanceConsole } from "@/components/data-room/clearance-console";
+import { ReleaseGateConsole } from "@/components/data-room/release-gate-console";
 import { NewDocumentUploadForm, NewVersionUploadForm } from "@/components/data-room/upload-forms";
 import type { AuthorizedDataRoomState } from "@/lib/data-room/types";
 import { Activity, FileCog, FolderCog, ShieldCheck, UploadCloud } from "lucide-react";
@@ -15,6 +16,16 @@ import { Activity, FileCog, FolderCog, ShieldCheck, UploadCloud } from "lucide-r
 export function DataRoomAdminConsole({ state }: { state: AuthorizedDataRoomState }) {
   return (
     <div className="grid gap-4">
+      <AdminSection icon={ShieldCheck} eyebrow="Release control" title="LCX diligence gate">
+        <ReleaseGateConsole
+          viewerId={state.viewer.id}
+          viewerRole={state.viewer.role}
+          releaseState={state.releaseState}
+          manifests={state.releaseManifests}
+          reviewerCandidates={state.clearanceReviewerCandidates}
+        />
+      </AdminSection>
+
       <AdminSection icon={ShieldCheck} eyebrow="Human clearance" title="Derivative review gate">
         <ClearanceConsole
           viewerId={state.viewer.id}
