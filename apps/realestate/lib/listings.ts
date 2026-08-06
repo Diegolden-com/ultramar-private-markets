@@ -12,7 +12,7 @@ export type ListingPrice = {
   display: string;
 };
 
-export type ListingMediaKind = "photograph" | "environment" | "concept";
+export type ListingMediaKind = "photograph" | "environment" | "reference" | "concept";
 
 /**
  * Public images must be reviewed derivatives placed under `public/media`.
@@ -21,7 +21,7 @@ export type ListingMediaKind = "photograph" | "environment" | "concept";
 export type ListingMedia = {
   src: `/media/${string}`;
   alt: string;
-  /** Makes the status of every visual explicit instead of implying a conceptual rendering is real. */
+  /** Makes the provenance of every visual explicit instead of implying it is a current photograph. */
   kind: ListingMediaKind;
   /** Native dimensions keep Open Graph and structured data aligned with the delivered asset. */
   width?: number;
@@ -93,11 +93,12 @@ export const listings: readonly [PropertyListing, PropertyListing, PropertyListi
     slug: "casa-condominio-morelos",
     state: "published",
     kind: "Casa en condominio",
-    name: "Casa residencial en condominio",
-    location: "Yautepec, Morelos",
-    headline: "Remodelada recientemente: tres niveles, dos recámaras, terraza y roof garden con jacuzzi cubierto.",
+    name: "Casa remodelada en Oaxtepec",
+    location: "Oaxtepec, Yautepec, Morelos",
+    headline:
+      "121.45 m² construidos · 2 recámaras · roof garden con jacuzzi · vistas hacia el Popocatépetl.",
     description:
-      "Una casa en condominio horizontal recientemente remodelada para convertir las escapadas en una rutina. Sus 121.45 m² de construcción se distribuyen en tres niveles, con estancia-comedor, cocina, dos recámaras, terraza, roof garden y jacuzzi cubierto. Incluye dos espacios de estacionamiento y acceso a alberca, palapa y áreas verdes de uso común.",
+      "Casa remodelada de tres niveles en Oaxtepec para disfrutar fines de semana, vivir con espacios exteriores o considerar renta vacacional. Tiene estancia-comedor, cocina, dos recámaras, terraza, roof garden con jacuzzi cubierto y dos estacionamientos. El condominio incluye alberca, palapa y áreas verdes de uso común, dentro del corredor Oaxtepec-Cocoyoc: un entorno cálido cerca de Lomas de Cocoyoc, Hurricane Harbor Oaxtepec y la oferta de balnearios de Morelos. La renta vacacional debe confirmarse con el reglamento del condominio y la normativa aplicable.",
     availability: "En venta",
     updatedAt: "2026-08-06",
     area: "101.08 m² de terreno",
@@ -113,6 +114,34 @@ export const listings: readonly [PropertyListing, PropertyListing, PropertyListi
       { label: "Complementos", value: "Roof garden · terraza · jacuzzi cubierto" },
       { label: "Estacionamiento", value: "2 espacios" },
       { label: "Áreas comunes", value: "Alberca, palapa y áreas verdes" },
+      { label: "Entorno", value: "Corredor Oaxtepec-Cocoyoc" },
+      { label: "Vistas", value: "Hacia el Popocatépetl" },
+    ],
+    media: [
+      {
+        src: "/media/casa-oaxtepec-terraza-referencia-2024.webp",
+        alt: "Terraza exterior de la casa en condominio en Oaxtepec, Yautepec.",
+        kind: "reference",
+        width: 720,
+        height: 960,
+        caption: "Terraza exterior y acceso al roof garden.",
+      },
+      {
+        src: "/media/casa-oaxtepec-escalera-referencia-2024.webp",
+        alt: "Escalera interior de la casa en condominio en Oaxtepec, Yautepec.",
+        kind: "reference",
+        width: 719,
+        height: 960,
+        caption: "Escalera interior entre los niveles de la casa.",
+      },
+      {
+        src: "/media/casa-oaxtepec-alberca-comun-referencia-2024.webp",
+        alt: "Alberca y áreas verdes de uso común del condominio en Oaxtepec, Yautepec.",
+        kind: "reference",
+        width: 719,
+        height: 960,
+        caption: "Alberca y áreas verdes de uso común del condominio.",
+      },
     ],
   },
   {
@@ -120,11 +149,11 @@ export const listings: readonly [PropertyListing, PropertyListing, PropertyListi
     slug: "terreno-rustico-omitlan",
     state: "published",
     kind: "Terreno rústico",
-    name: "Terreno rústico en Omitlán",
+    name: "Terreno rústico arbolado en Omitlán",
     location: "Omitlán de Juárez, Hidalgo",
-    headline: "Terreno rústico arbolado para imaginar una escapada en contacto con la naturaleza.",
+    headline: "Un terreno entre bosque para explorar un proyecto de descanso en la sierra de Hidalgo.",
     description:
-      "Terreno rústico arbolado ofrecido en venta directa en Omitlán de Juárez, Hidalgo. Es un punto de partida para explorar una escapada, una experiencia de glamping o una cabaña de descanso en contacto con la naturaleza. La superficie y cualquier viabilidad de acceso, servicios, uso de suelo, permisos, impacto ambiental o construcción requieren revisión documental y técnica antes de definir un proyecto.",
+      "Terreno rústico arbolado en Omitlán de Juárez, dentro del Corredor de la Montaña de Hidalgo. Es un punto de partida para explorar una cabaña de descanso, glamping de baja densidad o una escapada entre árboles. La superficie, colindancias, accesos, servicios, uso de suelo, permisos, impacto ambiental y construcción requieren revisión documental y técnica antes de definir un proyecto.",
     availability: "En venta",
     updatedAt: "2026-08-06",
     price: {
@@ -133,9 +162,10 @@ export const listings: readonly [PropertyListing, PropertyListing, PropertyListi
       display: "$500,000 MXN",
     },
     facts: [
-      { label: "Tipo de propiedad", value: "Terreno rústico" },
-      { label: "Entorno", value: "Zona arbolada" },
+      { label: "Entorno", value: "Zona arbolada · Corredor de la Montaña" },
       { label: "Superficie", value: "Por confirmar" },
+      { label: "Opciones a explorar", value: "Cabaña o glamping de baja densidad" },
+      { label: "Tipo de propiedad", value: "Terreno rústico" },
     ],
   },
   {
@@ -241,7 +271,7 @@ export function getApprovedMedia(listing: PublishedPropertyListing) {
     (media) =>
       isSafePublicAssetPath(media.src, "/media/") &&
       hasText(media.alt) &&
-      ["photograph", "environment", "concept"].includes(media.kind) &&
+      ["photograph", "environment", "reference", "concept"].includes(media.kind) &&
       (media.width === undefined || (Number.isFinite(media.width) && media.width > 0)) &&
       (media.height === undefined || (Number.isFinite(media.height) && media.height > 0)),
   );
@@ -252,7 +282,9 @@ export function getApprovedMedia(listing: PublishedPropertyListing) {
  * become an unlabeled preview in search, social cards, structured data, or a sitemap.
  */
 export function getSearchEligibleMedia(listing: PublishedPropertyListing) {
-  return getApprovedMedia(listing).filter((media) => media.kind !== "concept");
+  return getApprovedMedia(listing).filter(
+    (media) => media.kind === "photograph" || media.kind === "environment",
+  );
 }
 
 export function getMediaKindLabel(kind: ListingMediaKind) {
@@ -261,12 +293,18 @@ export function getMediaKindLabel(kind: ListingMediaKind) {
       return "Fotografía actual";
     case "environment":
       return "Entorno";
+    case "reference":
+      return "Referencia del avalúo · 2024";
     case "concept":
       return "Visualización conceptual";
   }
 }
 
 export function getMediaDisclosure(media: ListingMedia) {
+  if (media.kind === "reference") {
+    return "Fotografía de referencia del avalúo de 2024. Solicita fotos y video actuales por WhatsApp.";
+  }
+
   if (media.kind !== "concept") return undefined;
 
   return "No representa una construcción existente. Sujeta a factibilidad, permisos, uso de suelo y proyecto.";

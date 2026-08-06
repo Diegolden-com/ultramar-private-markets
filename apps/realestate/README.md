@@ -61,9 +61,10 @@ those values are embedded at build time.
 
 Every listing image also declares its provenance in `lib/listings.ts`: `photograph`
 for a current photo of the property, `environment` for a real approved context image,
-or `concept` for a rendering. Concept visuals are visibly labeled and receive a
-feasibility disclaimer; they must never be used to represent an existing construction
-or appear in Open Graph, Twitter, structured data, or the sitemap.
+`reference` for dated archival material, or `concept` for a rendering. Reference and
+concept visuals are visibly labeled and excluded from Open Graph, Twitter, structured
+data, and the sitemap. They must never be presented as a current photograph or existing
+construction.
 
 ## Deployment
 

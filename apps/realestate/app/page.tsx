@@ -5,9 +5,16 @@ import { ListingCard } from "@/components/listing-card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TopographicField } from "@/components/topographic-field";
 import { contact, hasContactChannel } from "@/lib/contact";
-import { getIndexableListings, getPublicListings, totalInventoryCount } from "@/lib/listings";
+import {
+  getApprovedMedia,
+  getIndexableListings,
+  getPublicListings,
+  totalInventoryCount,
+  type PublishedPropertyListing,
+} from "@/lib/listings";
 import { createPageMetadata, homeJsonLd } from "@/lib/seo";
 import { siteDescription } from "@/lib/site";
+import Image from "next/image";
 import Link from "next/link";
 
 const allPublicListings = getPublicListings();
@@ -16,28 +23,25 @@ const indexableListings = getIndexableListings();
 const hasTeasers = publicListings.some((listing) => listing.state === "teaser");
 const canIndex = indexableListings.length > 0 && hasContactChannel && !hasTeasers;
 const activeInventoryCount = allPublicListings.length;
-const pendingInventoryCount = totalInventoryCount - activeInventoryCount;
+const featuredListing = publicListings.find(
+  (listing): listing is PublishedPropertyListing =>
+    listing.id === "property-one" && listing.state === "published",
+);
+const featuredImage = featuredListing ? getApprovedMedia(featuredListing)[0] : undefined;
+const lowestPublishedPrice = publicListings.reduce<PublishedPropertyListing["price"] | undefined>(
+  (lowestPrice, listing) => {
+    if (listing.state !== "published" || !listing.price) return lowestPrice;
+
+    return !lowestPrice || listing.price.amount < lowestPrice.amount ? listing.price : lowestPrice;
+  },
+  undefined,
+);
 
 export const metadata = createPageMetadata({
   title: "Casas y terrenos en venta en Morelos e Hidalgo",
   description: siteDescription,
   noIndex: !canIndex,
 });
-
-const processSteps = [
-  {
-    title: "Consulta",
-    copy: "Elige la propiedad que quieres conocer y comparte el contexto de tu búsqueda.",
-  },
-  {
-    title: "Ficha verificada",
-    copy: "Recibe únicamente la información que esté aprobada para difusión de la propiedad.",
-  },
-  {
-    title: "Siguiente conversación",
-    copy: "Coordinamos el siguiente paso directamente, según la información disponible.",
-  },
-];
 
 export default function RealEstateHomePage() {
   return (
@@ -53,13 +57,14 @@ export default function RealEstateHomePage() {
           </Link>
           <nav className="site-nav" aria-label="Navegación principal">
             <a href="#propiedades">Propiedades</a>
-            <a href="#proceso">Proceso</a>
             <a href="#contacto">Contacto</a>
           </nav>
           <div className="header-actions">
             <ThemeToggle />
             {hasContactChannel ? (
-              <ContactLink className="header-contact">Solicitar información</ContactLink>
+              <ContactLink className="header-contact" intent="availability">
+                Pedir ficha
+              </ContactLink>
             ) : (
               <a className="header-contact" href="#propiedades">
                 Ver inventario
@@ -75,11 +80,11 @@ export default function RealEstateHomePage() {
         <section className="hero-section" aria-labelledby="hero-title">
           <div className="hero-section__grid page-grid">
             <div className="hero-copy">
-              <p className="eyebrow">Propiedades de venta directa</p>
-              <h1 id="hero-title">Casas y terrenos para decidir con contexto.</h1>
+              <p className="eyebrow">Morelos e Hidalgo · venta directa</p>
+              <h1 id="hero-title">Propiedades en venta. Datos claros, trato directo.</h1>
               <p className="hero-copy__lede">
-                Una selección de propiedades en Morelos e Hidalgo, presentada con información
-                clara, material aprobado y atención directa.
+                Casas y terrenos con precio publicado, características principales y atención directa
+                por WhatsApp para resolver tus dudas.
               </p>
               <div className="hero-copy__actions">
                 <a className="button button--primary" href="#propiedades">
@@ -87,10 +92,12 @@ export default function RealEstateHomePage() {
                   <span aria-hidden="true">↓</span>
                 </a>
                 {hasContactChannel ? (
-                  <ContactLink className="button button--quiet">Solicitar información</ContactLink>
+                  <ContactLink className="button button--quiet" intent="availability">
+                    Pedir ficha y disponibilidad
+                  </ContactLink>
                 ) : (
-                  <a className="button button--quiet" href="#proceso">
-                    Conocer el proceso <span aria-hidden="true">↓</span>
+                  <a className="button button--quiet" href="#contacto">
+                    Pedir información <span aria-hidden="true">↓</span>
                   </a>
                 )}
               </div>
@@ -100,46 +107,54 @@ export default function RealEstateHomePage() {
                   <dd>{String(activeInventoryCount).padStart(2, "0")} propiedades</dd>
                 </div>
                 <div>
-                  <dt>Atención</dt>
-                  <dd>Directa</dd>
+                  <dt>Precio publicado</dt>
+                  <dd>{lowestPublishedPrice ? `Desde ${lowestPublishedPrice.display}` : "Por confirmar"}</dd>
                 </div>
                 <div>
-                  <dt>En preparación</dt>
-                  <dd>{String(pendingInventoryCount).padStart(2, "0")} ficha</dd>
+                  <dt>Contacto</dt>
+                  <dd>WhatsApp directo</dd>
                 </div>
               </dl>
             </div>
 
-            <div className="hero-art" aria-hidden="true">
-              <TopographicField variant={0} showGrain />
-              <div className="hero-art__annotation">
-                <p>Atlas de propiedades</p>
-                <span>Gráfica editorial · no es plano técnico</span>
-              </div>
-              <div className="hero-art__coordinate hero-art__coordinate--one">
-                <span>01</span>
-                <i />
-              </div>
-              <div className="hero-art__coordinate hero-art__coordinate--two">
-                <span>03</span>
-                <i />
-              </div>
-            </div>
+            <figure className="hero-art hero-art--property">
+              {featuredImage && featuredListing ? (
+                <>
+                  <Image
+                    src={featuredImage.src}
+                    alt={featuredImage.alt}
+                    fill
+                    priority
+                    sizes="(min-width: 961px) 42vw, 100vw"
+                    className="hero-art__image object-cover"
+                  />
+                  <figcaption className="hero-art__annotation">
+                    <p>{featuredListing.name}</p>
+                    <span>
+                      {featuredListing.price?.display} · fotos del avalúo, 2024 · pide fotos y
+                      video actuales
+                    </span>
+                  </figcaption>
+                </>
+              ) : (
+                <TopographicField variant={0} showGrain />
+              )}
+            </figure>
           </div>
         </section>
 
         <section id="propiedades" className="collection-section page-grid" aria-labelledby="collection-title">
           <div className="section-intro">
-            <p className="eyebrow">La colección</p>
-            <h2 id="collection-title">Conoce lo esencial antes de pedir una visita.</h2>
+            <p className="eyebrow">Propiedades disponibles</p>
+            <h2 id="collection-title">Conoce precio y características principales.</h2>
             <p>
-              Cada ficha reúne lo que hoy se puede verificar: precio, distribución, superficies y
-              material de referencia aprobado para la conversación.
+              Revisa lo principal y pide la ficha, fotos actuales o una visita cuando una propiedad
+              te interese.
             </p>
           </div>
 
           {publicListings.length > 0 ? (
-            <div className="listings-grid">
+            <div className={`listings-grid listings-grid--${publicListings.length}`}>
               {publicListings.map((listing) => (
                 <ListingCard key={listing.id} listing={listing} />
               ))}
@@ -149,38 +164,40 @@ export default function RealEstateHomePage() {
           )}
         </section>
 
-        <section id="proceso" className="process-section" aria-labelledby="process-title">
-          <div className="page-grid process-section__inner">
-            <div className="section-intro process-section__intro">
-              <p className="eyebrow">Una conversación clara</p>
-              <h2 id="process-title">El primer recorrido empieza en la ficha.</h2>
+        <section className="visit-section" aria-labelledby="visit-title">
+          <div className="visit-section__inner page-grid">
+            <div>
+              <p className="eyebrow">Antes de una visita</p>
+              <h2 id="visit-title">Pide la ficha y mira la propiedad como está hoy.</h2>
             </div>
-            <ol className="process-list">
-              {processSteps.map((step, index) => (
-                <li key={step.title}>
-                  <span className="process-list__count">{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3>{step.title}</h3>
-                    <p>{step.copy}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+            <div className="visit-section__action">
+              <p>
+                Te compartimos disponibilidad, información de la ficha y, cuando aplique, fotos o
+                video actualizados antes de coordinar una visita.
+              </p>
+              {hasContactChannel ? (
+                <ContactLink className="button button--primary" intent="availability">
+                  Pedir ficha y disponibilidad
+                </ContactLink>
+              ) : null}
+            </div>
           </div>
         </section>
 
         <section id="contacto" className="contact-section page-grid" aria-labelledby="contact-title">
           <div className="contact-section__card">
             <p className="eyebrow">Contacto</p>
-            <h2 id="contact-title">Cuéntanos cuál propiedad quieres conocer.</h2>
+            <h2 id="contact-title">Pide ficha, fotos actuales o una visita.</h2>
             <p>
               {hasContactChannel
-                ? "Solicita disponibilidad, ficha completa o una conversación para resolver las preguntas que importan antes de una visita."
+                ? "Escríbenos por WhatsApp. Te respondemos con la información disponible de la propiedad que te interesa."
                 : "El canal de contacto se activará junto con las fichas comerciales aprobadas."}
             </p>
             {hasContactChannel ? (
               <div className="contact-section__actions">
-                <ContactLink className="button button--primary">Abrir conversación</ContactLink>
+                <ContactLink className="button button--primary" intent="availability">
+                  Escribir por WhatsApp
+                </ContactLink>
                 {contact.email ? <a className="text-link" href={`mailto:${contact.email}`}>{contact.email}</a> : null}
               </div>
             ) : (
@@ -199,7 +216,7 @@ export default function RealEstateHomePage() {
       <footer className="site-footer">
         <div className="page-grid site-footer__inner">
           <BrandName className="site-footer__brand" />
-          <p>Propiedades seleccionadas. Información comercial sujeta a revisión y actualización.</p>
+          <p>Disponibilidad y características sujetas a confirmación antes de una visita.</p>
           <a href="https://ultramar.capital">Ultramar.capital ↗</a>
         </div>
       </footer>

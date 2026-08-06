@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Ultramar Real Estate — Casas y terrenos en venta en Morelos e Hidalgo";
+export const alt = "Ultramar Real Estate — Propiedades en venta en Morelos e Hidalgo";
 export const size = {
   width: 1200,
   height: 630,
@@ -58,14 +58,14 @@ export default function OpenGraphImage() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", maxWidth: "690px" }}>
             <span style={{ color: "#c9aa66", fontFamily: "monospace", fontSize: 17, letterSpacing: "3px", textTransform: "uppercase" }}>
-              Atlas de propiedades
+              Morelos e Hidalgo · venta directa
             </span>
             <span style={{ fontFamily: "serif", fontSize: 76, letterSpacing: "-4px", lineHeight: 0.94, marginTop: 22 }}>
-              Casas y terrenos para decidir con contexto.
+              Propiedades en venta. Datos claros, trato directo.
             </span>
           </div>
           <span style={{ color: "#b9c8bc", fontFamily: "monospace", fontSize: 14, letterSpacing: "2px", textTransform: "uppercase" }}>
-            Propiedades seleccionadas · venta directa
+            Precio publicado · contacto directo
           </span>
         </div>
       </div>

@@ -15,6 +15,8 @@ function normalizeWhatsapp(value: string) {
 const email = isValidEmail(rawEmail) ? rawEmail : "";
 const whatsapp = normalizeWhatsapp(rawWhatsapp);
 
+export type InquiryIntent = "information" | "availability" | "current-media";
+
 export const contact = {
   email,
   whatsapp,
@@ -22,13 +24,18 @@ export const contact = {
 
 export const hasContactChannel = Boolean(contact.email || contact.whatsapp);
 
-export function inquiryHref(listingName?: string) {
+export function inquiryHref(listingName?: string, intent: InquiryIntent = "information") {
+  const request = {
+    information: "recibir información",
+    availability: "recibir la ficha y confirmar disponibilidad",
+    "current-media": "recibir fotos y video actuales",
+  }[intent];
   const subject = listingName
     ? `Solicitud de información — ${listingName}`
     : "Solicitud de información — Ultramar Real Estate";
   const message = listingName
-    ? `Hola, me interesa recibir información sobre ${listingName}.`
-    : "Hola, me interesa recibir información sobre las propiedades de Ultramar Real Estate.";
+    ? `Hola, me interesa ${request} sobre ${listingName}.`
+    : `Hola, me interesa ${request} sobre las propiedades disponibles de Ultramar Real Estate.`;
 
   if (contact.whatsapp) {
     return `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`;

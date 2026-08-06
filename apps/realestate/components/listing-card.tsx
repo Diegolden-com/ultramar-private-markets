@@ -1,5 +1,10 @@
 import { TopographicField } from "@/components/topographic-field";
-import { getApprovedMedia, getMediaKindLabel, type PublicPropertyListing } from "@/lib/listings";
+import {
+  getApprovedMedia,
+  getMediaKindLabel,
+  type ListingFact,
+  type PublicPropertyListing,
+} from "@/lib/listings";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,18 +17,10 @@ const visualVariant: Record<PublicPropertyListing["id"], number> = {
 export function ListingCard({ listing }: { listing: PublicPropertyListing }) {
   const publishedListing = listing.state === "published" ? listing : undefined;
   const primaryImage = publishedListing ? getApprovedMedia(publishedListing)[0] : undefined;
-  const facts = publishedListing
-    ? [
-        publishedListing.area ? ["Superficie", publishedListing.area] : undefined,
-        publishedListing.price ? ["Precio", publishedListing.price.display] : undefined,
-        ...publishedListing.facts
-          .slice(0, 1)
-          .map((fact) => [fact.label, fact.value] as [string, string]),
-      ].filter((fact): fact is [string, string] => Boolean(fact))
-    : [];
+  const facts = publishedListing ? getCardFacts(publishedListing) : [];
 
   return (
-    <article className="listing-card">
+    <article className={`listing-card${primaryImage ? " listing-card--with-media" : ""}`}>
       <div className="listing-card__visual">
         {primaryImage ? (
           <>
@@ -35,7 +32,9 @@ export function ListingCard({ listing }: { listing: PublicPropertyListing }) {
               className="object-cover"
             />
             <span className="media-kind-label listing-card__media-kind">
-              {getMediaKindLabel(primaryImage.kind)}
+              {primaryImage.kind === "reference"
+                ? "Fotos del avalúo, 2024 · pide fotos y video actuales"
+                : getMediaKindLabel(primaryImage.kind)}
             </span>
           </>
         ) : (
@@ -49,6 +48,9 @@ export function ListingCard({ listing }: { listing: PublicPropertyListing }) {
         <span className="listing-card__state">
           {publishedListing ? publishedListing.availability : "Ficha inicial"}
         </span>
+        {publishedListing?.price ? (
+          <span className="listing-card__price">{publishedListing.price.display}</span>
+        ) : null}
       </div>
       <div className="listing-card__body">
         <p className="eyebrow">
@@ -67,10 +69,19 @@ export function ListingCard({ listing }: { listing: PublicPropertyListing }) {
           </dl>
         ) : null}
         <Link className="text-link" href={`/propiedades/${listing.slug}`}>
-          {listing.state === "published" ? "Ver ficha de la propiedad" : "Ver información inicial"}
+          {listing.state === "published" ? "Ver ficha y disponibilidad" : "Ver información inicial"}
           <span aria-hidden="true">↗</span>
         </Link>
       </div>
     </article>
   );
+}
+
+function getCardFacts(listing: Exclude<PublicPropertyListing, { state: "teaser" }>) {
+  const labels = listing.id === "property-one" ? ["Construcción", "Distribución"] : ["Entorno", "Superficie"];
+
+  return labels
+    .map((label) => listing.facts.find((fact) => fact.label === label))
+    .filter((fact): fact is ListingFact => Boolean(fact))
+    .map((fact) => [fact.label, fact.value] as [string, string]);
 }

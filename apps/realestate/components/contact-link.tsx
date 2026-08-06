@@ -1,16 +1,18 @@
-import { hasContactChannel, inquiryHref } from "@/lib/contact";
+import { hasContactChannel, inquiryHref, type InquiryIntent } from "@/lib/contact";
 import type { ReactNode } from "react";
 
 export function ContactLink({
   children,
   listingName,
   className,
+  intent,
 }: {
   children: ReactNode;
   listingName?: string;
   className?: string;
+  intent?: InquiryIntent;
 }) {
-  const href = inquiryHref(listingName);
+  const href = inquiryHref(listingName, intent);
   if (!href) return null;
 
   const opensNewWindow = href.startsWith("https://");

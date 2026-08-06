@@ -12,12 +12,12 @@ Run the complete local QA transaction from the repository root:
 corepack yarn test:qa:ultramar:local
 ```
 
-It starts Docker Desktop only when it was off, starts this project's isolated
-`5572x` Supabase stack, exports its loopback credentials, runs schema lint,
+It starts Docker Desktop when needed, starts this project's isolated `5572x`
+Supabase stack, exports its loopback credentials, runs schema lint,
 database/RLS tests, and Playwright, then always stops the stack. The cleanup
 runs on success, failure, `Ctrl-C`, and `TERM`; it preserves local Supabase
-data and stops Docker Desktop only if this QA command started it and no other
-container became active during the run.
+data and deliberately leaves Docker Desktop running rather than guessing which
+process started it.
 
 The transaction also disables Docker's `unless-stopped` restart policy on its
 own QA containers as soon as it creates them. If a power loss or `SIGKILL`

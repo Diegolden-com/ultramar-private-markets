@@ -34,7 +34,6 @@ if [[ -z "${project_id}" ]]; then
   fail "Could not read a safe project_id from ${SUPABASE_CONFIG}."
 fi
 
-docker_desktop_started_here=0
 supabase_started_here=0
 
 stop_owned_supabase_stack() {
@@ -91,7 +90,6 @@ disarm_project_container_restarts() {
 cleanup() {
   local status="$?"
   local cleanup_failed=0
-  local other_running_containers
 
   trap - EXIT HUP INT TERM
 
@@ -100,21 +98,6 @@ cleanup() {
     if ! stop_owned_supabase_stack; then
       log "ERROR: Could not stop the Supabase stack started by this QA run." >&2
       cleanup_failed=1
-    fi
-  fi
-
-  if [[ "${docker_desktop_started_here}" -eq 1 ]]; then
-    if ! other_running_containers="$(docker ps -q)"; then
-      log "ERROR: Could not determine whether Docker Desktop is safe to stop." >&2
-      cleanup_failed=1
-    elif [[ -n "${other_running_containers}" ]]; then
-      log "Leaving Docker Desktop running because another container is active."
-    else
-      log "Stopping Docker Desktop started by this QA run."
-      if ! docker desktop stop --timeout 120; then
-        log "ERROR: Could not stop Docker Desktop started by this QA run." >&2
-        cleanup_failed=1
-      fi
     fi
   fi
 
@@ -139,10 +122,10 @@ ensure_docker() {
     fail "Docker is unavailable. Start a Docker-compatible runtime and retry."
   fi
 
-  log "Starting Docker Desktop for this QA run."
-  # Mark ownership before starting so a partial Docker Desktop launch is also
-  # stopped by the EXIT trap.
-  docker_desktop_started_here=1
+  # A failed daemon check cannot distinguish Desktop being off from it still
+  # booting under another user's control. This command never shuts Docker
+  # Desktop down, so it does not claim ownership from that check.
+  log "Starting Docker Desktop if it is not already running."
   if ! docker desktop start --timeout 120; then
     fail "Docker Desktop did not start."
   fi
@@ -171,12 +154,13 @@ read_status_value() {
   local status_json="$1"
   local key="$2"
 
-  node -e '
-    const status = JSON.parse(process.argv[1]);
-    const value = status[process.argv[2]];
+  printf '%s' "${status_json}" | node -e '
+    const fs = require("node:fs");
+    const status = JSON.parse(fs.readFileSync(0, "utf8"));
+    const value = status[process.argv[1]];
     if (typeof value !== "string" || value.length === 0) process.exit(1);
     process.stdout.write(value);
-  ' "${status_json}" "${key}"
+  ' "${key}"
 }
 
 configure_local_e2e_environment() {
@@ -241,4 +225,5 @@ supabase test db --workdir "${APP_ROOT}" --local
 
 log "Running Playwright E2E against the stack started by this QA run."
 cd "${APP_ROOT}"
+yarn test:e2e:install
 yarn test:e2e

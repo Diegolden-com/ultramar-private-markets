@@ -86,6 +86,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
   const publicMap = publishedListing ? getApprovedPublicMap(publishedListing) : undefined;
   const documents = publishedListing ? getApprovedDocuments(publishedListing) : [];
   const primaryImage = media[0];
+  const hasReferenceMedia = media.some((asset) => asset.kind === "reference");
+  const heroFacts = publishedListing
+    ? [
+        publishedListing.price ? { label: "Precio", value: publishedListing.price.display } : undefined,
+        ...publishedListing.facts.slice(0, 2),
+      ].filter((fact): fact is { label: string; value: string } => Boolean(fact))
+    : [];
   const facts = publishedListing
     ? [
         publishedListing.area ? { label: "Superficie", value: publishedListing.area } : undefined,
@@ -110,8 +117,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <div className="header-actions">
             <ThemeToggle />
             {hasContactChannel ? (
-              <ContactLink className="header-contact" listingName={listing.name}>
-                Solicitar información
+              <ContactLink className="header-contact" listingName={listing.name} intent="availability">
+                Pedir ficha
               </ContactLink>
             ) : (
               <Link className="header-contact" href="/">
@@ -133,13 +140,20 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </p>
             <h1 id="listing-title">{listing.name}</h1>
             <p className="listing-hero__headline">{listing.headline}</p>
-            {publishedListing ? (
-              <p className="listing-hero__description">{publishedListing.description}</p>
+            {heroFacts.length > 0 ? (
+              <dl className="listing-hero__facts" aria-label="Resumen de la propiedad">
+                {heroFacts.map((fact) => (
+                  <div key={fact.label}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
             ) : null}
             <div className="listing-hero__actions">
               {hasContactChannel ? (
-                <ContactLink className="button button--primary" listingName={listing.name}>
-                  Solicitar información
+                <ContactLink className="button button--primary" listingName={listing.name} intent="availability">
+                  Pedir ficha y disponibilidad
                 </ContactLink>
               ) : (
                 <Link className="button button--primary" href="/">
@@ -152,7 +166,15 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   <span className="sr-only"> (abre en una nueva pestaña)</span>
                 </a>
               ) : null}
+              {hasReferenceMedia && hasContactChannel ? (
+                <ContactLink className="button button--quiet" listingName={listing.name} intent="current-media">
+                  Pedir fotos y video actuales
+                </ContactLink>
+              ) : null}
             </div>
+            {publishedListing ? (
+              <p className="listing-hero__description">{publishedListing.description}</p>
+            ) : null}
             {publishedListing ? <p className="listing-availability">{publishedListing.availability}</p> : null}
           </div>
           <div className="listing-hero__visual">
@@ -188,7 +210,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <section className="listing-facts page-grid" aria-labelledby="facts-title">
             <div>
               <p className="eyebrow">Datos de la ficha</p>
-              <h2 id="facts-title">Lo que se puede compartir hoy.</h2>
+              <h2 id="facts-title">Características principales.</h2>
             </div>
             <dl>
               {facts.map((fact) => (
@@ -232,7 +254,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <section className="listing-documents page-grid" aria-labelledby="documents-title">
             <div>
               <p className="eyebrow">Material disponible</p>
-              <h2 id="documents-title">Documentos aprobados para compartir.</h2>
+              <h2 id="documents-title">Documentos disponibles.</h2>
             </div>
             <ul>
               {documents.map((document) => (

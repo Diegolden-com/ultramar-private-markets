@@ -35,7 +35,7 @@ Datos verificados adicionales (etiqueta + valor):
 
 ¿Fotos públicas? no | sí
   Si sí: archivo aprobado, clase de visual y texto alternativo que describa lo visible
-    Clase: photograph (fotografía actual) | environment (entorno real) | concept (visualización conceptual)
+    Clase: photograph (fotografía actual) | environment (entorno real) | reference (material de referencia fechado) | concept (visualización conceptual)
     Dimensiones originales (ancho × alto):
     Pie de foto (si aplica):
 ```
@@ -62,10 +62,13 @@ público válido. Si hay teasers junto con propiedades publicadas, la home perma
   a 2400 × 1600 px (3:2) cuando sea posible; las imágenes de galería pueden ir a 1600 × 1200 px
   (4:3).
 - Nombra cada archivo por lo que muestra, no por la cámara: por ejemplo,
-  `/media/casa-yecapixtla-roof-garden.webp` o `/media/terreno-omitlan-vista-general.webp`.
-- Usa `photograph` sólo para elementos reales de la propiedad y `environment` sólo para el
-  contexto real que esté autorizado para difusión. El texto alternativo debe describir lo visible,
-  por ejemplo: “Roof garden de la casa en condominio en Yautepec, Morelos.”
+  `/media/casa-oaxtepec-roof-garden.webp` o `/media/terreno-omitlan-vista-general.webp`.
+- Usa `photograph` sólo para elementos reales y actuales de la propiedad, `environment` sólo para
+  el contexto real autorizado y `reference` para fotografías históricas o de un avalúo. El texto
+  alternativo debe describir lo visible, por ejemplo: “Roof garden de la casa en condominio en
+  Yautepec, Morelos.”
+- Las imágenes `reference` deben decir el año y pedir material actual; nunca se usan en previews
+  sociales, datos estructurados ni el sitemap.
 - Toda imagen con `concept` debe llevar un pie de foto y se mostrará con el aviso: “No representa
   una construcción existente. Sujeta a factibilidad, permisos, uso de suelo y proyecto.” Nunca
   presentes una visualización de glamping o cabaña como fotografía de la propiedad. Estas
