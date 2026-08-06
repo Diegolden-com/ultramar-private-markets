@@ -8,7 +8,8 @@
     "start": "yarn run -T next start",
     "lint": "yarn run -T eslint .",
     "typecheck": "yarn run -T tsc --noEmit",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install --with-deps chromium"
   },
   "dependencies": {
     "@supabase/ssr": "0.10.3",

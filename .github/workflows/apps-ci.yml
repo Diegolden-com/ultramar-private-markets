@@ -5,6 +5,8 @@ on:
     paths:
       - "apps/capital/**"
       - "apps/private-equities/**"
+      - "apps/ultramar/**"
+      - "packages/product-model/**"
       - ".github/workflows/apps-ci.yml"
       - "package.json"
       - "yarn.lock"
@@ -13,10 +15,15 @@ on:
     paths:
       - "apps/capital/**"
       - "apps/private-equities/**"
+      - "apps/ultramar/**"
+      - "packages/product-model/**"
       - ".github/workflows/apps-ci.yml"
       - "package.json"
       - "yarn.lock"
       - ".yarnrc.yml"
+
+permissions:
+  contents: read
 
 concurrency:
   group: apps-ci-${{ github.ref }}
@@ -33,6 +40,7 @@ jobs:
         include:
           - workspace: "@ultramar/capital"
           - workspace: "@ultramar/private-equities"
+          - workspace: "@ultramar/ultramar"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,3 +62,76 @@ jobs:
 
       - name: Build
         run: yarn workspace ${{ matrix.workspace }} build
+
+  ultramar-data-room:
+    name: Ultramar data room controls
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    needs: app-qa
+    # Keep the data-room security gate observable when an unrelated app matrix entry fails.
+    if: ${{ always() }}
+    defaults:
+      run:
+        working-directory: apps/ultramar
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+        working-directory: .
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+        working-directory: .
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@3c2f5e2ae34c34e428e8e206e2c4d21fa2d20fbf # v2.1.1
+        with:
+          version: 2.98.2
+          github-token: ${{ github.token }}
+
+      - name: Start isolated Supabase
+        run: supabase start
+
+      - name: Export local test configuration
+        run: |
+          eval "$(supabase status --output env)"
+          {
+            echo "SUPABASE_URL=$API_URL"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
+            echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL"
+            echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$PUBLISHABLE_KEY"
+            echo "SUPABASE_SECRET_KEY=$SECRET_KEY"
+            echo "NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3100"
+          } >> "$GITHUB_ENV"
+
+      - name: Lint local Supabase schema
+        run: supabase db lint --local --level warning --fail-on warning
+
+      - name: Run data room RLS tests
+        run: supabase test db --local
+
+      - name: Install Playwright browser
+        run: yarn workspace @ultramar/ultramar test:e2e:install
+        working-directory: .
+
+      - name: Run data room E2E
+        run: yarn workspace @ultramar/ultramar test:e2e
+        working-directory: .
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ultramar-data-room-playwright-artifacts
+          path: |
+            apps/ultramar/playwright-report
+            apps/ultramar/test-results
+          if-no-files-found: ignore
