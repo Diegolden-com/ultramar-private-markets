@@ -129,6 +129,10 @@ jobs:
         run: yarn workspace @ultramar/ultramar test:e2e
         working-directory: .
 
+      - name: Stop isolated Supabase
+        if: always()
+        run: supabase stop --yes
+
       - name: Upload Playwright artifacts
         if: always()
         uses: actions/upload-artifact@v4
