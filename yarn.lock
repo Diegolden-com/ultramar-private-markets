@@ -5011,6 +5011,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ultramar/realestate@workspace:apps/realestate":
+  version: 0.0.0-use.local
+  resolution: "@ultramar/realestate@workspace:apps/realestate"
+  dependencies:
+    react: "npm:19.2.6"
+    react-dom: "npm:19.2.6"
+  languageName: unknown
+  linkType: soft
+
 "@ultramar/ultramar@workspace:apps/ultramar":
   version: 0.0.0-use.local
   resolution: "@ultramar/ultramar@workspace:apps/ultramar"

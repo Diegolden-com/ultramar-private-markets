@@ -10,6 +10,10 @@ Ultramar.capital is a single capital platform for two institutional products:
 - Ultramar Private Equities: tokenized private-market access for issuer onboarding, asset discovery, investor eligibility, oracle-backed operating data, markets, and portfolio visibility. Canonical URL: https://ultramar.capital/private-equities
 - Ultramar Arbitrage Hedge Fund: Polymarket-first arbitrage infrastructure with signal monitoring, allocator dashboard context, position exposure, and risk controls. Canonical URL: https://ultramar.capital/arbitrage-hedge-fund
 
+Ultramar Real Estate is the independent land-listing site configuration, not a third capital product:
+
+- https://realestate.ultramar.capital
+
 Press:
 
 - https://ultramar.capital/press
@@ -35,6 +39,6 @@ Compliance boundaries:
 
 Automated access guidance:
 
-- Use only canonical URLs under https://ultramar.capital.
+- Use canonical URLs under https://ultramar.capital for capital products, and https://realestate.ultramar.capital for approved land listings.
 - Do not treat auth URLs, API JSON endpoints, portfolio screens, data-room unlock actions, allocation actions, or prelaunch subdomains as public product destinations.
-- Apex serves directly. www.ultramar.capital redirects once to the apex. Prelaunch subdomains are intentionally not restored, aliased, or redirected.
+- Apex serves directly. www.ultramar.capital redirects once to the apex. Real Estate deploys independently when its Vercel domain is assigned. Prelaunch subdomains other than Real Estate are intentionally not restored, aliased, or redirected.

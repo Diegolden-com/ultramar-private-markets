@@ -2,7 +2,7 @@
 
 ## Positioning
 
-Primary domain: `https://ultramar.capital`
+Primary domain for this plan: `https://ultramar.capital`
 
 Core topical clusters:
 
@@ -12,8 +12,8 @@ Core topical clusters:
 
 ## Technical SEO Baseline
 
-- Keep only canonical `ultramar.capital` URLs in the sitemap.
-- Keep only the `www.ultramar.capital` to `ultramar.capital` redirect; do not publish, alias, or redirect prelaunch subdomains.
+- Keep only canonical `ultramar.capital` URLs in the apex sitemap.
+- Keep only the `www.ultramar.capital` to `ultramar.capital` redirect on the apex deployment; do not publish, alias, or redirect prelaunch subdomains.
 - Keep auth pages `noindex`.
 - Keep API JSON endpoints, auth flows, utility status pages, and controlled portfolio surfaces out of crawlable discovery surfaces.
 - Keep JSON-LD aligned with visible page content: Organization, WebSite, WebPage, Service, BreadcrumbList, ItemList, and FAQPage where the FAQ is visible.
@@ -25,6 +25,7 @@ Canonical routing:
 
 - `https://ultramar.capital/*` serves the public app directly.
 - `https://www.ultramar.capital/*` redirects once to the matching apex URL.
+- `https://realestate.ultramar.capital/*` is the intended independent public site with its own canonical metadata, sitemap, and robots policy once deployed. It is not listed in the apex sitemap.
 - Prelaunch subdomains such as `capital.ultramar.capital`, `polymarket.ultramar.capital`, and `private-equities.ultramar.capital` are intentionally not restored, aliased, or redirected. They should not appear as public destinations in app navigation, metadata, sitemap entries, or LLM files except as explicit historical routing policy.
 
 Sitemap rules:
@@ -33,6 +34,16 @@ Sitemap rules:
 - Include platform, product overview, product explanation, public asset, disclosure, sitemap, and research memo pages.
 - Exclude `/auth/*`, `/api/*` JSON endpoints, `/api` directory page, `/system-status`, `/private-equities/portfolio`, private data-room or allocation actions, and any legacy or prelaunch route.
 - The human-readable `/sitemap` page should mirror the same indexable route list, not every navigable utility link.
+
+Real Estate discoverability:
+
+- `apps/realestate/app/sitemap.ts` owns the Real Estate XML sitemap independently.
+- Draft and teaser records must remain absent from that sitemap and carry `noindex`; only published records with an approved contact channel may appear.
+- Before any indexable published record exists, Real Estate blocks crawling and omits
+  its sitemap. If an approved teaser sits beside published inventory, the home stays
+  `noindex` so teaser copy cannot leak into a crawlable collection page; published
+  property URLs may still appear independently in the sitemap.
+- Real Estate property facts, imagery, title documents, exact coordinates, and map links must be visible only when specifically approved for public distribution.
 
 Robots policy:
 

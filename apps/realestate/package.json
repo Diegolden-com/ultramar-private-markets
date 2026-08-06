@@ -1,0 +1,19 @@
+{
+  "name": "@ultramar/realestate",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=20 <25"
+  },
+  "scripts": {
+    "dev": "yarn run -T next dev",
+    "build": "yarn run -T next build",
+    "start": "yarn run -T next start",
+    "lint": "yarn run -T eslint .",
+    "typecheck": "yarn run -T tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  }
+}
